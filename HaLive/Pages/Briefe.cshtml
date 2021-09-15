@@ -1,0 +1,641 @@
+@page "{id?}"
+@using System.Linq;
+@using System.Threading.Tasks;
+@using System.Collections.Generic;
+@using System.Threading;
+@using System.Linq:
+@using System.Xml.Linq;
+
+@model HaLive.Pages.BriefeModel
+@inject IReaderService readerService
+@inject ILibrary lib
+
+@{
+        // Acquire data
+        ViewData["Title"] = "Brief";
+        var meta = lib.Metas.Where(x => x.Value.Autopsic == Model.id).First().Value;
+        var id = meta.Index;
+        var letter = lib.Letters[id];
+        var marginals = lib.MarginalsByLetter.Contains(id) ? lib.MarginalsByLetter[id] : null;
+        var tradition = lib.Traditions.ContainsKey(id) ? lib.Traditions[id] : null;
+        var editreasons = lib.EditreasonsByLetter.Contains(id) ? lib.EditreasonsByLetter[id].OrderBy(x => HTMLHelpers.RomanOrNumberToInt(x.StartPage)).ThenBy(x => HTMLHelpers.RomanOrNumberToInt(x.StartLine)) : null;
+        var senders = HTMLHelpers.GetEnumerationString(meta.Senders.Select(x => lib.Persons[x].Name).ToList());
+        var receivers = HTMLHelpers.GetEnumerationString(meta.Receivers.Select(x => lib.Persons[x].Name).ToList());
+        var next = meta == lib.MetasByDate.Last() ? null : lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) + 1);
+        var prev = meta == lib.MetasByDate.First() ? null : lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) - 1);
+        var hands = lib.Hands.ContainsKey(id) ? lib.Hands[id] : null;
+        var filename = "" + "_" + meta.Autopsic + "_HamannBriefe.pdf"; // TODO
+
+        // State
+        var currline = "-1";
+        var currpage = "";
+        var oldpage = "";
+        var commid = 1;
+        var firstedit = true;
+        var active_trad = false;
+        var skipwhitespace = true;
+        List<string> handstrings = new List<string>();
+
+        // Parsing-Combinations
+        var sb_lettertext = new StringBuilder();    // Hauptext
+        var sb_linecount = new StringBuilder();     // Linke Spalte (Zeilenzählung)
+        var sb_marginals = new StringBuilder();     // Rechte Spalte (Kommentare)
+        var sb_tradition = new StringBuilder();     // Überlieferung
+        var sb_trad_zhtext = new StringBuilder();   // Überlieferung, ZHText
+        var sb_trad_left = new StringBuilder();     // Überlieferung ZHText linke Spalte (zeilenzählung)
+        var sb_trad_right = new StringBuilder();    // Überlieferung ZHText rechte Spalte (Kommentare)
+        var sb_edits = new StringBuilder();         // Edits
+        var rd_lettertext = readerService.RequestStringReader(letter.Element);  // Liest den Brieftext
+        var rd_tradition = tradition != null && !String.IsNullOrWhiteSpace(tradition.Element) ? readerService.RequestStringReader(tradition.Element) : null; // Liest die Überlieferung
+
+        // Initialize State
+        if (meta.ZH != null) {
+            currpage = meta.ZH.Page;
+        }
+
+        if (hands != null) {
+            foreach (var hand in hands.OrderBy(x => x.StartPage.Length).ThenBy(x => x.StartPage).ThenBy(x => x.StartLine.Length).ThenBy(x => x.StartLine)) {
+                var currstring = hand.StartPage + "/" + hand.StartLine;
+                if (hand.StartPage != hand.EndPage) {
+                    currstring += "–" + hand.EndPage + "/" + hand.EndLine;
+                }
+                else {
+                    if (hand.StartLine != hand.EndLine) {
+                        currstring += "–" + hand.EndLine;
+                    }
+                }
+                if (lib.HandPersons.Where(x => x.Key == hand.Person).Any()) {
+                    currstring += " " + lib.HandPersons.Where(x => x.Key == hand.Person).FirstOrDefault().Value.Name;
+                    handstrings.Add(currstring);
+                }
+            }
+        }
+
+        // Parsing Rules
+        // General rules (for the lettertext column, also for parsing the marginals, awa tradtions and editreasons)
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "align" && x["pos"] == "center", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "align center")) ),
+            ( x => x.Name == "align" && x["pos"] == "right", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "align right")) ),
+            ( x => x.Name == "added", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "added")) ),
+            ( x => x.Name == "sal", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "sal")) ),
+            ( x => x.Name == "aq", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "aq")) ),
+            ( x => x.Name == "super", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "super")) ),
+            ( x => x.Name == "del", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "del")) ),
+            ( x => x.Name == "nr", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "nr")) ),
+            ( x => x.Name == "note", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "note")) ),
+            ( x => x.Name == "ul", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "ul")) ),
+            ( x => x.Name == "anchor" && !String.IsNullOrWhiteSpace(x["ref"]), (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "anchor")) ),
+            ( x => x.Name == "fn" && !String.IsNullOrWhiteSpace(x["index"]), (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "footnote")) ),
+            ( x => x.Name == "dul", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "dul")) ),
+            ( x => x.Name == "ful", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "ful")) ),
+            ( x => x.Name == "up", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "up")) ),
+            ( x => x.Name == "sub", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("sub")) ),
+            ( x => x.Name == "tul", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "tul")) ),
+            ( x => x.Name == "header", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "header")) ),
+            ( x => x.Name == "lemma", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "lemma")) ),
+            ( x => x.Name == "eintrag", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "entry")) ),
+            ( x => x.Name == "titel", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "title")) ),
+            ( x => x.Name == "bzg", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "bzg")) ),
+            ( x => x.Name == "zh", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "zh")) ),
+            ( x => x.Name == "emph", (sb, tag) => {  sb.Append(HTMLHelpers.CreateElement("em")); } ),
+            ( x => x.Name == "app", (sb, tag) => {  sb.Append(HTMLHelpers.CreateElement("span", "app")); } ),
+            ( x => x.Name == "subsection", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "subcomment", tag["id"])) ),
+            ( x => x.Name == "kommentar", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "comment", tag["id"])) ),
+            ( x => x.Name == "editreason", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "editreason")) ),
+            ( x => x.Name == "subsection", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "letter")) ),
+            ( x => x.Name == "letterTradition", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "tradition")) ),
+            ( x => x.Name == "marginal", (sb, tag) => {
+                 sb.Append(HTMLHelpers.CreateElement("div", "marginal"));
+                 skipwhitespace = !skipwhitespace;
+            }),
+            ( x => x.Name == "hand", (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateElement("span", "hand"));
+             } ),
+             ( x => x.Name == "tabs", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "htable")) ),
+             ( x => x.Name == "tab" && !String.IsNullOrWhiteSpace(x["value"]), (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "htab htab-" + tag["value"])))
+        };
+
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "align", (sb, tag) =>  { 
+                sb.Append(HTMLHelpers.CreateEndElement("div"));
+             } ),
+            ( x => x.Name == "added", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "sal", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "aq", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "super", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "del", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "nr", (sb, tag) =>  sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "note", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "ul", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "anchor", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "fn", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "dul", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "up", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "ful", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "sub", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("sub")) ),
+            ( x => x.Name == "tul", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "header", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "lemma", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "eintrag", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "titel", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "bzg", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "zh", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "emph", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("em")) ),
+            ( x => x.Name == "app", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "subsection", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "kommentar", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "editreason", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "subsection", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "letterTradition", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "marginal", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "tabs", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "tab", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
+            ( x => x.Name == "hand", (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateEndElement("span"));
+             } )
+        };
+        List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+            ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
+        };
+        List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs_Tagging = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+            ( x => true, ( sb, txt ) => {
+                sb.Append(HTMLHelpers.CreateElement("span", "ntext"));
+                sb.Append(txt.Value);
+                sb.Append(HTMLHelpers.CreateEndElement("span"));
+             } )
+        };
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "line", (sb, tag) => {
+                if(currline != "-1") sb.Append(HTMLHelpers.CreateElement("br", "ZHBreak"));
+                if(tag["type"] == "line") sb.Append(HTMLHelpers.CreateElement("hr", "lineline"));
+            } ),
+            ( x => x.Name == "line" && !String.IsNullOrWhiteSpace(x["tab"]), (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateElement("span", "tab-" + tag["tab"]));
+                sb.Append(HTMLHelpers.CreateEndElement("span"));
+            } )
+        };
+        List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)> Whitespace_Funcs = new List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>() {
+            ( x => true, ( sb, txt ) => {
+                if (skipwhitespace)
+                    sb.Append(txt.Value);
+                else
+                    skipwhitespace = !skipwhitespace;
+            })
+        };
+        
+        // Rules for the left sidebar
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STag_Funcs_LEFT = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+                    ( x => x.Name == "line", (sb, tag) => {
+                    if(currline != "-1") {
+                        if (currpage == oldpage)
+                            sb.Append(HTMLHelpers.CreateElement("br", "", currpage + "-" + currline));
+                        else {
+                            sb.Append(HTMLHelpers.CreateElement("br", "", oldpage + "-" + currline));
+                            oldpage = currpage;
+                        }
+                    }
+                    else {
+                        sb.Append(HTMLHelpers.CreateElement("span", "zhpage firstpage", currpage + "-" + tag["index"]));
+                        sb.Append("S." + "&nbsp;");
+                        sb.Append(HTMLHelpers.CreateEndElement("span"));
+                        if (tag["index"] != "1") 
+                            sb.Append(currpage + "&thinsp;/&thinsp;" + tag["index"]);
+                        else 
+                            sb.Append(currpage);
+                        oldpage = currpage;
+                    }
+                }
+            ),
+            ( x => x.Name == "line", (sb, tag) => { if(currline != "-1" && Int32.TryParse(tag["index"], out var _) && Int32.Parse(tag["index"]) % 5 == 0) { sb.Append(tag["index"]); } } ),
+            ( x => x.Name == "line" && x["index"] == "1" && currline != "-1", (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateElement("span", "zhpage", ""));
+                sb.Append("S. " + currpage);
+                sb.Append(HTMLHelpers.CreateEndElement("span"));
+            }),
+            ( x => x.Name == "line", (sb, tag) => { currline = tag["index"]; } ),
+            ( x => x.Name == "page", (sb, tag) =>  { currpage = tag["index"]; } )
+        };   
+
+        // Rules for the right sidebar
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STag_Funcs_RIGHT = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "line", (sb, tag) => { 
+                if(currline != "-1" && marginals != null) {
+                    var margs = marginals.Where(x => x.Page == currpage && x.Line == currline);
+                    if (margs != null && margs.Any())
+                    {
+                        margs = margs.OrderBy(x => Int32.Parse(x.Index));
+                        sb.Append(HTMLHelpers.CreateElement("div", "commBox", commid.ToString()));
+                        sb.Append(HTMLHelpers.CreateElement("div", "commselector"));
+                        sb.Append(HTMLHelpers.CreateElement("button", "button"));
+                        sb.Append(HTMLHelpers.CreateEndElement("button"));
+                        sb.Append(HTMLHelpers.CreateEndElement("div"));
+                        sb.Append(HTMLHelpers.CreateElement("div", "comment"));
+                        foreach (var marginal in margs)
+                        {
+                            var rd = readerService.RequestStringReader(marginal.Element);
+                            new StandardSubscriber(rd, sb, OTag_Funcs, null, CTag_Funcs, Text_Funcs_Tagging, Whitespace_Funcs);
+                            new LinkBuilder(lib, rd, sb, false);
+                            rd.Read();
+                        }
+                        sb.Append(HTMLHelpers.CreateEndElement("div"));
+                        sb.Append(HTMLHelpers.CreateEndElement("div"));
+                        sb.Append(HTMLHelpers.CreateElement("br"));
+                    }
+                    else
+                    {
+                        sb.Append(HTMLHelpers.CreateElement("br", "emptyline"));
+                    }
+                }
+                commid++;
+            }
+        )};
+
+        // Rules for traditions
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs_Trad = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+        ( x => x.Name == "app", (sb, tag) => {  if (!firstedit) { sb.Append(HTMLHelpers.CreateElement("br")); } else { firstedit = false; } } ),
+        ( x => x.Name == "ZHText", (sb, tag) => {
+                sb_tradition.Append(HTMLHelpers.CreateElement("div", "row zhtext"));
+                sb_tradition.Append(HTMLHelpers.CreateElement("div", "trad-text col order-2 letterbox"));
+                sb_trad_left = new StringBuilder();
+                sb_trad_right = new StringBuilder();
+                currline = "-1";
+                currpage = "";
+                active_trad = true;
+                sb_trad_left.Append(HTMLHelpers.CreateElement("div", "trad-linecount countbox nnumber d-none d-lg-block order-1"));
+                sb_trad_right.Append(HTMLHelpers.CreateElement("div", "commentColumn trad-comm col-4 d-none d-lg-block order-3"));
+                sb_trad_right.Append(HTMLHelpers.CreateElement("br", "emptyline"));
+                new StandardSubscriber(rd_tradition, sb_trad_left, null, STag_Funcs_LEFT);
+                new StandardSubscriber(rd_tradition, sb_trad_right, null, STag_Funcs_RIGHT);
+            } )
+        };
+
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs_Trad = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+        ( x => x.Name == "ZHText", (sb, tag) => {
+                sb_tradition.Append(HTMLHelpers.CreateEndElement("div"));
+                sb_trad_left.Append(HTMLHelpers.CreateEndElement("div"));
+                sb_trad_right.Append(HTMLHelpers.CreateEndElement("div"));
+                sb_tradition.Append(sb_trad_left.ToString());
+                sb_tradition.Append(sb_trad_right.ToString());
+                sb_tradition.Append(HTMLHelpers.CreateEndElement("div"));
+                active_trad = false;
+            } )
+        };
+
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STags_Funcs_TRAD = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "line", (sb, tag) => { if(currline != "-1" || !active_trad) sb.Append(HTMLHelpers.CreateElement("br", "ZHBreak")); } ),
+            ( x => x.Name == "line" && !String.IsNullOrWhiteSpace(x["tab"]), (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateElement("span", "tab-" + tag["tab"]));
+                sb.Append(HTMLHelpers.CreateEndElement("span"));
+            } )
+        };
+
+        // Rules for Edits:
+        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STags_Funcs_EDIT = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "line", (sb, tag) => sb.Append("&emsp;") )
+        };
+
+
+        // Functionms for Parsing:
+        string HandleEdit(Editreason edit) {
+            sb_edits.Append(HTMLHelpers.CreateElement("div", "edit"));
+            sb_edits.Append(HTMLHelpers.CreateElement("span", "pageline"));
+            var currstring = edit.StartPage + "/" + edit.StartLine;
+            if (edit.StartPage != edit.EndPage) {
+                currstring += "–" + edit.EndPage + "/" + edit.EndLine;
+            }
+            else {
+                if (edit.StartLine != edit.EndLine) {
+                    currstring += "–" + edit.EndLine;
+                }
+            }
+            sb_edits.Append(currstring + "&emsp;");
+            sb_edits.Append(HTMLHelpers.CreateEndElement("span"));
+            if (!String.IsNullOrWhiteSpace(edit.Reference)) {
+                var sb2 = new StringBuilder();
+                sb2.Append(HTMLHelpers.CreateElement("span", "reference"));
+                var rd = readerService.RequestStringReader(edit.Reference);
+                new StandardSubscriber(rd, sb2, OTag_Funcs, null, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+                rd.Read();
+                sb2.Append(HTMLHelpers.CreateEndElement("span"));
+                if ((edit.StartPage != edit.EndPage || edit.StartLine != edit.EndLine) && XElement.Parse(sb2.ToString()).Value.ToString().Length >= 60)
+                {
+                    var text = XElement.Parse(sb2.ToString()).Value.ToString();
+                    text = text.ToString().Split(' ').Take(1).First() + " [&#x2026;] " + text.ToString().Split(' ').TakeLast(1).First();
+                    sb_edits.Append(HTMLHelpers.CreateElement("span", "reference"));
+                    sb_edits.Append(text);
+                    sb_edits.Append(HTMLHelpers.CreateEndElement("span"));
+                }
+                else
+                    sb_edits.Append(sb2);
+                
+                @* MIT FORMATIERUNGEN: if (edit.StartPage != edit.EndPage || edit.StartLine != edit.EndLine)
+                {
+                    var text1 = XElement.Parse(sb2.ToString());
+                    var text2 = new XElement(text1);
+                    if (!String.IsNullOrWhiteSpace(text1.Value)) {
+                        text1.DescendantNodes().Where(x => x.NodeType == System.Xml.XmlNodeType.Text && !String.IsNullOrWhiteSpace(x.ToString())).Skip(1).Remove();
+                        text2.DescendantNodes().Where(x => x.NodeType == System.Xml.XmlNodeType.Text && !String.IsNullOrWhiteSpace(x.ToString())).SkipLast(1).Remove();
+                        var element1 = text1.DescendantNodes().Where(x => x.NodeType == System.Xml.XmlNodeType.Text && !String.IsNullOrWhiteSpace(x.ToString())).Any() ? 
+                            text1.DescendantNodes().Where(x => x.NodeType == System.Xml.XmlNodeType.Text && !String.IsNullOrWhiteSpace(x.ToString())).First().Parent : 
+                            null;
+                        var element2 = text2.DescendantNodes().Where(x => x.NodeType == System.Xml.XmlNodeType.Text && !String.IsNullOrWhiteSpace(x.ToString())).Any() ? 
+                            text2.DescendantNodes().Where(x => x.NodeType == System.Xml.XmlNodeType.Text && !String.IsNullOrWhiteSpace(x.ToString())).Last().Parent : 
+                            null;
+                        element1.Value = element1.Value.ToString().Split(' ').Take(1).First();
+                        element2.Value = element2.Value.ToString().Split(' ').TakeLast(1).First();
+                        text1.DescendantNodes().Where(x => 
+                            (x.NodeType == System.Xml.XmlNodeType.Element && String.IsNullOrWhiteSpace(((XElement)x).Value.ToString())) ||
+                            (x.NodeType == System.Xml.XmlNodeType.Text && String.IsNullOrWhiteSpace(x.ToString())) ||
+                            (x.NodeType == System.Xml.XmlNodeType.Whitespace)   
+                        ).Remove();
+                        text2.DescendantNodes().Where(x => 
+                            (x.NodeType == System.Xml.XmlNodeType.Element && String.IsNullOrWhiteSpace(((XElement)x).Value.ToString())) ||
+                            (x.NodeType == System.Xml.XmlNodeType.Text && String.IsNullOrWhiteSpace(x.ToString())) ||
+                            (x.NodeType == System.Xml.XmlNodeType.Whitespace)   
+                        ).Remove();
+                        sb_edits.Append(text1.ToString().Trim());
+                        sb_edits.Append(" [&#x2026;] ");
+                        sb_edits.Append(text2.ToString().Trim());
+                    }
+                }
+                else
+                    sb_edits.Append(sb2); *@
+            }
+            if (!String.IsNullOrWhiteSpace(edit.Element)) {
+                sb_edits.Append("&emsp;");
+                sb_edits.Append(HTMLHelpers.CreateElement("span", "corrections"));
+                var rd = readerService.RequestStringReader(edit.Element);
+                new StandardSubscriber(rd, sb_edits, OTag_Funcs, STags_Funcs_EDIT, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+                rd.Read();
+                sb_edits.Append(HTMLHelpers.CreateEndElement("span"));
+            }
+            sb_edits.Append(HTMLHelpers.CreateEndElement("div"));
+            return sb_edits.ToString();
+        }
+
+        // Actual parsing
+        if (letter.Element != null && !String.IsNullOrWhiteSpace(letter.Element) && rd_lettertext != null) {
+            new StandardSubscriber(rd_lettertext, sb_lettertext, OTag_Funcs, STag_Funcs, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+            new StandardSubscriber(rd_lettertext, sb_linecount, null, STag_Funcs_LEFT);
+
+            if (marginals != null && marginals.Any()) {
+                new StandardSubscriber(rd_lettertext, sb_marginals, null, STag_Funcs_RIGHT);
+            }
+            rd_lettertext.Read();
+        }
+
+        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element) && rd_tradition != null) {
+            new StandardSubscriber(rd_tradition, sb_tradition, OTag_Funcs_Trad, null, CTag_Funcs_Trad, null, null);
+            new StandardSubscriber(rd_tradition, sb_tradition, OTag_Funcs, STags_Funcs_TRAD, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+            new LinkBuilder(lib, rd_tradition, sb_tradition);
+            rd_tradition.Read();
+        }
+
+        if (editreasons != null && editreasons.Any()) {
+            foreach (var edit in editreasons) {
+                HandleEdit(edit);
+            }
+        }
+    }
+
+    <div class="mainhead no-gutters row"> <!-- + sticky-top if sticky -->
+        <div class="col">
+            <div class="widehead letterbar">
+                <div class="flexcol">
+                    <div style="align-self: flex-end" class="printbutton">
+                        <span class="label">
+                            <a class="hlink" href="/pdf/@filename">
+                                PDF&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 14 18">
+                                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                                </svg>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="lettercard flexrow">
+                        <div class="nnumber letcount">
+                            @meta.Autopsic
+                            </div>
+                        @if(!String.IsNullOrWhiteSpace(sb_lettertext.ToString()))
+                        {
+                        <div class="letdesc">
+                            <span class="date">
+                                @meta.Date
+                            </span>&nbsp;
+                            @if (meta.ZH != null) {
+                            <span>
+                            <span class="nnumber autopsic">&thinsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-book" viewBox="0 0 16 18">
+                                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                                </svg> 
+                                ZH @HTMLHelpers.ToRoman(Int32.Parse(meta.ZH.Volume)) @meta.ZH.Page
+                            </span>&nbsp;
+                            </span>
+                            } 
+                            else 
+                            {
+                                <span>
+                                <span class="nnumber autopsic-new">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 20">
+                                    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+                                    </svg>
+                                    Neu
+                                </span>&nbsp;
+                                </span>
+                            }
+                            @if(meta.hasOriginal == OptionalBool.True)
+                            {
+                                <span>
+                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Original vorhanden">
+                                        &thinsp;Orig
+                                    </span>&nbsp;
+                                </span>
+                            }
+                            else 
+                            {
+                                <span>
+                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Original verschollen">
+                                        &thinsp;<span class="cross">Orig</span>
+                                    </span>&nbsp;
+                                </span>
+                            }
+                            @if (meta.ZH != null && meta.ZH.dateChanged)
+                            {
+                                <span>
+                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Der Brief wurde gegenüber der Ausgabe ZH neu datiert">
+                                        &thinsp;neu datiert
+                                    </span>&nbsp;
+                                </span>
+                            }
+                            @if(meta.isProofread == OptionalBool.True)
+                            {
+                                <span>
+                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Textkritisch geprüft">
+                                        &thinsp;geprüft
+                                    </span>&nbsp;
+                                </span>
+                            }
+                            else 
+                            {
+                                <span>
+                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Nicht textkritisch geprüft">
+                                        &thinsp;<span class="cross">geprüft</span>
+                                    </span>&nbsp;
+                                </span>
+                            }
+                            @if (lib.MarginalsByLetter.Contains(meta.Index)) 
+                            {
+                                <span>
+                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Mit Stellenkommentar">
+                                        &thinsp;Komm
+                                    </span>&nbsp;
+                                </span>
+                            }
+                        <br>
+                        <span class="title">
+                            @if (meta.Senders.Intersect(meta.Receivers).Any()) 
+                            {
+                                @for (int i = 0; i < meta.Senders.Count; i++)
+                                {
+                                    @Html.Raw(lib.Persons[meta.Senders.ElementAt(i)].Name);
+                                    @if(meta.isDraft == OptionalBool.True) 
+                                    {
+                                        <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Entwurf">&nbsp;&#8603;&nbsp;</span>
+                                    }
+                                    else
+                                    {
+                                        <span>&nbsp;&#8594;&nbsp;</span>
+                                    }
+                                    @Html.Raw(lib.Persons[meta.Receivers.ElementAt(i)].Name); 
+                                    <br>
+                                }
+                            }
+                            else
+                            {
+                                @HTMLHelpers.GetEnumerationString(meta.Senders.Select(x => lib.Persons[x].Name).ToList())
+                                @if(meta.isDraft == OptionalBool.True) 
+                                {
+                                    <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Entwurf">&nbsp;&#8603;&nbsp;</span>
+                                }
+                                else
+                                {
+                                    <span>&nbsp;&#8594;&nbsp;</span>
+                                }
+                                @HTMLHelpers.GetEnumerationString(meta.Receivers.Select(x => lib.Persons[x].Name).ToList())
+                            }
+                            </div>
+                        }
+                        else
+                        {
+                            <span>&nbsp;</span>
+                        }
+                        </span>
+                    
+                </div>
+
+                <div class="metas" style="align-self: flex-end">
+                @if(prev != null) 
+                {
+                    <a class="hlink invlink" href="/Briefe/@prev.Autopsic" >@prev.Autopsic &#x25C0;</a>
+                }
+                HKB 
+                @if(next != null) 
+                {
+                    <a class="hlink invlink" href="/Briefe/@next.Autopsic">&#x25B6; @next.Autopsic</a>
+                }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if(!String.IsNullOrWhiteSpace(sb_lettertext.ToString()))
+{
+    <div class="row no-gutters">
+        <div class="col">
+        <div class="flexrow h-100">
+            <div class="countbox nnumber d-none d-lg-block">
+                @Html.Raw(sb_linecount.ToString())
+                <br>
+            </div>
+            <div class="letterbox">
+                @Html.Raw(sb_lettertext.ToString())
+            </div>
+        </div>
+    </div>
+    @if(marginals != null && marginals.Any())
+    {
+    <div class="col-4 d-none d-lg-block">
+        <div class="commentColumn">
+            @Html.Raw(sb_marginals.ToString())
+        </div>
+    </div>
+    } else
+    {
+        <div class="col-4 NoCommentColumn"></div>
+    }
+    </div>
+}
+@* <div class="row no-gutters dividerrow">
+
+</div> *@
+<div class="row no-gutters additions">
+    <div class="flexol additionbox">
+    @if(rd_tradition != null && !String.IsNullOrWhiteSpace(tradition.Element))
+    {
+    <div class="traditions">
+    @Html.Raw(sb_tradition.ToString())
+    </div>
+    }
+    @if (hands != null)
+    {
+    <div class="hands">
+    <br>
+    <span class="app">Zusätze fremder Hand:</span>
+    @foreach (var hand in handstrings)
+    {
+        <br>
+        @Html.Raw(hand)
+    }
+    </div>
+    }
+    @if (editreasons != null) 
+    {
+    <div class="edits">
+    <br>
+    <span class="app">Textkritische Anmerkungen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 20" data-bs-toggle="tooltip" data-bs-placement="right" title="Der Brieftext wurde anhand der überlieferten Quellen (vgl. Provenienz) kritisch geprüft. Notwendige Korrekturen gegenüber dem in ZH gedruckten Text wurden vorgenommen und sind vollständig annotiert. Die in den beiden Auflagen von ZH angehängten Korrekturvorschläge werden vollständig aufgelistet, werden aber nur dann im Text realisiert, sofern diese anhand überlieferter Quellen verifiziert werden konnten.">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg> :</span>
+    @* <div class="disclaimer">Der Brieftext wurde anhand der überlieferten Quellen (vgl. Provenienz) kritisch geprüft. Notwendige Korrekturen gegenüber dem in ZH gedruckten Text wurden vorgenommen und sind vollständig annotiert. Die in den beiden Auflagen von ZH angehängten Korrekturvorschläge werden vollständig aufgelistet, werden aber nur dann im Text realisiert, sofern diese anhand überlieferter Quellen verifiziert werden konnten.</div> *@
+    @Html.Raw(sb_edits)
+    </div>
+    }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/new.js" asp-append-version="true"></script>
+
+    <script>
+        function offsetAnchor() {
+            if (location.hash.length !== 0) {
+                window.scrollTo(window.scrollX, window.scrollY - 280);
+            }
+        }
+
+        $(document).on('click', 'a[href^="#"]', function(event) {
+            window.setTimeout(function() {
+                offsetAnchor();
+            }, 0);
+        });
+
+        window.setTimeout(offsetAnchor, 0);
+        $( "#" + window.location.hash.substr(1) ).before("<div class=\"selected\">☛</div>");
+    </script>
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

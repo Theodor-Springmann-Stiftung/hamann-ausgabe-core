@@ -1,0 +1,172 @@
+﻿@model Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+@functions {
+    List<MenuItem> BuildMenu() {
+        List<MenuItem> Menu = new List<MenuItem>();
+        Menu.Add(new MenuPageItem() {
+        FriendlyName = "Suche und Briefauswahl",
+        DefaultRoute = "/Index"
+        });
+        Menu.Add(new MenuPageItem() {
+            FriendlyName = "Briefansicht",
+            DefaultRoute = "/Briefe"
+        });
+        Menu.Add(new MenuSubMenuItem() {
+            FriendlyName = "Register",
+            DefaultRoute = "/Supplementa/Register",
+            menuPages = new List<MenuPageItem>()
+            {
+                new MenuPageItem()
+                {
+                    FriendlyName = "Register",
+                    DefaultRoute = "/Supplementa/Register"
+                },
+                new MenuPageItem()
+                {
+                    FriendlyName = "Bibelstellenregister",
+                    DefaultRoute = "/Supplementa/Bibelstellen"
+                },
+                new MenuPageItem()
+                {
+                    FriendlyName = "Forschungsbibliographie",
+                    DefaultRoute = "/Supplementa/Forschung"
+                }
+            }
+        });
+        Menu.Add(new MenuSubMenuItem()
+        {
+            FriendlyName = "Zur Edition",
+            DefaultRoute = "/Edition/Richtlinien",
+            menuPages = new List<MenuPageItem>() 
+                {
+                    new MenuPageItem()
+                    {
+                        FriendlyName = "Kontakt",
+                        DefaultRoute = "/Edition/Kontakt"
+                    },
+                    new MenuPageItem()
+                    {
+                        FriendlyName = "Mitwirkende",
+                        DefaultRoute = "/Edition/Mitwirkende"
+                    },
+                    new MenuPageItem()
+                    {
+                        FriendlyName = "Editionsrichtlinien",
+                        DefaultRoute = "/Edition/Richtlinien"
+                    },
+                    new MenuPageItem()
+                    {
+                        FriendlyName = "Editionsgeschichte",
+                        DefaultRoute = "/Edition/Editionsgeschichte"
+                    },
+                    new MenuPageItem()
+                    {
+                        FriendlyName = "Werkausgabe",
+                        DefaultRoute = "/Edition/Werkausgabe"
+                    }
+                }
+        });
+        return Menu;
+    }
+
+    void MarkActive(List<MenuItem> Menu) {
+        var path = ViewContext.HttpContext.Request.Path;
+        if (path == "/") {
+            Menu.First().Active = true;
+            return;
+        }
+        foreach (var item in Menu) {
+            if (item is MenuPageItem) {
+                var comparing = path.Value.Length > item.DefaultRoute.Length ? path.Value.Substring(0, item.DefaultRoute.Length) : path.Value;
+                if (item.DefaultRoute == comparing) {
+                    item.Active = true;
+                    return;
+                }
+            }
+            else if (item is MenuSubMenuItem) {
+                var submenu = (MenuSubMenuItem)item;
+                foreach (var sub in submenu.menuPages) {
+                    var comparing = path.Value.Length > sub.DefaultRoute.Length ? path.Value.Substring(0, sub.DefaultRoute.Length) : path.Value;
+                    if (sub.DefaultRoute == comparing) {
+                        sub.Active = true;
+                        item.Active = true;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    string setAct(MenuItem item) {
+        if (item.Active)
+            return "is-active";
+        else
+            return "";
+    }
+}
+
+@{ 
+    var Menu = BuildMenu();
+    MarkActive(Menu);
+}
+<nav class="navbar navbar-expand-xl navbar-light contentbox" style="">
+    <a class="navbar-brand hlink invlink" style="font-size: 170%" href="/">
+        <img src="/favicon.ico" alt="HKB-Logo" loading="lazy">
+        &nbsp;
+        <div class=" d-none d-lg-inline">
+            Johann Georg Hamann: Kommentierte Briefausgabe <span class="title-abbrv">(HKB)</span>
+        </div>
+    </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="float-right collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="mr-auto"></ul>
+        <div class="navbar-nav">
+            @foreach (var item in Menu)
+            {
+                @if(item is MenuPageItem)
+                {
+                    @if(!item.Active)
+                    {
+                    <a class="nav-item nav-link invlink @setAct(item)" href="@item.DefaultRoute">@item.FriendlyName</a> 
+                    }
+                    @if(item.Active)
+                    {
+                        <span class="nav-item nav-link invlink @setAct(item)">@item.FriendlyName</span>
+                    }
+                    continue;
+                } else if (item is MenuSubMenuItem)
+                {
+                    var submenu = (MenuSubMenuItem)item;
+                    @if (submenu.menuPages.Any())
+                    {
+                        <div class="nav-item dropdown">
+                            <a class="nav-link @setAct(item) dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">
+                                @item.FriendlyName
+                            </a> 
+                        <div class="dropdown-menu @setAct(item) collapsed-menu pull-left" id="@item.FriendlyName" aria-labelledby="navbarDropdown">
+                            @foreach (var sub in submenu.menuPages)
+                            {
+                                <a class="dropdown-item nav-link @setAct(sub)" href="@sub.DefaultRoute">@sub.FriendlyName</a>
+                            }
+                        </div>
+                        </div>
+                    }
+                    else 
+                    {
+                        <a class="nav-item nav-link @setAct(item)" href="@item.DefaultRoute">@item.FriendlyName</a>
+                    }
+                }
+            }
+            </div>
+    </div>
+</nav>
+
+@if(ViewContext.HttpContext.Request.Path == "/" || ViewContext.HttpContext.Request.Path.StartsWithSegments("/Index")) 
+{
+<div class="alert alert-light show impress d-none d-lg-block" role="alert">
+    <a class="hlink invlink" href="/Edition/Mitwirkende">
+Hg. v. Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von G. Babelotzky, K. Bucher, Ch. Großmann, C.F. Haak, L. Klopfer, J. Knüchel, I. Langkabel und S. Martens (Heidelberg 2020ff.)
+</a>
+</div>
+}

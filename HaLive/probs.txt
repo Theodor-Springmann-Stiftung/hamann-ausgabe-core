@@ -1,0 +1,16 @@
+
+- Zahlen vor super sollten auf prop. Versalziffern, nicht mediäval (sieht blöd aus, vgl. Nr. 449, 188/8) – S. kümmert sich drum – klappt nicht, ist aber auch nicht schlimm 
+
+- Nr. 309: anchor ref klappt so mäßig, aber besser als erwartet. Da muss mindestens eine empty line zwischen HT und FN (ist im Quelltext, wird aber nicht ausgegeben) – müssen in eigener Zeile anfangen -- keine breaks, wird programmiert – klappt bisher nicht so 
+
+- liegengeblieben Probleme vom Hamann-Printer: 
+	<edit ref="4125">1.)</edit> Z. 104852 verweist auf eine nicht existierende Editreason (4125) ! 
+	<edit ref="4126">2.)</edit> Z. 104853 verweist auf eine nicht existierende Editreason (4126) ! 
+	<edit ref="4127">3.)</edit> Z. 104854 verweist auf eine nicht existierende Editreason (4127) ! 
+	<edit ref="4128">4.</edit> Z. 104855 verweist auf eine nicht existierende Editreason (4128) ! 
+	(alles richtig eingetragen; er scheint Probleme zu haben, edits in fn zu bearbeiten) 
+
+	<edit ref="5035"> […] Z. 191308 verweist auf eine nicht existierende Editreason (5035) ! 
+	(verstehe den Fehler nicht, ist alles richtig eingetragen, aber einerseits recht lang, andererseits in den traditions, mit Simon besprechen) 
+
+- added gut; hand refin klass. antiqua bodoni? 

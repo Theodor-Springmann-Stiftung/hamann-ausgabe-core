@@ -1,0 +1,200 @@
+﻿@page "{id=A}"
+@model HaLive.Pages.RegisterModel
+@inject IReaderService readerservice;
+@inject ILibrary lib;
+@functions{
+    string setAct(string s) {
+        if (Model.id.ToString().ToLower() == s.ToLower())
+            return "is-active";
+        else
+            return "";
+    }
+}
+@{
+    // Acquire data
+    ViewData["Title"] = "Register";
+    var id = Model.id.ToUpper();
+    var comments = Model.SelectComments(lib);
+    var availableletters = lib.CommentsByCategoryLetter["neuzeit"].OrderBy(x => x.Key);
+
+
+    // Parsing Rules
+    List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() { 
+            ( x => x.Name == "titel", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "titel")))
+        };
+    List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() { 
+            ( x => x.Name == "titel", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")))
+        };
+    List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() { 
+            ( x => x.Name == "line", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("br")) )
+        };
+    List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+            ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
+        };
+    List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)> Whitespace_Funcs = new List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>() {
+            ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
+        };
+
+    string handleComment(Comment comm) {
+        StringBuilder sb = new StringBuilder();
+        var rd = readerservice.RequestStringReader(comm.Lemma);
+        new StandardSubscriber(rd, sb, OTag_Funcs, STag_Funcs, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+        sb.Append(HTMLHelpers.CreateElement("div", "lemma", comm.Index));
+        new LinkBuilder(lib, rd, sb);
+        rd.Read();
+        var backlinks = lib.Backlinks.ContainsKey(comm.Index) ? lib.Backlinks[comm.Index].OrderBy(x => x.Letter) : null;
+        if (backlinks != null) {
+           sb.Append(HTMLHelpers.CreateElement("div", "backlinks"));
+            var arrow = false;
+            foreach(var blk in backlinks) {
+                var let = lib.Metas.ContainsKey(blk.Letter) ? lib.Metas[blk.Letter] : null;
+                if (let != null) {
+                    if (!arrow) {
+                        sb.Append("&emsp;&rarr;&nbsp;");
+                        sb.Append("HKB&nbsp;");
+                        arrow = true;
+                    }
+                    sb.Append(HTMLHelpers.CreateElement("a", "backlink", "/Briefe/" + let.Autopsic + "#" + blk.Page + "-" + blk.Line));
+                    @* sb.Append(" "); *@
+                    var linkstring = "";
+                    var ZHstring = "";
+                    if (let.ZH != null)
+                    {
+                        ZHstring += HTMLHelpers.ToRoman(Int32.Parse(let.ZH.Volume)) + "&nbsp;";
+                    }
+                    var pglnstring= "";
+                    @* linkstring += "HKB&nbsp;"; *@
+                    linkstring += let.Autopsic;
+                    pglnstring += "&nbsp;(&#8239;" + ZHstring + blk.Page + "/" + blk.Line + "&#8239;)";
+                    linkstring += pglnstring;
+
+                    sb.Append(linkstring);
+                    @* sb.Append("ZH" + "&nbsp;" +
+                        HTMLHelpers.ToRoman(Int32.Parse(let.Volume)) +
+                        "&nbsp;" +
+                        blk.Page +
+                        "/" + 
+                        blk.Line + 
+                        "&nbsp;(" +
+                        let.Autopsic +
+                        ")"
+                        ); *@
+                    if (blk != backlinks.Last())
+                        sb.Append(",&emsp;");
+                    sb.Append(HTMLHelpers.CreateEndElement("a"));
+                }
+            }
+            sb.Append(HTMLHelpers.CreateEndElement("div"));
+        }
+        sb.Append(HTMLHelpers.CreateEndElement("div"));
+        rd = readerservice.RequestStringReader(comm.Entry);
+        new StandardSubscriber(rd, sb, OTag_Funcs, STag_Funcs, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+        new LinkBuilder(lib, rd, sb);
+        rd.Read();
+        return sb.ToString();
+    }
+}
+
+<div class="mainhead row no-gutters"><!-- + sticky-top if sticky -->
+    <!--Sticky grey space on top of header -->
+    <div class="col">
+        <div class="widehead">
+            <div class="flexcol">
+                    <div style="align-self: flex-end" class="printbutton">
+                    <a class="" href="/pdf/Register_HamannBriefe.pdf">
+                        PDF
+                    </a>
+                </div>
+                <div class="flexrow" style="margin-bottom:-30px; align-items: last baseline;">
+                    <div class="heading">
+                        Register
+                    </div>
+                    <form>
+                        <div class="form-inline hformbox">
+                            <input type="search" class="form-control hform"  asp-for="search" placeholder="Suchbegriff" />
+                            <input type="submit" class="form-control hform" value="Suche im Register"  />
+                        </div>
+                    </form>
+                </div>
+                <div class="alphabet">
+                @if (String.IsNullOrWhiteSpace(Model.search))
+                {
+                    <br/>
+                    @foreach (var entry in availableletters)
+                    {
+                        <span><a class="invlink @setAct(entry.Key)" href="/Supplementa/Register/@entry.Key">@entry.Key</a> &emsp;</span>
+                    }
+                }
+                else 
+                {
+                    <br/>
+                    <span>Einträge, die &#x00BB;@Model.search&#x00AB; enthalten. <a href="/Supplementa/Register/A" class="hlink">&emsp;&emsp;&#x2190;&nbsp;Zurück</a></span>
+                    @if (Model.maxSearch)
+                    {
+                        <br/><br/>
+                        <span class="searchwarning">Zu viele Treffer. Die Anzeige wurde auf die ersten 150 Suchergebnisse beschränkt.</span>
+                    }
+                }
+            </div>
+            </div>
+                
+        </div>
+    </div>
+</div>
+
+<div class="row no-gutters">
+    <div class="col">
+        <div class="registerbox">
+            
+            <div class="text">
+            @if(comments == null || comments.Count() == 0)
+            {
+                @if(!String.IsNullOrWhiteSpace(Model.search))
+                {
+                    <span class="searchwarning">Keine Einträge gefunden.</span>
+                }
+            }
+            @foreach (var comm in comments)
+            {
+                <div class="comment">
+                    @Html.Raw(handleComment(comm))
+                @if(comm.Kommentare != null)
+                {
+                    @foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
+                    {
+                    <div class="subsection">
+                        @Html.Raw(handleComment(subcomm.Value))
+                    </div>
+                    }
+                }
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        // The function actually applying the offset
+        function offsetAnchor() {
+        if (location.hash.length !== 0) {
+            window.scrollTo(window.scrollX, window.scrollY - 280);
+        }
+        }
+
+        // Captures click events of all <a> elements with href starting with #
+        $(document).on('click', 'a[href^="#"]', function(event) {
+        // Click events are captured before hashchanges. Timeout
+        // causes offsetAnchor to be called after the page jump.
+        window.setTimeout(function() {
+            offsetAnchor();
+        }, 0);
+        });
+
+        // Set the offset when entering page with hash present in the url
+        window.setTimeout(offsetAnchor, 0);
+        $( "#" + window.location.hash.substr(1) ).prepend("<div class=\"selected\">☛</div> ");
+    </script>
+}

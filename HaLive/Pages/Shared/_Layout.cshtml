@@ -1,0 +1,55 @@
+﻿@{
+    var agent = String.IsNullOrWhiteSpace(Context.Request.Headers["User-Agent"]) ? "" : (string)Context.Request.Headers["User-Agent"];
+}
+<!DOCTYPE html>
+<html lang="de" >
+<head>
+    <!--
+  <PageMap>
+     <DataObject type="document">
+        <Attribute name="title">Johann Georg Hamann: Kommentierte Briefausgabe (&#8239;H&#8239;&#8239;K&#8239;&#8239;B&#8239;)</Attribute>
+        <Attribute name="author">Hg. v. Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von G. Babelotzky, K. Bucher, Ch. Großmann, C.F. Haak, L. Klopfer, J. Knüchel, I. Langkabel und S. Martens (Heidelberg 2020ff.)</Attribute>
+        <Attribute name="description">Durchsuchbare Online-Ausgabe der Briefe von und an Johann Georg Hamann.</Attribute>
+     </DataObject>
+     <DataObject type="thumbnail">
+        <Attribute name="src" value="https://hamann-ausgabe.de/favicon.ico" />
+     </DataObject>
+  </PageMap>
+  
+  -->
+
+    
+    <environment names="Development">
+        <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+    </environment>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hamann: Kommentierte Briefausgabe (&#8239;H&#8239;&#8239;K&#8239;&#8239;B&#8239;) - @ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="sticky-top">
+        <partial name="_Menu" />
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 Theodor Springmann Stiftung <span class="text-align-right"><a href="/Privacy">Impressum und Datenschutzerklärung</a></span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="https://unpkg.com/@@popperjs/core@@2"></script> *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    <RazorCompileOnPublish>false</RazorCompileOnPublish>
+    <UserSecretsId>291b4748-5f17-4dbc-8b79-f8aba08bd32b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Hamann.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Hamann.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- extends watching group to include *.xml files -->
+    <Watch Include="**\*.xml"  Exclude="obj\**\*;bin\**\*"  />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\HaXMLReader\HaXMLReader.csproj" />
+    <ProjectReference Include="..\HaDocument\HaDocument.csproj" />
+  </ItemGroup>
+
+</Project>

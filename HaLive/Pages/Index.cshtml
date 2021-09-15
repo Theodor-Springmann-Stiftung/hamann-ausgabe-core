@@ -1,0 +1,351 @@
+﻿@page
+@inject ILibrary lib
+@using System.Collections.Generic
+@using System.Linq;
+@using HaDocument.Comparers
+@model IndexModel
+
+@functions{
+    string setAct(string s) {
+        if (Model.person == s)
+            return "is-active";
+        else
+            return "";
+    }
+
+    string setActPg(string s) {
+        if (Model.selpage == s)
+            return "is-active";
+        else
+            return "";
+    }
+
+    string Position() {
+        string ret = "";
+        if (Model.cleanpage != 0)
+            ret += " hasAncestors";
+        if (Model.cleanpage == Model.Result.Count()-1)
+            ret += " isLast";
+        return ret;
+    }
+
+    string generateTTMsg(Meta m) {
+         if (m.isProofread == OptionalBool.False && m.hasOriginal == OptionalBool.False) {
+             return "Original verschollen. Der Brieftext wurde noch nicht textkritisch geprüft.";
+         }
+         if (m.isProofread == OptionalBool.False && m.hasOriginal != OptionalBool.False) {
+             return "Original vorhanden. Der Brieftext wurde noch nicht textkritisch geprüft.";
+         }
+         if (m.isProofread != OptionalBool.False && m.hasOriginal == OptionalBool.False ) {
+             return "Original verschollen. Der Brieftext wurde anhand der vorhandenen Quellen kritisch geprüft.";
+         }
+         return "Der Brieftext wurde anhand des Originals kritisch geprüft.";
+     }
+}
+
+@{
+    ViewData["Title"] = "Suche";
+    var pg = 0;
+}
+
+
+<div class="mainhead row no-gutters">
+        <div class="col">
+            <div class="widehead searchbar d-none d-lg-block">
+                <div class="alphabet">
+                    <div class="row">
+                        <div class="col-7">
+                                <h1>
+                                    Volltextsuche
+                                    <span class="searchheading">
+                                    (Beta)
+                                </span>
+                                </h1>
+                            <form>
+                                <div class="form-inline hformbox">
+                                    <input type="search" class="form-control hform"  asp-for="search" placeholder="Suchbegriff" />
+                                    <input type="submit" class="form-control hform" value="Suchen"  />
+                                </div>
+                            </form>
+                        </div>
+                        @if (String.IsNullOrWhiteSpace(Model.search))
+                        {
+                        <div class="col-5 align-self-end">
+                            <div class="zhselector">
+                                <form style="margin-left: 105px;"> 
+                                    <div class="form-inline hformbox textform">
+                                        Briefnummer&nbsp;&nbsp;
+                                        <input type="search" class="form-control small-form hform" asp-for="fdletter" />
+                                        <input type="submit" class="form-control hform" value="Nachschlagen" />
+                                    </div>
+                                    </form>
+                               <form> 
+                                   <div class="form-inline hformbox textform">
+                                       <span class="autopsic">
+                                           <a class="hlink invlink autopsic" href="/Supplementa/Forschung/editionen/#1955" style="font-variant: small-caps;">
+                                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-book" viewBox="0 0 16 20">
+                                                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                                                </svg> Z&VeryThinSpace;H
+                                           </a>
+                                       </span>&nbsp;&nbsp;
+                                       Band&nbsp;
+                                       &nbsp;
+                                       <select class="form-control hform" asp-for="havolume">
+                                           @foreach (var y in lib.Options.AvailableVolumes)
+                                           {
+                                               <option>@y</option>
+                                           }
+                                       </select>
+                                       &thinsp;,&nbsp;Seite&nbsp;&nbsp;
+                                       <input type="search" class="form-control small-form hform" value="1" asp-for="hapage" />
+                                       <input type="submit" class="form-control hform" value="Nachschlagen" />
+                                   </div>
+                                </form>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div></div></div>
+            <div class="row no-gutters mainhead sticky" style="top: 110px !important; z-index: 1000 !important;">
+            <div class="widehead yearsidebar">
+                            @if (Model.State != IndexModel.IndexState.Initial)
+                            {<div class="backbutton"><a class="hlink" href="/">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                                </svg>&nbsp;alle Briefe anzeigen
+                            </a></div>}
+                            @if (Model.FailState == IndexModel.IndexFailState.LetterNotFound)
+                            {<span class="searchwarning">Brief mit der Nummer @Model.fdletter nicht gefunden.</span>}
+                            @if (Model.FailState == IndexModel.IndexFailState.SearchNoResult)
+                            {<span class="searchwarning">Keine Briefe gefunden, die die &#x00BB;@Model.search&#x00AB; enthalten.</span>}
+                            @if (Model.FailState == IndexModel.IndexFailState.SearchTooManyResults)
+                            {<span class="searchwarning">Mehr als 1000 Treffer für &#x00BB;@Model.search&#x00AB;. Bitte grenzen Sie Ihre Suche ein.</span>}
+                            @if (Model.FailState == IndexModel.IndexFailState.ZHNotFound)
+                            {<span class="searchwarning">Keine Briefe auf <span class="letterselection aq nnumber"><a class="hlink invlink searchwarning" href="/Supplementa/Forschung/editionen/#1955" style="font-variant: small-caps;">
+                                            Z&VeryThinSpace;H
+                                        </a> @HTMLHelpers.ToRoman(Int32.Parse(Model.havolume)), @Model.hapage</span> gefunden.</span>}
+                            @if (Model.FailState == IndexModel.IndexFailState.None)
+                            {
+                                <h1>Briefauswahl
+                                @if (Model.State == IndexModel.IndexState.Initial)
+                                {<span class="letterselection">alle Briefe; chronologische Anzeige.</span>}
+                                @if (Model.State == IndexModel.IndexState.Search)
+                                {<span class="letterselection">Briefe, die &#x00BB;@Model.search&#x00AB; enthalten.</span>}
+                                @if (Model.State == IndexModel.IndexState.ZHLookup)
+                                {<span class="letterselection aq nnumber">
+                                    Briefe auf
+                                    <a class="hlink invlink" href="/Supplementa/Forschung/editionen/#1955" style="font-variant: small-caps;">
+                                            Z&VeryThinSpace;H
+                                        </a> @HTMLHelpers.ToRoman(Int32.Parse(Model.havolume)), @Model.hapage</span>}
+                                @if (Model.State == IndexModel.IndexState.PersonLookup)
+                                {<span class="letterselection">Briefe von und an @lib.Persons[Model.person].Name.</span>}
+                                </h1>
+                            }
+                        @if (Model.Result.Count() > 1 && Model.FailState == IndexModel.IndexFailState.None)
+                        {
+                            @foreach (var pag in Model.Result) 
+                            {
+                                pg = Model.Result.IndexOf(pag)+1;
+                                <span class="navigation-page">
+                                <a class="invlink @setActPg(pg.ToString())" href="/?selpage=@pg&person=@Model.person&search=@Model.search">
+                                    @if (pag.First().First().MetaData.Sort.Year != pag.Last().Last().MetaData.Sort.Year)
+                                    { 
+                                        <span>
+                                            @pag.First().First().MetaData.Sort.Year&ndash;@pag.Last().Last().MetaData.Sort.Year
+                                        </span>
+                                    }
+                                    @if (pag.First().First().MetaData.Sort.Year == pag.Last().Last().MetaData.Sort.Year) 
+                                    {
+                                        <span>
+                                            @pag.First().First().MetaData.Sort.Year
+                                        </span>
+                                    }
+                                </a> @if(pag != Model.Result.Last())
+                                {
+                                    <span class="muted">&ThinSpace;</span>
+                                }
+                                </span>
+                            }
+                        }
+                    
+            </div> 
+</div>
+
+@if (Model.FailState == IndexModel.IndexFailState.None)
+{
+<div class="row no-gutters">
+    <div class="col entriescolumn">
+            <div id="timeline">
+                <div class="@Position()">
+                    
+                        @foreach (var l in Model.Result.ElementAt(Model.cleanpage))
+                        {
+                            <section>
+                                <div class="year" style="top: 240px; z-index: 900;">
+                                    @l.Key <span class="printbutton">
+                    <span class="label">
+                        <a class="hlink" href="#">PDF
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 14 18">
+                            <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                        </svg>
+                        </a>
+                    </span>
+                </span>
+                                  <hr></div>
+                                @foreach (var entry in l)
+                                {
+                                    <section>
+                                            <div class="lettercard flexrow">
+                                                <a href="/Briefe/@entry.MetaData.Autopsic" class="hlink invlink">
+                                                    <div class="nnumber letcount flexcol">@entry.MetaData.Autopsic</div>
+                                                    <div class="letdesc flexcol">
+                                                    @if(entry.MetaData.Senders.Any() || entry.MetaData.Receivers.Any())
+                                                    {
+                                                        <span class="date">
+                                                            @entry.MetaData.Date</span><span>&nbsp;</span>
+                                                            @if (entry.MetaData.ZH != null) 
+                                                            {
+                                                            <span>
+                                                            <span class="nnumber autopsic">&thinsp;
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-book" viewBox="0 0 16 18">
+                                                                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                                                                </svg> 
+                                                                ZH @HTMLHelpers.ToRoman(Int32.Parse(entry.MetaData.ZH.Volume)) @entry.MetaData.ZH.Page
+                                                            </span>&nbsp;
+                                                            </span>
+                                                        } 
+                                                        else 
+                                                        {
+                                                            <span>
+                                                            <span class="nnumber autopsic-new">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 20">
+                                                                <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"/>
+                                                                </svg>
+                                                                Neu
+                                                            </span>&nbsp;
+                                                            </span>
+                                                        }
+                                                            @if(entry.MetaData.hasOriginal == OptionalBool.True)
+                                                            {
+                                                                <span>
+                                                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Original vorhanden">
+                                                                        &thinsp;Orig
+                                                                    </span>&nbsp;
+                                                                </span>
+                                                            }
+                                                            else 
+                                                            {
+                                                                <span>
+                                                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Original verschollen">
+                                                                        &thinsp;<span class="cross">Orig</span>
+                                                                    </span>&nbsp;
+                                                                </span>
+                                                            }
+                                                            @if (entry.MetaData.ZH != null && entry.MetaData.ZH.dateChanged)
+                                                            {
+                                                                <span>
+                                                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Der Brief wurde gegenüber der Ausgabe ZH neu datiert">
+                                                                        &thinsp;neu datiert
+                                                                    </span>&nbsp;
+                                                                </span>
+                                                            }
+                                                            @if(entry.MetaData.isProofread == OptionalBool.True)
+                                                            {
+                                                                <span>
+                                                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Textkritisch geprüft">
+                                                                        &thinsp;geprüft
+                                                                    </span>&nbsp;
+                                                                </span>
+                                                            }
+                                                            else 
+                                                            {
+                                                                <span>
+                                                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Nicht textkritisch geprüft">
+                                                                        &thinsp;<span class="cross">geprüft</span>
+                                                                    </span>&nbsp;
+                                                                </span>
+                                                            }
+                                                            @if (lib.MarginalsByLetter.Contains(entry.MetaData.Index)) 
+                                                            {
+                                                                <span>
+                                                                    <span class="nnumber autopsic hv" data-bs-toggle="tooltip" data-bs-placement="top" title="Mit Stellenkommentar">
+                                                                        &thinsp;Komm
+                                                                    </span>&nbsp;
+                                                                </span>
+                                                            }
+                                                        
+                                                        <br>
+                                                        <span class="title">
+                                                            <span class="senders">
+                                                            @HTMLHelpers.GetEnumerationString(entry.MetaData.Senders.Select(x => lib.Persons[x].Name).ToList())
+                                                            </span>
+                                                            <span class="arrow">
+                                                            @if(entry.MetaData.isDraft == OptionalBool.True) {
+                                                                <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Entwurf">&nbsp;&#8603;&nbsp;</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>&nbsp;&#8594;&nbsp;</span>
+                                                            }
+                                                            </span>
+                                                            <span class="receivers">
+                                                            @HTMLHelpers.GetEnumerationString(entry.MetaData.Receivers.Select(x => lib.Persons[x].Name).ToList())
+                                                            </span>
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>&nbsp;</span>
+                                                        }
+                                                        
+                                                </a>
+                                                @if (entry.Results != null && entry.Results.Count() > 0)
+                                                {
+                                                    <div class="sresults">
+                                                    @foreach (var result in entry.Results)
+                                                    {
+                                                        <div class="sresult">
+                                                            <a href="/Briefe/@entry.MetaData.Index#@result.Page-@result.Line" class="hlink invlink">
+                                                                <span class="pgln">@result.Page/@result.Line:</span>&nbsp;<span class="sprev">@result.PreviewString</span>
+                                                            </a>
+                                                        </div>
+                                                        
+                                                    }
+                                                    </div>
+                                                }
+                                            </div>
+                                    </section>
+                                }
+                            </section>
+                        }
+                    
+                </div>
+            </div>
+    </div>
+    @if(String.IsNullOrWhiteSpace(Model.search) &&
+        String.IsNullOrWhiteSpace(Model.hapage))
+    {
+        <div class="col-4 namesidebar d-none d-lg-block">
+            <h4>Korrespondenzpartner:innen</h4>
+            <a class="hlink person invlink @setAct("")" href="/">Alle</a>
+            @foreach (var p in Model.SelectedPersons.Where(x => x.Index != "1")) {
+                <a class="hlink invlink person @setAct(p.Index)" href="/?person=@p.Index">@p.Name</a>
+            }
+            </div>
+        <div>
+        </div>
+    }
+</div>
+}
+
+
+@section Scripts {
+        <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+    </script>
+}

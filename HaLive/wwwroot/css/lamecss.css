@@ -1,0 +1,23 @@
+:root {
+    --hamannGrau: #cbcaca;
+    --hamannDunkelGrau: darkgrey;
+    --hamannHighlight: red;
+    --commLineLength: 60;
+    --hamannWeiss: white;
+  }
+
+.yearsidebar {
+    position: relative !important;
+}
+
+    .yearsidebar .is-active { 
+        color: var(--hamannHighlight) !important;
+    }
+
+.del .del::before {
+    content: '<';
+}
+
+.del .del::after {
+    content: '>';
+}

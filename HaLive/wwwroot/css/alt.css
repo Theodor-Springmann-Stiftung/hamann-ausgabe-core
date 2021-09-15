@@ -1,0 +1,1197 @@
+﻿/* Syles für alle Seiten 
+-------------------------------------------------- */
+
+:root {
+    --hamannGrau: #cbcaca;
+    --hamannDunkelGrau: #6e6e6e;
+    --hamannHighlight: red;
+    --commLineLength: 60;
+    --hamannWeiss: transparent;
+    --hamannHellGrau: #dddddd;
+}
+
+/* Zeichen für die Buttons der Marginalien */
+.commBox:not(.short) .commselector button::before {
+    content: '';
+}
+
+.commBox.short:not(.expanded) .commselector button::before {
+    content: '+';
+    font-weight: 900;
+    font-size: 1.25rem;
+}
+
+.commBox.expanded .commselector button::before {
+    content: '\00D7';
+    font-weight: 900;
+    font-size: 1.25rem;
+}
+
+/* Zeichen für den Anfang der Marginalien und die Trennung derselben */
+.commBox .comment .marginal:first-child::before {
+    content: "|\202F";
+    font-weight: 900;
+}
+
+.commBox .comment .marginal:not(:first-child)::before {
+    content: "\2003\2003|\202F";
+    font-weight: 900;
+}
+
+.commBox .comment .bzg:after {
+    content: ']\00A0';
+    font-weight: bolder;
+}
+
+.nr:before {
+    content: ' \25E6 ';
+}
+
+.nr:after {
+    content: ' \25E6 ';
+}
+
+.added:before {
+    content: '[';
+}
+
+.added:after {
+    content: ']';
+}
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_Rah.ttf') format('truetype'), url('../fonts/LinBiolinum_R.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_RIah.ttf') format('truetype'), url('../fonts/LinBiolinum_RI.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_RBah.ttf') format('truetype'), url('../fonts/LinBiolinum_RB.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_DRah.ttf') format('truetype'), url('../fonts/LinLibertine_R.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_RIah.ttf') format('truetype'), url('../fonts/LinLibertine_RI.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_RBah.ttf') format('truetype'), url('../fonts/LinLibertine_RB.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 0px;
+    padding-bottom: 60px;
+    /* for footer */
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: #fffff8;
+    font-family: Libertine !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-variant-ligatures: common-ligatures !important;
+    font-variant-numeric: oldstyle-nums;
+}
+
+main {
+    position: sticky;
+}
+
+.mainhead {
+    background-color: var(--hamannWeiss);
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+
+.flexcol {
+    display: flex;
+    flex-flow: nowrap column;
+}
+
+.flexrow {
+    display: flex;
+    flex-flow: nowrap row;
+}
+
+.widehead {
+    width: 100%;
+    margin-bottom: 40px;
+    height: auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-top: none;
+}
+
+.widehead .heading {
+    font-size: 295%;
+    margin-right: 17px;
+    margin-left: 40px;
+}
+
+.widehead .searchheading {
+    margin-right: 17px;
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.widehead .searchheading2 {
+    margin-right: 17px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.nav-item {
+    /* font-weight: bold; */
+}
+
+.widehead .small-form {
+    max-width: 60px;
+}
+
+.widehead .form-control {
+    margin-right: 6px;
+}
+
+.hlink:link,
+.hlink:visited {
+    color: #231F20;
+    text-decoration: none;
+}
+
+.hlink:hover,
+.hlink:active {
+    color: var(--hamannHighlight) !important;
+    text-decoration: none;
+}
+
+
+/* Allgemeine Textformatierungen
+---------------------------------------------------- */
+
+.hand {
+    background-color: var(--hamannGrau);
+}
+
+.selected {
+    display: inline-block;
+    word-wrap: none;
+    z-index: 100000000000000;
+    font-size: 150%;
+    color: var(--hamannHighlight);
+}
+
+.align.right {
+    float: right;
+    padding-right: 70px;
+}
+
+.align.center {
+    display: inline-block;
+    text-align: center;
+    width: 80%;
+}
+
+.added {
+    color: var(--hamannDunkelGrau);
+}
+
+
+/*
+ .added::before {
+  content: '[';
+}
+
+ .added::after {
+  content: ']';
+} */
+
+.del {
+    text-decoration: line-through;
+}
+
+.nnumber {
+    font-variant-numeric: normal !important;
+}
+
+.letterbox .sal {
+    display: inline-block;
+    margin-left: 1.5rem;
+}
+
+.tab-1 {
+    margin-left: 1rem;
+}
+
+.tab-2 {
+    margin-left: 2rem;
+}
+
+.tab-3 {
+    margin-left: 3rem;
+}
+
+.tab-4 {
+    margin-left: 4rem;
+}
+
+.tab-5 {
+    margin-left: 5rem;
+}
+
+.tab-6 {
+    margin-left: 11rem;
+}
+
+.tab-7 {
+    margin-left: 16rem;
+}
+
+.aq {
+    font-family: Biolinum;
+}
+
+.caps {
+    font-variant-caps: small-caps;
+    letter-spacing: .1rem;
+}
+
+.super {
+    vertical-align: super;
+}
+
+.sub {
+    vertical-align: sub;
+}
+
+.note {
+    font-style: italic;
+    color: var(--hamannDunkelGrau);
+}
+
+.ul {
+    display: inline;
+    text-decoration: underline;
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-skip-ink: auto;
+}
+
+.dul {
+    text-decoration: underline;
+    text-decoration-style: double;
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-skip-ink: auto;
+}
+
+.tul {
+    text-decoration: underline;
+    display: inline;
+    border-bottom: 3px double;
+}
+
+.del .del {
+    -moz-text-decoration-style: double;
+    -webkit-text-decoration-style: double !important;
+    text-decoration-style: double;
+}
+
+.nr {
+    font-family: Biolinum;
+    /* vertical-align: 3px; */
+}
+
+.anchor {
+    vertical-align: super;
+}
+
+.header {
+    display: inline-block;
+    margin-right: -50%;
+    transform: translate(-50%, 50%);
+    margin-left: 50%;
+}
+
+.link {
+    display: inline;
+    text-decoration: underline !important;
+    text-decoration-style: dotted !important;
+    text-decoration-color: var(--hamannGrau);
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-skip-ink: auto;
+}
+
+.intlink {
+    display: inline;
+    text-decoration: underline !important;
+    text-decoration-style: dotted !important;
+    text-decoration-color: var(--hamannGrau);
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-skip-ink: auto;
+}
+
+.wwwlink {
+    display: inline;
+    text-decoration: underline !important;
+    text-decoration-style: dotted !important;
+    text-decoration-color: var(--hamannGrau);
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-skip-ink: auto;
+}
+
+.hangingindent {
+    padding-left: 1rem;
+    text-indent: -1rem;
+}
+
+.searchwarning {
+    color: var(--hamannHighlight);
+}
+
+
+/* Navigation
+----------------------------------------------------- */
+
+.impress {
+    background-color: #fffff8;
+    padding-left: 80px;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-bottom: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.67); 
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.67);
+    border: none;
+}
+
+.impress a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar {
+    background-color: #fffff8;
+    padding-left: 80px;
+    padding-right: 30px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    -webkit-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.67); 
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.67);
+}
+
+.navbar .navbar-nav .nav-link {
+    color: var(--hamannDunkelGrau);
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: black;
+}
+
+.navbar .navbar-nav .nav-link.is-active {
+    color: var(--hamannHighlight);
+}
+
+.dropdown-menu {
+    z-index: 10000;
+}
+
+.navbar .dropdown-item.active,
+.dropdown-item:active {
+    background-color: var(--hamannGrau);
+}
+
+
+/* Footer
+-------------------------------------------------- */
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    /* Set the fixed height of the footer here */
+    line-height: 55px;
+    /* Vertically center the text there */
+    /* background-color: #f5f5f5; */
+}
+
+.footer .container {
+    width: 100%;
+}
+
+.footer .text-align-right {
+    float: right;
+    display: inline-block;
+}
+
+.footer a {
+    color: inherit;
+}
+
+.footer a:hover {
+    color: var(--hamannHighlight);
+    text-decoration: none;
+}
+
+
+/* Styles für die Suchansicht 
+-------------------------------------------------- */
+
+.searchbar {
+    background-color: var(--hamannWeiss);
+    width: 100%;
+    margin-bottom: 20px;
+    background-image: unset;
+}
+
+.searchbar h1 {
+    font-family: Libertine;
+}
+
+.searchbar .form-control {
+    margin-right: 0.8rem;
+    border-radius: 0 !important;
+    height: 1.8rem !important;
+    padding: 0.3rem !important;
+    vertical-align: middle !important;
+}
+
+.searchbar .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: var(--hamannHighlight) !important;
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.indexheader {
+    max-height: 60px;
+    vertical-align: middle;
+}
+
+.stick {
+    top: 74px;
+}
+
+.yearsidebar {
+    margin-top: 10px;
+    padding-top: 26px;
+    padding-bottom: 0px;
+    padding-left: -15px !important;
+    background-image: unset;
+    border-bottom: 2px solid var(--hamannHellGrau);
+}
+
+.yearsidebar h1 {
+    font-family: Libertine;
+}
+
+.yearsidebar .monthnav {
+    padding-left: 0 !important;
+}
+
+.yearsidebar .yearnav {
+    font-family: Biolinum;
+    /* border-left: black 2px solid;
+      margin-left: 1rem; */
+    position: sticky;
+    top: 0px;
+}
+
+.yearsidebar .nav-link {
+    display: inline-block;
+}
+
+.yearsidebar .yearnav a.active + nav {
+    display: block;
+    top: 30px;
+    width: 100%;
+}
+
+.yearsidebar .yearnav .hidden {
+    display: none !important;
+}
+
+.yearsidebar .yearnav a {
+    color: black;
+    padding: 0 0rem;
+}
+
+.yearsidebar .yearnav a:hover {
+    color: var(--hamannHighlight);
+    padding: 0 0rem;
+}
+
+.yearsidebar .yearnav a.active {
+    color: var(--hamannHighlight);
+    padding: 0 0rem;
+}
+
+.yearsidebar .yearnav nav {
+    padding-left: 0.3rem;
+    display: none;
+}
+
+.yearsidebar .yearnav a.active+nav {
+    display: block;
+}
+
+.yearsidebar h2 {
+    font-family: Biolinum;
+    font-size: 1.2rem;
+}
+
+.yearsidebar .to-top a {
+    color: black;
+}
+
+.yearsidebar .to-top a:hover {
+    color: var(--hamannHighlight);
+    text-decoration: none;
+}
+
+.to-top {
+    position: absolute;
+    float: none;
+    display: block;
+    bottom: 0;
+    font-family: Biolinum;
+    font-size: 0.8rem;
+    margin-top: 34rem;
+    margin-left: -240px;
+}
+
+.namesidebar {
+    padding: 1rem !important;
+    margin-bottom: 10px !important;
+    background-color: var(--hamannWeiss);
+    border-left: 2px solid var(--hamannHellGrau);
+    position: sticky;
+}
+
+.namesidebar a {
+    display: block;
+    padding: 0;
+    margin-left: 1rem;
+    font-family: Biolinum;
+}
+
+.namesidebar .person.is-active {
+    color: var(--hamannHighlight) !important;
+}
+
+.namesidebar h2 {
+    font-family: Biolinum;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+}
+
+.entriescolumn {
+    padding: 1rem !important;
+    margin-bottom: 10px !important;
+    background-color: var(--hamannWeiss);
+    margin-top: inherit;
+    font-family: Biolinum;
+}
+
+.entriescolumn .warningindent {
+    margin-left: 30px;
+}
+
+.entriescolumn h2 {
+    font-family: Biolinum;
+    font-size: 1.2rem;
+}
+
+.entriescolumn h3 {
+    font-size: 1.6rem;
+}
+
+.entriescolumn .letter {
+    margin-left: 30px;
+    margin-bottom: 1.5rem;
+}
+
+.entriescolumn .date {
+    font-family: Libertine;
+}
+
+.entriescolumn .address {
+    font-family: Libertine;
+}
+
+.entriescolumn a:hover {
+    text-decoration: none;
+    color: black !important;
+}
+
+.entriescolumn .ZH {
+    display: inline;
+    font-variant-numeric: oldstyle-nums;
+    font-variant-caps: all-small-caps;
+}
+
+.entriescolumn .card:hover {
+    background-color: var(--hamannHellGrau);
+}
+
+.entriescolumn .searchcard:hover {
+    background-color: var(--hamannWeiss);
+}
+
+.entriescolumn .autopsic {
+    display: inline;
+}
+
+.entriescolumn .address div {
+    display: inline;
+}
+
+.entriescolumn .searchresult {
+    font-size: 80%;
+    margin-bottom: 0.6rem;
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
+}
+
+.entriescolumn .searchresult .card-body {
+    padding: 0.6rem;
+}
+
+
+/* Styles für die Briefansicht 
+-------------------------------------------------- */
+
+.widehead .meta {
+    line-height: 1.1rem !important;
+    text-align: left;
+}
+
+.widehead .metas {
+    font-family: Biolinum;
+    font-variant: small-caps;
+    font-variant-caps: all-small-caps;
+}
+
+.countbox {
+    text-align: right;
+    font-family: Biolinum;
+    padding-right: 5px;
+    padding-left: 8px;
+    padding-bottom: 5px;
+    padding-top: 10px;
+    font-size: 0.72rem;
+    line-height: 1.4rem;
+    min-width: 1.5rem;
+    width: auto;
+    background-color: var(--hamannWeiss);
+    white-space: nowrap;
+    font-variant-numeric: oldstyle-nums;
+    font-variant-caps: all-small-caps;
+}
+
+.letterbox {
+    margin-left: 10px;
+    padding: 10px;
+    width: 100%;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    background-color: var(--hamannWeiss);
+}
+
+.letterbox p {
+    font: normal 0, 3rem/1, 4rem, Libertine;
+    /*font: font-style font-variant font-weight font-size/line-height font-family; */
+    hyphens: auto;
+}
+
+.letterbox div {
+    display: inline;
+}
+
+.commentColumn {
+    padding: 10px;
+    margin-left: 10px;
+    height: 100%;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    background-color: var(--hamannWeiss);
+}
+
+.NoCommentColumn {
+    background-color: var(--hamannWeiss);
+    height: auto;
+    margin-left: 0;
+}
+
+.printbutton {
+    font-family: Biolinum;
+    font-size: 85%;
+}
+
+.printbutton {
+    padding: 3px;
+    font-family: Biolinum;
+}
+
+.printbutton a {
+}
+
+.printbutton a:hover {
+    text-decoration: underline;
+}
+
+.additions {
+    padding-top: 20px;
+    margin-top: 60px;
+    border: 1px solid black;
+    border-bottom: none;
+    font-family: Biolinum;
+    font-size: 1rem;
+}
+
+.additions .additionbox {
+    background-color: var(--hamannWeiss);
+    padding-right: 12rem;
+}
+
+.additions .additionbox em {
+    font-style: italic;
+    font-family: Biolinum;
+}
+
+.additions .additionbox .app {
+    font-weight: bold;
+    /* text-decoration: underline; */
+}
+
+.additions .additionbox .traditions {
+    padding: 4px 8px;
+}
+
+.additions .additionbox .hands {
+    padding: 4px 8px;
+}
+
+.additions .additionbox .traditions .tradition {
+    font-family: Libertine;
+}
+
+.additions .additionbox .edits {
+    padding: 4px 8px;
+    font-size: 0.93rem;
+}
+
+.additions .additionbox .edits .disclaimer {
+    font-size: 77%;
+    margin-left: 1.5rem;
+    width: 77%;
+}
+
+.additions .additionbox .edits .edit {
+    display: block;
+}
+
+.additions .additionbox .edits .edit .pageline {
+    font-size: 0.7rem;
+    font-weight: bolder;
+}
+
+.additions .additionbox .edits .edit .pageline:after {
+    content: '';
+}
+
+.additions .additionbox .edits .edit .reference {
+    font-family: Libertine;
+    font-size: 0.7rem;
+    font-weight: bolder;
+}
+
+.additions .additionbox .edits .edit .zh {
+    font-family: Libertine;
+}
+
+.additions .additionbox .edits .edit .reference:after {
+    content: ' ';
+}
+
+.additions .additionbox .edits .edit div {
+    display: inline;
+}
+
+.additions .additionbox .edits .edit:after {
+    content: '  ';
+}
+
+
+/* Code for the Comment Section */
+.commBox {
+    margin-right: 0.2rem;
+    padding-right: 0.4rem;
+    padding-top: 0.2rem;
+    position: absolute;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    word-wrap: break-word;
+    display: inline-flex;
+    font-family: Biolinum;
+    hyphens: none;
+    -moz-hyphens: none;
+    -webkit-hyphens: none;
+}
+
+.commBox .comment div {
+    display: inline;
+}
+
+.commBox .comment .bzg {
+    font-size: 0.6rem;
+    font-weight: bolder;
+}
+
+.commBox .comment .title {
+    font-style: italic;
+}
+
+
+/* Damit die Kommentare nicht unter den unteren durchschauen */
+
+.commBox.short:not(.expanded) {
+    overflow: hidden; 
+    display: flex;
+}
+
+.short:not(.expanded):before {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.short:not(.expanded):after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.2rem;
+}
+
+.commBox .comment {
+    /* border-left: 1px double black; */
+    padding-left: 0.2rem;
+    /* text-indent: -0.5rem; */
+}
+
+.commBox.expanded {
+    height: auto !Important;
+    z-index: 5000;
+    background-color: #fffff8;
+    /* background: transparent;
+    display: flex;
+    margin-right: 0rem;
+    padding-right: 0.3rem;
+    margin-right: 0.3rem; */
+}
+
+.commBox.expanded .comment {
+    border-right: 1px solid #9b9b9b;
+    border-bottom: 1px solid #9b9b9b;
+    padding-bottom: 0.25rem;
+    padding-right: 0.2rem;
+    margin-right: -0.2rem; 
+    display: block;
+    z-index: 100;
+    margin-bottom: 0.5rem;
+    -webkit-box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79); 
+    box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
+}
+
+.commBox.expanded .comment::first-letter {
+    display: none;
+}
+
+.commentColumn .commselector {
+    min-width: 1rem;
+    margin-left: 0.2rem;
+}
+
+.commentColumn .commselector button {
+    font-size: 1rem;
+    font-weight: bolder;
+    line-height: 0.5rem;
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    text-decoration: none;
+    display: inline;
+}
+
+
+.commBox:not(.short) .commselector button:hover {
+    cursor: default !important;
+    color: black !important;
+}
+
+.commBox .commselector button:link,
+.commBox .commselector button:visited {
+    outline: none;
+}
+
+.commBox .commselector button:hover {
+    outline: none;
+    cursor: pointer;
+    color: var(--hamannHighlight);
+}
+
+.invisible {
+    display: none;
+}
+
+.commBox div.comment+div.comment {
+    display: none;
+}
+
+.collapsed-menu {}
+
+
+/* Styles für die Register
+------------------------------------------------------- */
+
+.registerbox {
+    background-color: var(--hamannWeiss);
+    width: 100%;
+    height: auto;
+    padding: 2.4rem 3rem;
+}
+
+.alphabet {
+    font-family: Biolinum;
+    position: relative;
+    text-align: left;
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+    margin-left: 40px;
+}
+
+.form-inline {
+    padding-top: 20px;
+    padding-left: 15px;
+}
+
+.form-inline .searchtext {}
+
+.alphabet a {
+    color: var(--hamannDunkelGrau);
+}
+
+.alphabet a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.alphabet .is-active {
+    color: var(--hamannHighlight);
+}
+
+.registerbox .text {
+    padding-right: 26rem;
+    padding-left: 2rem;
+    column-count: 1;
+    column-gap: 2rem;
+    /* text-align: justify; */
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.registerbox.research .lemma {
+    font-weight: normal !important;
+}
+
+.registerbox .text .comment {
+    break-inside: avoid;
+    display: block;
+    padding-bottom: 2rem;
+}
+
+.registerbox.research .text .comment {
+    padding-bottom: 1rem !important;
+}
+
+.registerbox .text .comment div {
+    display: inline;
+}
+
+.registerbox .text .comment .lemma {
+    display: block;
+    font-weight: bold;
+}
+
+.registerbox .text .comment .titel {
+    font-style: italic;
+    display: inline;
+}
+
+.registerbox .text .comment .subsection {
+    display: block;
+    padding-left: 3rem;
+}
+
+.registerbox .text .comment .backlinks {
+    display: inline;
+    line-height: 80%;
+    padding: 0;
+    margin: 0;
+    font-family: Biolinum;
+    font-size: 80%;
+    /* font-variant-numeric: oldstyle-nums !important; */
+    color: var(--hamannDunkelGrau);
+}
+
+.registerbox .text .comment .backlink {
+    color: var(--hamannDunkelGrau);
+}
+
+.registerbox .text .comment .backlink:hover {
+    color: black;
+    text-decoration: none;
+}
+
+
+/* ---------------------------------------------------------------------------------
+   Styles für die Editionstexte
+---------------------------------------------------------------------------------- */
+
+.text.editionstext {
+    padding-left: 0rem;
+    padding-right: 0rem;
+    width: 70%;
+}
+
+.Fußnotenanker {
+    vertical-align: super;
+    font-size: 85%;
+}
+
+.Fußnotenanker::after {
+    content: ' ';
+}
+
+.Fußnotenzeichen {
+    vertical-align: super;
+    font-size: 85%;
+}
+
+.Fußnote {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.Unterschrift {
+    font-weight: bold;
+    text-align: right;
+    padding-bottom: 2rem;
+}
+
+.kursiv {
+    font-style: italic;
+}
+
+li {
+    padding-top: 0rem;
+    padding-left: 0rem;
+    margin-left: 1rem;
+}
+
+ul {
+    padding-left: 0rem;
+    margin-left: 0rem;
+    margin-top: 0rem;
+    padding-top: 0rem;
+    margin-bottom: 0rem;
+    padding-bottom: 0rem;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 1rem 0.5rem;
+    vertical-align: top;
+    padding-bottom: 1rem;
+    padding-left: 0rem;
+    margin-left: 0rem;
+}
+
+td {
+    vertical-align: top;
+}
+
+.Ueberschrift2 {
+    padding-top: 0.5rem;
+    color: var(--hamannHighlight);
+    padding-bottom: 0.5rem;
+}
+
+.nodist {
+    padding-bottom: 0rem;
+    margin-bottom: 0rem;
+}
+
+.form-inline {
+    padding-left: 0px;
+}
+
+.form-control {
+    margin-right: 0.8rem;
+    border-radius: 0 !important;
+    height: 1.8rem !important;
+    padding: 0.3rem !important;
+    vertical-align: text-bottom !important;
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: var(--hamannHighlight) !important;
+    outline: 0;
+    box-shadow: none !important;
+}

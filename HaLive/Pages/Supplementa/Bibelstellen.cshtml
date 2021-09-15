@@ -1,0 +1,177 @@
+﻿@page "{id=AT}"
+@model HaLive.Pages.BibelstellenModel
+@inject IReaderService readerservice;
+@inject ILibrary lib;
+@functions{
+    string setAct(string s)
+    {
+        if (Model.id.ToString().ToLower() == s.ToLower())
+            return "is-active";
+        else
+            return "";
+    }
+}
+@{
+    // Acquire data
+    ViewData["Title"] = "Bibelstellenregister";
+    var at = "AT";
+    var ap = "AP";
+    var nt = "NT";
+    var id = Model.id.ToUpper();
+    var comments = lib.CommentsByCategory["bibel"].ToLookup(x => x.Index.Substring(0, 2).ToUpper()).Contains(id) ?
+                    lib.CommentsByCategory["bibel"].ToLookup(x => x.Index.Substring(0, 2).ToUpper())[id] : null;
+    var availableletters = lib.CommentsByCategory["bibel"].ToLookup(x => x.Index.Substring(0, 2).ToUpper());
+
+
+    // Parsing Rules
+    List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "lemma", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "lemma"))),
+            ( x => x.Name == "title", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "title")))
+        };
+    List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "lemma", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div"))),
+            ( x => x.Name == "title", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")))
+        };
+    List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> STag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+            ( x => x.Name == "line", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("br")) )
+        };
+    List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+            ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
+        };
+    List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)> Whitespace_Funcs = new List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>() {
+            ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
+        };
+
+    string handleComment(Comment comm)
+    {
+        StringBuilder sb = new StringBuilder();
+        var rd = readerservice.RequestStringReader(comm.Lemma);
+        new StandardSubscriber(rd, sb, OTag_Funcs, STag_Funcs, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+        sb.Append(HTMLHelpers.CreateElement("div", "lemma", comm.Index));
+        new LinkBuilder(lib, rd, sb);
+        rd.Read();
+        var backlinks = lib.Backlinks.ContainsKey(comm.Index) ? lib.Backlinks[comm.Index].OrderBy(x => x.Letter) : null;
+        if (backlinks != null)
+        {
+            sb.Append(HTMLHelpers.CreateElement("div", "backlinks"));
+            var arrow = false;
+            foreach (var blk in backlinks)
+            {
+                var let = lib.Metas.ContainsKey(blk.Letter) ? lib.Metas[blk.Letter] : null;
+                if (let != null)
+                {
+                    if (!arrow)
+                    {
+                        sb.Append("&emsp;&rarr;&nbsp;");
+                        sb.Append("HKB&nbsp;");
+                        arrow = true;
+                    }
+                    sb.Append(HTMLHelpers.CreateElement("a", "backlink", "/Briefe/" + let.Autopsic + "#" + blk.Page + "-" + blk.Line));
+                    @* sb.Append(" "); *@
+                    var linkstring = "";
+                    var ZHstring = "";
+                    if (let.ZH != null)
+                    {
+                        ZHstring += HTMLHelpers.ToRoman(Int32.Parse(let.ZH.Volume)) + "&nbsp;";
+                    }
+                    var pglnstring = "";
+                    @* linkstring += "HKB&nbsp;"; *@
+                    linkstring += let.Autopsic;
+                    pglnstring += "&nbsp;(&#8239;" + ZHstring + blk.Page + "/" + blk.Line + "&#8239;)";
+                    linkstring += pglnstring;
+
+                    sb.Append(linkstring);
+                    if (blk != backlinks.Last())
+                        sb.Append(",&emsp;");
+                    sb.Append(HTMLHelpers.CreateEndElement("a"));
+                }
+            }
+            sb.Append(HTMLHelpers.CreateEndElement("div"));
+        }
+        sb.Append(HTMLHelpers.CreateEndElement("div"));
+        rd = readerservice.RequestStringReader(comm.Entry);
+        new StandardSubscriber(rd, sb, OTag_Funcs, STag_Funcs, CTag_Funcs, Text_Funcs, Whitespace_Funcs);
+        new LinkBuilder(lib, rd, sb);
+        rd.Read();
+        return sb.ToString();
+    }
+}
+
+<div class="mainhead row">
+    <!-- + sticky-top if sticky -->
+    <!--Sticky grey space on top of header -->
+    <div class="col">
+        <div class="widehead">
+            <div class="flexcol">
+                <div style="align-self: flex-end" class="printbutton">
+                    <a class="" href="/pdf/Bibelstellen-Register_HamannBriefe.pdf">
+                        PDF
+                    </a>
+                </div>
+                <div class="flexrow" style="margin-bottom:-10px; align-items: last baseline;">
+                    <div class="heading">
+                        @ViewData["Title"]
+                    </div>
+                </div>
+                <div class="alphabet">
+                    <span><a class="invlink @setAct(at)" href="/Supplementa/Bibelstellen/AT">Altes Testament</a> &emsp;</span>
+                    <span><a class="invlink @setAct(ap)" href="/Supplementa/Bibelstellen/AP">Apogryphen</a> &emsp;</span>
+                    <span><a class="invlink @setAct(nt)" href="/Supplementa/Bibelstellen/NT">Neues Testament</a> &emsp;</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row no-gutters">
+    <div class="col">
+        <div class="registerbox">
+
+            <div class="text">
+                @foreach (var comm in comments.OrderBy(x => x.Order))
+                {
+                    <div class="comment">
+                        @Html.Raw(handleComment(comm))
+                        @if (comm.Kommentare != null)
+                        {
+                            @foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma))
+                            {
+                                <div class="subsection">
+                                    @Html.Raw(handleComment(subcomm.Value))
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // The function actually applying the offset
+        function offsetAnchor() {
+            if (location.hash.length !== 0) {
+                window.scrollTo(window.scrollX, window.scrollY - 280);
+            }
+        }
+
+        // Captures click events of all <a> elements with href starting with #
+        $(document).on('click', 'a[href^="#"]', function (event) {
+            // Click events are captured before hashchanges. Timeout
+            // causes offsetAnchor to be called after the page jump.
+            window.setTimeout(function () {
+                offsetAnchor();
+            }, 0);
+        });
+
+        // Set the offset when entering page with hash present in the url
+        window.setTimeout(offsetAnchor, 0);
+        $("#" + window.location.hash.substr(1)).prepend("<div class=\"selected\">☛</div> ");
+
+    </script>
+}
