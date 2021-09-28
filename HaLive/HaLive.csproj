@@ -27,11 +27,12 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
+    <Folder Include="wwwroot\pdf\" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- extends watching group to include *.xml files -->
-    <Watch Include="**\*.xml"  Exclude="obj\**\*;bin\**\*"  />
+    <Watch Include="**\*.xml" Exclude="obj\**\*;bin\**\*" />
   </ItemGroup>
 
 

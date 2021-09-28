@@ -387,6 +387,7 @@ a:hover {
     /* color: var(--hamannDunkelGrau); */
     font-family: Playfair;
     font-size: 0.9rem;
+    line-height: 1rem;
 }
 
 .hand .aq {
