@@ -1420,6 +1420,11 @@ a:hover {
     border: 1px solid var(--hamannHellGrau);
     color: var(--hamannDunkelGrau);
     font-size: 14px;
+    min-height: 2rem;
+}
+
+.printbutton.disabled {
+    border: none !important;
 }
 
 .printbutton .label {
