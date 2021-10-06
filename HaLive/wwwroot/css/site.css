@@ -619,6 +619,7 @@ a:hover {
     display: inline-block;
     position: absolute;
     left: 12.5%;
+    min-width: 12.5%;
 }
 
 .htab.htab-2-8 {
@@ -661,6 +662,297 @@ a:hover {
     position: absolute;
     left: 87.5%;
     min-width: 12.5%;
+}
+
+.htab.htab-0-9 {
+    display: inline;
+    position: static;
+    min-width: 11.111%;
+}
+
+.htab.htab-1-9 {
+    display: inline-block;
+    position: absolute;
+    left: 11.111%;
+    min-width: 11.111%;
+}
+
+.htab.htab-2-9 {
+    display: inline-block;
+    position: absolute;
+    left: 22.222%;
+    min-width: 11.111%;
+}
+
+.htab.htab-3-9 {
+    display: inline-block;
+    position: absolute;
+    left: 33.333%;
+    min-width: 11.111%;
+}
+
+.htab.htab-4-9 {
+    display: inline-block;
+    position: absolute;
+    left: 44.444%;
+    min-width: 11.111%;
+}
+
+.htab.htab-5-9 {
+    display: inline-block;
+    position: absolute;
+    left: 55.555%;
+    min-width: 11.111%;
+}
+
+.htab.htab-6-9 {
+    display: inline-block;
+    position: absolute;
+    left: 66.666%;
+    min-width: 11.111%;
+}
+
+.htab.htab-7-9 {
+    display: inline-block;
+    position: absolute;
+    left: 77.777%;
+    min-width: 11.111%;
+}
+
+.htab.htab-8-9 {
+    display: inline-block;
+    position: absolute;
+    left: 88.888%;
+    min-width: 11.111%;
+}
+
+
+.htab.htab-0-10 {
+    display: inline-block;
+    position: absolute;
+    min-width: 10%;
+}
+
+.htab.htab-1-10 {
+    display: inline-block;
+    position: absolute;
+    left: 10%;
+    min-width: 10%;
+}
+
+.htab.htab-2-10 {
+    display: inline-block;
+    position: absolute;
+    left: 20%;
+    min-width: 10%;
+}
+
+.htab.htab-3-10 {
+    display: inline-block;
+    position: absolute;
+    left: 30%;
+    min-width: 10%;
+}
+
+.htab.htab-4-10 {
+    display: inline-block;
+    position: absolute;
+    left: 40%;
+    min-width: 10%;
+}
+
+.htab.htab-5-10 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 10%;
+}
+
+.htab.htab-6-10 {
+    display: inline-block;
+    position: absolute;
+    left: 60%;
+    min-width: 10%;
+}
+
+.htab.htab-7-10 {
+    display: inline-block;
+    position: absolute;
+    left: 70%;
+    min-width: 10%;
+}
+
+.htab.htab-8-10 {
+    display: inline-block;
+    position: absolute;
+    left: 80%;
+    min-width: 10%;
+}
+
+.htab.htab-9-10 {
+    display: inline-block;
+    position: absolute;
+    left: 90%;
+    min-width: 10%;
+}
+
+.htab.htab-0-11 {
+    display: inline-block;
+    position: absolute;
+    min-width: 9.091%;
+}
+
+.htab.htab-1-11 {
+    display: inline-block;
+    position: absolute;
+    left: 9.091%;
+    min-width: 9.091%;
+}
+
+.htab.htab-2-11 {
+    display: inline-block;
+    position: absolute;
+    left: 18.182%;
+    min-width: 9.091%;
+}
+
+.htab.htab-3-11 {
+    display: inline-block;
+    position: absolute;
+    left: 27.273%;
+    min-width: 9.091%;
+}
+
+.htab.htab-4-11 {
+    display: inline-block;
+    position: absolute;
+    left: 36.364%;
+    min-width: 9.091%;
+}
+
+.htab.htab-5-11 {
+    display: inline-block;
+    position: absolute;
+    left: 45.455%;
+    min-width: 9.091%;
+}
+
+.htab.htab-6-11 {
+    display: inline-block;
+    position: absolute;
+    left: 54.545%;
+    min-width: 9.091%;
+}
+
+.htab.htab-7-11 {
+    display: inline-block;
+    position: absolute;
+    left: 63.636%;
+    min-width: 9.091%;
+}
+
+.htab.htab-8-11 {
+    display: inline-block;
+    position: absolute;
+    left: 72.727%;
+    min-width: 9.091%;
+}
+
+.htab.htab-9-11 {
+    display: inline-block;
+    position: absolute;
+    left: 81.818%;
+    min-width: 9.091%;
+}
+
+.htab.htab-10-11 {
+    display: inline-block;
+    position: absolute;
+    left: 90.909%;
+    min-width: 9.091%;
+}
+
+.htab.htab-0-12 {
+    display: inline-block;
+    position: absolute;
+    min-width: 8.333%;
+}
+
+.htab.htab-1-12 {
+    display: inline-block;
+    position: absolute;
+    left: 8.333%;
+    min-width: 8.333%;
+}
+
+.htab.htab-2-12 {
+    display: inline-block;
+    position: absolute;
+    left: 16.666%;
+    min-width: 8.333%;
+}
+
+.htab.htab-3-12 {
+    display: inline-block;
+    position: absolute;
+    left: 25%;
+    min-width: 8.333%;
+}
+
+.htab.htab-4-12 {
+    display: inline-block;
+    position: absolute;
+    left: 33.333%;
+    min-width: 8.333%;
+}
+
+.htab.htab-5-12 {
+    display: inline-block;
+    position: absolute;
+    left: 41.666%;
+    min-width: 8.333%;
+}
+
+.htab.htab-6-12 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 8.333%;
+}
+
+.htab.htab-7-12 {
+    display: inline-block;
+    position: absolute;
+    left: 58.333%;
+    min-width: 8.333%;
+}
+
+.htab.htab-8-12 {
+    display: inline-block;
+    position: absolute;
+    left: 66.666%;
+    min-width: 8.333%;
+}
+
+.htab.htab-9-12 {
+    display: inline-block;
+    position: absolute;
+    left: 75%;
+    min-width: 8.333%;
+}
+
+.htab.htab-10-12 {
+    display: inline-block;
+    position: absolute;
+    left: 83.333%;
+    min-width: 8.333%;
+}
+
+.htab.htab-11-12 {
+    display: inline-block;
+    position: absolute;
+    left: 91.666%;
+    min-width: 8.333%;
 }
 
 .tab-1 {
