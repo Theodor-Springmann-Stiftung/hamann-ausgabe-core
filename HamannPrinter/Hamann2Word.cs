@@ -55,6 +55,7 @@ namespace HamannPrinter
         static public string NormalFont { get; set; }
         // Name der alternativen Font (serifenlos)
         static public string SpecialFont { get; set; }
+        static public string Diodone { get; set; }
         //Positionswert von Hochstellungen
         static public string SuperValue { get; set; }
         //Positionswert von Tiefstellungen
@@ -94,6 +95,7 @@ namespace HamannPrinter
             SpecialFont = docxOptions.SpecialFont;
             SuperValue = docxOptions.SuperValue;
             SubValue = docxOptions.SubValue;
+            Diodone = docxOptions.Diodone;
             RegisterPaths = new List<string>();
             YearPaths = new List<string>();
             LetterPaths = new List<string>();
@@ -284,7 +286,7 @@ namespace HamannPrinter
 
         public static void MakeSourceSection(LetterObj letter)
         {
-            string txt = "Johann Georg Hamann: Kommentierte Briefausgabe. Hrsg. von Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von Gregor Babelotzky, Konrad Bucher, Christian Großmann, Carl Friedrich Haak, Luca Klopfer, Johannes Knüchel, Isabel Langkabel und Simon Martens. (Heidelberg 2020ff.) URL: ";
+            string txt = "Johann Georg Hamann: Kommentierte Briefausgabe (HKB). Hrsg. von Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von Gregor Babelotzky, Konrad Bucher, Christian Großmann, Carl Friedrich Haak, Luca Klopfer, Johannes Knüchel, Isabel Langkabel und Simon Martens. (Heidelberg 2020ff.) URL: ";
             //Hyperlink link = new Hyperlink(new Run(new Text("www.hamann-ausgabe.de"))) { Anchor = "Hamann-Ausgabe online", DocLocation = "https://www.hamann-ausgabe.de", Id= "https://www.hamann-ausgabe.de" };
             var link = new Run(new Text("www.hamann-ausgabe.de"));
             var head = new Run(new Text("Quelle:"));
@@ -335,7 +337,7 @@ namespace HamannPrinter
             {
                 string editRefString = RemoveWhiteSpaceLinebreak(edit.Reference);
                 XElement editReference = StringToXElement(editRefString);
-                ParseXElement(editReference, editLemma);
+                ParseSublementaXElement(editReference, editLemma);
                 editLemma.AppendChild<Run>(new Run(new Text("] ") { Space = SpaceProcessingModeValues.Preserve }));
             }
             else
@@ -354,7 +356,7 @@ namespace HamannPrinter
             XElement editComment = StringToXElement(editText);
             if (editComment != null)
             {
-                ParseXElement(editComment, editLemma);
+                ParseSublementaXElement(editComment, editLemma);
             }
             else
             {
@@ -689,6 +691,9 @@ namespace HamannPrinter
             string tag = xelem.Name.LocalName;
             switch (tag)
             {
+                case "letterTradition":
+                    form = new Formatierer(SansSerifRun);
+                    break;
                 case "line":
                     string parent = GetHighestParentNode(xnode).Trim();
                     if (parent == "editreason")
@@ -786,6 +791,9 @@ namespace HamannPrinter
 
             switch (tag)
             {
+                case "letterTradition":
+                    form = new Formatierer(SansSerifRun);
+                    break;
                 case "app":
                 case "emph":
                     string emphParent = GetHighestParentNode(xelem).Trim();
@@ -793,6 +801,7 @@ namespace HamannPrinter
                     {
                         form = new Formatierer(LineBreakBefore);
                         form += new Formatierer(BoldRun);
+                        form += new Formatierer(SansSerifRun);
                     }
                     else
                     {
@@ -838,7 +847,7 @@ namespace HamannPrinter
                 case "hand":
                     //die Liste HandTags wird später zur Referenzierung der <hand> Stellen gebraucht
                     letter.HandTags.Add(xelem);
-                    form = new Formatierer(GreyBackRun);
+                    form = new Formatierer(DiodoneRun);
                     break;
 
                 case "ul":
@@ -875,7 +884,7 @@ namespace HamannPrinter
                     break;
 
                 case "added":
-                    form = new Formatierer(GreyRun);
+                    form = new Formatierer(GreyBackRun);
                     break;
 
                 case "fn":
@@ -1916,6 +1925,18 @@ namespace HamannPrinter
             runprops.AppendChild(new RunFonts() { Ascii = Hamann2Word.SpecialFont, HighAnsi = Hamann2Word.SpecialFont, ComplexScript = Hamann2Word.SpecialFont });
         }
 
+        public static void DiodoneRun(Run run, string arg = null)
+        {
+            RunProperties runprops = run.RunProperties;
+            if (runprops == null)
+            {
+                runprops = run.PrependChild(new RunProperties());
+            }
+            runprops.AppendChild(new RunFonts() { Ascii = Hamann2Word.Diodone, HighAnsi = Hamann2Word.Diodone, ComplexScript = Hamann2Word.Diodone });
+            runprops.AppendChild(new FontSize() { Val = "21" });
+            runprops.AppendChild(new FontSizeComplexScript() { Val ="21" });
+        }
+
         public static void SerifRun(Run run, string arg = null)
         {
             RunProperties runprops = run.RunProperties;
@@ -2419,7 +2440,40 @@ namespace HamannPrinter
             }  
         }
 
-        public static void ParseXElement(XElement list, Paragraph para)
+        public static void ParseTraditionXElement(XElement list, Paragraph para, LetterObj letter) {
+            //loopt über die Nodes des BriefXmls 
+            foreach (XNode xnode in list.Nodes())
+            {
+                /*wenn die node der ersten ebene ein XElelemnt ist, werden die 
+                * ihrem typ entsprechenden formatierungs informationen auf den "StyleStack" gelegt.
+                dann wird mit WalkNodeTree über die ChildNodes geloopt*/
+                if (xnode is XElement)
+                {
+                    XElement xelem = xnode as XElement;
+                    Formatierer stack = null;
+                    stack = ProcessXelement(stack, xelem, letter.WordDoc, letter);
+                    if (xelem.LastNode != null)
+                    {
+                        WalkNodeTree(xelem.LastNode, stack, para, letter.WordDoc, letter);
+                    }
+                }
+                /*wenn node der ersten ebene XText ist, wird ihr Textinhalt als Run dem letzten Absatz des Dokuments angehängt*/
+                else if (xnode is XText)
+                {
+                    Run run = MakeTextRun(xnode);
+                    Formatierer stack = null;
+                    foreach (var anc in xnode.Ancestors())
+                    {
+                        stack += GetFormat(anc, para: para);
+                    }
+                    stack?.Invoke(run);
+                    Paragraph lastParagraph = GetLastPara(letter.WordDoc);
+                    lastParagraph.AppendChild(run);
+                }
+            }  
+        }
+
+        public static void ParseSublementaXElement(XElement list, Paragraph para, LetterObj letter = null)
         {
             //wertet Kommentare, Überliefrerungen und Varianten apparat in form von XElement aus und hängt sie an para an 
             if (list != null)
@@ -2460,7 +2514,7 @@ namespace HamannPrinter
              wird es hinzugefügt. das einzige was dann etwas kniffelig ist, ist herauszufinden von wo (zeile/seite) bis 
              wo sich der bereich mit fremder hand erstreckt*/
 
-            MakeHeading(letter.WordDoc, "Zusätze von fremder Hand");
+            MakeHeading(letter.WordDoc, "Zusätze fremder Hand");
             foreach (var hand in letter.HandTags)
             {
                 Paragraph para = GetLastPara(letter.WordDoc);
@@ -2514,7 +2568,7 @@ namespace HamannPrinter
                 string descript = "";
                 if (Letters.HandPersons.ContainsKey(nameIndex))
                 {
-                    descript = "geschrieben von " + Letters.HandPersons[nameIndex].Name;
+                    descript = Letters.HandPersons[nameIndex].Name;
                 }
                 else
                 {

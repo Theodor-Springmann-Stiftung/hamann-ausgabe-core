@@ -28,8 +28,8 @@ namespace HamannPrinter
             VolumeDocs.IsChecked = false;
             StartYearTextBox.Text = "1751";
             EndYearTextBox.Text = "1764";
-            XmlFileBox.Text = @"C:\Users\simon\Desktop\Printer\XML"; // DEV
-            OutputDirBox.Text = @"C:\Users\simon\Desktop\Printer\Ausg"; // DEV
+            XmlFileBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\XML"; // DEV
+            OutputDirBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\Ausg"; // DEV
         }
 
         private void SingleDocChanged(object sender, RoutedEventArgs e)

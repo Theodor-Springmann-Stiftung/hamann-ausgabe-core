@@ -47,6 +47,7 @@ namespace HamannPrinter
             public string FooterToText { get; set; } = "420";
             public string NormalFont { get; set; } = "Linux Libertine G";
             public string SpecialFont { get; set; } = "Linux Biolinum";
+            public string Diodone { get; set; } = "Playfair Display";
             public string SuperValue { get; set; } = "6";
             public string SubValue { get; set; } = "-4";
             public (int, int) Years { get; set; }
