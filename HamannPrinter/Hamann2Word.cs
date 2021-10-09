@@ -579,15 +579,32 @@ namespace HamannPrinter
         public static void MakeHeading(WordprocessingDocument wordDoc, string title)
         {
             //erzeugt und formatiert die überschriften für editorische anmerkungen, kommentare und zusätze von fremder hand
-            MakeFramedEmptyLines(wordDoc);
-            var run = new Run(new Text(title));
+            // MakeFramedEmptyLines(wordDoc);
+            var run = new Run(new Break());
+            run.AppendChild(new Text(title));
             BoldRun(run);
             var headingPara = new Paragraph(run);
-            ApplyParaStyle(headingPara, "stumpf");
-            FrameHeading(headingPara);
+            ApplyParaStyle(headingPara, "überlieferung");
+            // FrameHeadingParagraph(headingPara);
             headingPara.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = LineHight });
-            GetLastPara(wordDoc).InsertAfterSelf(headingPara);
             headingPara.ParagraphProperties.AppendChild(new KeepNext() { Val = true });
+            headingPara.ParagraphProperties.AppendChild<SectionProperties>(new SectionProperties());
+            headingPara.ParagraphProperties.SectionProperties.AppendChild(new KeepNext() { Val = true });
+            headingPara.ParagraphProperties.SectionProperties.AppendChild(new Columns () { ColumnCount = 1 });
+            headingPara.ParagraphProperties.SectionProperties.AppendChild<SectionType>(new SectionType() { Val = SectionMarkValues.Continuous });
+            PageMargin pageMargin = new PageMargin() { Top = MarginTop, Right = MarginRight, Bottom = MarginBottom, Left = MarginLeft, Footer = MarginFooter };
+            headingPara.ParagraphProperties.SectionProperties.PrependChild(pageMargin);
+            GetLastPara(wordDoc).InsertAfterSelf(headingPara);
+            // var nextPara = new Paragraph();
+            // ApplyParaStyle(nextPara, "stumpf");
+            // nextPara.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = LineHight });
+            // nextPara.ParagraphProperties.AppendChild(new KeepNext() { Val = false });
+            // nextPara.ParagraphProperties.AppendChild<SectionProperties>(new SectionProperties());
+            // nextPara.ParagraphProperties.SectionProperties.AppendChild(new Columns () { ColumnCount = 2 });
+            // nextPara.ParagraphProperties.SectionProperties.AppendChild<SectionType>(new SectionType() { Val = SectionMarkValues.Continuous });
+            // PageMargin pageMargin2 = new PageMargin() { Top = MarginTop, Right = MarginRight, Bottom = MarginBottom, Left = MarginLeft, Footer = MarginFooter };
+            // nextPara.ParagraphProperties.SectionProperties.PrependChild(pageMargin2);
+            // GetLastPara(wordDoc).InsertAfterSelf(nextPara);
         }
 
         public static Formatierer GetCommFormat(XNode xnode, Paragraph para = null, int counter = 0)
@@ -924,7 +941,7 @@ namespace HamannPrinter
                     GreyRun(head);
                     heading.AppendChild(head);
                     ApplyParaStyle(heading, "fußnote");
-                    heading.ParagraphProperties.PrependChild<KeepNext>(new KeepNext());
+                    heading.ParagraphProperties.PrependChild<KeepNext>(new KeepNext() { Val = true });
                     last = heading;
                 }
 
@@ -2024,7 +2041,7 @@ namespace HamannPrinter
 
         public static void FrameCounterParagraph(Paragraph para)
         {
-            para.ParagraphProperties.PrependChild<KeepNext>(new KeepNext());
+            para.ParagraphProperties.PrependChild<KeepNext>(new KeepNext() { Val = true });
             para.ParagraphProperties.PrependChild<FrameProperties>(new FrameProperties
             {
                 Width = "1000", //ist nur ein dummy wert, damit die box breitgenug ist, denn ich muss die width fix setzten, sonst fließt der umgebende text immer falsch (trotz wrap ...)
@@ -2060,13 +2077,13 @@ namespace HamannPrinter
             var empty2 = new Paragraph(new Run());
             ApplyParaStyle(empty1, "stumpf");
             ApplyParaStyle(empty2, "stumpf");
-            FrameHeading(empty1);
-            FrameHeading(empty2);
+            FrameHeadingParagraph(empty1);
+            FrameHeadingParagraph(empty2);
             lastParagraph = lastParagraph.InsertAfterSelf(empty1);
             lastParagraph.InsertAfterSelf(empty2);
         }
 
-        public static void FrameHeading(Paragraph para)
+        public static void FrameHeadingParagraph(Paragraph para)
         {
             //die headings müssen in einen frame, weil sie sonst in einer der spalten dargestellt werden, die sie betiteln sollen
             para.ParagraphProperties.PrependChild<FrameProperties>(new FrameProperties
@@ -2165,7 +2182,7 @@ namespace HamannPrinter
 
             else if (pos == "center")
             {
-                para.PreviousSibling<Paragraph>().ParagraphProperties.PrependChild<KeepNext>(new KeepNext());
+                para.PreviousSibling<Paragraph>().ParagraphProperties.PrependChild<KeepNext>(new KeepNext() { Val = true });
                 para.ParagraphProperties.PrependChild<FrameProperties>(new FrameProperties
                 {
                     Wrap = TextWrappingValues.Through,
@@ -2280,6 +2297,7 @@ namespace HamannPrinter
 
             Style comm = CreateParaStyle(wordDoc, "kommentar", "kommentar", "kommentar", standardStyleName, justification: "left");
             ParagraphProperties commProperties = comm.ChildElements.First<ParagraphProperties>();
+            commProperties.AppendChild(new KeepNext() {Val = true });
             commProperties.AppendChild<Indentation>(new Indentation() { Left = indentValue, Hanging = indentValue });
             StyleRunProperties commRunProperties = comm.ChildElements.First<StyleRunProperties>();
             commRunProperties.AppendChild(new RunFonts() { Ascii = SpecialFont, HighAnsi = SpecialFont, ComplexScript = SpecialFont });
