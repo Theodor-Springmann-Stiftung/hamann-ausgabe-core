@@ -628,10 +628,10 @@ namespace HamannPrinter
         {
             //fügt den absatz mit der überlieferung an das dokument an
             var lastPara = GetLastPara(letter.WordDoc);
-            Paragraph traditonPara = new Paragraph(new Run(new Break()));
+            Paragraph traditonPara = new Paragraph(new Run());
             lastPara.InsertAfterSelf<Paragraph>(traditonPara);
             CreateTraditionPara(letter, traditonPara);
-            CreateColSection(letter.WordDoc, true);
+            // CreateColSection(letter.WordDoc, true);
         }
 
         public static Paragraph CreateTraditionPara(LetterObj letter, Paragraph tradPara)

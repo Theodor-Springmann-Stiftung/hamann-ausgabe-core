@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HamannPrinter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="HamannPrinter" Height="450" Width="800" WindowStartupLocation="CenterOwner" WindowState="Minimized">
     <Grid>
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="377*"/>
+            <ColumnDefinition Width="423*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2">
             <CheckBox x:Name="LetterDocs" Content="Brief.docx erzeugen" HorizontalAlignment="Left" Margin="40,34,0,0" VerticalAlignment="Top" Checked="SingleDocChanged" Unchecked="SingleDocChanged" IsChecked="True"/>
             <CheckBox x:Name="VolumeDocs" Content="Jahr.docx erzeugen" HorizontalAlignment="Left" Margin="40,59,0,0" VerticalAlignment="Top" Checked="VolDocChanged" Unchecked="VolDocChanged" IsChecked="True"/>
             <CheckBox x:Name="RegisterDocs" Content="Kommentar.docx erzeugen" HorizontalAlignment="Left" Margin="40,84,0,0" VerticalAlignment="Top" Unchecked="CommDocChanged" Checked="CommDocChanged" IsChecked="True"/>

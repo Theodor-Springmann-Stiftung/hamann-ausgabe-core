@@ -66,6 +66,7 @@ namespace HamannPrinter
             public static StringBuilder LogString = new StringBuilder();
             public static void Out(string str)
             {
+                
                 Console.WriteLine(str);
                 LogString.Append(str).Append(Environment.NewLine);
             }
@@ -77,7 +78,7 @@ namespace HamannPrinter
             DocOptions docOpt = new DocOptions(confix.Years, confix.OutputPath, confix.Editionsrichtlinien);
             CheckXML(confix, docOpt, hamannDoc);
             Coordinator(docOpt, hamannDoc, hamannDoc, docOpt.Years, confix.LettersDocx, confix.VolumeDocx, confix.RegisterDocx);
-            Helper.Ok("Fertig!");
+            // DEV Helper.Ok("Fertig!");
             Environment.Exit(0);
         }
 

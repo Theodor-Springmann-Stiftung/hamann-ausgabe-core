@@ -25,11 +25,12 @@ namespace HamannPrinter
         {
             InitializeComponent();
             RegisterDocs.IsChecked = false;
-            VolumeDocs.IsChecked = false;
+            VolumeDocs.IsChecked = true;
             StartYearTextBox.Text = "1751";
             EndYearTextBox.Text = "1764";
             XmlFileBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\XML"; // DEV
             OutputDirBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\Ausg"; // DEV
+            Act(); // DEV
         }
 
         private void SingleDocChanged(object sender, RoutedEventArgs e)
@@ -77,6 +78,11 @@ namespace HamannPrinter
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Act();
+        }
+
+        private void Act() 
         {
             /*Routine für "Dokumente ezeugen"-Button */
             if (CheckInput())
@@ -207,12 +213,13 @@ namespace HamannPrinter
             string path = MakePath(XmlFileBox.Text);
             string file = path + "HAMANN.xml";
             if (File.Exists(file))
-            {
-                var answer = System.Windows.MessageBox.Show("HAMANN.xml gefunden. \nZuletzt bearbeitet: " + File.GetLastWriteTime(file) + "\n\nSoll diese Datei verwendet werden, ohne eine neue aus den Einzeldokumenten zusammenzusetzen?",
-                "Confirmation",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-                if (answer == MessageBoxResult.Yes) return file;
+            {   
+                // DEV
+                // var answer = System.Windows.MessageBox.Show("HAMANN.xml gefunden. \nZuletzt bearbeitet: " + File.GetLastWriteTime(file) + "\n\nSoll diese Datei verwendet werden, ohne eine neue aus den Einzeldokumenten zusammenzusetzen?",
+                // "Confirmation",
+                // MessageBoxButton.YesNo,
+                // MessageBoxImage.Question);
+                // if (answer == MessageBoxResult.Yes) return file;
                 File.Delete(file);
             }
             return new Concatinator(MakePath(XmlFileBox.Text)).HamannXmlFile;

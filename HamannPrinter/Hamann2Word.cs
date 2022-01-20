@@ -580,17 +580,18 @@ namespace HamannPrinter
         {
             //erzeugt und formatiert die überschriften für editorische anmerkungen, kommentare und zusätze von fremder hand
             // MakeFramedEmptyLines(wordDoc);
-            var run = new Run(new Break());
+            var run = new Run();
             run.AppendChild(new Text(title));
             BoldRun(run);
             var headingPara = new Paragraph(run);
             ApplyParaStyle(headingPara, "überlieferung");
+            var LineHeight = Int32.Parse(LineHight);
             // FrameHeadingParagraph(headingPara);
-            headingPara.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = LineHight });
+            headingPara.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = (LineHeight / 2).ToString(), Before = LineHight });
             headingPara.ParagraphProperties.AppendChild(new KeepNext() { Val = true });
             headingPara.ParagraphProperties.AppendChild<SectionProperties>(new SectionProperties());
-            headingPara.ParagraphProperties.SectionProperties.AppendChild(new KeepNext() { Val = true });
-            headingPara.ParagraphProperties.SectionProperties.AppendChild(new Columns () { ColumnCount = 1 });
+            // headingPara.ParagraphProperties.SectionProperties.AppendChild(new KeepNext() { Val = true });
+            // headingPara.ParagraphProperties.SectionProperties.AppendChild(new Columns () { ColumnCount = 1 });
             headingPara.ParagraphProperties.SectionProperties.AppendChild<SectionType>(new SectionType() { Val = SectionMarkValues.Continuous });
             PageMargin pageMargin = new PageMargin() { Top = MarginTop, Right = MarginRight, Bottom = MarginBottom, Left = MarginLeft, Footer = MarginFooter };
             headingPara.ParagraphProperties.SectionProperties.PrependChild(pageMargin);
@@ -816,9 +817,10 @@ namespace HamannPrinter
                     string emphParent = GetHighestParentNode(xelem).Trim();
                     if (emphParent == "letterTradition")
                     {
-                        form = new Formatierer(LineBreakBefore);
+                        form = new Formatierer(MarginBefore);
                         form += new Formatierer(BoldRun);
                         form += new Formatierer(SansSerifRun);
+                        form += new Formatierer(KeepNextRun);
                     }
                     else
                     {
@@ -1901,6 +1903,27 @@ namespace HamannPrinter
             run.PrependChild<Break>(new Break());
         }
 
+        public static void MarginBefore(Run run, string arg = null)
+        {
+            Paragraph parent = run.Parent as Paragraph;
+            if (parent.ParagraphProperties == null)
+            {
+                parent.PrependChild<ParagraphProperties>(new ParagraphProperties());
+            }
+            ApplyParaStyle(parent, "ueberschrift");
+        }
+
+
+        public static void KeepNextRun(Run run, string arg = null) 
+        {
+            Paragraph parent = run.Parent as Paragraph;
+            if (parent.ParagraphProperties == null)
+            {
+                parent.PrependChild<ParagraphProperties>(new ParagraphProperties());
+            }
+            parent.ParagraphProperties.AppendChild(new KeepNext() { Val = true });
+        }
+
         public static void GreyBackRun(Run run, string arg = null)
         {
             RunProperties runprops = run.RunProperties;
@@ -1934,6 +1957,7 @@ namespace HamannPrinter
 
         public static void SansSerifRun(Run run, string arg = null)
         {
+            var test = run.Parent; 
             RunProperties runprops = run.RunProperties;
             if (runprops == null)
             {
@@ -2297,13 +2321,18 @@ namespace HamannPrinter
 
             Style comm = CreateParaStyle(wordDoc, "kommentar", "kommentar", "kommentar", standardStyleName, justification: "left");
             ParagraphProperties commProperties = comm.ChildElements.First<ParagraphProperties>();
-            commProperties.AppendChild(new KeepNext() {Val = true });
+            // BUG commProperties.AppendChild(new KeepNext() {Val = true });
             commProperties.AppendChild<Indentation>(new Indentation() { Left = indentValue, Hanging = indentValue });
             StyleRunProperties commRunProperties = comm.ChildElements.First<StyleRunProperties>();
             commRunProperties.AppendChild(new RunFonts() { Ascii = SpecialFont, HighAnsi = SpecialFont, ComplexScript = SpecialFont });
 
             Style salutation = CreateParaStyle(wordDoc, "anrede", "anrede", standardStyleName, standardStyleName, justification: "left");
             salutation.ChildElements.First<ParagraphProperties>().SpacingBetweenLines.After = LineHight;
+
+            Style ueberschrift = CreateParaStyle(wordDoc, "ueberschrift", "ueberschrift", standardStyleName, standardStyleName, justification: "left");
+            var LineHeight = Int32.Parse(LineHight) / 2;
+            ueberschrift.ChildElements.First<ParagraphProperties>().SpacingBetweenLines.Before = LineHight;
+            ueberschrift.ChildElements.First<ParagraphProperties>().SpacingBetweenLines.After = LineHeight.ToString();
 
             Style footerStyle = CreateParaStyle(wordDoc, "fußzeile", "fußzeile", "fußzeile", "linksbündig", justification: "left");
             ParagraphProperties paraProps = footerStyle.ChildElements.First<ParagraphProperties>();
