@@ -5,29 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HamannPrinter"
         mc:Ignorable="d"
-        Title="HamannPrinter" Height="450" Width="800" WindowStartupLocation="CenterOwner" WindowState="Minimized">
+        Title="HamannPrinter" Height="227" Width="684" WindowStartupLocation="CenterOwner" WindowState="Minimized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="377*"/>
             <ColumnDefinition Width="423*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
-            <CheckBox x:Name="LetterDocs" Content="Brief.docx erzeugen" HorizontalAlignment="Left" Margin="40,34,0,0" VerticalAlignment="Top" Checked="SingleDocChanged" Unchecked="SingleDocChanged" IsChecked="True"/>
-            <CheckBox x:Name="VolumeDocs" Content="Jahr.docx erzeugen" HorizontalAlignment="Left" Margin="40,59,0,0" VerticalAlignment="Top" Checked="VolDocChanged" Unchecked="VolDocChanged" IsChecked="True"/>
-            <CheckBox x:Name="RegisterDocs" Content="Kommentar.docx erzeugen" HorizontalAlignment="Left" Margin="40,84,0,0" VerticalAlignment="Top" Unchecked="CommDocChanged" Checked="CommDocChanged" IsChecked="True"/>
-            <Label Content="Jahre" HorizontalAlignment="Left" Margin="40,133,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left"/>
-            <Label Content="Verzeichnis mit Hamann-XML-Teildateien:" HorizontalAlignment="Left" Margin="320,133,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="XmlFileBox" HorizontalAlignment="Left" Margin="320,158,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="342" Grid.ColumnSpan="2"/>
-            <Button x:Name="XmlFileButton" Content="suchen" Grid.Column="1" HorizontalAlignment="Left" Margin="680,158,0,0" VerticalAlignment="Top" Click="XmlFileButton_Click"/>
-            <Label Content="Ausgabeverzeichnis:" HorizontalAlignment="Left" Margin="320,183,0,0" VerticalAlignment="Top" Width="136"/>
-            <TextBox x:Name="OutputDirBox" HorizontalAlignment="Left" Margin="320,208,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="342"/>
-            <Button x:Name="OutputDirButton" Content="suchen" Grid.Column="1" HorizontalAlignment="Left" Margin="680,208,20,0" VerticalAlignment="Top" Click="OutputDirButton_Click"/>
-            <Button Content="Dokumente erzeugen" HorizontalAlignment="Left" Margin="603,0,0,45" VerticalAlignment="Bottom" Click="Button_Click"/>
-            <TextBlock HorizontalAlignment="Left" Margin="321,304,0,0" Text="Achtung! Auf keinen Fall sollte man während des Erstellens von PDF-Dateien Word öffnen oder geöffnet haben!" TextWrapping="Wrap" VerticalAlignment="Top" Width="364"/>
-            <TextBox x:Name="StartYearTextBox" HorizontalAlignment="Left" Margin="102,158,0,0" Text="1751" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.474,0.709" TextInput="TextBox_TextInput"/>
-            <TextBox x:Name="EndYearTextBox" HorizontalAlignment="Left" Margin="102,181,0,0" Text="1788" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.474,0.709" MaxLength="6" TextInput="EndYearTextBox_TextInput"/>
-            <Label Content="und" HorizontalAlignment="Left" Margin="40,177,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left"/>
-            <Label Content="zwischen" HorizontalAlignment="Left" Margin="40,155,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" RenderTransformOrigin="0.418,1.293"/>
+            <CheckBox x:Name="VolumeDocs" Content="Docx für Briefe und Jahre erzeugen" HorizontalAlignment="Left" Margin="40,27,0,0" VerticalAlignment="Top" Checked="VolDocChanged" Unchecked="VolDocChanged" IsChecked="True"/>
+            <CheckBox x:Name="RegisterDocs" Content="Docx für Kommentare erzeugen" HorizontalAlignment="Left" Margin="40,52,0,0" VerticalAlignment="Top" Unchecked="CommDocChanged" Checked="CommDocChanged" IsChecked="True"/>
+            <Label Content="Jahre" HorizontalAlignment="Left" Margin="44,80,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left"/>
+            <Label Content="Verzeichnis mit Hamann-XML-Teildateien:" HorizontalAlignment="Left" Margin="267,20,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="XmlFileBox" HorizontalAlignment="Left" Margin="267,45,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="342"/>
+            <Button x:Name="XmlFileButton" Content="suchen" HorizontalAlignment="Left" Margin="627,45,0,0" VerticalAlignment="Top" Click="XmlFileButton_Click"/>
+            <Label Content="Ausgabeverzeichnis:" HorizontalAlignment="Left" Margin="267,70,0,0" VerticalAlignment="Top" Width="136"/>
+            <TextBox x:Name="OutputDirBox" HorizontalAlignment="Left" Margin="267,95,0,0" Text="" TextWrapping="NoWrap" VerticalAlignment="Top" Width="342"/>
+            <Button x:Name="OutputDirButton" Content="suchen" HorizontalAlignment="Left" Margin="627,95,0,0" VerticalAlignment="Top" Click="OutputDirButton_Click"/>
+            <Button Content="Dokumente erzeugen" HorizontalAlignment="Left" Margin="550,0,0,19" VerticalAlignment="Bottom" Click="Button_Click"/>
+            <TextBox x:Name="StartYearTextBox" HorizontalAlignment="Left" Margin="106,105,0,0" Text="1751" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.474,0.709" TextInput="TextBox_TextInput"/>
+            <TextBox x:Name="EndYearTextBox" HorizontalAlignment="Left" Margin="106,128,0,0" Text="1788" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" RenderTransformOrigin="0.474,0.709" MaxLength="6" TextInput="EndYearTextBox_TextInput"/>
+            <Label Content="und" HorizontalAlignment="Left" Margin="44,124,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left"/>
+            <Label Content="zwischen" HorizontalAlignment="Left" Margin="44,102,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Left" RenderTransformOrigin="0.418,1.293"/>
         </Grid>
     </Grid>
 </Window>

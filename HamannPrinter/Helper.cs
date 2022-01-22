@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using HaDocument.Interfaces;
+using HaDocument.Models;
 using static HamannPrinter.Hamann2Word;
 using static HamannPrinter.Parser;
 using Comment = HaDocument.Models.Comment;
@@ -19,10 +21,10 @@ namespace HamannPrinter
 
         public static void Warn(string message)
         {
-                MessageBox.Show(message,
-                "Confirmation",
-                MessageBoxButton.OK,
-                MessageBoxImage.Exclamation);
+            MessageBox.Show(message,
+            "Confirmation",
+            MessageBoxButton.OK,
+            MessageBoxImage.Exclamation);
         }
 
         public static void Ok(string message)
@@ -69,7 +71,7 @@ namespace HamannPrinter
             {
                 return "";
             }
-            
+
         }
 
         public static WordprocessingDocument CreateOutputFile(string path)
@@ -155,11 +157,13 @@ namespace HamannPrinter
                     return "VII";
                 default:
                     var number = 0;
-                    if (!Int32.TryParse(index, out number)) {
+                    if (!Int32.TryParse(index, out number))
+                    {
                         Logger.Out("Kann BandZahl " + index + "nicht in römische Zahl auflösen.");
                         return "?";
                     }
-                    else {
+                    else
+                    {
                         return ToRoman(number);
                     }
             }
@@ -398,7 +402,7 @@ namespace HamannPrinter
             }
         }
 
-        public static void CheckLineTag(XElement xelem, WordprocessingDocument wordDoc)
+        public static void CheckLineTag(XElement xelem, WordprocessingDocument wordDoc, LetterObj letter)
         {
 
             bool isFootNote = false;
@@ -409,7 +413,8 @@ namespace HamannPrinter
                 isFootNote = true;
             }
 
-            if (xelem.Attribute("index") != null)
+
+            if (xelem.Attribute("index") != null  && !letter.stateFirstLine)
             {
                 //coutable: Zeile ist eine der zu zählenden 5er Zeilen
                 bool isCountable = CheckIndex(xelem);
@@ -436,6 +441,19 @@ namespace HamannPrinter
                     Paragraph lastParagraph = GetLastPara(wordDoc);
                     newOne = lastParagraph.InsertAfterSelf<Paragraph>(new Paragraph());
                 }
+            }
+            else if (xelem.Attribute("index") != null && letter.stateFirstLine) 
+            {
+                Paragraph counterParagraph = new Paragraph();
+                Run run = new Run(new Text("S. " + letter.Meta.ZH.Page + ", " + xelem.Attribute("index").Value));
+                counterParagraph.AppendChild<Run>(run);
+                SmallFont(run);
+                ApplyParaStyle(counterParagraph, "zeilenzählung");
+                Paragraph lastParagraph = GetLastPara(wordDoc);
+                lastParagraph.InsertAfterSelf<Paragraph>(counterParagraph);
+                FrameCounterParagraph(counterParagraph);
+                letter.stateFirstLine = false;
+                newOne = counterParagraph.InsertAfterSelf<Paragraph>(new Paragraph());
             }
             else
             {
@@ -480,7 +498,7 @@ namespace HamannPrinter
             if (xelem.Attribute("index") != null)
             {
                 int number = 0;
-                if (Int32.TryParse(xelem.Attribute("index").Value, out number)) 
+                if (Int32.TryParse(xelem.Attribute("index").Value, out number))
                 {
                     if (number % 5 == 0 && number != 0)
                     {
@@ -564,9 +582,9 @@ namespace HamannPrinter
         {
             //erstellt Textboxen für die Seitenzählung
             string pagenumber = "";
-            if (xelem.Attributes("autopsic").Any())
-                pagenumber = xelem.Attribute("autopsic").Value.ToString();
-            else if (xelem.Attributes("index").Any())
+            if (xelem.Attributes("index").Any())
+                pagenumber = xelem.Attribute("index").Value.ToString();
+            else if (xelem.Attributes("autopsic").Any())
                 pagenumber = xelem.Attribute("index").Value.ToString();
             Paragraph counterParagraph = new Paragraph();
             ApplyParaStyle(counterParagraph, "seitenzählung");
@@ -582,7 +600,7 @@ namespace HamannPrinter
         public static Paragraph IfLine5(WordprocessingDocument wordDoc, XElement xelem, int numbr)
         {
             Paragraph counterParagraph = new Paragraph();
-            Run run = new Run(new Text(xelem.Attribute("autopsic").Value));
+            Run run = new Run(new Text(xelem.Attribute("index").Value));
             counterParagraph.AppendChild<Run>(run);
             SmallFont(run);
             ApplyParaStyle(counterParagraph, "zeilenzählung");
@@ -758,7 +776,7 @@ namespace HamannPrinter
                         }
                         catch (Exception exception)
                         {
-                            Logger.Out("Diese URL ist im Eimer: " + url+ "\nObwohl ich sie lösche mag Word das Dokument danach nicht öffnen! Diese URL also bitte im XML korrigieren! \n"+exception.Message);
+                            Logger.Out("Diese URL ist im Eimer: " + url + "\nObwohl ich sie lösche mag Word das Dokument danach nicht öffnen! Diese URL also bitte im XML korrigieren! \n" + exception.Message);
                             link.Remove();
                         }
                     }
@@ -787,13 +805,13 @@ namespace HamannPrinter
             return tempFolder;
         }
 
-        public static void RemoveTempFolderFiles(Dictionary<int, string> outputPaths, string tempfolder)
+        public static void RemoveTempFolderFiles(List<(int, string)> outputPaths, string tempfolder)
         {
-            foreach (var path in outputPaths.Where(x => x.Key != 0 && x.Key != 1000000000))
+            foreach (var path in outputPaths)
             {
                 try
                 {
-                    File.Delete(path.Value);
+                    File.Delete(path.Item2);
                 }
                 catch (Exception)
                 {
@@ -811,31 +829,43 @@ namespace HamannPrinter
             }
         }
 
-        public static void MergeDocx(string year, Dictionary<int, string> outputPaths)
+        public static void MergeDocx(ILibrary lib, string year, List<(int, string)> outputPaths, string basepath, string additions)
         {
             /*verbindet die einzelnen temporären ZH Briefdateien zu einer Banddatei
              die dauerhaften Brief.docx dateien können nicht gemergt werden, da sie die 
              für Bände überflüssige source section am ende enthalten und alt chunks nicht 
              verändert werden können*/
             Logger.Out("erstelle Jahr " + year);
-            var OrderedPathKeys = outputPaths.Keys.ToList();
-            OrderedPathKeys.Sort((a, b) => -1 * a.CompareTo(b));
-            foreach (var key in OrderedPathKeys.Where(k => k != 0))
+            using (WordprocessingDocument doc = WordprocessingDocument.Open(basepath, true))
             {
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(@outputPaths[0], true))
+                MainDocumentPart mainPart = doc.MainDocumentPart;
+                AltChunk altChunk = null;
+                var altChunkId = "AltChunkId" + "1000000000";
+                var chunk = mainPart.AddAlternativeFormatImportPart(AlternativeFormatImportPartType.WordprocessingML, altChunkId);
+                using (FileStream fileStream = File.Open(additions, FileMode.Open))
                 {
-                    MainDocumentPart mainPart = doc.MainDocumentPart;
-                    string altChunkId = "AltChunkId" + key;
-                    AlternativeFormatImportPart chunk = mainPart.AddAlternativeFormatImportPart(AlternativeFormatImportPartType.WordprocessingML, altChunkId);
-                    using (FileStream fileStream = File.Open(@outputPaths[key], FileMode.Open))
+                    chunk.FeedData(fileStream);
+                }
+                altChunk = new AltChunk();
+                altChunk.Id = altChunkId;
+                mainPart.Document.Body.InsertAfter(altChunk, GetLastPara(doc));
+                mainPart.Document.Save();
+
+
+                outputPaths.Reverse();
+                foreach (var (key, value) in outputPaths)
+                {
+                    altChunkId = "AltChunkId" + key;
+                    chunk = mainPart.AddAlternativeFormatImportPart(AlternativeFormatImportPartType.WordprocessingML, altChunkId);
+                    using (FileStream fileStream = File.Open(value, FileMode.Open))
                     {
                         chunk.FeedData(fileStream);
                     }
-                    AltChunk altChunk = new AltChunk();
+                    altChunk = new AltChunk();
                     altChunk.Id = altChunkId;
                     mainPart.Document.Body.InsertAfter(altChunk, GetLastPara(doc));
                     mainPart.Document.Save();
-                    doc.Close();
+
                 }
             }
         }

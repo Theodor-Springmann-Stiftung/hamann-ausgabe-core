@@ -39,11 +39,12 @@ namespace HamannPrinter
             public string SmallFontSize { get; set; } = "12";
             public string BigFontSize { get; set; } = "32";
             public int MarginTop { get; set; } = 1416;
-            public UInt32 MarginRight { get; set; } = 2600U;
+            public UInt32 MarginRight { get; set; } = 2400U;
             public int MarginBottom { get; set; } = 2132;
             public UInt32 MarginLeft { get; set; } = 1984U;
             public UInt32 MarginFooter { get; set; } = 1417U;
             public string ColumnDistance { get; set; } = "560";
+            public UInt32 MarginRightColumns { get; set; } = 1900U;
             public string FooterToText { get; set; } = "420";
             public string NormalFont { get; set; } = "Linux Libertine G";
             public string SpecialFont { get; set; } = "Linux Biolinum";
@@ -77,7 +78,7 @@ namespace HamannPrinter
             var hamannDoc = Document.Create(new Options(confix.HamannXmlPath));
             DocOptions docOpt = new DocOptions(confix.Years, confix.OutputPath, confix.Editionsrichtlinien);
             CheckXML(confix, docOpt, hamannDoc);
-            Coordinator(docOpt, hamannDoc, hamannDoc, docOpt.Years, confix.LettersDocx, confix.VolumeDocx, confix.RegisterDocx);
+            Coordinator(docOpt, hamannDoc, hamannDoc, docOpt.Years, confix.VolumeDocx, confix.RegisterDocx);
             // DEV Helper.Ok("Fertig!");
             Environment.Exit(0);
         }
@@ -306,17 +307,12 @@ namespace HamannPrinter
             System.IO.File.WriteAllText(docOpt.OutputDir + "errors.txt", errors.ToString());
         }
 
-        public void Coordinator(DocOptions docOpt, ILibrary hamannDoc, ILibrary lib, (int, int) years, bool? letterDocs, bool? volDocs, bool? registerDocs)
+        public void Coordinator(DocOptions docOpt, ILibrary hamannDoc, ILibrary lib, (int, int) years, bool? volDocs, bool? registerDocs)
         {
             /* koordiniert das Erstellen der einzelnen Dokumenttypen/-sorten*/
             //try
             //{
                 var h2w = new Hamann2Word(hamannDoc, docOpt);
-                if (letterDocs == true || letterDocs == false) // DEV
-                {
-                    Logger.Out("Erstelle docx für einzelbriefe");
-                    h2w.MakeLetterDocuments(lib, years);
-                }
                 if (volDocs == true)
                 {
                     Logger.Out("Erstelle docx für BandDateien");

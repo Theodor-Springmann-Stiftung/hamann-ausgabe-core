@@ -8,6 +8,8 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using HaDocument.Interfaces;
 using HaDocument.Models;
+using System.Threading.Tasks;
+using System.Diagnostics;
 using static HamannPrinter.Parser;
 using Comment = HaDocument.Models.Comment;
 using static HamannPrinter.Helper;
@@ -35,6 +37,7 @@ namespace HamannPrinter
         static public int MarginTop { get; set; }
         //rechter Rand
         static public UInt32 MarginRight { get; set; }
+        static public UInt32 MarginRightColumns { get; set; }
         //unterer Rand
         static public int MarginBottom { get; set; }
         // linker Rand
@@ -67,9 +70,6 @@ namespace HamannPrinter
         // Pfad für Ausgabe der Briefe
         static public List<string> LetterPaths { get; set; }
 
-
-        static bool firstone = false;
-
         public Hamann2Word(ILibrary lib, DocOptions docxOptions)
         {
             // erzeugt neue Instanz von Hamann2Word mit den Erforderlichen Werten aus den DocOptions
@@ -96,6 +96,7 @@ namespace HamannPrinter
             SuperValue = docxOptions.SuperValue;
             SubValue = docxOptions.SubValue;
             Diodone = docxOptions.Diodone;
+            MarginRightColumns = docxOptions.MarginRightColumns;
             RegisterPaths = new List<string>();
             YearPaths = new List<string>();
             LetterPaths = new List<string>();
@@ -145,6 +146,7 @@ namespace HamannPrinter
             public List<XElement> HandTags { get; set; }
             //docx Datei des Briefes
             public WordprocessingDocument WordDoc { get; set; }
+            public bool stateFirstLine { get; set; } = true;
 
             public LetterObj(string index, XElement text, Meta meta, string key, string tempDir = null)
             {
@@ -172,7 +174,7 @@ namespace HamannPrinter
         }
 
 
-        public static void Letter2Docx(LetterObj letter, bool makeVolumes = false)
+        public static void Letter2Docx(LetterObj letter)
         {
             /*befüllt ein LetterObj.BriefDocx mit dem "geparsten" Inhalt (xml) des Briefes*/
 
@@ -204,11 +206,11 @@ namespace HamannPrinter
                 }
             }
             //Kommentare und Varianten anhängen
-            AddCommentsETC(letter, makeVolumes);
+            AddCommentsETC(letter);
         }
 
 
-        public static void AddCommentsETC(LetterObj letter, bool makeVolumes)
+        public static void AddCommentsETC(LetterObj letter)
         {
             if (letter.Tradition != null)
             {
@@ -273,29 +275,18 @@ namespace HamannPrinter
                 CreateColSection(letter.WordDoc, margSingle);
             }
 
-            if (makeVolumes)
-            {
-                MakeFinalPageBreak(letter);
-            }
-
-            else
-            {
-                MakeSourceSection(letter);
-            }
+            MakeFinalPageBreak(letter);
         }
 
         public static void MakeSourceSection(LetterObj letter)
         {
             string txt = "Johann Georg Hamann: Kommentierte Briefausgabe (HKB). Hrsg. von Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von Gregor Babelotzky, Konrad Bucher, Christian Großmann, Carl Friedrich Haak, Luca Klopfer, Johannes Knüchel, Isabel Langkabel und Simon Martens. (Heidelberg 2020ff.) URL: ";
-            //Hyperlink link = new Hyperlink(new Run(new Text("www.hamann-ausgabe.de"))) { Anchor = "Hamann-Ausgabe online", DocLocation = "https://www.hamann-ausgabe.de", Id= "https://www.hamann-ausgabe.de" };
             var link = new Run(new Text("www.hamann-ausgabe.de"));
             var head = new Run(new Text("Quelle:"));
             var src = new Run(new Break(), new Text(txt) { Space = SpaceProcessingModeValues.Preserve });
             var srcPara = new Paragraph(head, src, link, new Run(new Text(".")));
-            /*SansSerifRun(src);
-            SansSerifRun(head);
-            BoldRun(head);*/
             ApplyParaStyle(srcPara, "quelle");
+            GetLastPara(letter.WordDoc).Remove();
             GetLastPara(letter.WordDoc).InsertAfterSelf(srcPara);
         }
 
@@ -731,7 +722,7 @@ namespace HamannPrinter
                 case "page":
                     if (run != null)
                     {
-                        string pagenumber = xelem.Attribute("autopsic").Value.ToString();
+                        string pagenumber = xelem.Attribute("index").Value.ToString();
                         run.AppendChild<Text>(new Text(" |" + pagenumber + "| ") { Space = SpaceProcessingModeValues.Preserve });
 
                     }
@@ -829,11 +820,13 @@ namespace HamannPrinter
                     break;
 
                 case "line":
-                    CheckLineTag(xelem, wordDoc);
+                    CheckLineTag(xelem, wordDoc, letter);
                     break;
-
                 case "page":
-                    CheckPageTag(xelem, wordDoc);
+                    if (!letter.stateFirstLine) 
+                    {
+                        CheckPageTag(xelem, wordDoc);
+                    }
                     break;
 
                 case "nr":
@@ -959,110 +952,73 @@ namespace HamannPrinter
 
         #region Vorbereitungen für Letterparsen
 
-        /* 
-         //veraltete funktion, kann gelöscht werden 
-         public void Coordinator(ILibrary lib, string[] vols, bool? letterDocs, bool? letterPdfs, bool? volDocs, bool? volPdf, bool? registerDocs, bool? registerPdf)
-         {
-             // koordiniert das Erstellen der einzelnen Dokumenttypen/-sorten
-             if (letterDocs == true)
-             {
-                 Logger.Out("Erstelle docx für einzelbriefe");
-                 MakeLetterDocuments(lib, vols);
-                 if (letterPdfs == true)
-                 {
-                     Logger.Out("Erstelle PDF für einzelbriefe");
-                     PdfPrinter.Print(LetterPaths);
-                 }
-             }
-             if (volDocs == true)
-             {
-                 Logger.Out("Erstelle docx für BandDateien");
-                 MakeVolumeDocuments(lib, vols);
-                 if (volPdf == true)
-                 {
-                     Logger.Out("Erstelle PDF für BandDateien");
-                     PdfPrinter.Print(VolumePaths);
-                 }
-             }
-             if (registerDocs == true)
-             {
-                 Logger.Out("Erstelle docx für Register");
-                 MakeRegisterComms();
-                 if (registerPdf == true)
-                 {
-                     Logger.Out("Erstelle PDF für Register");
-                     PdfPrinter.Print(RegisterPaths);
-                 }
-             }
-             System.IO.File.WriteAllText(OutputDir + "logfile.txt", Logger.LogString.ToString());
-         }*/
-
-
-
-        public void MakeLetterDocuments(ILibrary lib, (int, int) years)
-        {
-            /*Holt eine Liste von Briefobjekten der zu Parsenden Bände (vols), lässt deren dcox. 
-             * Dokumente formatieren und befüllen. Schließt/Speichert die Dokumente.*/
-
-            List<LetterObj> letterList = Lib2List(lib, years);
-            //System.Threading.Tasks.Parallel.ForEach(letterList, MakeLetter);
-            foreach (LetterObj letter in letterList)
-            {
-                letter.WordDoc = CreateLetterDocx(letter.OutPutFile);
-                Logger.Out(letter.OutPutFile);
-                if (letter.WordDoc == null)
-                {
-                    Logger.Out(letter.Autopsic + "\n hat kein worddoc!");
-                }
-                StyleLetterDocx(letter);
-                Letter2Docx(letter, false);
-                letter.WordDoc.Save();
-                letter.WordDoc.Close();
-            }
-        }
 
         public void MakeYearDocuments(ILibrary lib, (int, int) years)
         {
-            /*erzeugt temporäre Briefdateien und verbindet siezu einer Banddatei
-             die dauerhaften Brief.docx dateien können nicht gemergt werden, da sie die 
-             für Bände überflüssige source section am ende enthalten und alt chunks nicht 
-             verändert werden können*/
-            for (; years.Item1 < years.Item2; years.Item1++)
-            {
-                Logger.Out("Dokument für Jahr " + years.Item1.ToString());
-                string tempfolder = GetTemporaryDirectory();
-                Logger.Out("tempfolder ist " + tempfolder);
-                var outputPaths = new Dictionary<int, string>();
-                var letterList = Lib2List(lib, years.Item1, tempfolder);
-                foreach (var letter in letterList)
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                // Parallel.ForEach(Enumerable.Range(years.Item1, years.Item2 - years.Item1 + 1), i => {
+                //     Logger.Out("Dokument für Jahr " + i.ToString());
+                //     var outputPaths = new List<(int, string)>();
+                //     var letterList = Lib2List(lib, i);
+                //     if (letterList.Any())
+                //     {
+                //         foreach (var letter in letterList.OrderBy(x => x.Meta.Sort).ThenBy(x => x.Meta.Order))
+                //         {
+                //             letter.WordDoc = CreateLetterDocx(letter.OutPutFile);
+                //             StyleLetterDocx(letter);
+                //             Letter2Docx(letter);
+                //             outputPaths.Add((Int32.Parse(letter.Index), letter.OutPutFile));
+                //             letter.WordDoc.Dispose();
+                //         }
+                //         MergeDocx(lib, i.ToString(), outputPaths, MakeVolumeDoc(i.ToString()), Editionsrichtlinien);
+                //     }
+                //     foreach(var letter in letterList) 
+                //     {
+                //         Logger.Out("Nachbearbeitung Brief " + letter.Autopsic);
+                //         letter.WordDoc = WordprocessingDocument.Open(letter.OutPutFile, true);
+                //         MakeSourceSection(letter);
+                //         letter.WordDoc.Dispose();
+                //     }
+                // });
+                // sw.Stop();
+                // TimeSpan ts = sw.Elapsed;
+                // string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                //     ts.Hours, ts.Minutes, ts.Seconds,
+                //     ts.Milliseconds / 10);
+                // Logger.Out(elapsedTime);
+                // sw.Restart();
+                for (; years.Item1 <= years.Item2; years.Item1++)
                 {
-                    letter.WordDoc = CreateLetterDocx(letter.OutPutFile);
-                    StyleLetterDocx(letter);
-                    Letter2Docx(letter, true);
-                    letter.WordDoc.Save();
-                    outputPaths.Add(Int32.Parse(letter.Index), letter.OutPutFile);
-                    letter.WordDoc.Close();
+                    Logger.Out("Dokument für Jahr " + years.Item1.ToString());
+                    var outputPaths = new List<(int, string)>();
+                    var letterList = Lib2List(lib, years.Item1);
+                    if (letterList.Any())
+                    {
+                        foreach (var letter in letterList.OrderBy(x => x.Meta.Sort).ThenBy(x => x.Meta.Order))
+                        {
+                            letter.WordDoc = CreateLetterDocx(letter.OutPutFile);
+                            StyleLetterDocx(letter);
+                            Letter2Docx(letter);
+                            outputPaths.Add((Int32.Parse(letter.Index), letter.OutPutFile));
+                            letter.WordDoc.Dispose();
+                        }
+                        MergeDocx(lib, years.Item1.ToString(), outputPaths, MakeVolumeDoc(years.Item1.ToString()), Editionsrichtlinien);
+                    }
+                    Parallel.ForEach(letterList, letter => {
+                        Logger.Out("Nachbearbeitung Brief " + letter.Autopsic);
+                        letter.WordDoc = WordprocessingDocument.Open(letter.OutPutFile, true);
+                        MakeSourceSection(letter);
+                        letter.WordDoc.Dispose();
+                    });
+                        
                 }
-                outputPaths.Add(0, MakeVolumeDoc(years.Item1.ToString()));
-                outputPaths.Add(1000000000, Editionsrichtlinien);
-                MergeDocx(years.Item1.ToString(), outputPaths);
-                //temporären briefdateien löschen
-                RemoveTempFolderFiles(outputPaths, tempfolder);
-            }
-        }
-
-        private static void MakeLetter(LetterObj letter)
-        {
-            letter.WordDoc = CreateLetterDocx(letter.OutPutFile);
-            Logger.Out(letter.OutPutFile);
-            if (letter.WordDoc == null)
-            {
-                Logger.Out(letter.Autopsic + "\n hat kein worddoc!");
-            }
-            StyleLetterDocx(letter);
-            Letter2Docx(letter, false);
-            letter.WordDoc.Save();
-            letter.WordDoc.Close();
+                sw.Stop();
+                var ts = sw.Elapsed;
+                var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours, ts.Minutes, ts.Seconds,
+                    ts.Milliseconds / 10);
+                Logger.Out("ELAPSED: " + elapsedTime);
         }
 
         public static void StyleLetterDocx(LetterObj letter)
@@ -1117,7 +1073,7 @@ namespace HamannPrinter
             return letterList;
         }
 
-        public static List<LetterObj> Lib2List(ILibrary library, int year, string tempDir)
+        public static List<LetterObj> Lib2List(ILibrary library, int year)
         {
             /*Da die Erstellung von Volume.docx dateien über das Erstellen und mergen von Einzelbriefdokumenten funtkioniert, 
              * ist diese Überladung von Lib2List nötig.
@@ -1126,9 +1082,10 @@ namespace HamannPrinter
             List<LetterObj> letterList = new List<LetterObj>();
             foreach (var letter in library.Letters.Where(x => library.Metas[x.Key].ZH != null && library.Metas[x.Key].Sort.Year == year))
             {
-                var letterObj = CreateLetterObj(letter, library, tempDir);
+                var letterObj = CreateLetterObj(letter, library);
                 letterList.Add(letterObj);
             }
+            
             return letterList;
         }
 
@@ -1816,7 +1773,7 @@ namespace HamannPrinter
                 props.SectionProperties.AppendChild(new Columns() { ColumnCount = 2, Space = ColumnDistance, EqualWidth = true });
             }
             props.SectionProperties.AppendChild<SectionType>(new SectionType() { Val = SectionMarkValues.Continuous });
-            PageMargin pageMargin = new PageMargin() { Top = MarginTop, Right = MarginRight, Bottom = MarginBottom, Left = MarginLeft, Footer = MarginFooter };
+            PageMargin pageMargin = new PageMargin() { Top = MarginTop, Right = MarginRightColumns, Bottom = MarginBottom, Left = MarginLeft, Footer = MarginFooter };
             props.SectionProperties.PrependChild(pageMargin);
         }
 
@@ -2573,25 +2530,25 @@ namespace HamannPrinter
 
                 XElement xLine = GetLineXisIn(hand);
                 firstPage = GetPageXisOn(xLine, letter);
-                if (!xLine.Attributes("autopsic").Any() || xLine.Attributes("fn").Any())
+                if (!xLine.Attributes("index").Any() || xLine.Attributes("fn").Any())
                 {
                     firstLine = isFN;
                 }
                 else
                 {
-                    firstLine = xLine.Attribute("autopsic").Value;
+                    firstLine = xLine.Attribute("index").Value;
                 }
 
                 var lastXPage = hand.Descendants().Where(x => !((x as XNode) is XText) && x?.Name?.LocalName == "page").LastOrDefault();
                 if (lastXPage != null)
                 {
-                    lastPage = lastXPage.Attribute("autopsic").Value;
+                    lastPage = lastXPage.Attribute("index").Value;
                 }
 
                 var lastXLine = hand.Descendants().Where(x => !((x as XNode) is XText) && x?.Name?.LocalName == "line").LastOrDefault();
                 if (lastXLine != null && firstLine != isFN)
                 {
-                    lastLine = lastXLine.Attribute("autopsic").Value;
+                    lastLine = lastXLine.Attribute("index").Value;
                 }
 
                 if (lastPage != "")

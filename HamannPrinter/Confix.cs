@@ -4,7 +4,6 @@ namespace HamannPrinter
 {
     public class Confix
     {
-        public bool? LettersDocx { get; set; }
         public bool? VolumeDocx { get; set; }
         public bool? RegisterDocx { get; set; }
         public string HamannXmlPath { get; set; }

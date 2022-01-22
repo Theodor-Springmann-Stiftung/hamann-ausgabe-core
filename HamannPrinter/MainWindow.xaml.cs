@@ -27,7 +27,7 @@ namespace HamannPrinter
             RegisterDocs.IsChecked = false;
             VolumeDocs.IsChecked = true;
             StartYearTextBox.Text = "1751";
-            EndYearTextBox.Text = "1764";
+            EndYearTextBox.Text = "1788"; // DEV
             XmlFileBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\XML"; // DEV
             OutputDirBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\Ausg"; // DEV
             Act(); // DEV
@@ -108,7 +108,7 @@ namespace HamannPrinter
 
         private bool CheckInput()
         {
-            if (LetterDocs.IsChecked == true || VolumeDocs.IsChecked == true)
+            if (VolumeDocs.IsChecked == true)
             {
                 if (GetYears().Item1 <= GetYears().Item2)
                 {
@@ -179,7 +179,6 @@ namespace HamannPrinter
             var confix = new Confix()
             {
                 Editionsrichtlinien = CheckForEditionsRichtlinien(),
-                LettersDocx = LetterDocs.IsChecked,
                 VolumeDocx = VolumeDocs.IsChecked,
                 RegisterDocx = RegisterDocs.IsChecked,
                 HamannXmlPath = GetHAMANNxml(),
