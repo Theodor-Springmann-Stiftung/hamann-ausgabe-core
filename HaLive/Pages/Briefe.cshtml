@@ -3,7 +3,7 @@
 @using System.Threading.Tasks;
 @using System.Collections.Generic;
 @using System.Threading;
-@using System.Linq:
+@using System.Linq;
 @using System.Xml.Linq;
 @using System.IO;
 
@@ -32,9 +32,10 @@
         var currpage = "";
         var oldpage = "";
         var commid = 1;
-        var firstedit = true;
+        var active_firstedit = true;
         var active_trad = false;
-        var skipwhitespace = true;
+        var active_skipwhitespace = true;
+        var active_del = false;
         List<string> handstrings = new List<string>();
 
         // Parsing-Combinations
@@ -81,7 +82,10 @@
             ( x => x.Name == "sal", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "sal")) ),
             ( x => x.Name == "aq", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "aq")) ),
             ( x => x.Name == "super", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "super")) ),
-            ( x => x.Name == "del", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "del")) ),
+            ( x => x.Name == "del", (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateElement("span", "del"));
+                active_del = true;
+             } ),
             ( x => x.Name == "nr", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "nr")) ),
             ( x => x.Name == "note", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "note")) ),
             ( x => x.Name == "ul", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("span", "ul")) ),
@@ -107,7 +111,7 @@
             ( x => x.Name == "letterTradition", (sb, tag) => sb.Append(HTMLHelpers.CreateElement("div", "tradition")) ),
             ( x => x.Name == "marginal", (sb, tag) => {
                  sb.Append(HTMLHelpers.CreateElement("div", "marginal"));
-                 skipwhitespace = !skipwhitespace;
+                 active_skipwhitespace = !active_skipwhitespace;
             }),
             ( x => x.Name == "hand", (sb, tag) => {
                 sb.Append(HTMLHelpers.CreateElement("span", "hand"));
@@ -124,7 +128,10 @@
             ( x => x.Name == "sal", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("div")) ),
             ( x => x.Name == "aq", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
             ( x => x.Name == "super", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
-            ( x => x.Name == "del", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
+            ( x => x.Name == "del", (sb, tag) => {
+                sb.Append(HTMLHelpers.CreateEndElement("span"));
+                active_del = false;
+             } ),
             ( x => x.Name == "nr", (sb, tag) =>  sb.Append(HTMLHelpers.CreateEndElement("span")) ),
             ( x => x.Name == "note", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
             ( x => x.Name == "ul", (sb, tag) => sb.Append(HTMLHelpers.CreateEndElement("span")) ),
@@ -156,7 +163,12 @@
              } )
         };
         List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
-            ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
+            ( x => true, ( sb, txt ) => {
+                if (active_del) 
+                    sb.Append(txt.Value.Replace("–", "<span class=\"diagdel\">–</span>"));
+                else 
+                    sb.Append(txt.Value);
+             } )
         };
         List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs_Tagging = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
             ( x => true, ( sb, txt ) => {
@@ -177,10 +189,10 @@
         };
         List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)> Whitespace_Funcs = new List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>() {
             ( x => true, ( sb, txt ) => {
-                if (skipwhitespace)
+                if (active_skipwhitespace)
                     sb.Append(txt.Value);
                 else
-                    skipwhitespace = !skipwhitespace;
+                    active_skipwhitespace = !active_skipwhitespace;
             })
         };
         
@@ -253,7 +265,7 @@
 
         // Rules for traditions
         List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs_Trad = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
-        ( x => x.Name == "app", (sb, tag) => {  if (!firstedit) { sb.Append(HTMLHelpers.CreateElement("br")); } else { firstedit = false; } } ),
+        ( x => x.Name == "app", (sb, tag) => {  if (!active_firstedit) { sb.Append(HTMLHelpers.CreateElement("br")); } else { active_firstedit = false; } } ),
         ( x => x.Name == "ZHText", (sb, tag) => {
                 sb_tradition.Append(HTMLHelpers.CreateElement("div", "row zhtext"));
                 sb_tradition.Append(HTMLHelpers.CreateElement("div", "trad-text col order-2 letterbox"));

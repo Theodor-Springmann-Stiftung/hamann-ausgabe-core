@@ -2,15 +2,17 @@
 -------------------------------------------------- */
 
 :root {
-    --hamannDunkelGrau: #6e6e6e; /** Dunkelgraue Schriftfarbe zur klaren Abhebung **/
-    --hamannHellGrau: #dddddd; /** Zur Linienführung; Ähnlich dem Hintergrund **/
-    --hamannHellHellGrau: #eeeeee;
-    --hamannLink: #707070; /** Dunkelgraue Schriftfarbe zur leichten Abhebung von Links **/
-    --hamannSehrSchwarz: #414141;
-    --hamannHighlight: #d80000;
-    --hamannLightHighlight: #cc7878;
     --hamannWeiss: white;
     --hamannLeichtWeiss: #f2f2f2;
+    --hamannHellHellGrau: #eeeeee;
+    --hamannHellGrau: #dddddd; /** Zur Linienführung; Ähnlich dem Hintergrund **/
+    --hamannGrau: #b1b1b1;
+    --hamannDunkelGrau: #6e6e6e; /** Dunkelgraue Schriftfarbe zur klaren Abhebung **/
+    --hamannLink: #707070; /** Dunkelgraue Schriftfarbe zur leichten Abhebung von Links **/
+    --hamannSehrSchwarz: #414141;
+    --hamannSehrSehrSchwarz: #2e2e2e;
+    --hamannHighlight: #d80000;
+    --hamannLightHighlight: #cc7878;
 }
 
 /* Klassen für das Shading von HamannHighlight */
@@ -388,6 +390,14 @@ a:hover {
     font-family: Playfair;
     font-size: 0.9rem;
     line-height: 1rem;
+}
+
+.hand .ul,
+.hand .ul *,
+.ul .hand,
+.ul .hand * {
+    /* color: var(--hamannDunkelGrau); */
+    text-decoration-thickness: 1px;
 }
 
 .hand .aq {
@@ -1032,6 +1042,7 @@ a:hover {
 .ul * {
     display: inline;
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     text-decoration-skip-ink: auto;
     -webkit-text-decoration-skip-ink: auto;
 }
@@ -1050,6 +1061,7 @@ a:hover {
 .dul,
 .dul * {
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     text-decoration-style: double;
     text-decoration-skip-ink: auto;
     -webkit-text-decoration-skip-ink: auto;
@@ -1058,6 +1070,7 @@ a:hover {
 .tul,
 .tul * {
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     display: inline;
     border-bottom: 3px double;
 }
@@ -1075,10 +1088,33 @@ a:hover {
     clear: both;
   }
 
+.diagdel {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+}
+
+.diagdel::before, .diagdel::after {
+    content: '';
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    right: 0;
+    bottom: 1.5ex;
+}
+
+.diagdel::before {
+    border-bottom: 1px solid black;
+    -webkit-transform: skewY(-36deg);
+    transform: skewY(-36deg);
+}
+
+
 .del .del,
 .del .del * {
     -moz-text-decoration-style: double;
     -webkit-text-decoration-style: double !important;
+    text-decoration-thickness: 1px;
     text-decoration-style: double;
 }
 
@@ -1088,12 +1124,14 @@ a:hover {
     text-decoration: line-through underline;
     -moz-text-decoration-style: double;
     -webkit-text-decoration-style: double !important;
+    text-decoration-thickness: 1px;
     text-decoration-style: double;
 }
 
 .del .ul,
 .ul .del {
     text-decoration: line-through underline;
+    text-decoration-thickness: 1px;
     text-decoration-skip-ink: auto;
     -webkit-text-decoration-skip-ink: auto;
 }
@@ -1793,6 +1831,19 @@ a:hover {
     font-size: 0.7rem !important;
     font-weight: bolder;
 }
+
+.additions .additionbox .edits .edit .reference .added,
+.additions .additionbox .edits .edit .reference .added * {
+    background-color: var(--hamannGrau);
+}
+
+.additions .additionbox .edits .edit .reference .aq,
+.additions .additionbox .edits .edit .reference .aq * {
+    font-family: Biolinum;
+    font-size: 0.7rem !important;
+    font-weight: bolder;
+}
+
 
 .additions .additionbox .edits .edit .zh {
     font-family: Libertine;

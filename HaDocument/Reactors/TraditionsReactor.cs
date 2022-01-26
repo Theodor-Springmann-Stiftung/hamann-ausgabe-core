@@ -10,6 +10,7 @@ namespace HaDocument.Reactors
     {
         internal Dictionary<string, Tradition> CreatedInstances;
         internal Dictionary<string, Dictionary<string, HashSet<string>>> CreatedStructure;
+        internal Dictionary<string, List<Hand>> CreatedHands;
         private bool _normalizeWhitespace = false;
 
         // State
@@ -17,6 +18,12 @@ namespace HaDocument.Reactors
 
         private string _page = "";
         private string _line = "";
+
+        
+        private List<Hand> _hands;
+        private string _person = "";
+        private string _handstartpg = "";
+        private string _handstartln = "";
 
         private ElementStringBinder _element = null;
 
@@ -26,6 +33,9 @@ namespace HaDocument.Reactors
             _lib.Traditions = new Dictionary<string, Tradition>();
             if (lib.LetterPageLines == null)
                 lib.LetterPageLines = new Dictionary<string, Dictionary<string, HashSet<string>>>();
+            if (lib.Hands == null)
+                lib.Hands = new Dictionary<string, List<Hand>>();
+            CreatedHands = lib.Hands;
             CreatedInstances = _lib.Traditions;
             CreatedStructure = lib.LetterPageLines;
             reader.Tag += Listen;
@@ -76,6 +86,28 @@ namespace HaDocument.Reactors
                     CreatedStructure[Index].Add(_page, new HashSet<string>());
                 }
             }
+            else if (
+                !tag.EndTag &&
+                !tag.IsEmpty &&
+                tag.Name == "hand" &&
+                !String.IsNullOrWhiteSpace(tag["ref"])
+            )
+            {
+                _person = tag["ref"];
+                _handstartln = _line;
+                _handstartpg = _page;
+            }
+            else if (
+                tag.EndTag &&
+                tag.Name == "hand"
+            )
+            {
+                if (_hands == null)
+                {
+                    _hands = new List<Hand>();
+                }
+                _hands.Add(new Hand(Index, _person, _handstartpg, _handstartln, _page, _line));
+            }
         }
 
         protected override void Activate(IReader reader, Tag tag)
@@ -95,6 +127,13 @@ namespace HaDocument.Reactors
                 Index,
                 element);
             CreatedInstances.TryAdd(Index, reason);
+            if (_hands != null)
+            {
+                if (!CreatedHands.ContainsKey(Index))
+                    CreatedHands.Add(Index, _hands);
+                else
+                    CreatedHands[Index].AddRange(_hands);
+            }
             Reset();
         }
 
@@ -105,6 +144,7 @@ namespace HaDocument.Reactors
             _line = "";
             _active = false;
             _element = null;
+            _hands = null;
         }
 
         protected void Deactivate()

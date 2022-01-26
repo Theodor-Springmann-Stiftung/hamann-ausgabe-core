@@ -31,7 +31,8 @@ namespace HaDocument.Reactors
         {
             _normalizeWhitespace = normalizeWhitespace;
             lib.Letters = new Dictionary<string, Letter>();
-            lib.Hands = new Dictionary<string, List<Hand>>();
+            if (lib.Hands == null)
+                lib.Hands = new Dictionary<string, List<Hand>>();
             if (lib.LetterPageLines == null)
                 lib.LetterPageLines = new Dictionary<string, Dictionary<string, HashSet<string>>>();
             CreatedHands = lib.Hands;
@@ -126,7 +127,10 @@ namespace HaDocument.Reactors
             CreatedInstances.TryAdd(Index, letter);
             if (_hands != null)
             {
-                CreatedHands.Add(Index, _hands);
+                if (!CreatedHands.ContainsKey(Index))
+                    CreatedHands.Add(Index, _hands);
+                else
+                    CreatedHands[Index].AddRange(_hands);
             }
             Reset();
         }
