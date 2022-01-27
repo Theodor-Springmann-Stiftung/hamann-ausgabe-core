@@ -244,6 +244,10 @@ a:hover {
     text-decoration: none;
 }
 
+.nolink {
+    color: black;
+}
+
 .flexcol {
     display: flex;
     flex-flow: nowrap column;
@@ -2001,8 +2005,8 @@ a:hover {
     font-family: Biolinum;
     position: relative;
     text-align: left;
-    padding-top: 1.2rem;
-    padding-bottom: 1.6rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1.6rem;
 }
 
 .alphabet .is-active {
