@@ -808,7 +808,7 @@
       <letterDesc ref="40">
         <autopsic value="40" />
         <date value="Meyhof, 11. April 1755" />
-        <sort value="1755-04-11" />
+        <sort value="1755-04-11" order="100" />
         <location ref="8" />
         <senders>
           <sender ref="1" />
@@ -828,7 +828,7 @@
       <letterDesc ref="41">
         <autopsic value="41" />
         <date value="Meyhof, 11. April 1755" />
-        <sort value="1755-04-11" />
+        <sort value="1755-04-11" order="200" />
         <location ref="8" />
         <senders>
           <sender ref="1" />
@@ -2824,7 +2824,7 @@
       <letterDesc ref="140">
         <autopsic value="140" />
         <date value="Königsberg, 31. März 1759" />
-        <sort value="1759-03-31" />
+        <sort value="1759-03-31" order="100" />
         <location ref="2" />
         <senders>
           <sender ref="1" />
@@ -2844,7 +2844,7 @@
       <letterDesc ref="141">
         <autopsic value="141" />
         <date value="Königsberg, 31. März 1759" />
-        <sort value="1759-03-31" />
+        <sort value="1759-03-31" order="200" />
         <location ref="2" />
         <senders>
           <sender ref="1" />

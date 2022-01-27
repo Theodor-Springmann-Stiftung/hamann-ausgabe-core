@@ -87,6 +87,7 @@ namespace HaDocument.Reactors
                 }
             }
             else if (
+                _active &&
                 !tag.EndTag &&
                 !tag.IsEmpty &&
                 tag.Name == "hand" &&
@@ -98,14 +99,13 @@ namespace HaDocument.Reactors
                 _handstartpg = _page;
             }
             else if (
+                _active &&
                 tag.EndTag &&
                 tag.Name == "hand"
             )
             {
                 if (_hands == null)
-                {
                     _hands = new List<Hand>();
-                }
                 _hands.Add(new Hand(Index, _person, _handstartpg, _handstartln, _page, _line));
             }
         }

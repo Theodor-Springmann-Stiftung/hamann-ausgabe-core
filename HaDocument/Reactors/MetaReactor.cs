@@ -155,9 +155,6 @@ namespace HaDocument.Reactors {
                 (Sort.Year >= _availableYearRange.Item1 && Sort.Year <= _availableYearRange.Item2) ||
                 (_availableVolumes == null && _availableYearRange.Item1 == 0 && _availableYearRange.Item2 == 0)
             ) {
-                if (Index == "1190") {
-                    ;
-                }
                 var ZHInfo = !inZH ? null : new ZHInfo(AltLineNumbering, dateChanged, Volume, Page);
                 var meta = new Meta(
                     Index,

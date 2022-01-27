@@ -24,10 +24,10 @@ namespace HamannPrinter
         public MainWindow()
         {
             InitializeComponent();
-            RegisterDocs.IsChecked = false;
-            VolumeDocs.IsChecked = true;
+            RegisterDocs.IsChecked = true;
+            VolumeDocs.IsChecked = false;
             StartYearTextBox.Text = "1751";
-            EndYearTextBox.Text = "1788"; // DEV
+            EndYearTextBox.Text = "1762"; // DEV
             XmlFileBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\XML"; // DEV
             OutputDirBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\Ausg"; // DEV
             Act(); // DEV

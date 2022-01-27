@@ -57,8 +57,8 @@ namespace HaLive
 
     class Options : IHaDocumentOptions {
         public string HamannXMLFilePath { get; set; } = @"Hamann.xml";
-        public string[] AvailableVolumes { get; set; } = { "1", "2", "3", "4", "5", "6", "7" };
+        public string[] AvailableVolumes { get; set; } = {  };
         public bool NormalizeWhitespace { get; set; } = true;
-        public (int, int) AvailableYearRange {get; set; } = (1751, 1788);
+        public (int, int) AvailableYearRange {get; set; } = (1751, 1762);
     }
 }
