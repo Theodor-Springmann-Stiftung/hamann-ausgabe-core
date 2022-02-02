@@ -42,7 +42,10 @@
         sb.Append(HTMLHelpers.CreateElement("div", "lemma", comm.Index));
         new LinkBuilder(lib, rd, sb);
         rd.Read();
-        var backlinks = lib.Backlinks.ContainsKey(comm.Index) ? lib.Backlinks[comm.Index].OrderBy(x => x.Letter) : null;
+        var backlinks = lib.Backlinks.ContainsKey(comm.Index) ? lib.Backlinks[comm.Index]
+            .Where(x => lib.Metas.ContainsKey(x.Letter))
+            .OrderBy(x => lib.Metas[x.Letter].Sort)
+            .ThenBy( x => lib.Metas[x.Letter].Order ) : null;
         if (backlinks != null) {
            sb.Append(HTMLHelpers.CreateElement("div", "backlinks"));
             var arrow = false;
