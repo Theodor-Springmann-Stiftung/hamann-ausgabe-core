@@ -91,7 +91,7 @@
                                        Band&nbsp;
                                        &nbsp;
                                        <select class="form-control hform" asp-for="havolume">
-                                           @foreach (var y in lib.Options.AvailableVolumes)
+                                           @foreach (var y in lib.Structure.Keys.OrderBy(x => Int32.Parse(x)))
                                            {
                                                <option>@y</option>
                                            }
