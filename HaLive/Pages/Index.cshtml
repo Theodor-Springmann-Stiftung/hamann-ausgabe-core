@@ -91,7 +91,7 @@
                                        Band&nbsp;
                                        &nbsp;
                                        <select class="form-control hform" asp-for="havolume">
-                                           @foreach (var y in lib.Structure.Keys.OrderBy(x => Int32.Parse(x)))
+                                           @foreach (var y in lib.Structure.Keys.OrderBy(x => Int32.Parse(x)).Where(x => lib.Structure[x].Count > 100))
                                            {
                                                <option>@y</option>
                                            }
