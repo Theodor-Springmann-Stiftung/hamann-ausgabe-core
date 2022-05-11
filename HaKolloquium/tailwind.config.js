@@ -11,8 +11,8 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Biolinum', 'sans-serif'],
-      serif: ['Libertine', 'serif'],
+      sans: ['Biolinum G', 'Biolinum', 'sans-serif'],
+      serif: ['Libertine G', 'Libertine', 'serif'],
     },
     screens: {
       'sm': '640px',

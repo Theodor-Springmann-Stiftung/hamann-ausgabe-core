@@ -1,0 +1,84 @@
+<header class="sticky w-100 font-serif mb-6">
+    <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 py-3 px-3 lg:px-8 flex-wrap">
+        <a href="/" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
+            <img src="/favicon.ico" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 p-1 border border-gray-900 border-t-gray-200 border-l-gray-200 " alt="HKB-Logo" loading="lazy" />
+                <span class="sm:hidden">J. G. Hamann: Kommentierte Briefausgabe</span> 
+                <span class="hidden sm:inline md:hidden">Johan Georg Hamann: Kommentierte Briefausgabe</span> 
+                <span class="hidden md:inline align-baseline">Johann Georg Hamann: Kommentierte Briefausgabe (&#x200A;H&#x200A;K&#x200A;B&#x200A;)</span>
+        </a>
+        <div class="flex grow shrink">
+
+        </div>
+        <div class="ha-menusymbol inline-block lg:hidden pr-3 align-bottom">
+            <button id="openmenubutton">
+                <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    aria-labelledby="hamburgerIconTitle">
+                    <title id="hamburgerIconTitle">Menu</title>
+                    <path d="M6 7L18 7M6 12L18 12M6 17L18 17"></path>
+                </svg>
+            </button>
+            <button class="hidden" id="closemenubutton">
+                <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    aria-labelledby="closeIconTitle">
+                    <title id="closeIconTitle">Close</title>
+                    <path d="M6.34314575 6.34314575L17.6568542 17.6568542M6.34314575 17.6568542L17.6568542 6.34314575">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <div class="topnav" id="topnav">
+            <a class="" href="/">
+                Suche & Briefauswahl
+            </a>
+            <a class="" href="/kolloquien.html">
+                Briefansicht
+            </a>
+            <a class="" href="/acta-baende.html">
+                Register
+            </a>
+            <a class="" href="/studien.html">
+                Edition
+            </a>
+        </div>
+    </nav>
+</header>
+
+<script>
+
+    const _openmenu = function () {
+        var x = document.getElementById("topnav");
+        if (x !== null) x.className += " responsive";
+        let oldbutton = document.getElementById("openmenubutton");
+        if (oldbutton !== null) oldbutton.setAttribute('class', 'hidden');
+        let newbutton = document.getElementById("closemenubutton");
+        if (newbutton !== null) newbutton.setAttribute('class', '');
+    }
+
+    const _closemenu = function () {
+        var x = document.getElementById("topnav");
+        if (x !== null) x.className = "topnav";
+        let oldbutton = document.getElementById("closemenubutton");
+        if (oldbutton !== null) oldbutton.setAttribute('class', 'hidden');
+        let newbutton = document.getElementById("openmenubutton");
+        if (newbutton !== null) newbutton.setAttribute('class', '');
+
+    }
+
+    const _markactive = function () {
+        // Marks links as active
+        var all_links = this.getElementsByTagName("a"),
+            i = 0, len = all_links.length,
+            full_path = location.href.split('#')[0]; //Ignore hashes
+
+        for (; i < len; i++) {
+            if (all_links[i].href.split("#")[0] == full_path) {
+                all_links[i].className += " active";
+            }
+        }
+    }
+
+
+    document.getElementById("openmenubutton").addEventListener('click', _openmenu);
+    document.getElementById("closemenubutton").addEventListener('click', _closemenu);
+
+</script>

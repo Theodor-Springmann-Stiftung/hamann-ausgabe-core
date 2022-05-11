@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Regular woff-files for regular font variants
+   Instead we use the Graphite versions of the font currently  
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_R.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_R.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*/
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('/fonts/LinBiolinum_R_G.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('/fonts/LinLibertine_R_G.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_RI.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_RB.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_RI.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_RB.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Playfair';
+    src: url('../fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@layer components {
+    body {
+        @apply text-base lg:text-lg
+    }
+
+    p {
+        @apply my-3
+    }
+
+    h1 {
+        @apply font-bold text-xl 2xl:font-normal 2xl:text-4xl
+    }
+
+    h2 {
+        @apply text-lg 2xl:text-2xl
+    }
+
+    a {
+        @apply text-gray-700 hover:text-gray-900
+    }
+
+    .topnav {
+        @apply flex lg:grow-0 lg:shrink-0 md:text-lg 2xl:text-xl lg:place-self-end mb-1
+    }
+
+    .topnav a {
+        @apply hidden lg:inline pr-5 2xl:pr-6
+    }
+
+    .active {
+        @apply text-hamannHighlight
+    }
+
+    .ha-maincolumn {
+        @apply bg-slate-50 mx-auto p-2 md:p-4 lg:px-16 lg:py-12 xl:pr-80 text-lg font-serif
+    }
+
+    .topnav.responsive {
+        @apply mt-4 text-base;
+    }
+}
+
+body {
+    background-image:url('../img/subtlenet2.png');
+    background-repeat:repeat;
+}
+
+ul {
+    list-style-type:circle;
+}
+
+.ha-maincolumn {
+    max-width:1280px;
+}
+
+.ha-maincolumn p {
+    hyphens:auto;
+}
+
+.ha-menusymbol {
+    background:var(--white);
+    border-radius:4px;
+}
+
+.ha-menusymbol svg {
+    width:24px;
+    height:24px;
+    stroke:#000000;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:miter;
+    fill:none;
+    color:#000000;
+}
+
+@media screen and (max-width:1344px) {
+    .topnav.responsive {
+        display:block !important;
+        width:100%;
+    }
+
+    .topnav.responsive a {
+        display:block;
+        text-align:left;
+        clear:both;
+    }
+}
