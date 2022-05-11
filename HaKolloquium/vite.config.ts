@@ -4,6 +4,7 @@ const { resolve } = require('path')
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  assetsInclude: ['**/*.pdf'],
   build: {
     assetsInlineLimit: 0,
     // lib: {
