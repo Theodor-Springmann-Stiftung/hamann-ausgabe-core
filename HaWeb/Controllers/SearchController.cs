@@ -7,6 +7,9 @@ namespace HaWeb.Controllers;
 public class SearchController : Controller
 {
 
+    [Route("")]
+    [Route("Home")]
+    [Route("Home/Index")]
     public IActionResult Index()
     {
         return View();

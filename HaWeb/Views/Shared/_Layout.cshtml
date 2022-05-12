@@ -18,10 +18,10 @@
 
 </head>
 
-<body>
+<body class="w-100 h-100">
     @await Html.PartialAsync("/Views/Shared/_Menu.cshtml")
 
-    <div class="container">
+    <div class="w-full desktop:max-w-screen-desktop mx-auto">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

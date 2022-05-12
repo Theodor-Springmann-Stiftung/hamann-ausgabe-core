@@ -6,15 +6,25 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
-    <UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
-    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+     <!-- exclude all Content items from being watched -->
+    <Content Update="wwwroot/css/site.css" Watch="false" />
+</ItemGroup>
+  <ItemGroup>
+    <Watch Include="**\*.js" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
+    <Watch Include="**\*.css" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
+    <Watch Include="**\*.cs" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
+    <Watch Include="**\*.cshtml" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
+    <Watch Include="**\*.csproj" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.357" />
+    <UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
+    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
   </ItemGroup>
   <Target Name="Tailwind" BeforeTargets="Build">
     <Exec Command="npm run css:build" />
   </Target>
+  <ItemGroup>
+    <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.357" />
+  </ItemGroup>
 
 </Project>

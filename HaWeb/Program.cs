@@ -2,6 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 // builder.Services.AddWebOptimizer();
 
 var app = builder.Build();
@@ -16,17 +17,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 // app.UseWebOptimizer();
-
-app.UseStaticFiles();
-
-app.UseRouting();
-
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Search}/{action=Index}/{id?}");
-
-
-
+app.UseStaticFiles();
+app.UseRouting();
+app.MapControllers();
 app.Run();
