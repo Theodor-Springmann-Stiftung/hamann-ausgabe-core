@@ -81,7 +81,7 @@
 
 @layer components {
     body {
-        @apply text-base xl:text-lg w-full h-full
+        @apply text-base desktop:text-lg w-full h-full
     }
 
     .ha-topnav {
@@ -142,19 +142,27 @@
         @apply w-full bg-slate-50 py-12 px-16 hyphenate md:pr-80 font-serif
     }
     .ha-static h1 {
-        @apply font-bold text-xl 2xl:font-normal 2xl:text-4xl mb-4
+        @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
     }
 
     .ha-static h2 {
-        @apply my-3 mt-4 text-lg 2xl:text-2xl
+        @apply my-3 mt-4 text-lg desktop:text-2xl
     }
 
     .ha-static h3 {
-        @apply my-3 mt-4 text-hamannHighlight italic
+        @apply mt-4 mb-2 text-hamannHighlight
     }
 
     .ha-static table {
         @apply my-3 w-full
+    }
+
+    .ha-static table th {
+        @apply text-left font-normal text-hamannHighlight
+    }
+
+    .ha-static .fullwidth {
+        @apply w-full desktop:max-w-screen-desktop md:-mr-80
     }
 
     .ha-static p {

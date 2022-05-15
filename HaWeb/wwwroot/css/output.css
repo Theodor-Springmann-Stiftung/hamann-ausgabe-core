@@ -475,7 +475,7 @@ body {
   line-height: 1.5rem;
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1190px) {
   body {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -667,13 +667,13 @@ body {
 }
 
 .ha-static h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 700;
 }
 
-@media (min-width: 1680px) {
+@media (min-width: 1190px) {
   .ha-static h1 {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -688,7 +688,7 @@ body {
   line-height: 1.75rem;
 }
 
-@media (min-width: 1680px) {
+@media (min-width: 1190px) {
   .ha-static h2 {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -696,9 +696,8 @@ body {
 }
 
 .ha-static h3 {
-  margin-bottom: 0.75rem;
   margin-top: 1rem;
-  font-style: italic;
+  margin-bottom: 0.5rem;
   --tw-text-opacity: 1;
   color: rgb(216 0 0 / var(--tw-text-opacity));
 }
@@ -707,6 +706,29 @@ body {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   width: 100%;
+}
+
+.ha-static table th {
+  text-align: left;
+  font-weight: 400;
+  --tw-text-opacity: 1;
+  color: rgb(216 0 0 / var(--tw-text-opacity));
+}
+
+.ha-static .fullwidth {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .ha-static .fullwidth {
+    margin-right: -20rem;
+  }
+}
+
+@media (min-width: 1190px) {
+  .ha-static .fullwidth {
+    max-width: 1190px;
+  }
 }
 
 .ha-static p {
@@ -1028,6 +1050,10 @@ body {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.italic {
+  font-style: italic;
 }
 
 .text-black {
