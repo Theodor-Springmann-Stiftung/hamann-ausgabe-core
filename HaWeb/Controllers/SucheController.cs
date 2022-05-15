@@ -4,12 +4,10 @@ using HaWeb.Models;
 
 namespace HaWeb.Controllers;
 
-public class SearchController : Controller
+public class SucheController : Controller
 {
 
-    [Route("")]
-    [Route("Home")]
-    [Route("Home/Index")]
+    [Route("Suche")]
     public IActionResult Index()
     {
         return View();

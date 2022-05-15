@@ -81,7 +81,7 @@
 
 @layer components {
     body {
-        @apply text-base desktop:text-lg w-full h-full
+        @apply text-base xl:text-lg w-full h-full
     }
 
     .ha-topnav {
@@ -89,7 +89,11 @@
     }
 
     .ha-topnav a {
-        @apply hidden text-gray-700 hover:text-gray-900  desktop:inline-block mr-5 2xl:mr-6
+        @apply hidden text-gray-700 hover:text-gray-900  desktop:inline-block mr-6 2xl:mr-7
+    }
+
+    .ha-topnav a:last-child {
+        @apply mr-0
     }
 
     .ha-topnav-dropdown {
@@ -101,7 +105,7 @@
     }
 
     .ha-topnav-dropdown .ha-topnav-dropdown-content {
-        @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-gray-400 border-b-2 z-50
+        @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-gray-400 border-b z-50
     }
 
     .ha-topnav-dropdown .ha-topnav-dropdown-content a {
@@ -114,27 +118,56 @@
 
     .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
         @apply bg-gray-100
-    } 
+    }
 
-    /* TODO INLINE .ha-container {
-        @apply max-w-[1280px]
-    } 
-    
+    .ha-footer {
+        @apply bg-slate-50 w-full h-full desktop:max-w-screen-desktop mx-auto mt-4 p-2 md:p-4 desktop:p-8 text-lg font-serif text-right
+    }
+
+    .ha-footer a {
+        @apply underline decoration-dotted
+    }
+
+    .ha-footer a:hover {
+        @apply underline decoration-solid
+    }
+
+    /* TODO INLINE
+
     .ha-maincolumn {
         @apply bg-slate-50 mx-auto p-2 md:p-4 desktop:px-16 desktop:py-12 xl:pr-80 text-lg font-serif 
-    } 
-    
-    p {
+    }  */
+
+    .ha-static {
+        @apply w-full bg-slate-50 py-12 px-16 hyphenate md:pr-80 font-serif
+    }
+    .ha-static h1 {
+        @apply font-bold text-xl 2xl:font-normal 2xl:text-4xl mb-4
+    }
+
+    .ha-static h2 {
+        @apply my-3 mt-4 text-lg 2xl:text-2xl
+    }
+
+    .ha-static h3 {
+        @apply my-3 mt-4 text-hamannHighlight italic
+    }
+
+    .ha-static table {
+        @apply my-3 w-full
+    }
+
+    .ha-static p {
         @apply my-3
     }
 
-    h1 {
-        @apply font-bold text-xl 2xl:font-normal 2xl:text-4xl
+    .ha-static a {
+        @apply underline decoration-dotted
     }
 
-    h2 {
-        @apply text-lg 2xl:text-2xl
-    } */
+    .ha-static a:hover {
+        @apply underline decoration-solid
+    }
 
     /* Classes from .NET */
 
@@ -175,6 +208,11 @@
     .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown .ha-topnav-dropdown-content a {
         @apply py-1 desktop:py-2
     }
+
+}
+
+* {
+    text-decoration-skip-ink: all;
 }
 
 body {
@@ -185,6 +223,10 @@ body {
 /* ul {
     list-style-type:circle;
 } */
+
+.hyphenate {
+    hyphens: auto;
+}
 
 .ha-menu-arrowsymbol::after {
     display: inline-block;

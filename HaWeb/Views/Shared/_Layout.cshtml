@@ -18,17 +18,17 @@
 
 </head>
 
-<body class="w-100 h-100">
+<body class="w-full h-full">
     @await Html.PartialAsync("/Views/Shared/_Menu.cshtml")
 
-    <div class="w-full desktop:max-w-screen-desktop mx-auto">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto">
+        @RenderBody()
+    </main>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
 </body>
 
 </html>

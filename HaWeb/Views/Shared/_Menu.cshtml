@@ -1,3 +1,6 @@
+@{
+    var showCredits = ViewData["showCredits"] == "true" ? true : false;
+}
 <header class="sticky w-100 font-serif mb-6">
     <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 py-3 px-3 desktop:px-8 flex-wrap">
         <a href="/" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
@@ -27,36 +30,42 @@
             </button>
         </div>
         <div class="ha-topnav " id="ha-topnav">
-            <a class="" href="/">
+            <a href="/Suche">
                 Suche & Briefauswahl
             </a>
-            <a class="" href="/Briefe/1">
+            <a href="/Briefe">
                 Briefansicht
             </a>
             <div class="ha-topnav-dropdown">
-                <a class="cursor-default ha-menu-arrowsymbol">
+                <a href="/Register" class="cursor-default ha-menu-arrowsymbol pointer-events-none">
                     Register
                 </a>
-                <div class="ha-topnav-dropdown-content">
-                    <a class="" href="/Register/Register">Register</a>
-                    <a class="" href="/Register/Bibelstellenregister">Bibelstellenregister</a>
-                    <a class="" href="/Register/Forschungsbibliographie">Forschungsbibliographie</a>
+                <div class="ha-topnav-dropdown-content" >
+                    <a href="/Register/Register" class="">Register</a>
+                    <a href="/Register/Bibelstellen" class="">Bibelstellenregister</a>
+                    <a href="/Register/Forschung" class="">Forschungsbibliographie</a>
                 </div>
             </div>
              <div class="ha-topnav-dropdown">
-                <a class="cursor-default ha-menu-arrowsymbol">
+                <a href="/Edition" class="cursor-default ha-menu-arrowsymbol pointer-events-none !mr-0" >
                 Edition
                 </a>
-                <div class="ha-topnav-dropdown-content">
-                    <a class="" href="/Edition/Kontakt">Kontakt</a>
-                    <a class="" href="/Edition/Mitwirkende">Mitwirkende</a>
-                    <a class="" href="/Edition/Richtlinien">Editionsrichtlinien</a>
-                    <a class="" href="/Edition/Editionsgeschichte">Editionsgeschichte</a>
-                    <a class="" href="/Edition/Werkausgabe">Werkausgabe</a>
+                <div class="ha-topnav-dropdown-content !mr-0">
+                    <a href="/Edition/Kontakt" class="">Kontakt</a>
+                    <a href="/Edition/Mitwirkende" class="">Mitwirkende</a>
+                    <a href="/Edition/Richtlinien" class="">Editionsrichtlinien</a>
+                    <a href="/Edition/Editionsgeschichte" class="">Editionsgeschichte</a>
+                    <a href="/Edition/Werkausgabe" class="">Werkausgabe</a>
                 </div>
             </div>
         </div>
     </nav>
+    @if(showCredits) 
+    {
+        <div class="desktop:block hidden w-100 bg-slate-50 pb-3 px-3 desktop:px-8 overflow-hidden whitespace-nowrap text-ellipsis">
+            <a href="/Edition/Mitwirkende">Hg. v. Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von G. Babelotzky, K. Bucher, Ch. Großmann, C.F. Haak, L. Klopfer, J. Knüchel, I. Langkabel und S. Martens (Heidelberg 2020ff.)</a>
+        </div>
+    }
 </header>
 
 <script>
@@ -81,21 +90,19 @@
     }
 
     const _markactive = function (element) {
-        // Marks links as active
+        // Marks links as active which target URL starts with the current URL
         var all_links = element.getElementsByTagName("a"),
             i = 0, len = all_links.length,
-            full_path = location.href.split('#')[0]; //Ignore hashes
+            full_path = location.href.split('#')[0].toLowerCase(); //Ignore hashes
 
         for (; i < len; i++) {
-            if (all_links[i].href.split("#")[0] == full_path) {
+            if (full_path.startsWith(all_links[i].href.toLowerCase())) {
+                console.log(all_links[i].href.split("#")[0]);
                 all_links[i].className += " active";
             }
         }
     }
-
-
     document.getElementById("openmenubutton").addEventListener('click', _openmenu);
     document.getElementById("closemenubutton").addEventListener('click', _closemenu);
     _markactive(document.getElementById("ha-topnav"));
-
 </script>

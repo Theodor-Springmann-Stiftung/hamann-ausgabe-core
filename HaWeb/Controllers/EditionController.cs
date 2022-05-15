@@ -5,7 +5,6 @@ using HaWeb.Models;
 namespace HaWeb.Controllers;
 
 [Route("Edition/[action]")]
-[Route("Edition/[action]/Index")]
 public class EditionController : Controller
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -34,6 +33,11 @@ public class EditionController : Controller
     }
 
     public IActionResult Editionsgeschichte()
+    {
+        return View();
+    }
+
+    public IActionResult Datenschutzerklaerung()
     {
         return View();
     }
