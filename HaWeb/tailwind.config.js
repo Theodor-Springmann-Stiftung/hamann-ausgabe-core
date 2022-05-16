@@ -7,6 +7,7 @@ module.exports = {
     fontFamily: {
       sans: ['Biolinum', 'sans-serif'],
       serif: ['Libertine', 'serif'],
+      classy: ['Playfair', 'serif'],
     },
     screens: {
       'sm': '786px',

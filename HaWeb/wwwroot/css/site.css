@@ -139,7 +139,7 @@
     }  */
 
     .ha-static {
-        @apply w-full bg-slate-50 py-12 px-16 hyphenate md:pr-80 font-serif
+        @apply w-full bg-slate-50 py-12 px-12 md:px-16 hyphenate font-serif
     }
     .ha-static h1 {
         @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
@@ -158,11 +158,19 @@
     }
 
     .ha-static table th {
-        @apply text-left font-normal text-hamannHighlight
+        @apply pl-2 pr-2 desktop:pr-4 text-left font-normal text-hamannHighlight
     }
 
-    .ha-static .fullwidth {
-        @apply w-full desktop:max-w-screen-desktop md:-mr-80
+    .ha-static table tr td {
+        @apply pl-2 pr-2 desktop:pr-4 align-top desktop:whitespace-nowrap
+    }
+
+    .ha-static table tr td:last-child {
+        @apply desktop:whitespace-normal
+    }
+
+    .ha-static table tr:nth-child(even) {
+        @apply bg-slate-200
     }
 
     .ha-static p {
@@ -177,7 +185,46 @@
         @apply underline decoration-solid
     }
 
+    .ha-static .ha-footnote {
+        @apply relative text-sm desktop:text-base
+    }
+
+    .ha-static .ha-footnote .ha-footnote-ref {
+        @apply inline-block absolute text-right w-8 -left-10
+    }
+
     /* Classes from .NET */
+    .ha-serif {
+        @apply font-serif
+    }
+
+    .ha-aq {
+        @apply font-sans
+    }
+
+    .ha-ul {
+        @apply underline
+    }
+
+    .ha-del {
+        @apply line-through
+    }
+
+    .ha-hand {
+        @apply font-classy text-[0.9rem]
+    }
+
+    .ha-added {
+        @apply bg-gray-300 px-1
+    }
+
+    .ha-note {
+        @apply italic text-gray-600
+    }
+
+    .ha-sup {
+        @apply relative -top-[0.5em] text-[80%]
+    }
 
     /* Classes from Javascript */
     .active {
@@ -216,7 +263,6 @@
     .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown .ha-topnav-dropdown-content a {
         @apply py-1 desktop:py-2
     }
-
 }
 
 * {
@@ -234,6 +280,10 @@ body {
 
 .hyphenate {
     hyphens: auto;
+}
+
+.unhyphenate {
+    hyphens: none;
 }
 
 .ha-menu-arrowsymbol::after {

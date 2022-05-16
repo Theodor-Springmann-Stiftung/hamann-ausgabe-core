@@ -1,1 +1,11 @@
-Hello from Register!
+@model RegisterViewModel;
+@using System.Diagnostics;
+
+@foreach (var k in Model.Comments) {
+    <div>@Html.Raw(k.ParsedComment)</div>
+    @if (k.SubComments != null ) {
+        @foreach (var sk in k.SubComments) {
+         <div>@Html.Raw(sk.ParsedComment)</div>
+        }
+    }
+}

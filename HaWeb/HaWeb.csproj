@@ -27,4 +27,10 @@
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.357" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HaXMLReaderV6\HaXMLReaderV6.csproj" />
+    <ProjectReference Include="..\HaDocumentV6\HaDocumentV6.csproj" />
+  </ItemGroup>
+
+
 </Project>

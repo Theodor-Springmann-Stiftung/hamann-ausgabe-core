@@ -652,8 +652,8 @@ body {
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
   padding-top: 3rem;
   padding-bottom: 3rem;
-  padding-left: 4rem;
-  padding-right: 4rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
   font-family: Libertine, serif;
   -webkit-hyphens: auto;
       -ms-hyphens: auto;
@@ -662,7 +662,8 @@ body {
 
 @media (min-width: 1024px) {
   .ha-static {
-    padding-right: 20rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 }
 
@@ -709,26 +710,40 @@ body {
 }
 
 .ha-static table th {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   text-align: left;
   font-weight: 400;
   --tw-text-opacity: 1;
   color: rgb(216 0 0 / var(--tw-text-opacity));
 }
 
-.ha-static .fullwidth {
-  width: 100%;
+@media (min-width: 1190px) {
+  .ha-static table th {
+    padding-right: 1rem;
+  }
 }
 
-@media (min-width: 1024px) {
-  .ha-static .fullwidth {
-    margin-right: -20rem;
-  }
+.ha-static table tr td {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  vertical-align: top;
 }
 
 @media (min-width: 1190px) {
-  .ha-static .fullwidth {
-    max-width: 1190px;
+  .ha-static table tr td {
+    white-space: nowrap;
+    padding-right: 1rem;
   }
+
+  .ha-static table tr td:last-child {
+    white-space: normal;
+  }
+}
+
+.ha-static table tr:nth-child(even) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 .ha-static p {
@@ -750,7 +765,70 @@ body {
           text-decoration-style: solid;
 }
 
+.ha-static .ha-footnote {
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 1190px) {
+  .ha-static .ha-footnote {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.ha-static .ha-footnote .ha-footnote-ref {
+  position: absolute;
+  left: -2.5rem;
+  display: inline-block;
+  width: 2rem;
+  text-align: right;
+}
+
 /* Classes from .NET */
+
+.ha-serif {
+  font-family: Libertine, serif;
+}
+
+.ha-aq {
+  font-family: Biolinum, sans-serif;
+}
+
+.ha-ul {
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+}
+
+.ha-del {
+  -webkit-text-decoration-line: line-through;
+          text-decoration-line: line-through;
+}
+
+.ha-hand {
+  font-family: Playfair, serif;
+  font-size: 0.9rem;
+}
+
+.ha-added {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.ha-note {
+  font-style: italic;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.ha-sup {
+  position: relative;
+  top: -0.5em;
+  font-size: 80%;
+}
 
 /* Classes from Javascript */
 
@@ -891,9 +969,23 @@ body {
   position: sticky;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.mx-8 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.ml-8 {
+  margin-left: 2rem;
 }
 
 .mb-6 {
@@ -958,6 +1050,10 @@ body {
 
 .cursor-default {
   cursor: default;
+}
+
+.list-disc {
+  list-style-type: disc;
 }
 
 .flex-row {
@@ -1186,6 +1282,12 @@ body {
           hyphens: auto;
 }
 
+.unhyphenate {
+  -webkit-hyphens: none;
+      -ms-hyphens: none;
+          hyphens: none;
+}
+
 .ha-menu-arrowsymbol::after {
   display: inline-block;
   margin-left: 0.2em;
@@ -1236,6 +1338,10 @@ body {
   .md\:hidden {
     display: none;
   }
+
+  .md\:pr-80 {
+    padding-right: 20rem;
+  }
 }
 
 @media (min-width: 1190px) {
@@ -1253,6 +1359,10 @@ body {
 
   .desktop\:px-8 {
     padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .desktop\:pr-8 {
     padding-right: 2rem;
   }
 }
