@@ -640,11 +640,7 @@ body {
           text-decoration-style: solid;
 }
 
-/* TODO INLINE
-
-    .ha-maincolumn {
-        @apply bg-slate-50 mx-auto p-2 md:p-4 desktop:px-16 desktop:py-12 xl:pr-80 text-lg font-serif 
-    }  */
+/* Classes for static pages */
 
 .ha-static {
   width: 100%;
@@ -786,7 +782,245 @@ body {
   text-align: right;
 }
 
+/* Classes for register pages */
+
+.ha-register {
+  width: 100%;
+  font-family: Libertine, serif;
+  font-variant-numeric: oldstyle-nums;
+}
+
+.ha-register .ha-register-head, .ha-register .ha-register-body {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding-left: 2.25rem;
+  padding-right: 2.25rem;
+  padding-top: 2.25rem;
+}
+
+@media (min-width: 1024px) {
+  .ha-register .ha-register-head, .ha-register .ha-register-body {
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 3rem;
+  }
+}
+
+.ha-register .ha-register-head {
+  border-bottom-width: 2px;
+}
+
+.ha-register .ha-register-head h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+@media (min-width: 1190px) {
+  .ha-register .ha-register-head h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 400;
+  }
+}
+
+.ha-register .ha-register-head .ha-register-nav {
+  font-family: Biolinum, sans-serif;
+}
+
+.ha-register .ha-register-head .ha-register-nav a {
+  margin-right: 0.25rem;
+  display: inline-block;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+.ha-register .ha-register-head .ha-register-nav a:hover {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
+@media (min-width: 1024px) {
+  .ha-register .ha-register-head .ha-register-nav a {
+    margin-right: 0.75rem;
+  }
+}
+
+.ha-register .ha-register-head .ha-register-nav a:first {
+  padding-left: 0px;
+}
+
+.ha-register .ha-register-head .ha-register-nav a.active {
+  border-bottom-width: 2px;
+}
+
+.ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
+  display: inline-block;
+}
+
+.ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
+  display: inline-block;
+}
+
+.ha-register .ha-register-body {
+  padding-bottom: 2.25rem;
+}
+
+@media (min-width: 1024px) {
+  .ha-register .ha-register-body {
+    padding-right: 24rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.ha-register .ha-register-body .ha-comment {
+  margin-bottom: 2.25rem;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .ha-register .ha-register-body .ha-comment {
+    margin-bottom: 3rem;
+  }
+}
+
+.ha-register .ha-register-body .ha-comment a {
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  -webkit-text-decoration-style: dotted;
+          text-decoration-style: dotted;
+}
+
+.ha-register .ha-register-body .ha-comment a:hover {
+  -webkit-text-decoration-style: solid;
+          text-decoration-style: solid;
+}
+
+.ha-register .ha-register-body .ha-comment .ha-headcomment {
+  display: block;
+}
+
+@media (min-width: 1190px) {
+  .ha-register .ha-register-body .ha-comment .ha-headcomment {
+    position: relative;
+  }
+}
+
+.ha-register .ha-register-body .ha-comment .ha-subcomment {
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+@media (min-width: 1190px) {
+  .ha-register .ha-register-body .ha-comment .ha-subcomment {
+    position: relative;
+  }
+}
+
+.ha-register .ha-register-body .ha-comment .ha-commenthead {
+  display: block;
+}
+
+.ha-register .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
+  display: inline;
+  font-weight: 700;
+}
+
+.ha-register .ha-forschung .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
+  display: inline;
+  font-weight: 400;
+}
+
+.ha-register .ha-forschung .ha-register-body .ha-comment {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  text-indent: -1rem;
+}
+
+@media (min-width: 1024px) {
+  .ha-register .ha-forschung .ha-register-body .ha-comment {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+  margin-left: 0.5rem;
+  display: inline-block;
+  font-family: Biolinum, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  line-height: 1.375;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+  font-variant-caps: all-petite-caps;
+}
+
+@media (min-width: 1024px) {
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+.ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+  padding-left: 0.5rem;
+}
+
+@media (min-width: 1190px) {
+  .ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+    position: absolute;
+    left: 48rem;
+    top: 0px;
+    display: block;
+    width: 20rem;
+    border-left-width: 2px;
+    text-indent: 0px;
+  }
+}
+
+.ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+  padding-left: 0.5rem;
+}
+
+@media (min-width: 1190px) {
+  .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+    position: absolute;
+    left: 46rem;
+    top: 0px;
+    display: block;
+    width: 20rem;
+    border-left-width: 2px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+    text-indent: 0px;
+  }
+}
+
+.ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
+  -webkit-text-decoration-line: none;
+          text-decoration-line: none;
+}
+
+.ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a:hover {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
 /* Classes from .NET */
+
+.ha-title {
+  display: inline;
+  font-style: italic;
+}
+
+.ha-insertedlemma {
+  display: inline;
+}
 
 .ha-serif {
   font-family: Libertine, serif;
@@ -1288,6 +1522,27 @@ body {
           hyphens: none;
 }
 
+.numeric-mediaeval {
+  font-variant-numeric: oldstyle-nums;
+}
+
+.numeric-normal {
+  font-variant-numeric: normal;
+}
+
+.caps-small {
+  font-variant-caps: all-petite-caps;
+}
+
+.caps-normal {
+  font-variant-caps: normal;
+}
+
+.break-inside-avoid {
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
+}
+
 .ha-menu-arrowsymbol::after {
   display: inline-block;
   margin-left: 0.2em;
@@ -1313,6 +1568,15 @@ body {
   stroke-linejoin:miter;
   fill:none;
   color:#000000;
+}
+
+/* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */
+
+@media (max-width: 1190px) {
+  .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
+    height: auto !important;
+    overflow: unset !important;
+  }
 }
 
 .hover\:text-black:hover {

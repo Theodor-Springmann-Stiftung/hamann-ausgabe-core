@@ -14,10 +14,6 @@ namespace HaWeb.Controllers;
 [Route("Register/[action]/{id?}")]
 public class RegisterController : Controller
 {
-    private static HashSet<string> _permittedRegister;
-    private static HashSet<string> _permittedBibelstellen;
-    private static HashSet<string> _permittedForschung;
-
     [BindProperty(SupportsGet = true)]
     public string? search { get; set; }
 
@@ -32,88 +28,161 @@ public class RegisterController : Controller
     {
         _lib = lib;
         _readerService = readerService;
-
-        _permittedRegister = new HashSet<string>();
-        _lib.CommentsByCategoryLetter["neuzeit"].Select(x => _permittedRegister.Add(x.Key));
-
-        _permittedForschung = new HashSet<string>();
-        _lib.CommentsByCategoryLetter["forschung"].Select(x => _permittedForschung.Add(x.Key));
-        _permittedForschung.Add("Editionen");
-
-        _permittedBibelstellen = new HashSet<string>();
-        _permittedBibelstellen.Add("NT");
-        _permittedBibelstellen.Add("AP");
-        _permittedBibelstellen.Add("AT");
     }
 
     public IActionResult Register(string? id)
     {
+        // Setup settings and variables
+        var url = "/Register/Register/";
         var category = "neuzeit";
         var defaultLetter = "A";
-        normalizeID(id, defaultLetter);
+        var title = "Allgemeines Register";
         ViewData["Title"] = "Allgemeines Register";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Personen-, Sach- und Ortsregister.";
-        return standardModel(category, id, defaultLetter, new RegisterViewModel(), _permittedRegister);
+
+        // Normalisation and validation
+        if (id == null) return Redirect(url + defaultLetter);
+        normalizeID(id, defaultLetter);
+        if (!_lib.CommentsByCategoryLetter[category].Contains(this.id)) return error404();
+
+        // Data aquisition and validation
+        var comments = _lib.CommentsByCategoryLetter[category][this.id].OrderBy(x => x.Index);
+        var availableCategories = _lib.CommentsByCategoryLetter[category].Select(x => (x.Key.ToUpper(), url + x.Key.ToUpper())).OrderBy(x => x.Item1).ToList();
+        if (comments == null) return error404();
+
+        // Parsing
+        var res = new List<CommentModel>();
+        foreach (var comm in comments)
+        {
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm);
+            List<string>? parsedSubComments = null;
+            if (comm.Kommentare != null)
+            {
+                parsedSubComments = new List<string>();
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
+                {
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value));
+                }
+            }
+            res.Add(new CommentModel(parsedComment, parsedSubComments));
+        }
+
+        // Model instantiation
+        var model = new RegisterViewModel(category, this.id, res, title)
+        {
+            AvailableCategories = availableCategories,
+        };
+
+        // Return
+        return View("Index", model);
     }
 
     public IActionResult Bibelstellen(string? id)
     {
+        // Setup settings and variables
+        var url = "/Register/Bibelstellen/";
         var category = "bibel";
         var defaultLetter = "AT";
-        normalizeID(id, defaultLetter);
+        var title = "Bibelstellenregister";
         ViewData["Title"] = "Bibelstellenregister";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Bibelstellenregister.";
-        var model = new RegisterViewModel() {
-            AvailableCategories = new List<(string, string)>() { ("Altes Testament", "AT"), ("Apogryphen", "AP"), ("Neues Testament", "NT") },
-            Comments = _lib.CommentsByCategory["bibel"].ToLookup(x => x.Index.Substring(0, 2).ToUpper()).Contains(id) ?
-                    _lib.CommentsByCategory["bibel"].ToLookup(x => x.Index.Substring(0, 2).ToUpper())[id].Select(x => new CommentModel(x)).OrderBy(x => x.Comment.Order).ToList() : null,
+
+        // Normalisation and Validation
+        if (id == null) return Redirect(url + defaultLetter);
+        normalizeID(id, defaultLetter);
+        if (this.id != "AT" && this.id != "AP" && this.id != "NT") return error404();
+        
+        // Data aquisition and validation
+        var comments = _lib.CommentsByCategory[category].ToLookup(x => x.Index.Substring(0, 2).ToUpper())[this.id].OrderBy(x => x.Order);
+        var availableCategories = new List<(string, string)>() { ("Altes Testament", url + "AT"), ("Apogryphen", url + "AP"), ("Neues Testament", url + "NT") };
+        if (comments == null) return error404();
+
+        // Parsing
+        var res = new List<CommentModel>();
+        foreach (var comm in comments)
+        {
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm);
+            List<string>? parsedSubComments = null;
+            if (comm.Kommentare != null)
+            {
+                parsedSubComments = new List<string>();
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma))
+                {
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value));
+                }
+            }
+            res.Add(new CommentModel(parsedComment, parsedSubComments));
+        }
+
+        // Model instantiation
+        var model = new RegisterViewModel(category, this.id, res, title)
+        {
+            AvailableCategories = availableCategories,
         };
-        return standardModel(category, id, defaultLetter, new RegisterViewModel(), _permittedBibelstellen);
+
+        // Return
+        return View("Index", model);
     }
 
     public IActionResult Forschung(string? id)
     {
+        // Setup settings and variables
+        var url = "/Register/Forschung/";
         var category = "forschung";
         var defaultLetter = "A";
-        normalizeID(id, defaultLetter);
-        if (id != null && id.ToUpper() == "EDITIONEN") category = "editionen";
-        var model = new RegisterViewModel()
-        {
-            AvailableSideCategories = new List<(string, string)>() { ("Editionen", "Editionen") },
-        };
+        var title = "Forschungsbibliographie";
         ViewData["Title"] = "Forschungsbibliographie";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Forschungsbibliographie.";
-        return standardModel(category, id, defaultLetter, new RegisterViewModel(), _permittedForschung);
-    }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
-    private IActionResult standardModel(string category, string? id, string defaultid, HaWeb.Models.RegisterViewModel model, HashSet<string> permitted)
-    {
-        if (!validationCheck(permitted)) {
-            Response.StatusCode = 404;
-            return Redirect("/Error404");
+        // Normalisation and Validation
+        if (id == null) return Redirect(url + defaultLetter);
+        normalizeID(id, defaultLetter);
+        if (this.id != "EDITIONEN" && !_lib.CommentsByCategoryLetter[category].Contains(this.id)) return error404();
+        if (this.id == "EDITIONEN" && !_lib.CommentsByCategoryLetter.Keys.Contains(this.id.ToLower())) return error404();
+        
+        // Data aquisition and validation
+        IOrderedEnumerable<Comment>? comments = null;
+        if (this.id == "EDITIONEN") {
+            comments = _lib.CommentsByCategory[this.id.ToLower()].OrderBy(x => x.Index);
+        } 
+        else {
+            comments = _lib.CommentsByCategoryLetter[category][this.id].OrderBy(x => x.Index);
         }
-        model.Category = category;
-        model.Id = id;
-        model.Search = search ?? "";
-        model.Comments = model.Comments ?? _lib.CommentsByCategoryLetter[category][id].Select(x => new CommentModel(x)).OrderBy(x => x.Comment.Index).ToList();
-        model.AvailableCategories = model.AvailableCategories ?? _lib.CommentsByCategoryLetter[category].Select(x => (x.Key.ToUpper(), x.Key.ToUpper())).ToList();
-        model.AvailableCategories.Sort();
+        var availableCategories = _lib.CommentsByCategoryLetter[category].Select(x => (x.Key.ToUpper(), url + x.Key.ToUpper())).OrderBy(x => x.Item1).ToList();
+        var AvailableSideCategories = new List<(string, string)>() { ("Editionen", "Editionen") };
+        if (comments == null) return error404();
 
-        foreach (var k in model.Comments)
-            k.SetHTML(_lib, _readerService);
+        // Parsing
+        var res = new List<CommentModel>();
+        foreach (var comm in comments)
+        {
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm);
+            List<string>? parsedSubComments = null;
+            if (comm.Kommentare != null)
+            {
+                parsedSubComments = new List<string>();
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
+                {
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value));
+                }
+            }
+            res.Add(new CommentModel(parsedComment, parsedSubComments));
+        }
 
+        // Model instantiation
+        var model = new RegisterViewModel(category, this.id, res, title)
+        {
+            AvailableCategories = availableCategories,
+            AvailableSideCategories = AvailableSideCategories
+        };
+
+        // Return
         return View("Index", model);
     }
-    
-    private void normalizeID(string? id, string defaultid) {
-        id = id ?? defaultid;
-        id = id.ToUpper();
+
+    private void normalizeID(string? id, string defaultid)
+    {
+        this.id = this.id.ToUpper();
     }
 
     private bool validationCheck(HashSet<string> permitted)
@@ -123,6 +192,12 @@ public class RegisterController : Controller
             return false;
         }
         return true;
+    }
+
+    private IActionResult error404()
+    {
+        Response.StatusCode = 404;
+        return Redirect("/Error404");
     }
 
     // private IEnumerable<Comment> Search(IEnumerable<Comment> all) {

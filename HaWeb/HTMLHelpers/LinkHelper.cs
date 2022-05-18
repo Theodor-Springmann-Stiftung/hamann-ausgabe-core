@@ -14,8 +14,31 @@ public class LinkHelper {
     private StringBuilder _sb;
 
     private bool _followlinksinchildren;
-
     private bool _followlinksinthis;
+
+    private static readonly string DEFAULTELEMENT = HaWeb.Settings.ParsingSettings.DEFAULTELEMENT;
+    private static readonly string LETLINKCLASS = HaWeb.Settings.CSSClasses.LETLINKCLASS;
+    private static readonly string REFLINKCLASS = HaWeb.Settings.CSSClasses.REFLINKCLASS;
+    private static readonly string WWWLINKCLASS = HaWeb.Settings.CSSClasses.WWWLINKCLASS;
+    private static readonly string INSERTEDLEMMACLASS = HaWeb.Settings.CSSClasses.INSERTEDLEMMACLASS;
+    private static readonly string TITLECLASS = HaWeb.Settings.CSSClasses.TITLECLASS;
+
+    // Parsing Rules for inserting lemmas
+    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+        ( x => x.Name == "lemma", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, INSERTEDLEMMACLASS)) ),
+        ( x => x.Name == "titel", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) ),
+        ( x => x.Name == "title", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) )
+    };
+    
+    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+        ( x => x.Name == "lemma", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( x => x.Name == "titel", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( x => x.Name == "title", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT)) )
+    };
+
+    private static readonly List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+        ( x => true, (strbd, txt) => strbd.Append(txt.Value))
+    };
 
     public LinkHelper(ILibrary lib, IReader reader, StringBuilder stringBuilder, bool followlinksinchildren = true, bool followlinksinthis = true) {
         if (lib == null || reader == null || stringBuilder == null) throw new ArgumentNullException();
@@ -35,13 +58,13 @@ public class LinkHelper {
             else {
                 if (tag.Name == "wwwlink" && tag.Values.ContainsKey("address") && _followlinksinthis)
                     _sb.Append(HTMLHelpers.TagHelpers.CreateCustomElement("a", 
-                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "class", Value = "hlink wwwlink invlink" }, 
+                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "class", Value = WWWLINKCLASS }, 
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "href", Value = tag["address"]},
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "target", Value = "_blank"},
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "rel", Value = "noopener noreferrer"}));
                 if (tag.Name == "intlink" && tag.Values.ContainsKey("letter") && _lib.Metas.ContainsKey(tag["letter"])) {
                     var letter = _lib.Metas[tag["letter"]];
-                    _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", "hlink intlink invlink", "/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
+                    _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
                     if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
                         var linkstring = "";
                         var ZHstring = "";
@@ -75,11 +98,11 @@ public class LinkHelper {
                         var linkloc = String.IsNullOrWhiteSpace(comment.Parent) ? comment.Index : comment.Parent;
                         if (_followlinksinthis)
                             if (comment.Type == "neuzeit") 
-                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", "hlink link invlink", "/Supplementa/Register/" + linkloc[0] + "#" + comment.Index));
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Register/" + linkloc[0] + "#" + comment.Index));
                             else if (comment.Type == "bibel")
-                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", "hlink link invlink", "/Supplementa/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));
                             else if (comment.Type == "forschung")
-                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", "hlink link invlink", "/Supplementa/Forschung/" + linkloc[0] + "#" + comment.Index));
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Forschung/" + linkloc[0] + "#" + comment.Index));
                         _sb.Append(GetLemmaString(tag, comment));
                     }
                 }
@@ -93,17 +116,6 @@ public class LinkHelper {
             var sb = new StringBuilder();
             var subreader = new UTF8StringReader(comment.Lemma);
             new LinkHelper(_lib, subreader, sb, _followlinksinchildren, _followlinksinchildren);
-            List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
-                ( x => x.Name == "lemma", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement("div", "reference")) ),
-                ( x => x.Name == "titel", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement("span", "title")) )
-            };
-            List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
-                ( x => x.Name == "lemma", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement("div")) ),
-                ( x => x.Name == "titel", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement("span")) )
-            };
-            List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
-                ( x => true, (strbd, txt) => strbd.Append(txt.Value))
-            };
             new XMLHelper(subreader, sb, OTag_Funcs, null, CTag_Funcs, Text_Funcs, null);
             subreader.Read();
             return sb.ToString();

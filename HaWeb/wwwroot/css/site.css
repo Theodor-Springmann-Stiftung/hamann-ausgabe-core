@@ -132,15 +132,12 @@
         @apply underline decoration-solid
     }
 
-    /* TODO INLINE
-
-    .ha-maincolumn {
-        @apply bg-slate-50 mx-auto p-2 md:p-4 desktop:px-16 desktop:py-12 xl:pr-80 text-lg font-serif 
-    }  */
+    /* Classes for static pages */
 
     .ha-static {
         @apply w-full bg-slate-50 py-12 px-12 md:px-16 hyphenate font-serif
     }
+
     .ha-static h1 {
         @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
     }
@@ -193,7 +190,112 @@
         @apply inline-block absolute text-right w-8 -left-10
     }
 
+    /* Classes for register pages */
+
+    .ha-register {
+        @apply w-full font-serif numeric-mediaeval
+    }
+
+    .ha-register .ha-register-head,
+    .ha-register .ha-register-body {
+        @apply bg-slate-50 pt-9 md:pt-12 px-9 md:px-16
+    }
+
+    .ha-register .ha-register-head {
+        @apply border-b-2
+    }
+
+    .ha-register .ha-register-head h1 {
+        @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
+    }
+
+    .ha-register .ha-register-head .ha-register-nav {
+        @apply font-sans
+    }
+
+    .ha-register .ha-register-head .ha-register-nav a {
+        @apply inline-block px-1 mr-1 md:mr-3 text-gray-700 hover:text-gray-900
+    }
+
+    .ha-register .ha-register-head .ha-register-nav a:first {
+        @apply pl-0 
+    }
+
+    .ha-register .ha-register-head .ha-register-nav a.active {
+        @apply border-b-2
+    }
+
+    .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
+        @apply inline-block
+    }
+
+    .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
+        @apply inline-block
+    }
+
+    .ha-register .ha-register-body {
+        @apply md:pr-96 pb-9 md:pb-12
+    }
+
+    .ha-register .ha-register-body .ha-comment {
+        @apply block mb-9 md:mb-12
+    }
+
+    .ha-register .ha-register-body .ha-comment a {
+        @apply underline decoration-dotted hover:decoration-solid
+    }
+
+    .ha-register .ha-register-body .ha-comment .ha-headcomment {
+        @apply desktop:relative block
+    }
+
+    .ha-register .ha-register-body .ha-comment .ha-subcomment {
+        @apply desktop:relative block ml-8 mt-2
+    }
+
+    .ha-register .ha-register-body .ha-comment .ha-commenthead {
+        @apply block
+    }
+
+    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
+        @apply inline font-bold
+    }
+
+    .ha-register .ha-forschung .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
+        @apply inline font-normal 
+    }
+
+    .ha-register .ha-forschung .ha-register-body .ha-comment {
+        @apply mb-4 md:mb-6 -indent-4 pl-4
+    }
+
+    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+        @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-gray-600 caps-small ml-2
+    }
+
+    .ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks,
+    .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+        @apply desktop:indent-0 desktop:left-[48rem] desktop:top-0 desktop:w-80 desktop:block desktop:absolute desktop:border-l-2 pl-2
+    }
+
+    .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks,
+    .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+        @apply desktop:indent-0 desktop:block desktop:absolute desktop:border-l-2 pl-2 desktop:bg-slate-50 desktop:left-[46rem] desktop:top-0 desktop:w-80 
+    }
+
+    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
+        @apply hover:text-gray-900 no-underline
+    }
+
     /* Classes from .NET */
+    .ha-title {
+        @apply inline italic
+    }
+
+    .ha-insertedlemma {
+        @apply inline
+    }
+
     .ha-serif {
         @apply font-serif
     }
@@ -286,6 +388,26 @@ body {
     hyphens: none;
 }
 
+.numeric-mediaeval {
+    font-variant-numeric: oldstyle-nums;
+}
+
+.numeric-normal {
+    font-variant-numeric: normal;
+}
+
+.caps-small {
+    font-variant-caps: all-petite-caps;
+}
+
+.caps-normal {
+    font-variant-caps: normal;
+}
+
+.break-inside-avoid {
+    break-inside: avoid;
+}
+
 .ha-menu-arrowsymbol::after {
     display: inline-block;
     margin-left: 0.2em;
@@ -311,4 +433,12 @@ body {
     stroke-linejoin:miter;
     fill:none;
     color:#000000;
+}
+
+/* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */
+@media (max-width: 1190px) {
+    .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
+        height: auto !important;
+        overflow: unset !important;
+    }
 }
