@@ -2,26 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Regular woff-files for regular font variants
-   Instead we use the Graphite versions of the font currently  
-
-@font-face {
-    font-family: 'Biolinum';
-    src: url('../fonts/LinBiolinum_R.woff') format('woff');
-    font-display: swap;
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Libertine';
-    src: url('../fonts/LinLibertine_R.woff') format('woff');
-    font-display: swap;
-    font-weight: normal;
-    font-style: normal;
-}
-
-*/
+/* Regular woff-files for regular font variants curerently
+   Instead we can use the Graphite versions of the font   
 
 @font-face {
     font-family: 'Biolinum';
@@ -34,6 +16,24 @@
 @font-face {
     font-family: 'Libertine';
     src: url('/fonts/LinLibertine_R_G.ttf') format('truetype');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+*/
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('../fonts/LinBiolinum_R.woff') format('woff');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('../fonts/LinLibertine_R.woff') format('woff');
     font-display: swap;
     font-weight: normal;
     font-style: normal;
@@ -80,6 +80,7 @@
 }
 
 @layer components {
+    /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
     body {
         @apply text-base desktop:text-lg w-full h-full
     }
@@ -202,7 +203,7 @@
     }
 
     .ha-register .ha-register-head {
-        @apply border-b-2
+        @apply border-b-2 border-slate-200  
     }
 
     .ha-register .ha-register-head h1 {
@@ -222,7 +223,7 @@
     }
 
     .ha-register .ha-register-head .ha-register-nav a.active {
-        @apply border-b-2
+        @apply border-b-2 border-slate-200
     }
 
     .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
@@ -273,14 +274,23 @@
         @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-gray-600 caps-small ml-2
     }
 
+    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks .ha-hkb {
+        @apply inline text-gray-900
+    }
+
     .ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks,
     .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
-        @apply desktop:indent-0 desktop:left-[48rem] desktop:top-0 desktop:w-80 desktop:block desktop:absolute desktop:border-l-2 pl-2
+        @apply desktop:left-[48rem]
     }
 
     .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks,
-    .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
-        @apply desktop:indent-0 desktop:block desktop:absolute desktop:border-l-2 pl-2 desktop:bg-slate-50 desktop:left-[46rem] desktop:top-0 desktop:w-80 
+    .ha-register .ha-forschung .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
+        @apply desktop:left-[46rem]
+    }
+
+    .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
+    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
+        @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:bg-slate-50 desktop:absolute desktop:border-l-2 pl-2
     }
 
     .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
@@ -365,6 +375,33 @@
     .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown .ha-topnav-dropdown-content a {
         @apply py-1 desktop:py-2
     }
+
+    .ha-register .ha-headcomment .ha-btn-collapsed-box {
+        @apply left-[47.6rem]
+    }
+
+    .ha-register .ha-subcomment .ha-btn-collapsed-box {
+        @apply left-[45.6rem]
+    }
+
+    .ha-register .ha-btn-collapsed-box {
+        @apply hidden desktop:block absolute -top-1 text-gray-600 hover:text-gray-900 cursor-pointer
+    }
+
+    .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box,
+    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box {
+        @apply z-0 overflow-hidden
+    }
+
+    .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-expanded-box,
+    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-expanded-box {
+        @apply shadow-md z-[1000] !h-auto !max-h-screen
+    }
+
+    /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
+    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box:hover {
+        @apply shadow-md z-[1000] !h-auto
+    } */
 }
 
 * {
@@ -379,6 +416,11 @@ body {
 /* ul {
     list-style-type:circle;
 } */
+
+.downshadow-sm {
+    -webkit-box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
+    box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
+}
 
 .hyphenate {
     hyphens: auto;
@@ -435,10 +477,20 @@ body {
     color:#000000;
 }
 
+.ha-open-btn-collapsed-box::before {
+    content: '\200E+';
+    font-weight: 900;
+}
+
+.ha-close-btn-collapsed-box::before {
+    content: '\200E\00D7';
+    font-weight: 900;
+}
+
 /* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */
-@media (max-width: 1190px) {
+/* @media (max-width: 1190px) {
     .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
         height: auto !important;
         overflow: unset !important;
     }
-}
+} */

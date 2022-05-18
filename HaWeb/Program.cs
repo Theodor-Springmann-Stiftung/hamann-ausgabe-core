@@ -31,8 +31,8 @@ app.MapControllers();
 app.Run();
 
 class Options : IHaDocumentOptions {
-    public string HamannXMLFilePath { get; set; } = @"Hamann.xml";
-    public string[] AvailableVolumes { get; set; } = {  };
-    public bool NormalizeWhitespace { get; set; } = true;
-    public (int, int) AvailableYearRange {get; set; } = (1751, 1788);
+    public string HamannXMLFilePath { get; set; } = HaWeb.Settings.General.XMLFILEPATH;
+    public string[] AvailableVolumes { get; set; } = HaWeb.Settings.General.AVAILABLEVOLUMES;
+    public bool NormalizeWhitespace { get; set; } = HaWeb.Settings.General.NORMALIZEWHITESPACE;
+    public (int, int) AvailableYearRange {get; set; } = HaWeb.Settings.General.AVAILABLEYEARRANGE;
 }

@@ -8,6 +8,12 @@ using HaXMLReader.EvArgs;
 using HaXMLReader;
 using System.Collections.Generic;
 
+// Type aliasses for incredible long types
+using TagFuncList = List<(Func<HaXMLReader.EvArgs.Tag, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Tag>)>;
+using TextFuncList = List<(Func<HaXMLReader.EvArgs.Text, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Text>)>;
+using WhitespaceFuncList = List<(Func<HaXMLReader.EvArgs.Whitespace, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Whitespace>)>;
+
+
 public class LinkHelper {
     private ILibrary _lib;
     private IReader _reader;
@@ -16,7 +22,7 @@ public class LinkHelper {
     private bool _followlinksinchildren;
     private bool _followlinksinthis;
 
-    private static readonly string DEFAULTELEMENT = HaWeb.Settings.ParsingSettings.DEFAULTELEMENT;
+    private static readonly string DEFAULTELEMENT = HaWeb.Settings.HTML.DEFAULTELEMENT;
     private static readonly string LETLINKCLASS = HaWeb.Settings.CSSClasses.LETLINKCLASS;
     private static readonly string REFLINKCLASS = HaWeb.Settings.CSSClasses.REFLINKCLASS;
     private static readonly string WWWLINKCLASS = HaWeb.Settings.CSSClasses.WWWLINKCLASS;
@@ -24,19 +30,19 @@ public class LinkHelper {
     private static readonly string TITLECLASS = HaWeb.Settings.CSSClasses.TITLECLASS;
 
     // Parsing Rules for inserting lemmas
-    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> OTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
-        ( x => x.Name == "lemma", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, INSERTEDLEMMACLASS)) ),
-        ( x => x.Name == "titel", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) ),
-        ( x => x.Name == "title", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) )
+    private static readonly TagFuncList OTag_Funcs = new TagFuncList() {
+        ( x => x.Name == "lemma", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, INSERTEDLEMMACLASS)) ),
+        ( x => x.Name == "titel", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) ),
+        ( x => x.Name == "title", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) )
     };
     
-    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> CTag_Funcs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
-        ( x => x.Name == "lemma", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( x => x.Name == "titel", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( x => x.Name == "title", (strbd, x) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT)) )
+    private static readonly TagFuncList CTag_Funcs = new TagFuncList() {
+        ( x => x.Name == "lemma", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( x => x.Name == "titel", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( x => x.Name == "title", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT)) )
     };
 
-    private static readonly List<(Func<Text, bool>, Action<StringBuilder, Text>)> Text_Funcs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+    private static readonly TextFuncList Text_Funcs = new TextFuncList() {
         ( x => true, (strbd, txt) => strbd.Append(txt.Value))
     };
 

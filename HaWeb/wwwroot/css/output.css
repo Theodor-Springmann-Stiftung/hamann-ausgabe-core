@@ -468,6 +468,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-sepia:  ;
 }
 
+/* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
+
 body {
   height: 100%;
   width: 100%;
@@ -808,6 +810,8 @@ body {
 
 .ha-register .ha-register-head {
   border-bottom-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
 }
 
 .ha-register .ha-register-head h1 {
@@ -855,6 +859,8 @@ body {
 
 .ha-register .ha-register-head .ha-register-nav a.active {
   border-bottom-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
 }
 
 .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
@@ -967,30 +973,29 @@ body {
   }
 }
 
-.ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
-  padding-left: 0.5rem;
+.ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks .ha-hkb {
+  display: inline;
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 
 @media (min-width: 1190px) {
   .ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
-    position: absolute;
     left: 48rem;
-    top: 0px;
-    display: block;
-    width: 20rem;
-    border-left-width: 2px;
-    text-indent: 0px;
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
+    left: 46rem;
   }
 }
 
-.ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+.ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
   padding-left: 0.5rem;
 }
 
 @media (min-width: 1190px) {
-  .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks, .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
     position: absolute;
-    left: 46rem;
     top: 0px;
     display: block;
     width: 20rem;
@@ -1190,12 +1195,55 @@ body {
   }
 }
 
-.pointer-events-none {
-  pointer-events: none;
+.ha-register .ha-headcomment .ha-btn-collapsed-box {
+  left: 47.6rem;
 }
 
-.static {
-  position: static;
+.ha-register .ha-subcomment .ha-btn-collapsed-box {
+  left: 45.6rem;
+}
+
+.ha-register .ha-btn-collapsed-box {
+  position: absolute;
+  top: -0.25rem;
+  display: none;
+  cursor: pointer;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.ha-register .ha-btn-collapsed-box:hover {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
+@media (min-width: 1190px) {
+  .ha-register .ha-btn-collapsed-box {
+    display: block;
+  }
+}
+
+.ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box, .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-expanded-box, .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-expanded-box {
+  z-index: 1000;
+  height: auto !important;
+  max-height: 100vh !important;
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+/* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
+    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box:hover {
+        @apply shadow-md z-[1000] !h-auto
+    } */
+
+.pointer-events-none {
+  pointer-events: none;
 }
 
 .sticky {
@@ -1284,6 +1332,10 @@ body {
 
 .cursor-default {
   cursor: default;
+}
+
+.resize {
+  resize: both;
 }
 
 .list-disc {
@@ -1391,12 +1443,12 @@ body {
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
-/* Regular woff-files for regular font variants
-   Instead we use the Graphite versions of the font currently  
+/* Regular woff-files for regular font variants curerently
+   Instead we can use the Graphite versions of the font   
 
 @font-face {
     font-family: 'Biolinum';
-    src: url('../fonts/LinBiolinum_R.woff') format('woff');
+    src: url('/fonts/LinBiolinum_R_G.ttf') format('truetype');
     font-display: swap;
     font-weight: normal;
     font-style: normal;
@@ -1404,7 +1456,7 @@ body {
 
 @font-face {
     font-family: 'Libertine';
-    src: url('../fonts/LinLibertine_R.woff') format('woff');
+    src: url('/fonts/LinLibertine_R_G.ttf') format('truetype');
     font-display: swap;
     font-weight: normal;
     font-style: normal;
@@ -1415,7 +1467,7 @@ body {
 @font-face {
   font-family: 'Biolinum';
 
-  src: url('/fonts/LinBiolinum_R_G.ttf') format('truetype');
+  src: url('../fonts/LinBiolinum_R.woff') format('woff');
 
   font-display: swap;
 
@@ -1427,7 +1479,7 @@ body {
 @font-face {
   font-family: 'Libertine';
 
-  src: url('/fonts/LinLibertine_R_G.ttf') format('truetype');
+  src: url('../fonts/LinLibertine_R.woff') format('woff');
 
   font-display: swap;
 
@@ -1510,6 +1562,10 @@ body {
     list-style-type:circle;
 } */
 
+.downshadow-sm {
+  box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
+}
+
 .hyphenate {
   -webkit-hyphens: auto;
       -ms-hyphens: auto;
@@ -1570,14 +1626,24 @@ body {
   color:#000000;
 }
 
+.ha-open-btn-collapsed-box::before {
+  content: '\200E+';
+  font-weight: 900;
+}
+
+.ha-close-btn-collapsed-box::before {
+  content: '\200E\00D7';
+  font-weight: 900;
+}
+
 /* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */
 
-@media (max-width: 1190px) {
-  .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
-    height: auto !important;
-    overflow: unset !important;
-  }
-}
+/* @media (max-width: 1190px) {
+    .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
+        height: auto !important;
+        overflow: unset !important;
+    }
+} */
 
 .hover\:text-black:hover {
   --tw-text-opacity: 1;

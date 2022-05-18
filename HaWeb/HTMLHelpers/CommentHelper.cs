@@ -5,38 +5,45 @@ using HaXMLReader.EvArgs;
 using HaDocument.Models;
 using System.Text;
 
+// Type aliasses for incredible long types
+using TagFuncList = List<(Func<HaXMLReader.EvArgs.Tag, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Tag>)>;
+using TextFuncList = List<(Func<HaXMLReader.EvArgs.Text, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Text>)>;
+using WhitespaceFuncList = List<(Func<HaXMLReader.EvArgs.Whitespace, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Whitespace>)>;
+
 public static class CommentHelpers
 {
 
-    private static readonly string DEFAULTELEMENT = HaWeb.Settings.ParsingSettings.DEFAULTELEMENT;
+    private static readonly string DEFAULTELEMENT = HaWeb.Settings.HTML.DEFAULTELEMENT;
     private static readonly string LEMMACLASS = HaWeb.Settings.CSSClasses.LEMMACLASS;
     private static readonly string TITLECLASS = HaWeb.Settings.CSSClasses.TITLECLASS;
     private static readonly string BACKLINKSCLASS = HaWeb.Settings.CSSClasses.BACKLINKSCLASS;
     private static readonly string LETLINKCLASS = HaWeb.Settings.CSSClasses.LETLINKCLASS;
     private static readonly string COMMENTHEADCLASS = HaWeb.Settings.CSSClasses.COMMENTHEADCLASS;
     private static readonly string COMMENTBODYCLASS = HaWeb.Settings.CSSClasses.COMMENTBODYCLASS;
+    private static readonly string BACKLINKSHKBCLASS = HaWeb.Settings.CSSClasses.BACKLINKSHKBCLASS;
+    
     // Parsing Rules
-    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> _OTagFuncs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+    private static readonly TagFuncList _OTagFuncs = new TagFuncList() {
         ( x => x.Name == "lemma", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LEMMACLASS))),
         ( x => x.Name == "title", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS))),
         ( x => x.Name == "titel", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)))
     };
 
-    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> _CTagFuncs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+    private static readonly TagFuncList _CTagFuncs = new TagFuncList() {
         ( x => x.Name == "lemma", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT))),
         ( x => x.Name == "title", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT))),
         ( x => x.Name == "titel", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)))
     };
 
-    private static readonly List<(Func<Tag, bool>, Action<StringBuilder, Tag>)> _STagFuncs = new List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>() {
+    private static readonly TagFuncList _STagFuncs = new TagFuncList() {
         ( x => x.Name == "line", (sb, tag) => sb.Append(HTMLHelpers.TagHelpers.CreateElement("br")) )
     };
 
-    private static readonly List<(Func<Text, bool>, Action<StringBuilder, Text>)> _TextFuncs = new List<(Func<Text, bool>, Action<StringBuilder, Text>)>() {
+    private static readonly TextFuncList _TextFuncs = new TextFuncList() {
         ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
     };
 
-    private static readonly List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)> _WhitespaceFuncs = new List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>() {
+    private static readonly WhitespaceFuncList _WhitespaceFuncs = new WhitespaceFuncList() {
         ( x => true, ( sb, txt ) => sb.Append(txt.Value) )
     };
 
@@ -63,7 +70,9 @@ public static class CommentHelpers
                 {
                     if (!arrow)
                     {
+                        sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, BACKLINKSHKBCLASS));
                         sb.Append("HKB&nbsp;");
+                        sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                         arrow = true;
                     }
                     sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/Briefe/" + let.Autopsic + "#" + blk.Page + "-" + blk.Line));

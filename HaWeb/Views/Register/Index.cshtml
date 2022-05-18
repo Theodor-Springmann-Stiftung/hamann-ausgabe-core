@@ -1,5 +1,4 @@
 @model RegisterViewModel;
-@using System.Diagnostics;
 
 @* Generated classes by CommentHelper.cs: 
     - .ha-letlink .ha-wwwlink .ha-reflink: Links to letters, the web, the reference
@@ -9,7 +8,14 @@
     - .ha-commenthead: Class containing the head of a comment, lemma and backlinks
     - .ha-commentbody: Body of a comment, containing the comments text
     - .ha-letlinks: Collection of references in the comment within the marginals
+    - .ha-hkb: HKB that is in front of those links
     - .ha-insertedlemma: automatically generated and inserted lemma
+
+  Generated classes by JavaScript:
+  - .ha-collapsed-box, .ha-expanded-box: for an expanded or collapsed comment box
+  - .ha-open-btn-collapsed-box, ha-close-btn-collapsed-box: for open- & close buttons for the boxes
+  - .ha-btn-collapsed-box: for the button itself
+  - .ha-collapsed-box-manually-toggled: for a manually (not on mousehover) toggled button
 *@
 
 @{

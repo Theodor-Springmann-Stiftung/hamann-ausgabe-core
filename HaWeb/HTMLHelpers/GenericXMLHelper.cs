@@ -5,32 +5,35 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-public class XMLHelper
+public class GenericXMLHelper<T>
 {
+    private T _caller;
     private IReader _in;
     private StringBuilder _target;
-    private List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>? _OTag_Funcs;
-    private List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>? _STag_Funcs;
-    private List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>? _CTag_Funcs;
-    private List<(Func<Text, bool>, Action<StringBuilder, Text>)>? _Text_Funcs;
-    private List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>? _WS_Funcs;
+    private List<(Func<Tag, T, bool>, Action<StringBuilder, Tag, T>)>? _OTag_Funcs;
+    private List<(Func<Tag, T, bool>, Action<StringBuilder, Tag, T>)>? _STag_Funcs;
+    private List<(Func<Tag, T, bool>, Action<StringBuilder, Tag, T>)>? _CTag_Funcs;
+    private List<(Func<Text, T, bool>, Action<StringBuilder, Text, T>)>? _Text_Funcs;
+    private List<(Func<Whitespace, T, bool>, Action<StringBuilder, Whitespace, T>)>? _WS_Funcs;
     private bool _deleteLeadingWS;
     private bool _deleteTrailingWS;
 
-    public XMLHelper(
+    public GenericXMLHelper(
+        T caller,
         IReader input,
         StringBuilder target,
-        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>? OTag_Funcs = null,
-        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>? STag_Funcs = null,
-        List<(Func<Tag, bool>, Action<StringBuilder, Tag>)>? CTag_Funcs = null,
-        List<(Func<Text, bool>, Action<StringBuilder, Text>)>? Text_Funcs = null,
-        List<(Func<Whitespace, bool>, Action<StringBuilder, Whitespace>)>? WS_Funcs = null,
+        List<(Func<Tag, T, bool>, Action<StringBuilder, Tag, T>)>? OTag_Funcs = null,
+        List<(Func<Tag, T, bool>, Action<StringBuilder, Tag, T>)>? STag_Funcs = null,
+        List<(Func<Tag, T, bool>, Action<StringBuilder, Tag, T>)>? CTag_Funcs = null,
+        List<(Func<Text, T, bool>, Action<StringBuilder, Text, T>)>? Text_Funcs = null,
+        List<(Func<Whitespace, T, bool>, Action<StringBuilder, Whitespace, T>)>? WS_Funcs = null,
         bool deleteLeadingWS = false,
         bool deleteTrailingWS = false
     )
     {
-        if (input == null || target == null ) throw new ArgumentNullException();
+        if (input == null || target == null || caller == null) throw new ArgumentNullException();
 
+        _caller = caller;
         _in = input;
         _target = target;
         _deleteLeadingWS = deleteLeadingWS;
@@ -58,7 +61,7 @@ public class XMLHelper
     {
         if (_OTag_Funcs != null)
             foreach (var entry in _OTag_Funcs)
-                if (entry.Item1(tag)) entry.Item2(_target, tag);
+                if (entry.Item1(tag, _caller)) entry.Item2(_target, tag, _caller);
     }
 
     void OnText(object _, Text text)
@@ -66,26 +69,26 @@ public class XMLHelper
         if (_deleteLeadingWS) text.Value = text.Value.TrimStart();
         if (_deleteTrailingWS) text.Value = text.Value.TrimEnd();
         foreach (var entry in _Text_Funcs)
-            if (entry.Item1(text)) entry.Item2(_target, text);
+            if (entry.Item1(text, _caller)) entry.Item2(_target, text, _caller);
     }
 
     void OnSTag(object _, Tag tag)
     {
         foreach (var entry in _STag_Funcs)
-            if (entry.Item1(tag)) entry.Item2(_target, tag);
+            if (entry.Item1(tag, _caller)) entry.Item2(_target, tag, _caller);
     }
 
     void OnCTag(object _, Tag tag)
     {
         foreach (var entry in _CTag_Funcs)
-            if (entry.Item1(tag)) entry.Item2(_target, tag);
+            if (entry.Item1(tag, _caller)) entry.Item2(_target, tag, _caller);
     }
 
     void OnWS(object _, Whitespace ws)
     {
         foreach (var entry in _WS_Funcs)
         {
-            if (entry.Item1(ws)) entry.Item2(_target, ws);
+            if (entry.Item1(ws, _caller)) entry.Item2(_target, ws, _caller);
         }
     }
 
@@ -106,7 +109,7 @@ public class XMLHelper
         }
     }
 
-    ~XMLHelper()
+    ~GenericXMLHelper()
     {
         Dispose();
     }

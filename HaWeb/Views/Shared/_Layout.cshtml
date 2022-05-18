@@ -9,12 +9,22 @@
     <title>HKB: @ViewData["Title"]</title>
 
     <!-- crossorigin is a workaround to prevent double downloading bugs in chrome -->
-    <link rel="preload" href="/css/output.css" as="style" />
+    <!-- also, the graphite versions of the font are available for use:
+        <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
+        <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
+    -->
+    <link rel="preload" href="/css/output.css" as="style" asp-append-version="true"/>
     <link rel="preload" href="/img/subtlenet2.png" as="image" />
-    <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
-    <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinBiolinum_R.woff" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinLibertine_R.woff" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinLibertine_RI.woff" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinLibertine_RB.woff" as="font" crossorigin/>
+    
 
-    <link rel="stylesheet" href="/css/output.css" />
+    <link rel="stylesheet" href="/css/output.css" asp-append-version="true" />
+    <environment include="Development">
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
 
 </head>
 
@@ -24,11 +34,12 @@
     <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto">
         @RenderBody()
     </main>
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-
+    
     @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
+
+    <environment exclude="Development">
+        @await Html.PartialAsync("/Views/Shared/_Javascript.cshtml")
+    </environment>
 </body>
 
 </html>
