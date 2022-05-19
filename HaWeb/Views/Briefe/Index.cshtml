@@ -1,2 +1,39 @@
 @model BriefeViewModel;
 
+@Model.Meta.Meta.Autopsic
+@Model.Meta.ParsedSenders
+@Model.Index
+@Model.Id
+
+@if (Model.Next != null) {
+    <a href="@Model.Next.Value.Item2">@Model.Next.Value.Item1.Meta.Autopsic</a>
+}
+
+@if (Model.ParsedText != null) {
+    @Html.Raw(@Model.ParsedText)
+}
+
+@if (Model.ParsedLineCount != null) {
+    @Html.Raw(@Model.ParsedLineCount)
+}
+
+@if (Model.ParsedMarginals != null) {
+    @Html.Raw(@Model.ParsedMarginals)
+}
+
+@if (Model.ParsedTradition != null) {
+    @Html.Raw(@Model.ParsedTradition)
+}
+
+@if (Model.ParsedEdits != null) {
+@foreach (var edit in Model.ParsedEdits) {
+    @Html.Raw(edit)
+}
+}
+
+@if (Model.ParsedHands != null)
+{
+    @foreach (var hand in Model.ParsedHands) {
+    @Html.Raw(hand)
+}
+}

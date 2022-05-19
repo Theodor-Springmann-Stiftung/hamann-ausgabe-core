@@ -7,12 +7,8 @@ using HaXMLReader.Interfaces;
 using HaXMLReader.EvArgs;
 using HaXMLReader;
 using System.Collections.Generic;
-
-// Type aliasses for incredible long types
-using TagFuncList = List<(Func<HaXMLReader.EvArgs.Tag, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Tag>)>;
-using TextFuncList = List<(Func<HaXMLReader.EvArgs.Text, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Text>)>;
-using WhitespaceFuncList = List<(Func<HaXMLReader.EvArgs.Whitespace, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Whitespace>)>;
-
+using HaWeb.Settings.ParsingRules;
+using HaWeb.Settings.ParsingState;
 
 public class LinkHelper {
     private ILibrary _lib;
@@ -26,25 +22,6 @@ public class LinkHelper {
     private static readonly string LETLINKCLASS = HaWeb.Settings.CSSClasses.LETLINKCLASS;
     private static readonly string REFLINKCLASS = HaWeb.Settings.CSSClasses.REFLINKCLASS;
     private static readonly string WWWLINKCLASS = HaWeb.Settings.CSSClasses.WWWLINKCLASS;
-    private static readonly string INSERTEDLEMMACLASS = HaWeb.Settings.CSSClasses.INSERTEDLEMMACLASS;
-    private static readonly string TITLECLASS = HaWeb.Settings.CSSClasses.TITLECLASS;
-
-    // Parsing Rules for inserting lemmas
-    private static readonly TagFuncList OTag_Funcs = new TagFuncList() {
-        ( x => x.Name == "lemma", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, INSERTEDLEMMACLASS)) ),
-        ( x => x.Name == "titel", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) ),
-        ( x => x.Name == "title", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) )
-    };
-    
-    private static readonly TagFuncList CTag_Funcs = new TagFuncList() {
-        ( x => x.Name == "lemma", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( x => x.Name == "titel", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( x => x.Name == "title", (strbd, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT)) )
-    };
-
-    private static readonly TextFuncList Text_Funcs = new TextFuncList() {
-        ( x => true, (strbd, txt) => strbd.Append(txt.Value))
-    };
 
     public LinkHelper(ILibrary lib, IReader reader, StringBuilder stringBuilder, bool followlinksinchildren = true, bool followlinksinthis = true) {
         if (lib == null || reader == null || stringBuilder == null) throw new ArgumentNullException();
@@ -119,10 +96,11 @@ public class LinkHelper {
 
     private string GetLemmaString(Tag tag, Comment comment) {
         if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
+            var linkState = new LinkState();
             var sb = new StringBuilder();
             var subreader = new UTF8StringReader(comment.Lemma);
             new LinkHelper(_lib, subreader, sb, _followlinksinchildren, _followlinksinchildren);
-            new XMLHelper(subreader, sb, OTag_Funcs, null, CTag_Funcs, Text_Funcs, null);
+            new HTMLParser.XMLHelper<LinkState>(linkState, subreader, sb, LinkRules.OTagRules, null, LinkRules.CTagRules, LinkRules.TextRules, null);
             subreader.Read();
             return sb.ToString();
         }

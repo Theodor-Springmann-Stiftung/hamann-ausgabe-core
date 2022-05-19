@@ -10,10 +10,11 @@ public class BriefeViewModel
     public string? ParsedLineCount { get; set; }
     public string? ParsedMarginals { get; set; }
     public string? ParsedTradition { get; set; }
-    public string? ParsedEdits { get; set; }
+    public List<string>? ParsedEdits { get; set; }
+    public List<string>? ParsedHands { get; set; }
     
-    public BriefeMetaViewModel? Next { get; set; }
-    public BriefeMetaViewModel? Prev { get; set; }
+    public (BriefeMetaViewModel, string)? Next { get; set; }
+    public (BriefeMetaViewModel, string)? Prev { get; set; }
 
     public BriefeViewModel(string id, string index, BriefeMetaViewModel meta)
     {
