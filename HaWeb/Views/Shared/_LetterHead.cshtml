@@ -1,0 +1,20 @@
+@model BriefeMetaViewModel
+
+<div class="ha-letterhead">
+    <div class="ha-letternumber">
+        @Model.Meta.Autopsic
+    </div>
+    <div class="ha-metadata">
+        <div class="ha-metadatarows">
+            <div class="ha-metadatatop">
+                @Model.Meta.Date
+            </div>
+            <div class="metadatabottom">
+                @Model.ParsedSenders -> @Model.ParsedReceivers
+            </div>
+        </div>
+    </div>
+    <div class="ha-lettermetalinks">
+
+    </div>
+</div>

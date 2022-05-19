@@ -54,8 +54,8 @@ public class Briefecontroller : Controller
 
         // Model creation
         var model = new BriefeViewModel(this.id, index, generateMetaViewModel(meta));
-        if (nextmeta != null) model.Next = (generateMetaViewModel(nextmeta), url + nextmeta.Autopsic);
-        if (prevmeta != null) model.Prev = (generateMetaViewModel(prevmeta), url + prevmeta.Autopsic);
+        if (nextmeta != null) model.MetaData.Next = (generateMetaViewModel(nextmeta), url + nextmeta.Autopsic);
+        if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(prevmeta), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.BriefeHelpers.CreateHands(_lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.BriefeHelpers.CreateEdits(_lib, _readerService, editreasons);
         if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.BriefeHelpers.CreateTraditions(_lib, _readerService, marginals, tradition);
@@ -82,5 +82,4 @@ public class Briefecontroller : Controller
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
         };
     }
-
 }

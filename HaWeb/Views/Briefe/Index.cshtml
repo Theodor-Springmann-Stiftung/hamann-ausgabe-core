@@ -1,13 +1,8 @@
 @model BriefeViewModel;
 
-@Model.Meta.Meta.Autopsic
-@Model.Meta.ParsedSenders
-@Model.Index
-@Model.Id
-
-@if (Model.Next != null) {
-    <a href="@Model.Next.Value.Item2">@Model.Next.Value.Item1.Meta.Autopsic</a>
-}
+<div class="ha-letterheader">
+    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", Model.MetaData)
+</div>
 
 @if (Model.ParsedText != null) {
     @Html.Raw(@Model.ParsedText)
@@ -19,21 +14,4 @@
 
 @if (Model.ParsedMarginals != null) {
     @Html.Raw(@Model.ParsedMarginals)
-}
-
-@if (Model.ParsedTradition != null) {
-    @Html.Raw(@Model.ParsedTradition)
-}
-
-@if (Model.ParsedEdits != null) {
-@foreach (var edit in Model.ParsedEdits) {
-    @Html.Raw(edit)
-}
-}
-
-@if (Model.ParsedHands != null)
-{
-    @foreach (var hand in Model.ParsedHands) {
-    @Html.Raw(hand)
-}
 }

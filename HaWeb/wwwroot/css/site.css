@@ -133,7 +133,7 @@
         @apply underline decoration-solid
     }
 
-    /* Classes for static pages */
+/* Classes for static pages */
 
     .ha-static {
         @apply w-full bg-slate-50 py-12 px-12 md:px-16 hyphenate font-serif
@@ -191,7 +191,7 @@
         @apply inline-block absolute text-right w-8 -left-10
     }
 
-    /* Classes for register pages */
+/* Classes for register pages */
 
     .ha-register {
         @apply w-full font-serif numeric-mediaeval
@@ -297,7 +297,19 @@
         @apply hover:text-gray-900 no-underline
     }
 
-    /* Classes from .NET */
+/* Classes for Letter View */
+
+    .ha-letterheader {
+        @apply bg-slate-50 pt-9 md:pt-12 px-9 md:px-16
+    }
+
+/* Classes for MetaData View */
+
+
+
+
+
+/* Classes from .NET */
     .ha-title {
         @apply inline italic
     }
@@ -338,7 +350,8 @@
         @apply relative -top-[0.5em] text-[80%]
     }
 
-    /* Classes from Javascript */
+/* Classes from Javascript */
+
     .active {
         @apply !text-hamannHighlight pointer-events-none
     }

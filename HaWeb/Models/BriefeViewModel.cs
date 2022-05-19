@@ -4,7 +4,7 @@ public class BriefeViewModel
 {
     public string Id { get; private set; }
     public string Index { get; private set; }
-    public BriefeMetaViewModel Meta { get; private set; }
+    public BriefeMetaViewModel MetaData { get; private set; }
 
     public string? ParsedText { get; set; }
     public string? ParsedLineCount { get; set; }
@@ -13,13 +13,10 @@ public class BriefeViewModel
     public List<string>? ParsedEdits { get; set; }
     public List<string>? ParsedHands { get; set; }
     
-    public (BriefeMetaViewModel, string)? Next { get; set; }
-    public (BriefeMetaViewModel, string)? Prev { get; set; }
-
     public BriefeViewModel(string id, string index, BriefeMetaViewModel meta)
     {
         Id = id;
         Index = index;
-        Meta = meta;
+        MetaData = meta;
     }
 }
