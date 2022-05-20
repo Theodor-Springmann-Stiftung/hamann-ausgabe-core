@@ -1000,6 +1000,9 @@ body {
     display: block;
     width: 20rem;
     border-left-width: 2px;
+    border-top-width: 3px;
+    --tw-border-opacity: 1;
+    border-top-color: rgb(248 250 252 / var(--tw-border-opacity));
     --tw-bg-opacity: 1;
     background-color: rgb(248 250 252 / var(--tw-bg-opacity));
     text-indent: 0px;
@@ -1225,7 +1228,7 @@ body {
 
 .ha-register .ha-btn-collapsed-box {
   position: absolute;
-  top: -0.25rem;
+  top: -0.15rem;
   display: none;
   cursor: pointer;
   --tw-text-opacity: 1;
