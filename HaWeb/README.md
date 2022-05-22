@@ -2,7 +2,7 @@
 Veränderungenen in der Funktionalität für den Benutzer
 - Behutsames Redesign der Webseite:
     - Schrift wird minimal größer auf großen Bildschirmen
-    - Redesign der Marginalspalte, sodass keine Überschneidungen vorkommen
+    - Redesign der Marginalspalte, sodass keine Überschneidungen vorkommen, gut für screenreader
     - Leichtes Redesign der Zusatzinformationen für einen Brief (Tradition, Edits) an etwas prominenterer Stelle
     - Anpassung der Webseite an Mobilgeräte und Tablets
 

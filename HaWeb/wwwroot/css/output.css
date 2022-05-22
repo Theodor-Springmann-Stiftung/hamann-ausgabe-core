@@ -2769,7 +2769,6 @@ body {
 
 .ha-cross::before, .ha-cross::after {
   content: '';
-  top: 50%;
 }
 
 .ha-cross::before {

@@ -233,7 +233,10 @@ public class LetterRules
             }
 
             // Line type=line
-            if(tag["type"] == "line") sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINELINECLASS));
+            if(tag["type"] == "line") { 
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINELINECLASS));
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            }
 
             // Line tab=
             if(!String.IsNullOrWhiteSpace(tag["tab"])) {
