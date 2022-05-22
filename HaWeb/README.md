@@ -8,6 +8,7 @@ Veränderungenen in der Funktionalität für den Benutzer
 
 - Suche im Brieftext wird gefixt
 - Seite wird zugänglich für Menschen mit eingeschränktem Sehvermögen / Screenreadern
+- Bibellinks in Bibelkommentaren
 
 Veränderungen in der Funktionalität für die Forscher
 - Online-Syntaxcheck für XML-Dateien
@@ -24,3 +25,6 @@ Veränderungen im Code
 - Code open source zugänglich machen?
 
 Für diese Anpassungen sind in etwa 3-4 Monate eingeplant.
+
+- Ladezeiten (???)
+- PDF-Parser

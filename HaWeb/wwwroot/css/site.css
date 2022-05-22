@@ -327,13 +327,51 @@
         @apply flex flex-col
     }
 
-    .ha-letterhead .ha-metadata .ha-metadatarows .ha-metadatadate {
-        @apply flex caps-petite leading-snug numeric-mediaeval
+    .ha-letterhead .ha-metadata .ha-metadataupperrow {
+        @apply flex flex-row leading-snug
+    }
+
+    .strikethrough {
+        @apply line-through
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadatarows .ha-metadataupperrow .ha-metadatadate {
+        @apply flex caps-petite numeric-mediaeval
+    }
+
+    .ha-letterhead .ha-metadata .ha-tooltip {
+        @apply self-center cursor-default inline-block relative
+    }
+
+    .ha-letterhead .ha-metadata .ha-tooltiptext {
+        @apply bg-slate-100 rounded text-sm px-1 py-0.5 absolute z-10 text-center shadow
+    }
+
+    .ha-letterhead .ha-metadata .ha-tooltiptext::after {
+        @apply absolute top-full left-1/2
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
+        @apply text-xs bg-slate-100 rounded px-2 ml-2 py-[0.1rem] shadow
+    }
+    
+    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
+        @apply relative inline-block
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
+        @apply border-b-2 border-gray-600
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before,
+    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
+        @apply w-full h-0 absolute right-0 top-1/2
     }
 
     .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
         @apply flex leading-snug
     }
+
 
 /* Classes for Letter View */
 
@@ -350,11 +388,11 @@
     }
 
     .ha-letterheader .ha-lettertabs a {
-        @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900
+        @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900 cursor-pointer
     }
 
     .ha-letterheader .ha-lettertabs a.active {
-        @apply border-b-2 border-slate-200 text-hamannHighlight
+        @apply pointer-events-none border-b-2 border-slate-200 text-hamannHighlight
     }
 
     .ha-letterheader .ha-lettertabs a:first {
@@ -379,6 +417,10 @@
 
     .ha-lettertext {
         @apply shrink-0 border-l-2 ml-12 px-4 pt-4 relative font-serif leading-[1.48] pb-7 bg-slate-50
+    }
+
+    .hide {
+        @apply hidden
     }
 
     .ha-rightsidebar {
@@ -763,6 +805,33 @@ body {
     fill:none;
     color:#000000;
 }
+
+.ha-tooltip .ha-tooltiptext {
+    visibility: hidden;
+    width: 160px;
+    bottom: 155%;
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .ha-tooltip .ha-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent transparent;
+  }
+  
+  .ha-tooltip:hover .ha-tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  
 
 
 .ha-open-btn-collapsed-box::before {
@@ -1347,6 +1416,15 @@ body {
     min-width: 8.333%;
 }
 
+
+.ha-cross::before, .ha-cross::after {
+    content: '';
+  }
+
+  .ha-cross::before {
+    -webkit-transform: skewY(-27deg);
+    transform: skewY(-27deg);
+  }
 
 
 /* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */

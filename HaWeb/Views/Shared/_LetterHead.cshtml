@@ -8,11 +8,77 @@
     </div>
     <div class="ha-metadata">
         <div class="ha-metadatarows">
-            <div class="ha-metadatadate">
-                @Model.Meta.Date
+            <div class="ha-metadataupperrow">
+                <div class="ha-metadatadate">
+                    @Model.Meta.Date
+                </div>
+                @if (Model.Meta.hasOriginal != HaDocument.Models.OptionalBool.True) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            <span class="ha-cross">Orig</span>
+                        </div>
+                        <div class="ha-tooltiptext">
+                            Original verschollen
+                        </div>
+                    </div>
+                }
+                else {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            Orig
+                        </div>
+                        <div class="ha-tooltiptext">
+                            Original vorhanden
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Meta.isProofread != HaDocument.Models.OptionalBool.True) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            <span class="ha-cross">geprüft</span>
+                        </div>
+                        <div class="ha-tooltiptext">
+                            Nicht textkritisch geprüft
+                        </div>
+                    </div>
+                }
+                else {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            geprüft
+                        </div>
+                        <div class="ha-tooltiptext">
+                            Textkritisch geprüft
+                        </div>
+                    </div>
+                }
+
+                @if (Model.HasMarginals) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            Komm
+                        </div>
+                        <div class="ha-tooltiptext">
+                            Mit Stellenkommentar
+                        </div>
+                    </div>
+                }
             </div>
             <div class="ha-metadatapersons">
-                @Model.ParsedSenders → @Model.ParsedReceivers
+                @if (Model.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
+                    <span>@Model.ParsedSenders</span>
+                    <div class="ha-tooltip">
+                              ↛
+                        <div class="ha-tooltiptext">
+                            Entwurf
+                        </div>
+                    </div>
+                    <span>@Model.ParsedReceivers</span>
+                }
+                else {
+                    <span>@Model.ParsedSenders → @Model.ParsedReceivers</span>
+                }
             </div>
         </div>
     </div>

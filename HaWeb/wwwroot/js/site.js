@@ -155,6 +155,37 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
   }
 };
 
+const showhidebutton = function (buttonid, prevbuttonid, hideid, showid, starthidden) {
+  let button = document.getElementById(buttonid);
+  let prevbtn = document.getElementById(prevbuttonid);
+  if (starthidden) {
+    let hiddenelement = document.getElementById(hideid);
+      let shownelement = document.getElementById(showid);
+      if (hiddenelement !== null) {
+        hiddenelement.classList.add("hide");
+      }
+      if (shownelement !== null) {
+        shownelement.classList.remove("hide");
+      }
+      prevbtn.classList.remove("active");
+      button.classList.add("active");
+  }
+  if(button !== null) {
+    button.addEventListener("click", function() {
+      let hiddenelement = document.getElementById(hideid);
+      let shownelement = document.getElementById(showid);
+      if (hiddenelement !== null) {
+        hiddenelement.classList.add("hide");
+      }
+      if (shownelement !== null) {
+        shownelement.classList.remove("hide");
+      }
+      prevbtn.classList.remove("active");
+      button.classList.add("active");
+    })
+  }
+}
+
 window.addEventListener("load", function () {
   if (
     document.getElementById("openmenubutton") != null &&
@@ -174,4 +205,6 @@ window.addEventListener("load", function () {
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
   overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
+  showhidebutton("ha-lettertextbtn", "ha-additionsbtn", "ha-additions", "ha-lettertext", true);
+  showhidebutton("ha-additionsbtn", "ha-lettertextbtn", "ha-lettertext", "ha-additions", false);
 });

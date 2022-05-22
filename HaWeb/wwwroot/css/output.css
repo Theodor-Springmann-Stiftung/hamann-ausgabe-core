@@ -1068,11 +1068,82 @@ body {
   flex-direction: column;
 }
 
-.ha-letterhead .ha-metadata .ha-metadatarows .ha-metadatadate {
+.ha-letterhead .ha-metadata .ha-metadataupperrow {
   display: flex;
+  flex-direction: row;
   line-height: 1.375;
+}
+
+.ha-letterhead .ha-metadata .ha-metadatarows .ha-metadataupperrow .ha-metadatadate {
+  display: flex;
   font-variant-numeric: oldstyle-nums;
   font-variant-caps: petite-caps;
+}
+
+.ha-letterhead .ha-metadata .ha-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+  align-self: center;
+}
+
+.ha-letterhead .ha-metadata .ha-tooltiptext {
+  position: absolute;
+  z-index: 10;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.ha-letterhead .ha-metadata .ha-tooltiptext::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+}
+
+.ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
+  margin-left: 0.5rem;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
+  position: relative;
+  display: inline-block;
+}
+
+.ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
+  border-bottom-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity));
+}
+
+.ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before, .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  height: 0px;
+  width: 100%;
 }
 
 .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
@@ -1115,6 +1186,7 @@ body {
 .ha-letterheader .ha-lettertabs a {
   margin-right: 0.25rem;
   display: inline-block;
+  cursor: pointer;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
   --tw-text-opacity: 1;
@@ -1133,6 +1205,7 @@ body {
 }
 
 .ha-letterheader .ha-lettertabs a.active {
+  pointer-events: none;
   border-bottom-width: 2px;
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
@@ -1189,6 +1262,10 @@ body {
   padding-bottom: 1.75rem;
   font-family: Libertine, serif;
   line-height: 1.48;
+}
+
+.hide {
+  display: none;
 }
 
 .ha-lettertext div {
@@ -2081,6 +2158,32 @@ body {
   color:#000000;
 }
 
+.ha-tooltip .ha-tooltiptext {
+  visibility: hidden;
+  width: 160px;
+  bottom: 155%;
+  left: 50%;
+  margin-left: -80px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.ha-tooltip .ha-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent transparent;
+}
+
+.ha-tooltip:hover .ha-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
 .ha-open-btn-collapsed-box::before {
   content: '\200E+';
   font-weight: 900;
@@ -2662,6 +2765,15 @@ body {
   position: absolute;
   left: 91.666%;
   min-width: 8.333%;
+}
+
+.ha-cross::before, .ha-cross::after {
+  content: '';
+  top: 50%;
+}
+
+.ha-cross::before {
+  transform: skewY(-27deg);
 }
 
 /* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */

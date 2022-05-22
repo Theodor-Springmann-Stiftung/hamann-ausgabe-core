@@ -4,8 +4,8 @@
     @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", Model.MetaData)
     <div class="ha-letterheadernav">
         <div class="ha-lettertabs">
-            <a class="active">Brieftext</a>
-            <a class="">Überlieferung & Textkritik</a>
+            <a class="active" id="ha-lettertextbtn">Brieftext</a>
+            <a class="" id="ha-additionsbtn">Überlieferung & Textkritik</a>
             <a class="">PDF</a>
         </div>
     
@@ -23,16 +23,26 @@
                     <a href="@Model.MetaData.Next.Value.Item2">
                         ▶ @Model.MetaData.Next.Value.Item1.Meta.Autopsic
                     </a>
-                    }
+                }
             </div>
         }
     </div>
 </div>
 
 <div class="ha-letterbody">
-    <div class="ha-lettertext">
+    <div class="ha-lettertext" id="ha-lettertext">
         @if (Model.ParsedText != null) {
             @Html.Raw(@Model.ParsedText)
+        }
+    </div>
+    <div class="ha-additions" id="ha-additions">
+        @if (Model.ParsedTradition != null) {
+            @Html.Raw(Model.ParsedTradition)
+        }
+        @if (Model.ParsedEdits != null) {
+            @foreach (var edit in Model.ParsedEdits) {
+                @Html.Raw(edit)
+            }
         }
     </div>
 </div>

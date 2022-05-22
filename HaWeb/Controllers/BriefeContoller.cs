@@ -53,9 +53,11 @@ public class Briefecontroller : Controller
         ViewData["Filename"] = "HKB_" + meta.Autopsic + ".pdf";
 
         // Model creation
-        var model = new BriefeViewModel(this.id, index, generateMetaViewModel(meta));
-        if (nextmeta != null) model.MetaData.Next = (generateMetaViewModel(nextmeta), url + nextmeta.Autopsic);
-        if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(prevmeta), url + prevmeta.Autopsic);
+        var hasMarginals = false;
+        if (marginals != null && marginals.Any()) hasMarginals = true;
+        var model = new BriefeViewModel(this.id, index, generateMetaViewModel(meta, hasMarginals));
+        if (nextmeta != null) model.MetaData.Next = (generateMetaViewModel(nextmeta, false), url + nextmeta.Autopsic);
+        if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(prevmeta, false), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.BriefeHelpers.CreateHands(_lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.BriefeHelpers.CreateEdits(_lib, _readerService, editreasons);
         if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.BriefeHelpers.CreateTraditions(_lib, _readerService, marginals, tradition);
@@ -71,11 +73,11 @@ public class Briefecontroller : Controller
         return Redirect("/Error404");
     }
 
-    private BriefeMetaViewModel generateMetaViewModel(Meta meta)
+    private BriefeMetaViewModel generateMetaViewModel(Meta meta, bool hasMarginals)
     {
         var senders = meta.Senders.Select(x => _lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => _lib.Persons[x].Name) ?? new List<string>();
-        return new BriefeMetaViewModel(meta)
+        return new BriefeMetaViewModel(meta, hasMarginals)
         {
             ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
