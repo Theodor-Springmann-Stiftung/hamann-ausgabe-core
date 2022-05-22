@@ -54,14 +54,14 @@ public class RegisterController : Controller
         var res = new List<CommentModel>();
         foreach (var comm in comments)
         {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm);
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
             if (comm.Kommentare != null)
             {
                 parsedSubComments = new List<string>();
                 foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
                 {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value));
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
             res.Add(new CommentModel(parsedComment, parsedSubComments));
@@ -101,14 +101,14 @@ public class RegisterController : Controller
         var res = new List<CommentModel>();
         foreach (var comm in comments)
         {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm);
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
             if (comm.Kommentare != null)
             {
                 parsedSubComments = new List<string>();
                 foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma))
                 {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value));
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
             res.Add(new CommentModel(parsedComment, parsedSubComments));
@@ -156,14 +156,14 @@ public class RegisterController : Controller
         var res = new List<CommentModel>();
         foreach (var comm in comments)
         {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm);
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
             if (comm.Kommentare != null)
             {
                 parsedSubComments = new List<string>();
                 foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
                 {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value));
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
             res.Add(new CommentModel(parsedComment, parsedSubComments));

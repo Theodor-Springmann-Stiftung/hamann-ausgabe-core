@@ -2,19 +2,18 @@
 
 <div class="ha-letterhead">
     <div class="ha-letternumber">
-        @Model.Meta.Autopsic
+        <div class="ha-letternumberinline">
+            @Model.Meta.Autopsic
+        </div>
     </div>
     <div class="ha-metadata">
         <div class="ha-metadatarows">
-            <div class="ha-metadatatop">
+            <div class="ha-metadatadate">
                 @Model.Meta.Date
             </div>
-            <div class="metadatabottom">
-                @Model.ParsedSenders -> @Model.ParsedReceivers
+            <div class="ha-metadatapersons">
+                @Model.ParsedSenders → @Model.ParsedReceivers
             </div>
         </div>
-    </div>
-    <div class="ha-lettermetalinks">
-
     </div>
 </div>

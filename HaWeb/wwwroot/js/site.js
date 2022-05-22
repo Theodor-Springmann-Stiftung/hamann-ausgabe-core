@@ -173,4 +173,5 @@ window.addEventListener("load", function () {
     markactive_exact(document.getElementById("ha-register-nav"));
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
+  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
 });

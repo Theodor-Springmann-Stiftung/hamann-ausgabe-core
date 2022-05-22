@@ -45,12 +45,16 @@ public class LetterRules
     private static readonly string MARGINGALBOXCLASS = HaWeb.Settings.CSSClasses.MARGINGALBOXCLASS;
 
     // Zeilen:
+    private static readonly string ZHLINECLASS = HaWeb.Settings.CSSClasses.ZHLINECLASS;
+    private static readonly string FIRSTLINECLASS = HaWeb.Settings.CSSClasses.FIRSTLINECLASS;
     private static readonly string ZHBREAKCLASS = HaWeb.Settings.CSSClasses.ZHBREAKCLASS;
     private static readonly string LINELINECLASS = HaWeb.Settings.CSSClasses.LINELINECLASS;
     private static readonly string LINEINDENTCLASS = HaWeb.Settings.CSSClasses.LINEINDENTCLASS;
-    private static readonly string ZHPAGECLASS = HaWeb.Settings.CSSClasses.ZHBREAKCLASS;
+    private static readonly string ZHPAGECLASS = HaWeb.Settings.CSSClasses.ZHPAGECLASS;
+    private static readonly string ZHLINECOUNTCLASS = HaWeb.Settings.CSSClasses.ZHLINECOUNTCLASS;
     private static readonly string FIRSTPAGECLASS = HaWeb.Settings.CSSClasses.FIRSTPAGECLASS;
     private static readonly string EMPTYLINECLASS = HaWeb.Settings.CSSClasses.EMPTYLINECLASS;
+    private static readonly string HIDDENZHLINECOUNT = HaWeb.Settings.CSSClasses.HIDDENZHLINECOUNT;
 
     // Root-Elemente
     private static readonly string COMMENTCLASS = HaWeb.Settings.CSSClasses.COMMENTCLASS;
@@ -155,14 +159,90 @@ public class LetterRules
     })};
 
     public static readonly TagFuncList STagRules = new TagFuncList() {
-        ( ( x, _) => x.Name == "line", (sb, tag, reader) => {
-            if(reader.State.currline != "-1") sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", ZHBREAKCLASS));
+        ( (x, _) => x.Name == "page", (sb, tag, reader) => reader.State.currpage = tag["index"] ),
+        ( (x, _) => x.Name == "line", (sb, tag, reader) => {
+            // This is the beginning of the Text, so no <br> needed, just a special linecount
+            if(reader.State.currline == "-1") {
+                reader.State.currline = tag["index"];
+
+                // First Linecount
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS + " " + FIRSTLINECLASS, ""));
+                if(reader.State.Meta.ZH != null) {
+                    sb.Append("ZH&nbsp;");
+                    sb.Append(HaWeb.HTMLHelpers.ConversionHelpers.ToRoman(Int32.Parse(reader.State.Meta.ZH.Volume)));
+                    sb.Append("&nbsp;");
+                }
+                sb.Append("S." + "&nbsp;");
+                if (tag["index"] != "1")
+                    sb.Append(reader.State.currpage + "&thinsp;/&thinsp;" + tag["index"]);
+                else
+                    sb.Append(reader.State.currpage);
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            }
+
+            // This is NOT the beginning of the text, so we set a br, and then, linecount
+            else {
+                reader.State.currline = tag["index"];
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", ZHBREAKCLASS));
+
+                // Linecount
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
+                
+                // Fall 1: Neue Seite
+                if (reader.State.currline == "1") {
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS, ""));
+                    sb.Append("S.&nbsp;" + reader.State.currpage);
+                } 
+
+                // Fall 2: Neue Zeile, teilbar durch 5
+                else if (Int32.TryParse(tag["index"], out var _) && Int32.Parse(tag["index"]) % 5 == 0) {
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECLASS, ""));
+                    sb.Append(tag["index"]);
+                } 
+                
+                // Fall 3: Neue Zeile, nicht teilbar durch 5, deswegen versteckt
+                else {
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECLASS + " " + HIDDENZHLINECOUNT, ""));
+                    sb.Append(tag["index"]);
+                }
+
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            }
+
+            // Marginalien
+            if(reader.State.Marginals != null) {
+                var margs = reader.State.Marginals.Where(x => x.Page == reader.State.currpage && x.Line == reader.State.currline);
+                if (margs != null && margs.Any())
+                {
+                    margs = margs.OrderBy(x => Int32.Parse(x.Index));
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINGALBOXCLASS));
+                    foreach (var marginal in margs)
+                    {
+                        // In Marginal, the Root-Element (<marginal>) is somehow parsed,
+                        // so we don't need to enclose it in a seperate div.
+                        var rd = reader.State.ReaderService.RequestStringReader(marginal.Element);
+                        new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>(reader.State, rd, sb, LetterRules.OTagRules, null, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
+                        new HaWeb.HTMLHelpers.LinkHelper(reader.State.Lib, rd, sb, false);
+                        rd.Read();
+                    }
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                }
+            }
+
+            // Line type=line
             if(tag["type"] == "line") sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINELINECLASS));
-        } ),
-        ( ( x, _) => x.Name == "line" && !String.IsNullOrWhiteSpace(x["tab"]), (sb, tag, _) => {
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINEINDENTCLASS + tag["tab"]));
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-    })};
+
+            // Line tab=
+            if(!String.IsNullOrWhiteSpace(tag["tab"])) {
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINEINDENTCLASS + tag["tab"]));
+                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            }
+        }
+    )};
+    
 
     public static readonly WhitespaceFuncList WhitespaceRules = new WhitespaceFuncList() {
         ( ( _, _) => true, ( sb, txt, reader) => {
@@ -170,65 +250,5 @@ public class LetterRules
                 sb.Append(txt.Value);
             else
                 reader.State.active_skipwhitespace = !reader.State.active_skipwhitespace;
-    })};
-    
-    // Rules for the left sidebar
-    public static readonly TagFuncList STagRulesLineCount = new TagFuncList() {
-        ( ( x, _) => x.Name == "line", (sb, tag, reader) => {
-            if(reader.State.currline != "-1") {
-                if (reader.State.currpage == reader.State.oldpage)
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", "", reader.State.currpage + "-" + reader.State.currline));
-                else {
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", "", reader.State.oldpage + "-" + reader.State.currline));
-                    reader.State.oldpage = reader.State.currpage;
-                }
-            }
-            else {
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS + " " + FIRSTPAGECLASS, reader.State.currpage + "-" + tag["index"]));
-                sb.Append("S." + "&nbsp;");
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-                if (tag["index"] != "1")
-                    sb.Append(reader.State.currpage + "&thinsp;/&thinsp;" + tag["index"]);
-                else
-                    sb.Append(reader.State.currpage);
-                reader.State.oldpage = reader.State.currpage;
-            }
-        }),
-        ( ( x, _) => x.Name == "line", (sb, tag, reader) => {
-            if(reader.State.currline != "-1" && Int32.TryParse(tag["index"], out var _) && Int32.Parse(tag["index"]) % 5 == 0)
-             sb.Append(tag["index"]);
-        }),
-        ( ( x, reader) => x.Name == "line" && x["index"] == "1" && reader.State.currline != "-1", (sb, tag, reader) => {
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS, ""));
-            sb.Append("S. " + reader.State.currpage);
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-        }),
-        ( ( x, _) => x.Name == "line", (sb, tag, reader) => { reader.State.currline = tag["index"]; } ),
-        ( ( x, _) => x.Name == "page", (sb, tag, reader) =>  { reader.State.currpage = tag["index"]; } )
-    };
-
-    // Rules for the right sidebar
-    public static readonly TagFuncList STagRulesMarginals = new TagFuncList() {
-        ( ( x, _) => x.Name == "line", (sb, tag, reader) => {
-            if(reader.State.currline != "-1" && reader.State.Marginals != null) {
-                var margs = reader.State.Marginals.Where(x => x.Page == reader.State.currpage && x.Line == reader.State.currline);
-                if (margs != null && margs.Any())
-                {
-                    margs = margs.OrderBy(x => Int32.Parse(x.Index));
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINGALBOXCLASS, reader.State.commid.ToString()));
-                    foreach (var marginal in margs)
-                    {
-                        var rd = reader.State.ReaderService.RequestStringReader(marginal.Element);
-                        new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>(reader.State, rd, sb, LetterRules.OTagRules, null, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
-                        new HaWeb.HTMLHelpers.LinkHelper(reader.State.Lib, rd, sb, false);
-                        rd.Read();
-                    }
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br"));
-                }
-                else
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", EMPTYLINECLASS));
-            }
-            reader.State.commid++;
     })};
 }

@@ -90,7 +90,7 @@
     }
 
     .ha-topnav a {
-        @apply hidden text-gray-700 hover:text-gray-900  desktop:inline-block mr-6 2xl:mr-7
+        @apply hidden text-slate-700 hover:text-slate-900  desktop:inline-block mr-6 2xl:mr-7
     }
 
     .ha-topnav a:last-child {
@@ -106,7 +106,7 @@
     }
 
     .ha-topnav-dropdown .ha-topnav-dropdown-content {
-        @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-gray-400 border-b z-50
+        @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-slate-400 border-b z-50
     }
 
     .ha-topnav-dropdown .ha-topnav-dropdown-content a {
@@ -118,7 +118,7 @@
     }
 
     .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
-        @apply bg-gray-100
+        @apply bg-slate-100
     }
 
     .ha-footer {
@@ -215,7 +215,7 @@
     }
 
     .ha-register .ha-register-head .ha-register-nav a {
-        @apply inline-block px-1 mr-1 md:mr-3 text-gray-700 hover:text-gray-900
+        @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900
     }
 
     .ha-register .ha-register-head .ha-register-nav a:first {
@@ -271,11 +271,11 @@
     }
 
     .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
-        @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-gray-600 caps-small ml-2
+        @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-slate-600 caps-allpetite ml-2
     }
 
     .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks .ha-hkb {
-        @apply inline text-gray-900
+        @apply inline text-slate-900
     }
 
     .ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks,
@@ -288,28 +288,165 @@
         @apply desktop:left-[46rem]
     }
 
+    .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma a {
+        @apply pl-2
+    }
+
+    .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma svg {
+        @apply inline
+    }
+
     .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
     .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
         @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:bg-slate-50 desktop:absolute desktop:border-l-2 desktop:border-t-[3px] desktop:border-t-slate-50 pl-2
     }
 
     .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
-        @apply hover:text-gray-900 no-underline
+        @apply hover:text-slate-900 no-underline
+    }
+
+/* Classes for MetaData View */
+
+    .ha-letterhead {
+        @apply flex flex-row 
+    }
+
+    .ha-letterhead .ha-letternumber {
+        @apply flex text-5xl desktop:font-normal desktop:text-6xl mr-4 desktop:mr-6
+    }
+
+    .ha-letterhead .ha-letternumber .ha-letternumberinline {
+        @apply inline align-middle leading-none
+    }
+
+    .ha-letterhead .ha-metadata {
+        @apply flex self-end grow shrink-0
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadatarows {
+        @apply flex flex-col
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadatarows .ha-metadatadate {
+        @apply flex caps-petite leading-snug numeric-mediaeval
+    }
+
+    .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
+        @apply flex leading-snug
     }
 
 /* Classes for Letter View */
 
     .ha-letterheader {
-        @apply bg-slate-50 pt-9 md:pt-12 px-9 md:px-16
+        @apply bg-slate-50 pt-8 md:pt-12 px-6 md:px-16 border-slate-200 border-b-2
     }
 
-/* Classes for MetaData View */
+    .ha-letterheader .ha-letterheadernav {
+        @apply mt-7 flex grow
+    }
+
+    .ha-letterheader .ha-lettertabs {
+        @apply flex grow
+    }
+
+    .ha-letterheader .ha-lettertabs a {
+        @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900
+    }
+
+    .ha-letterheader .ha-lettertabs a.active {
+        @apply border-b-2 border-slate-200 text-hamannHighlight
+    }
+
+    .ha-letterheader .ha-lettertabs a:first {
+        @apply pl-0 
+    }
+
+    .ha-letterheader .ha-lettermetalinks {
+        @apply self-end border-b-2 border-slate-200
+    }
+
+    .ha-letterheader .ha-lettermetalinks a {
+        @apply self-end caps-petite text-slate-700 hover:text-slate-900
+    }
+
+    .ha-letterheader .ha-lettermetalinks .ha-hkb {
+        @apply inline-block caps-allpetite
+    }
+
+    .ha-letterbody {
+        @apply flex flex-row flex-nowrap bg-slate-50
+    }
+
+    .ha-lettertext {
+        @apply shrink-0 border-l-2 ml-12 px-4 pt-4 relative font-serif leading-[1.48] pb-7 bg-slate-50
+    }
+
+    .ha-rightsidebar {
+        @apply shrink-0 grow basis-1/3
+    }
+
+    .ha-lettertext div {
+        @apply inline
+    }
+
+    .ha-lettertext .ha-linecount .ha-firstline {
+        @apply shadow rounded
+    }
+
+    .ha-lettertext .ha-linecount {
+        @apply absolute -left-[8.6rem] text-right w-32 text-xs oldstyle-nums mt-1 font-sans
+    }
+
+    .ha-lettertext .ha-linecount .ha-zhpage,
+    .ha-lettertext .ha-linecount .ha-zhline {
+        @apply px-1 pb-1 bg-slate-50 caps-allpetite normal-nums
+    }
+
+    .ha-lettertext .ha-linecount .ha-hiddenlinecount {
+        @apply hidden
+    }
+
+    .ha-lettertext .ha-marginalbox {
+        @apply absolute -right-[28rem] w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans flex flex-wrap
+    }
+
+    .ha-lettertext .ha-marginalbox .ha-marginal {
+        @apply inline-block
+    }
+
+    .ha-lettertext .ha-marginalbox.ha-expanded-box {
+        @apply pb-1
+    }
+
+    .ha-lettertext .ha-marginalbox .ha-marginal:first {
+        
+    }
+
+    .ha-lettertext .ha-marginalbox .ha-marginal {
+        @apply pr-6
+    }
+
+    .ha-lettertext .ha-marginalbox .ha-marginal a {
+        @apply underline decoration-dotted hover:decoration-solid hover:text-slate-900
+    }
+
+    .ha-lettertext .ha-btn-collapsed-box {
+        @apply hidden desktop:block absolute text-slate-600 hover:text-slate-900 cursor-pointer -right-[2.5rem] leading-none mt-[2px] 
+    }
 
 
-
+/* Classes from the General parser */
 
 
 /* Classes from .NET */
+    .ha-bzg {
+        @apply font-serif text-xs font-semibold
+    }
+
+    .ha-text {
+        @apply inline
+    }
+
     .ha-title {
         @apply inline italic
     }
@@ -322,32 +459,83 @@
         @apply font-serif
     }
 
-    .ha-aq {
+    .ha-aq,
+    .ha-aq * {
         @apply font-sans
     }
 
-    .ha-ul {
+    .ha-ul
+    .ha-ul * {
         @apply underline
     }
 
-    .ha-del {
+    .ha-del,
+    .ha-del * {
         @apply line-through
     }
 
-    .ha-hand {
+    .ha-hand,
+    .ha-hand * {
         @apply font-classy text-[0.9rem]
     }
 
-    .ha-added {
-        @apply bg-gray-300 px-1
+    .ha-added,
+    .ha-added * {
+        @apply bg-slate-300 px-1
     }
 
-    .ha-note {
-        @apply italic text-gray-600
+    .ha-note,
+    .ha-note * {
+        @apply italic text-slate-700
     }
 
-    .ha-sup {
-        @apply relative -top-[0.5em] text-[80%]
+    .ha-sup,
+    .ha-sup * {
+        @apply relative -top-[0.3em] text-[80%]
+    }
+
+    /* TODO: Something dooesnt work here */
+    .ha-super {
+        @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em]
+    }
+
+    .ha-sub {
+        @apply relative text-xs leading-none align-baseline -bottom-[0.25em]
+    }
+
+    .ha-ful,
+    .ha-ful * {
+        @apply inline border-b border-black pb-[2px]
+    }
+
+    .ha-dul,
+    .ha-dul * {
+        @apply underline decoration-double
+    }
+
+    .ha-tul,
+    .ha-tul * {
+        @apply underline border-b-[3px] border-double
+    }
+
+    .up {
+        @apply relative -top[0.5em]
+    }
+
+    .ha-alignright {
+        @apply absolute right-1
+    }
+
+    .ha-aligncenter {
+        @apply absolute right-0 left-0 whitespace-nowrap min-w-[33%] text-center
+    }
+
+    .ha-lineline {
+        @apply border-t border-black w-1/3 mx-40 mt-[0.6rem] absolute
+    }
+
+    .ha-sal {
+        @apply inline-block ml-6
     }
 
 /* Classes from Javascript */
@@ -398,16 +586,14 @@
     }
 
     .ha-register .ha-btn-collapsed-box {
-        @apply hidden desktop:block absolute -top-[0.15rem] text-gray-600 hover:text-gray-900 cursor-pointer
+        @apply hidden desktop:block absolute -top-[0.15rem] text-slate-600 hover:text-slate-900 cursor-pointer
     }
 
-    .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box,
-    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box {
+    .ha-collapsed-box {
         @apply z-0 overflow-hidden
     }
 
-    .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-expanded-box,
-    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-expanded-box {
+    .ha-expanded-box {
         @apply shadow-md z-[1000] !h-auto !max-h-screen
     }
 
@@ -415,6 +601,42 @@
     .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box:hover {
         @apply shadow-md z-[1000] !h-auto
     } */
+}
+
+.ha-lettertext .ha-marginalbox .ha-marginal::after {
+    content: '';
+}
+
+.ha-lettertext .ha-marginalbox .ha-marginal:last-of-type::after {
+    content: '';
+}
+
+.ha-nr::before {
+    content: ' \200E\25E6';
+}
+
+.ha-nr::after {
+    content: ' \200E\25E6';
+}
+
+.ha-added::before {
+    content: '';
+}
+
+.ha-added::after {
+    content: '';
+}
+
+.ha-note::before {
+    content: '';
+}
+
+.ha-note::after {
+    content: '';
+}
+
+.ha-bzg::after {
+    content: ']';
 }
 
 * {
@@ -429,6 +651,54 @@ body {
 /* ul {
     list-style-type:circle;
 } */
+
+.diagdel {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+}
+
+.diagdel::before, .diagdel::after {
+    content: '';
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    right: 0;
+    bottom: 1.5ex;
+}
+
+.diagdel::before {
+    border-bottom: 1px solid black;
+    -webkit-transform: skewY(-36deg);
+    transform: skewY(-36deg);
+}
+
+
+.del .del,
+.del .del * {
+    -moz-text-decoration-style: double;
+    -webkit-text-decoration-style: double !important;
+    text-decoration-thickness: 1px;
+    text-decoration-style: double;
+}
+
+.del .del .ul,
+.ul .del .del, 
+.del .ul .del {
+    text-decoration: line-through underline;
+    -moz-text-decoration-style: double;
+    -webkit-text-decoration-style: double !important;
+    text-decoration-thickness: 1px;
+    text-decoration-style: double;
+}
+
+.del .ul,
+.ul .del {
+    text-decoration: line-through underline;
+    text-decoration-thickness: 1px;
+    text-decoration-skip-ink: auto;
+    -webkit-text-decoration-skip-ink: auto;
+}
 
 .downshadow-sm {
     -webkit-box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
@@ -451,8 +721,12 @@ body {
     font-variant-numeric: normal;
 }
 
-.caps-small {
+.caps-allpetite {
     font-variant-caps: all-petite-caps;
+}
+
+.caps-petite {
+    font-variant-caps: petite-caps;
 }
 
 .caps-normal {
@@ -490,6 +764,7 @@ body {
     color:#000000;
 }
 
+
 .ha-open-btn-collapsed-box::before {
     content: '\200E+';
     font-weight: 900;
@@ -499,6 +774,580 @@ body {
     content: '\200E\00D7';
     font-weight: 900;
 }
+
+/* Classes for indents */
+.ha-indent-1 {
+    padding-left: 1rem;
+    background-color: var(--hamannWeiss);
+}
+
+.ha-indent-2 {
+    padding-left: 2rem;
+    background-color: var(--hamannWeiss);
+}
+
+.ha-indent-3 {
+    padding-left: 3rem;
+    background-color: var(--hamannWeiss);
+}
+
+.ha-indent-4 {
+    padding-left: 4rem;
+    background-color: var(--hamannWeiss);
+}
+
+.ha-indent-5 {
+    padding-left: 5rem;
+    background-color: var(--hamannWeiss);
+}
+
+.ha-indent-6 {
+    padding-left: 11rem;
+    background-color: var(--hamannWeiss);
+}
+
+.ha-indent-7 {
+    padding-left: 16rem;
+    background-color: var(--hamannWeiss);
+}
+
+/* Classes for tables */
+.ha-table {
+    overflow: hidden;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums !important;
+}
+
+.ha-hatab-0-2 {
+    display: inline;
+    position: static;
+    min-width: 50%;
+}
+
+.ha-hatab-1-2 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 50%;
+}
+
+.ha-hatab-0-3 {
+    display: inline;
+    position: static;
+    min-width: 33.333%;
+}
+
+.ha-hatab-1-3 {
+    display: inline-block;
+    position: absolute;
+    left: 33%;
+    min-width: 33.333%;
+}
+
+.ha-hatab-2-3 {
+    display: inline-block;
+    position: absolute;
+    left: 66%;
+    min-width: 33.333%;
+}
+
+.ha-hatab-0-4 {
+    display: inline;
+    position: static;
+    min-width: 25%;
+}
+
+.ha-hatab-1-4 {
+    display: inline-block;
+    position: absolute;
+    left: 25%;
+    min-width: 25%;
+}
+
+.ha-hatab-2-4 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 25%;
+}
+
+.ha-hatab-3-4 {
+    display: inline-block;
+    position: absolute;
+    left: 75%;
+    min-width: 25%;
+}
+
+.ha-hatab-0-5 {
+    display: inline;
+    position: static;
+    min-width: 20%;
+}
+
+.ha-hatab-1-5 {
+    display: inline-block;
+    position: absolute;
+    left: 20%;
+    min-width: 20%;
+}
+
+.ha-hatab-2-5 {
+    display: inline-block;
+    position: absolute;
+    left: 40%;
+    min-width: 20%;
+}
+
+.ha-hatab-3-5 {
+    display: inline-block;
+    position: absolute;
+    left: 60%;
+    min-width: 20%;
+}
+
+.ha-hatab-4-5 {
+    display: inline-block;
+    position: absolute;
+    left: 80%;
+    min-width: 20%;
+}
+
+.ha-hatab-0-6 {
+    display: inline;
+    position: static;
+    min-width: 16.667%;
+}
+
+.ha-hatab-1-6 {
+    display: inline-block;
+    position: absolute;
+    left: 16.667%;
+    min-width: 16.667%;
+}
+
+.ha-hatab-2-6 {
+    display: inline-block;
+    position: absolute;
+    left: 33.333%;
+    min-width: 16.667%;
+}
+
+.ha-hatab-3-6 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 16.667%;
+}
+
+.ha-hatab-4-6 {
+    display: inline-block;
+    position: absolute;
+    left: 66.667%;
+    min-width: 16.667%;
+}
+
+.ha-hatab-5-6 {
+    display: inline-block;
+    position: absolute;
+    left: 83.333%;
+    min-width: 16.667%;
+}
+
+.ha-hatab-0-7 {
+    display: inline;
+    position: static;
+    min-width: 14.286%;
+}
+
+.ha-hatab-1-7 {
+    display: inline-block;
+    position: absolute;
+    left: 14.286%;
+    min-width: 14.286%;
+}
+
+.ha-hatab-2-7 {
+    display: inline-block;
+    position: absolute;
+    left: 28.571%;
+    min-width: 14.286%;
+}
+
+.ha-hatab-3-7 {
+    display: inline-block;
+    position: absolute;
+    left: 42.857%;
+    min-width: 14.286%;
+}
+
+.ha-hatab-4-7 {
+    display: inline-block;
+    position: absolute;
+    left: 57.143%;
+    min-width: 14.286%;
+}
+
+.ha-hatab-5-7 {
+    display: inline-block;
+    position: absolute;
+    left: 71.429%;
+    min-width: 14.286%;
+}
+
+.ha-hatab-6-7 {
+    display: inline-block;
+    position: absolute;
+    left: 85.714%;
+    min-width: 14.286%;
+}
+
+.ha-hatab-0-8 {
+    display: inline;
+    position: static;
+    min-width: 12.5%;
+}
+
+.ha-hatab-1-8 {
+    display: inline-block;
+    position: absolute;
+    left: 12.5%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-2-8 {
+    display: inline-block;
+    position: absolute;
+    left: 25%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-3-8 {
+    display: inline-block;
+    position: absolute;
+    left: 37.5%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-4-8 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-5-8 {
+    display: inline-block;
+    position: absolute;
+    left: 62.5%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-6-8 {
+    display: inline-block;
+    position: absolute;
+    left: 75%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-7-8 {
+    display: inline-block;
+    position: absolute;
+    left: 87.5%;
+    min-width: 12.5%;
+}
+
+.ha-hatab-0-9 {
+    display: inline;
+    position: static;
+    min-width: 11.111%;
+}
+
+.ha-hatab-1-9 {
+    display: inline-block;
+    position: absolute;
+    left: 11.111%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-2-9 {
+    display: inline-block;
+    position: absolute;
+    left: 22.222%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-3-9 {
+    display: inline-block;
+    position: absolute;
+    left: 33.333%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-4-9 {
+    display: inline-block;
+    position: absolute;
+    left: 44.444%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-5-9 {
+    display: inline-block;
+    position: absolute;
+    left: 55.555%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-6-9 {
+    display: inline-block;
+    position: absolute;
+    left: 66.666%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-7-9 {
+    display: inline-block;
+    position: absolute;
+    left: 77.777%;
+    min-width: 11.111%;
+}
+
+.ha-hatab-8-9 {
+    display: inline-block;
+    position: absolute;
+    left: 88.888%;
+    min-width: 11.111%;
+}
+
+
+.ha-hatab-0-10 {
+    display: inline-block;
+    position: absolute;
+    min-width: 10%;
+}
+
+.ha-hatab-1-10 {
+    display: inline-block;
+    position: absolute;
+    left: 10%;
+    min-width: 10%;
+}
+
+.ha-hatab-2-10 {
+    display: inline-block;
+    position: absolute;
+    left: 20%;
+    min-width: 10%;
+}
+
+.ha-hatab-3-10 {
+    display: inline-block;
+    position: absolute;
+    left: 30%;
+    min-width: 10%;
+}
+
+.ha-hatab-4-10 {
+    display: inline-block;
+    position: absolute;
+    left: 40%;
+    min-width: 10%;
+}
+
+.ha-hatab-5-10 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 10%;
+}
+
+.ha-hatab-6-10 {
+    display: inline-block;
+    position: absolute;
+    left: 60%;
+    min-width: 10%;
+}
+
+.ha-hatab-7-10 {
+    display: inline-block;
+    position: absolute;
+    left: 70%;
+    min-width: 10%;
+}
+
+.ha-hatab-8-10 {
+    display: inline-block;
+    position: absolute;
+    left: 80%;
+    min-width: 10%;
+}
+
+.ha-hatab-9-10 {
+    display: inline-block;
+    position: absolute;
+    left: 90%;
+    min-width: 10%;
+}
+
+.ha-hatab-0-11 {
+    display: inline-block;
+    position: absolute;
+    min-width: 9.091%;
+}
+
+.ha-hatab-1-11 {
+    display: inline-block;
+    position: absolute;
+    left: 9.091%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-2-11 {
+    display: inline-block;
+    position: absolute;
+    left: 18.182%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-3-11 {
+    display: inline-block;
+    position: absolute;
+    left: 27.273%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-4-11 {
+    display: inline-block;
+    position: absolute;
+    left: 36.364%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-5-11 {
+    display: inline-block;
+    position: absolute;
+    left: 45.455%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-6-11 {
+    display: inline-block;
+    position: absolute;
+    left: 54.545%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-7-11 {
+    display: inline-block;
+    position: absolute;
+    left: 63.636%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-8-11 {
+    display: inline-block;
+    position: absolute;
+    left: 72.727%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-9-11 {
+    display: inline-block;
+    position: absolute;
+    left: 81.818%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-10-11 {
+    display: inline-block;
+    position: absolute;
+    left: 90.909%;
+    min-width: 9.091%;
+}
+
+.ha-hatab-0-12 {
+    display: inline-block;
+    position: absolute;
+    min-width: 8.333%;
+}
+
+.ha-hatab-1-12 {
+    display: inline-block;
+    position: absolute;
+    left: 8.333%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-2-12 {
+    display: inline-block;
+    position: absolute;
+    left: 16.666%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-3-12 {
+    display: inline-block;
+    position: absolute;
+    left: 25%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-4-12 {
+    display: inline-block;
+    position: absolute;
+    left: 33.333%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-5-12 {
+    display: inline-block;
+    position: absolute;
+    left: 41.666%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-6-12 {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-7-12 {
+    display: inline-block;
+    position: absolute;
+    left: 58.333%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-8-12 {
+    display: inline-block;
+    position: absolute;
+    left: 66.666%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-9-12 {
+    display: inline-block;
+    position: absolute;
+    left: 75%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-10-12 {
+    display: inline-block;
+    position: absolute;
+    left: 83.333%;
+    min-width: 8.333%;
+}
+
+.ha-hatab-11-12 {
+    display: inline-block;
+    position: absolute;
+    left: 91.666%;
+    min-width: 8.333%;
+}
+
+
 
 /* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */
 /* @media (max-width: 1190px) {

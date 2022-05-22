@@ -22,13 +22,9 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal bool active_skipwhitespace;
     internal string currline;
     internal string currpage;
-    internal string oldpage;
-    internal int commid;
 
     // Parsing-Combinations
-    internal StringBuilder sb_lettertext;    // Hauptext
-    internal StringBuilder sb_linecount;     // Linke Spalte (Zeilenzählung)
-    internal StringBuilder sb_marginals;     // Rechte Spalte (Kommentare)
+    internal StringBuilder sb_lettertext;
 
 
     public LetterState(ILibrary lib, IReaderService readerService, Meta meta, IEnumerable<Marginal>? marginals) {
@@ -43,14 +39,9 @@ public class LetterState : HaWeb.HTMLParser.IState {
 
     public void SetupState() {
         sb_lettertext = new StringBuilder();
-        sb_linecount = new StringBuilder();
-        sb_marginals = new StringBuilder();
-
         active_skipwhitespace = true;
         currline = "-1";
         currpage = "";
-        oldpage = "";
-        commid = 1;
 
         // Initialize State
         if (Meta.ZH != null) {

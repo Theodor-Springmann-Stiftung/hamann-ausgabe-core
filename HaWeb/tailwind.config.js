@@ -2,7 +2,7 @@ module.exports = {
   content: [
     "./wwwroot/**/*.{html,js}",
     "./Views/**/*.{cshtml,html,js}",
-    "./Settings/CSSClasses.cs"
+    "./Settings/CSSClassesSettings.cs"
   ],
   theme: {
     fontFamily: {

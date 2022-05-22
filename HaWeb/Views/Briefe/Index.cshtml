@@ -2,16 +2,39 @@
 
 <div class="ha-letterheader">
     @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", Model.MetaData)
+    <div class="ha-letterheadernav">
+        <div class="ha-lettertabs">
+            <a class="active">Brieftext</a>
+            <a class="">Überlieferung & Textkritik</a>
+            <a class="">PDF</a>
+        </div>
+    
+        @if (Model.MetaData.Next != null || Model.MetaData.Prev != null) {
+            <div class="ha-lettermetalinks">
+                @if (Model.MetaData.Prev != null) {
+                    <a href="@Model.MetaData.Prev.Value.Item2">
+                        @Model.MetaData.Prev.Value.Item1.Meta.Autopsic ◀
+                    </a>
+                }
+                <div class="ha-hkb">
+                    HKB
+                </div>
+                @if (Model.MetaData.Next != null) {
+                    <a href="@Model.MetaData.Next.Value.Item2">
+                        ▶ @Model.MetaData.Next.Value.Item1.Meta.Autopsic
+                    </a>
+                    }
+            </div>
+        }
+    </div>
 </div>
 
-@if (Model.ParsedText != null) {
-    @Html.Raw(@Model.ParsedText)
-}
+<div class="ha-letterbody">
+    <div class="ha-lettertext">
+        @if (Model.ParsedText != null) {
+            @Html.Raw(@Model.ParsedText)
+        }
+    </div>
+</div>
 
-@if (Model.ParsedLineCount != null) {
-    @Html.Raw(@Model.ParsedLineCount)
-}
 
-@if (Model.ParsedMarginals != null) {
-    @Html.Raw(@Model.ParsedMarginals)
-}

@@ -55,17 +55,20 @@ public static class CSSClasses {
     public const string EMPHCLASS = "ha-emph";
     public const string APPCLASS = "ha-app";
     public const string MARGINGALBOXCLASS = "ha-marginalbox";
-
     public const string TRADLINECOUNTCLASS = "ha-tradlinecount";
     public const string TRADCOMMENTCOLUMNCLASS = "ha-tradcommentcolumn";
     public const string TRADZHTEXTCLASS = "ha-tradzhtext";
     public const string TRADZHTEXTBOXCLASS = "ha-tradtextbox";
 
     // Zeilen:
+    public const string ZHLINECLASS = "ha-zhline";
+    public const string FIRSTLINECLASS ="ha-firstline";
     public const string ZHBREAKCLASS = "ha-zhbreak";
     public const string LINELINECLASS = "ha-hr";
     public const string LINEINDENTCLASS = "ha-indent-"; // TODO: GEN
     public const string ZHPAGECLASS = "ha-zhpage";
+    public const string ZHLINECOUNTCLASS = "ha-linecount";
+    public const string HIDDENZHLINECOUNT = "ha-hiddenlinecount";
     public const string FIRSTPAGECLASS = "ha-firstpage";
     public const string EMPTYLINECLASS = "ha-emptyline";
 

@@ -13,20 +13,20 @@ using HaWeb.Settings.ParsingRules;
 
 public static class BriefeHelpers
 {
-    public static (string, string, string) CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals)
+    public static string CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals)
     {
         var rd = readerService.RequestStringReader(letter.Element);
         var letterState = new LetterState(lib, readerService, meta, marginals);
         new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, LetterRules.OTagRules, LetterRules.STagRules, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
-        new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_linecount, null, LetterRules.STagRulesLineCount);
+        // new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, null, LetterRules.STagRulesLineCount);
 
-        if (marginals != null && marginals.Any())
-        {
-            new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_marginals, null, LetterRules.STagRulesMarginals);
-        }
+        // if (marginals != null && marginals.Any())
+        // {
+        //     new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, null, LetterRules.STagRulesMarginals);
+        // }
         rd.Read();
 
-        return (letterState.sb_linecount.ToString(), letterState.sb_lettertext.ToString(), letterState.sb_marginals.ToString());
+        return letterState.sb_lettertext.ToString();
     }
 
     public static string CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition)

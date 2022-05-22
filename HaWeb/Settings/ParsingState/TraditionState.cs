@@ -17,14 +17,10 @@ public class TraditionState : HaWeb.HTMLParser.IState {
     internal bool active_firstedit;
     internal string currline;
     internal string currpage;
-    internal string oldpage;
-    internal int commid;
     internal bool active_trad;
 
     internal StringBuilder sb_tradition;     // Überlieferung
     internal StringBuilder sb_trad_zhtext;   // Überlieferung, ZHText
-    internal StringBuilder sb_trad_left;     // Überlieferung ZHText linke Spalte (zeilenzählung)
-    internal StringBuilder sb_trad_right;    // Überlieferung ZHText rechte Spalte (Kommentare)
 
     internal IReader rd_tradition;
 
@@ -39,8 +35,6 @@ public class TraditionState : HaWeb.HTMLParser.IState {
     public void SetupState() {
         sb_tradition = new StringBuilder();
         sb_trad_zhtext = new StringBuilder();
-        sb_trad_left = new StringBuilder();
-        sb_trad_right = new StringBuilder();
        
         active_trad = false;
         active_del = false;
@@ -48,7 +42,5 @@ public class TraditionState : HaWeb.HTMLParser.IState {
         active_firstedit = true;
         currline = "-1";
         currpage = "";
-        oldpage = "";
-        commid = 1;
     }
 }

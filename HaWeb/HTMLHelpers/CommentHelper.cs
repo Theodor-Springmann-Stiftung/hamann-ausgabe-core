@@ -15,11 +15,11 @@ public static class CommentHelpers
     private static readonly string COMMENTHEADCLASS = HaWeb.Settings.CSSClasses.COMMENTHEADCLASS;
     private static readonly string BACKLINKSHKBCLASS = HaWeb.Settings.CSSClasses.BACKLINKSHKBCLASS;
 
-    public static string CreateHTML(ILibrary lib, IReaderService readerService, Comment comment)
+    public static string CreateHTML(ILibrary lib, IReaderService readerService, Comment comment, string category, CommentType type)
     {
         var sb = new StringBuilder();
         var rd = readerService.RequestStringReader(comment.Lemma);
-        var commentState = new CommentState();
+        var commentState = new CommentState(category, type);
         new HTMLParser.XMLHelper<CommentState>(commentState, rd, sb, CommentRules.OTagRules, CommentRules.STagRules, CommentRules.CTagRules, CommentRules.TextRules, CommentRules.WhitespaceRules);
         sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTHEADCLASS, comment.Index));
         new HTMLHelpers.LinkHelper(lib, rd, sb);
