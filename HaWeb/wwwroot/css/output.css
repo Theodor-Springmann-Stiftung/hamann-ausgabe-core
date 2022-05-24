@@ -604,11 +604,11 @@ body {
   margin-left: auto;
   margin-right: auto;
   margin-top: 1rem;
-  height: 100%;
+  height: 4rem;
   width: 100%;
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
-  padding: 0.5rem;
+  padding: 1rem;
   text-align: right;
   font-family: Libertine, serif;
   font-size: 1.125rem;
@@ -623,8 +623,7 @@ body {
 
 @media (min-width: 1190px) {
   .ha-footer {
-    max-width: 1190px;
-    padding: 2rem;
+    padding: 1rem;
   }
 }
 
@@ -1173,7 +1172,7 @@ body {
 }
 
 .ha-letterheader .ha-letterheadernav {
-  margin-top: 1.75rem;
+  margin-top: 2.25rem;
   display: flex;
   flex-grow: 1;
 }
@@ -1247,6 +1246,7 @@ body {
   flex-wrap: nowrap;
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding-bottom: 2rem;
 }
 
 .ha-lettertext {
@@ -1259,9 +1259,249 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
-  padding-bottom: 1.75rem;
   font-family: Libertine, serif;
   line-height: 1.48;
+  font-variant-numeric: oldstyle-nums;
+}
+
+.ha-additions .ha-tradition div {
+  display: inline;
+}
+
+.ha-additions .ha-tradition {
+  max-width: 48rem;
+}
+
+.ha-additions {
+  position: relative;
+  margin-left: 3rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  font-family: Libertine, serif;
+  line-height: 1.48;
+  font-variant-numeric: oldstyle-nums;
+}
+
+.ha-additions .ha-app {
+  display: inline-block !important;
+  padding-top: 1.5rem;
+  font-weight: 700;
+}
+
+.ha-additions .ha-tradition .ha-app:first-child {
+  padding-top: 0px;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext {
+  position: relative;
+  margin-left: -1rem;
+  display: block !important;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding-left: 1rem;
+  font-family: Libertine, serif;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-firstline {
+  border-radius: 0.25rem;
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-linecount {
+  position: absolute;
+  left: -8.6rem;
+  margin-top: 0.25rem;
+  width: 8rem;
+  text-align: right;
+  font-family: Biolinum, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  --tw-numeric-figure: oldstyle-nums;
+  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-zhpage, .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-zhline {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-variant-numeric: normal;
+  font-variant-caps: all-petite-caps;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-hiddenlinecount {
+  display: none;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
+  position: absolute;
+  right: -28rem;
+  margin-right: 1rem;
+  margin-top: 0.25rem;
+  display: flex;
+  width: 24rem;
+  flex-wrap: wrap;
+  border-radius: 0.125rem;
+  border-left-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(203 213 225 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.25rem;
+  font-family: Biolinum, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  line-height: 1.25;
+  -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+          hyphens: auto;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
+  display: inline-block;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox.ha-expanded-box {
+  padding-bottom: 0.25rem;
+}
+
+.ha-additions .ha-tradition a {
+  --tw-text-opacity: 1;
+  color: rgb(51 65 85 / var(--tw-text-opacity));
+  -webkit-text-decoration-line: underline !important;
+          text-decoration-line: underline !important;
+  -webkit-text-decoration-style: dotted;
+          text-decoration-style: dotted;
+}
+
+.ha-additions .ha-tradition a:hover {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity));
+  -webkit-text-decoration-style: solid;
+          text-decoration-style: solid;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
+  padding-right: 1.5rem;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
+  --tw-text-opacity: 1;
+  color: rgb(30 41 59 / var(--tw-text-opacity));
+  -webkit-text-decoration-line: underline !important;
+          text-decoration-line: underline !important;
+  -webkit-text-decoration-style: dotted;
+          text-decoration-style: dotted;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a:hover {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity));
+  -webkit-text-decoration-style: solid;
+          text-decoration-style: solid;
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
+  position: absolute;
+  right: -2.5rem;
+  margin-top: 2px;
+  display: none;
+  cursor: pointer;
+  line-height: 1;
+  --tw-text-opacity: 1;
+  color: rgb(71 85 105 / var(--tw-text-opacity));
+}
+
+.ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box:hover {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity));
+}
+
+@media (min-width: 1190px) {
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
+    display: block;
+  }
+}
+
+.ha-additions .ha-hands {
+  padding-top: 1.5rem;
+}
+
+.ha-additions .ha-hands .ha-handstitle {
+  font-weight: 700;
+}
+
+.ha-additions .ha-hands .ha-handentries .ha-handfrom, .ha-additions .ha-hands .ha-handentries .ha-handto {
+  display: inline;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.ha-additions .ha-hands .ha-handentries .ha-handperson {
+  display: inline;
+  white-space: nowrap;
+  padding-left: 1rem;
+}
+
+.ha-additions .ha-edits .ha-editstitle {
+  font-weight: 700;
+}
+
+.ha-additions .ha-edits .ha-editentries .ha-editfrom, .ha-additions .ha-edits .ha-editentries .ha-editto {
+  white-space: nowrap;
+  padding-left: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.ha-additions .ha-edits .ha-editentries .ha-editreference {
+  white-space: nowrap;
+}
+
+.ha-additions .ha-edits .ha-editentries .ha-editreference div {
+  display: inline;
+}
+
+.ha-additions .ha-edits {
+  padding-top: 1.5rem;
+}
+
+.ha-additions .ha-edits .ha-editstitle {
+  font-weight: 700;
+}
+
+.ha-additions .ha-edits .ha-editentries td {
+  padding-right: 1rem;
+  vertical-align: top;
+}
+
+.ha-additions .ha-edits .ha-editentries .ha-editreas div {
+  display: inline;
+  font-family: Biolinum, sans-serif;
+}
+
+.ha-additions .ha-edits .ha-editentries table {
+  width: 100%;
+}
+
+.ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+.ha-additions .ha-edits .ha-editentries .ha-editreas .ha-zh * {
+  font-family: Libertine, serif !important;
 }
 
 .hide {
@@ -1339,16 +1579,18 @@ body {
   padding-bottom: 0.25rem;
 }
 
-.ha-lettertext .ha-marginalbox .ha-marginal:first {
-}
-
 .ha-lettertext .ha-marginalbox .ha-marginal {
   padding-right: 1.5rem;
 }
 
+.ha-lettertext .ha-marginalbox .ha-marginal .ha-text {
+}
+
 .ha-lettertext .ha-marginalbox .ha-marginal a {
-  -webkit-text-decoration-line: underline;
-          text-decoration-line: underline;
+  --tw-text-opacity: 1;
+  color: rgb(30 41 59 / var(--tw-text-opacity));
+  -webkit-text-decoration-line: underline !important;
+          text-decoration-line: underline !important;
   -webkit-text-decoration-style: dotted;
           text-decoration-style: dotted;
 }
@@ -1368,7 +1610,7 @@ body {
   cursor: pointer;
   line-height: 1;
   --tw-text-opacity: 1;
-  color: rgb(71 85 105 / var(--tw-text-opacity));
+  color: rgb(51 65 85 / var(--tw-text-opacity));
 }
 
 .ha-lettertext .ha-btn-collapsed-box:hover {
@@ -1386,11 +1628,16 @@ body {
 
 /* Classes from .NET */
 
+.ha-up {
+  position: relative;
+  top: -0.75rem;
+}
+
 .ha-bzg {
-  font-family: Libertine, serif;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 600;
+  font-family: Libertine, serif !important;
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+  font-weight: 600 !important;
 }
 
 .ha-text {
@@ -1410,40 +1657,40 @@ body {
   font-family: Libertine, serif;
 }
 
-.ha-aq, .ha-aq * {
+.ha-aq, .ha-aq * :not(.ha-marginal *, .ha-marginal) {
   font-family: Biolinum, sans-serif;
 }
 
-.ha-ul
-    .ha-ul * {
+.ha-ul, .ha-ul * :not(.ha-marginal *, .ha-marginal) {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
 }
 
-.ha-del, .ha-del * {
+.ha-del, .ha-del * :not(.ha-marginal *, .ha-marginal) {
   -webkit-text-decoration-line: line-through;
           text-decoration-line: line-through;
 }
 
-.ha-hand, .ha-hand * {
+.ha-hand, .ha-hand * :not(.ha-marginal *, .ha-marginal) {
   font-family: Playfair, serif;
   font-size: 0.9rem;
 }
 
-.ha-added, .ha-added * {
+.ha-added, .ha-added * :not(.ha-marginal *, .ha-marginal) {
+  border-radius: 0.125rem;
   --tw-bg-opacity: 1;
   background-color: rgb(203 213 225 / var(--tw-bg-opacity));
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
 
-.ha-note, .ha-note * {
+.ha-note, .ha-note * :not(.ha-marginal *, .ha-marginal) {
   font-style: italic;
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
 }
 
-.ha-sup, .ha-sup * {
+.ha-sup {
   position: relative;
   top: -0.3em;
   font-size: 80%;
@@ -1470,7 +1717,7 @@ body {
   line-height: 1;
 }
 
-.ha-ful, .ha-ful * {
+.ha-ful, .ha-ful * :not(.ha-marginal *, .ha-marginal) {
   display: inline;
   border-bottom-width: 1px;
   --tw-border-opacity: 1;
@@ -1478,16 +1725,18 @@ body {
   padding-bottom: 2px;
 }
 
-.ha-dul, .ha-dul * {
+.ha-dul, .ha-dul * :not(.ha-marginal *, .ha-marginal) {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
   -webkit-text-decoration-style: double;
           text-decoration-style: double;
 }
 
-.ha-tul, .ha-tul * {
+.ha-tul, .ha-tul * :not(.ha-marginal *, .ha-marginal) {
   border-bottom-width: 3px;
   border-style: double;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
 }
@@ -1692,9 +1941,21 @@ body {
   position: static;
 }
 
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
 .sticky {
   position: -webkit-sticky;
   position: sticky;
+}
+
+.bottom-0 {
+  bottom: 0px;
 }
 
 .my-8 {
@@ -1744,12 +2005,12 @@ body {
   display: none;
 }
 
-.h-full {
-  height: 100%;
-}
-
 .h-8 {
   height: 2rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .w-full {
@@ -1853,6 +2114,10 @@ body {
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.pb-24 {
+  padding-bottom: 6rem;
 }
 
 .pb-3 {
@@ -2159,8 +2424,9 @@ body {
 }
 
 .ha-tooltip .ha-tooltiptext {
+  white-space: nowrap;
   visibility: hidden;
-  width: 160px;
+  min-width: 160px;
   bottom: 155%;
   left: 50%;
   margin-left: -80px;

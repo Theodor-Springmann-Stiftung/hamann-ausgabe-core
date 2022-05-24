@@ -122,7 +122,7 @@
     }
 
     .ha-footer {
-        @apply bg-slate-50 w-full h-full desktop:max-w-screen-desktop mx-auto mt-4 p-2 md:p-4 desktop:p-8 text-lg font-serif text-right
+        @apply  bg-slate-50 w-full h-16 mx-auto mt-4 p-4 md:p-4 desktop:p-4 text-lg font-serif text-right
     }
 
     .ha-footer a {
@@ -380,7 +380,7 @@
     }
 
     .ha-letterheader .ha-letterheadernav {
-        @apply mt-7 flex grow
+        @apply mt-9 flex grow
     }
 
     .ha-letterheader .ha-lettertabs {
@@ -412,19 +412,148 @@
     }
 
     .ha-letterbody {
-        @apply flex flex-row flex-nowrap bg-slate-50
+        @apply flex flex-row flex-nowrap bg-slate-50 pb-8
     }
 
     .ha-lettertext {
-        @apply shrink-0 border-l-2 ml-12 px-4 pt-4 relative font-serif leading-[1.48] pb-7 bg-slate-50
+        @apply shrink-0 border-l-2 ml-12 px-4 pt-4 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval
+    }
+
+    .ha-additions .ha-tradition div {
+        @apply inline
+    }
+
+    .ha-additions .ha-tradition {
+        @apply max-w-3xl
+    }
+
+    .ha-additions {
+        @apply ml-12 px-4 pt-4 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval
+    }
+
+    .ha-additions .ha-app {
+        @apply !inline-block font-bold pt-6
+    }
+
+    .ha-additions .ha-tradition .ha-app:first-child {
+        @apply pt-0
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext {
+        @apply !block font-serif relative w-fit -ml-4 pl-4
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-firstline {
+        @apply shadow rounded
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount {
+        @apply absolute -left-[8.6rem] text-right w-32 text-xs oldstyle-nums mt-1 font-sans
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-zhpage,
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-zhline {
+        @apply px-1 pb-1 bg-slate-50 caps-allpetite normal-nums
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-hiddenlinecount {
+        @apply hidden
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
+        @apply absolute -right-[28rem] w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans flex flex-wrap
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
+        @apply inline-block
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox.ha-expanded-box {
+        @apply pb-1
+    }
+
+    .ha-additions .ha-tradition a {
+        @apply !underline decoration-dotted hover:decoration-solid text-slate-700 hover:text-slate-900
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
+        @apply pr-6
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
+        @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900
+    }
+
+    .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
+        @apply hidden desktop:block absolute text-slate-600 hover:text-slate-900 cursor-pointer -right-[2.5rem] leading-none mt-[2px] 
+    }
+
+    .ha-additions .ha-hands {
+        @apply pt-6
+    }
+
+    .ha-additions .ha-hands .ha-handstitle {
+        @apply font-bold
+    }
+
+
+    .ha-additions .ha-hands .ha-handentries .ha-handfrom,
+    .ha-additions .ha-hands .ha-handentries .ha-handto {
+        @apply inline text-sm font-semibold whitespace-nowrap
+    }
+
+    .ha-additions .ha-hands .ha-handentries .ha-handperson {
+        @apply inline pl-4 whitespace-nowrap
+    }
+
+    .ha-additions .ha-edits .ha-editstitle {
+        @apply font-bold
+    }
+
+
+    .ha-additions .ha-edits .ha-editentries .ha-editfrom,
+    .ha-additions .ha-edits .ha-editentries .ha-editto {
+        @apply text-sm font-semibold pl-1 whitespace-nowrap
+    }
+
+    .ha-additions .ha-edits .ha-editentries .ha-editreference {
+        @apply whitespace-nowrap
+    }
+
+    .ha-additions .ha-edits .ha-editentries .ha-editreference div {
+        @apply inline
+    }
+    
+    .ha-additions .ha-edits {
+        @apply pt-6
+    }
+
+    .ha-additions .ha-edits .ha-editstitle {
+        @apply font-bold
+    }
+
+    .ha-additions .ha-edits .ha-editentries td {
+        @apply pr-4 align-top
+    }
+
+    .ha-additions .ha-edits .ha-editentries .ha-editreas div {
+        @apply inline font-sans
+    }
+
+    .ha-additions .ha-edits .ha-editentries table {
+        @apply w-full
+    }
+
+    .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
+        @apply bg-slate-200
+    }
+
+    .ha-additions .ha-edits .ha-editentries .ha-editreas .ha-zh * {
+        @apply !font-serif
     }
 
     .hide {
         @apply hidden
-    }
-
-    .ha-rightsidebar {
-        @apply shrink-0 grow basis-1/3
     }
 
     .ha-lettertext div {
@@ -460,20 +589,20 @@
         @apply pb-1
     }
 
-    .ha-lettertext .ha-marginalbox .ha-marginal:first {
-        
-    }
-
     .ha-lettertext .ha-marginalbox .ha-marginal {
         @apply pr-6
     }
 
+    .ha-lettertext .ha-marginalbox .ha-marginal .ha-text {
+
+    }
+
     .ha-lettertext .ha-marginalbox .ha-marginal a {
-        @apply underline decoration-dotted hover:decoration-solid hover:text-slate-900
+        @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900
     }
 
     .ha-lettertext .ha-btn-collapsed-box {
-        @apply hidden desktop:block absolute text-slate-600 hover:text-slate-900 cursor-pointer -right-[2.5rem] leading-none mt-[2px] 
+        @apply hidden desktop:block absolute text-slate-700 hover:text-slate-900 cursor-pointer -right-[2.5rem] leading-none mt-[2px] 
     }
 
 
@@ -481,8 +610,13 @@
 
 
 /* Classes from .NET */
+
+    .ha-up {
+        @apply -top-3 relative
+    }
+
     .ha-bzg {
-        @apply font-serif text-xs font-semibold
+        @apply !font-serif !text-xs !font-semibold
     }
 
     .ha-text {
@@ -502,37 +636,36 @@
     }
 
     .ha-aq,
-    .ha-aq * {
+    .ha-aq * :not(.ha-marginal *, .ha-marginal) {
         @apply font-sans
     }
 
-    .ha-ul
-    .ha-ul * {
+    .ha-ul,
+    .ha-ul * :not(.ha-marginal *, .ha-marginal) {
         @apply underline
     }
 
     .ha-del,
-    .ha-del * {
+    .ha-del * :not(.ha-marginal *, .ha-marginal) {
         @apply line-through
     }
 
     .ha-hand,
-    .ha-hand * {
+    .ha-hand * :not(.ha-marginal *, .ha-marginal) {
         @apply font-classy text-[0.9rem]
     }
 
     .ha-added,
-    .ha-added * {
-        @apply bg-slate-300 px-1
+    .ha-added * :not(.ha-marginal *, .ha-marginal) {
+        @apply bg-slate-300 px-1 rounded-sm
     }
 
     .ha-note,
-    .ha-note * {
+    .ha-note * :not(.ha-marginal *, .ha-marginal) {
         @apply italic text-slate-700
     }
 
-    .ha-sup,
-    .ha-sup * {
+    .ha-sup {
         @apply relative -top-[0.3em] text-[80%]
     }
 
@@ -546,18 +679,18 @@
     }
 
     .ha-ful,
-    .ha-ful * {
+    .ha-ful * :not(.ha-marginal *, .ha-marginal) {
         @apply inline border-b border-black pb-[2px]
     }
 
     .ha-dul,
-    .ha-dul * {
+    .ha-dul * :not(.ha-marginal *, .ha-marginal) {
         @apply underline decoration-double
     }
 
     .ha-tul,
-    .ha-tul * {
-        @apply underline border-b-[3px] border-double
+    .ha-tul * :not(.ha-marginal *, .ha-marginal) {
+        @apply underline border-b-[3px] border-double border-black
     }
 
     .up {
@@ -807,8 +940,9 @@ body {
 }
 
 .ha-tooltip .ha-tooltiptext {
+    white-space: nowrap;
     visibility: hidden;
-    width: 160px;
+    min-width: 160px;
     bottom: 155%;
     left: 50%;
     margin-left: -80px;

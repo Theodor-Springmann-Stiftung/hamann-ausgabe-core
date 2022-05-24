@@ -25,6 +25,16 @@ Veränderungen im Code
 - Code open source zugänglich machen?
 
 Für diese Anpassungen sind in etwa 3-4 Monate eingeplant.
-
 - Ladezeiten (???)
 - PDF-Parser
+
+hamann-werke.de 
+Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die Ausgaben...
+
+Briefe beim Namen
+
+- GND Normdaten der Namen
+
+- Esther falsch abgekürzt
+- Marginalien in dne Traditions an die falsche Zeile gesetzt
+- Lessing-Registereitrag

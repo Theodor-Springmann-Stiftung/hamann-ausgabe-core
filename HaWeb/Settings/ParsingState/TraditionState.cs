@@ -24,11 +24,12 @@ public class TraditionState : HaWeb.HTMLParser.IState {
 
     internal IReader rd_tradition;
 
-    public TraditionState(ILibrary lib, IReader reader, IEnumerable<Marginal>? marginals) 
+    public TraditionState(ILibrary lib, IReader reader, IReaderService readerService, IEnumerable<Marginal>? marginals) 
     {
         Lib = lib;
         rd_tradition = reader;
         Marginals = marginals;
+        ReaderService = readerService;
         SetupState();
     }
 

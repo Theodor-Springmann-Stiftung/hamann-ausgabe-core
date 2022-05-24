@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using HaWeb.Settings.ParsingState;
 using HaWeb.Settings.ParsingRules;
 
-public static class BriefeHelpers
+public static class LetterHelpers
 {
     public static string CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals)
     {
@@ -32,29 +32,29 @@ public static class BriefeHelpers
     public static string CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition)
     {
         var rd = readerService.RequestStringReader(tradition.Element);
-        var traditionState = new TraditionState(lib, rd, marginals);
-        new HaWeb.HTMLParser.XMLHelper<TraditionState>(traditionState, rd, traditionState.sb_tradition, TraditionRules.OTagRulesInitial, null, TraditionRules.CTagRulesInitial, null, null);
-        new HaWeb.HTMLParser.XMLHelper<TraditionState>(traditionState, rd, traditionState.sb_tradition, TraditionRules.OTagRules, TraditionRules.STagRulesInitial, TraditionRules.CTagRules, TraditionRules.TextRules, TraditionRules.WhitespaceRules);
+        var traditionState = new TraditionState(lib, rd, readerService, marginals);
+        new HaWeb.HTMLParser.XMLHelper<TraditionState>(traditionState, rd, traditionState.sb_tradition, TraditionRules.OTagRules, TraditionRules.STagRules, TraditionRules.CTagRules, TraditionRules.TextRules, TraditionRules.WhitespaceRules);
         new HaWeb.HTMLHelpers.LinkHelper(lib, rd, traditionState.sb_tradition);
         rd.Read();
         return traditionState.sb_tradition.ToString();
     }
 
-    public static List<string> CreateEdits(ILibrary lib, IReaderService readerService, IEnumerable<Editreason> editreasons)
+    public static List<(string, string, string, string, string, string)> CreateEdits(ILibrary lib, IReaderService readerService, IEnumerable<Editreason> editreasons)
     {
-        var editstrings = new List<string>();
+        editreasons = editreasons.OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.StartPage)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.StartLine));
+        var editstrings = new List<(string, string, string, string, string, string)>();
         var editsState = new EditState();
         foreach (var edit in editreasons)
         {
-            editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("div", "edit"));
-            editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "pageline"));
             var currstring = edit.StartPage + "/" + edit.StartLine;
+            var endstring = "";
+            var refstring = "";
             if (edit.StartPage != edit.EndPage)
-                currstring += "–" + edit.EndPage + "/" + edit.EndLine;
+                endstring += edit.EndPage + "/" + edit.EndLine;
             else if (edit.StartLine != edit.EndLine)
-                currstring += "–" + edit.EndLine;
-            editsState.sb_edits.Append(currstring + "&emsp;");
-            editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
+                endstring += edit.EndLine;
+            
+            editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("div", "edit"));
             if (!String.IsNullOrWhiteSpace(edit.Reference))
             {
                 var sb2 = new StringBuilder();
@@ -67,16 +67,17 @@ public static class BriefeHelpers
                 {
                     var text = XElement.Parse(sb2.ToString()).Value.ToString();
                     text = text.ToString().Split(' ').Take(1).First() + " [&#x2026;] " + text.ToString().Split(' ').TakeLast(1).First();
-                    editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "reference"));
-                    editsState.sb_edits.Append(text);
-                    editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
+                    var sb3 = new StringBuilder();
+                    sb3.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "reference"));
+                    sb3.Append(text);
+                    sb3.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
+                    refstring = sb3.ToString();
                 }
                 else
-                    editsState.sb_edits.Append(sb2);
+                    refstring = sb2.ToString();
             }
             if (!String.IsNullOrWhiteSpace(edit.Element))
             {
-                editsState.sb_edits.Append("&emsp;");
                 editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "corrections"));
                 var rd = readerService.RequestStringReader(edit.Element);
                 new HaWeb.HTMLParser.XMLHelper<EditState>(editsState, rd, editsState.sb_edits, EditRules.OTagRules, EditRules.STagRules, EditRules.CTagRules, EditRules.TextRules, EditRules.WhitespaceRules);
@@ -84,30 +85,41 @@ public static class BriefeHelpers
                 editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
             }
             editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("div"));
-            editstrings.Add(editsState.sb_edits.ToString());
+            editstrings.Add((currstring, endstring, refstring, editsState.sb_edits.ToString(), edit.StartPage, edit.StartLine));
             editsState.sb_edits.Clear();
         }
         return editstrings;
     }
 
-    public static List<string> CreateHands(ILibrary lib, ImmutableList<Hand> hands)
+    public static List<(string, string, string, string, string)> CreateHands(ILibrary lib, ImmutableList<Hand> hands)
     {
-        var handstrings = new List<string>();
+        var handstrings = new List<(string, string, string, string, string)>();
         foreach (var hand in hands.OrderBy(x => x.StartPage.Length).ThenBy(x => x.StartPage).ThenBy(x => x.StartLine.Length).ThenBy(x => x.StartLine))
         {
             var currstring = hand.StartPage + "/" + hand.StartLine;
+            var endstring = "";
+            var personstring = "";
             if (hand.StartPage != hand.EndPage)
-                currstring += "–" + hand.EndPage + "/" + hand.EndLine;
+                endstring += hand.EndPage + "/" + hand.EndLine;
             else
                 if (hand.StartLine != hand.EndLine)
-                currstring += "–" + hand.EndLine;
+                endstring += hand.EndLine;
             var persons = lib.HandPersons.Where(x => x.Key == hand.Person);
             if (persons.Any())
             {
-                currstring += " " + persons.FirstOrDefault().Value.Name;
-                handstrings.Add(currstring);
+                personstring += " " + persons.FirstOrDefault().Value.Name;
+                handstrings.Add((currstring, endstring, personstring, hand.StartPage, hand.StartLine));
             }
         }
         return handstrings;
+    }
+
+    public static string CreateZHString(Meta meta) {
+        var zhstrring = "ZH ";
+        var a = 1;
+        if (Int32.TryParse(meta.ZH.Volume, out a))
+            zhstrring += HTMLHelpers.ConversionHelpers.ToRoman(a) + " ";
+        zhstrring += meta.ZH.Page;
+        return zhstrring;
     }
 }

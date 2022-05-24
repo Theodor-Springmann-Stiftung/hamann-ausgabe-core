@@ -16,9 +16,11 @@
                         @Model.MetaData.Prev.Value.Item1.Meta.Autopsic ◀
                     </a>
                 }
+
                 <div class="ha-hkb">
                     HKB
                 </div>
+
                 @if (Model.MetaData.Next != null) {
                     <a href="@Model.MetaData.Next.Value.Item2">
                         ▶ @Model.MetaData.Next.Value.Item1.Meta.Autopsic
@@ -39,10 +41,44 @@
         @if (Model.ParsedTradition != null) {
             @Html.Raw(Model.ParsedTradition)
         }
+        @if(Model.ParsedHands != null && Model.ParsedHands.Any()) {
+            <div class="ha-hands">
+                <div class="ha-handstitle">Zusätze fremder Hand</div>
+                <div class="ha-handentries">
+                    <table>
+                    @foreach (var hand in Model.ParsedHands) {
+                        <tr class="ha-handentry">
+                            @* Not beautiful, but here's whitespace in between otherwise *@
+                            <td><div class="ha-handfrom">@hand.Item1</div>@if (!String.IsNullOrEmpty(hand.Item2)) {<div class="ha-handto">–@hand.Item2</div>
+                            }</td>
+                            <td class="ha-handperson">@hand.Item3</td>
+                        </tr>
+                    }
+                    </table>
+                </div>
+            </div>
+        }
+
         @if (Model.ParsedEdits != null) {
-            @foreach (var edit in Model.ParsedEdits) {
-                @Html.Raw(edit)
-            }
+            <div class="ha-edits">
+                <div class="ha-editstitle">Textkritische Anmerkungen</div>
+                <div class="ha-editentries">
+                    <table>
+                    @foreach (var edit in Model.ParsedEdits) {
+                        <tr>
+                            <td>
+                            <div class="ha-editfrom">@edit.Item1</div>
+                            @if (!String.IsNullOrEmpty(edit.Item2)) {
+                                <div class="ha-editto">–@edit.Item2</div>
+                            }
+                            </td>
+                            <td class="ha-editreference">@Html.Raw(@edit.Item3)</td>
+                            <td class="ha-editreas">@Html.Raw(@edit.Item4)</td>
+                        </tr>
+                    }
+                    </table>
+                </div>
+            </div>
         }
     </div>
 </div>

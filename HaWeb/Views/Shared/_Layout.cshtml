@@ -28,15 +28,20 @@
 
 </head>
 
-<body class="w-full h-full">
+<body class="w-full ">
+    <div class="relative min-h-screen">
+    <div class="pb-24">
     @await Html.PartialAsync("/Views/Shared/_Menu.cshtml")
 
     <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto">
         @RenderBody()
     </main>
-    
-    @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
 
+    </div>
+        <div class="absolute bottom-0 w-full">
+        @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
+        </div>
+    </div>
     <environment exclude="Development">
         @await Html.PartialAsync("/Views/Shared/_Javascript.cshtml")
     </environment>

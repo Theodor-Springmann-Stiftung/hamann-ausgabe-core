@@ -66,7 +66,7 @@ public static class EditRules {
         ( ( x, _) => x.Name == "aq", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, AQCLASS)) ),
         ( ( x, _) => x.Name == "super", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, SUPERCLASS)) ),
         ( ( x, _) => x.Name == "del", (sb, tag, reader) => {
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, "del"));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, DELCLASS));
             reader.State.active_del = true;
         }),
         ( ( x, _) => x.Name == "nr", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, NRCLASS)) ),
@@ -149,6 +149,10 @@ public static class EditRules {
                 sb.Append(txt.Value);
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
     })};
+    
+    public static readonly TagFuncList STagRules = new TagFuncList() {
+        ( ( x, _) => x.Name == "line", (sb, tag, _) => sb.Append("&emsp;") )
+    };
 
     public static readonly WhitespaceFuncList WhitespaceRules = new WhitespaceFuncList() {
         ( ( _, _) => true, ( sb, txt, reader) => {
@@ -157,8 +161,4 @@ public static class EditRules {
             else
                 reader.State.active_skipwhitespace = !reader.State.active_skipwhitespace;
     })};
-    
-    public static readonly TagFuncList STagRules = new TagFuncList() {
-        ( ( x, _) => x.Name == "line", (sb, tag, _) => sb.Append("&emsp;") )
-    };
 }

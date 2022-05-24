@@ -12,6 +12,21 @@
                 <div class="ha-metadatadate">
                     @Model.Meta.Date
                 </div>
+                @if (Model.ParsedZHString != null) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            <span>@Model.ParsedZHString</span>
+                        </div>
+                    </div>
+                }
+                else {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            <span>Neu</span>
+                        </div>
+                    </div>
+                }
+
                 @if (Model.Meta.hasOriginal != HaDocument.Models.OptionalBool.True) {
                     <div class="ha-tooltip">
                         <div class="ha-pill">
@@ -38,8 +53,8 @@
                         <div class="ha-pill">
                             <span class="ha-cross">geprüft</span>
                         </div>
-                        <div class="ha-tooltiptext">
-                            Nicht textkritisch geprüft
+                        <div class="ha-tooltiptext whitespace-nowrap">
+                            Noch nicht textkritisch geprüft
                         </div>
                     </div>
                 }
@@ -48,8 +63,19 @@
                         <div class="ha-pill">
                             geprüft
                         </div>
-                        <div class="ha-tooltiptext">
+                        <div class="ha-tooltiptext whitespace-nowrap">
                             Textkritisch geprüft
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Meta.ZH != null && Model.Meta.ZH.dateChanged) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            neu datiert
+                        </div>
+                        <div class="ha-tooltiptext whitespace-nowrap" style="margin-left: -165px;">
+                            Der Brief wurde gegenüber der Ausgabe ZH neu datiert
                         </div>
                     </div>
                 }
@@ -59,7 +85,7 @@
                         <div class="ha-pill">
                             Komm
                         </div>
-                        <div class="ha-tooltiptext">
+                        <div class="ha-tooltiptext whitespace-nowrap">
                             Mit Stellenkommentar
                         </div>
                     </div>
@@ -70,7 +96,7 @@
                     <span>@Model.ParsedSenders</span>
                     <div class="ha-tooltip">
                               ↛
-                        <div class="ha-tooltiptext">
+                        <div class="ha-tooltiptext" style="bottom: 100%;">
                             Entwurf
                         </div>
                     </div>

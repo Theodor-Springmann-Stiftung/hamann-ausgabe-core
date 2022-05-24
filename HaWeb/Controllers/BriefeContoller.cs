@@ -58,10 +58,10 @@ public class Briefecontroller : Controller
         var model = new BriefeViewModel(this.id, index, generateMetaViewModel(meta, hasMarginals));
         if (nextmeta != null) model.MetaData.Next = (generateMetaViewModel(nextmeta, false), url + nextmeta.Autopsic);
         if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(prevmeta, false), url + prevmeta.Autopsic);
-        if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.BriefeHelpers.CreateHands(_lib, hands);
-        if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.BriefeHelpers.CreateEdits(_lib, _readerService, editreasons);
-        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.BriefeHelpers.CreateTraditions(_lib, _readerService, marginals, tradition);
-        if (text != null && !String.IsNullOrWhiteSpace(text.Element)) model.ParsedText = HaWeb.HTMLHelpers.BriefeHelpers.CreateLetter(_lib, _readerService, meta, text, marginals);
+        if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(_lib, hands);
+        if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(_lib, _readerService, editreasons);
+        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.LetterHelpers.CreateTraditions(_lib, _readerService, marginals, tradition);
+        if (text != null && !String.IsNullOrWhiteSpace(text.Element)) model.ParsedText = HaWeb.HTMLHelpers.LetterHelpers.CreateLetter(_lib, _readerService, meta, text, marginals);
 
         // Return
         return View(model);
@@ -77,8 +77,10 @@ public class Briefecontroller : Controller
     {
         var senders = meta.Senders.Select(x => _lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => _lib.Persons[x].Name) ?? new List<string>();
+        var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
         return new BriefeMetaViewModel(meta, hasMarginals)
         {
+            ParsedZHString = zhstring,
             ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
         };
