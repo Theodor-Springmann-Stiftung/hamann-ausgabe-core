@@ -38,3 +38,4 @@ Briefe beim Namen
 - Esther falsch abgekürzt
 - Marginalien in dne Traditions an die falsche Zeile gesetzt
 - Lessing-Registereitrag
+- 224 erse beidenkomm vertauscht
