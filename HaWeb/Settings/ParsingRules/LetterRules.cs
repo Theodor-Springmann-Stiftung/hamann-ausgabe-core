@@ -64,6 +64,11 @@ public class LetterRules
     private static readonly string MARGINALCLASS = HaWeb.Settings.CSSClasses.MARGINALCLASS;
     private static readonly string LETTERCLASS = HaWeb.Settings.CSSClasses.LETTERCLASS;
 
+    // Marker-Classes
+    private static readonly string EDITMARKERCLASS = HaWeb.Settings.CSSClasses.EDITMARKERCLASS;
+    private static readonly string COMMENTMARKERCLASS = HaWeb.Settings.CSSClasses.COMMENTMARKERCLASS;
+    private static readonly string HANDMARKERCLASS = HaWeb.Settings.CSSClasses.HANDMARKERCLASS;
+
     // Parsing Rules for Letters
     // General rules (for the lettertext column, also for parsing the marginals, awa tradtions and editreasons)
     public static readonly TagFuncList OTagRules = new TagFuncList() {
@@ -101,12 +106,20 @@ public class LetterRules
         ( ( x, _) => x.Name == "subsection", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LETTERCLASS)) ),
         ( ( x, _) => x.Name == "letterTradition", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TRADITIONCLASS)) ),
         ( ( x, _) => x.Name == "marginal", (sb, tag, reader) => {
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINALCLASS));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINALCLASS, "m-" + tag["index"]));
             reader.State.active_skipwhitespace = !reader.State.active_skipwhitespace;
         }),
-        ( ( x, _) => x.Name == "hand", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HANDCLASS)) ),
         ( ( x, _) => x.Name == "tabs", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TABLECLASS)) ),
-        ( ( x, _) => x.Name == "tab" && !String.IsNullOrWhiteSpace(x["value"]), (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TABCLASS + tag["value"])))
+        ( ( x, _) => x.Name == "tab" && !String.IsNullOrWhiteSpace(x["value"]), (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TABCLASS + tag["value"]))),
+        ( ( x, _) => x.Name == "edit" && !String.IsNullOrWhiteSpace(x["ref"]), (sb, tag, _) => {
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, EDITMARKERCLASS, "ea-" + tag["ref"]));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+        }),
+        ( ( x, _) => x.Name == "hand", (sb, tag, _) => {
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HANDMARKERCLASS, "ha-" + tag["ref"]));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HANDCLASS));
+        })
     };
 
     public static readonly TagFuncList CTagRules = new TagFuncList() {
@@ -221,6 +234,9 @@ public class LetterRules
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINGALBOXCLASS));
                     foreach (var marginal in margs)
                     {
+                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTMARKERCLASS, "ma-" + marginal.Index));
+                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+
                         // In Marginal, the Root-Element (<marginal>) is somehow parsed,
                         // so we don't need to enclose it in a seperate div.
                         var rd = reader.State.ReaderService.RequestStringReader(marginal.Element);

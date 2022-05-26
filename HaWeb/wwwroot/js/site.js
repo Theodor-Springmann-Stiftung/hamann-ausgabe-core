@@ -205,6 +205,6 @@ window.addEventListener("load", function () {
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
   overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
-  showhidebutton("ha-lettertextbtn", "ha-additionsbtn", "ha-additions", "ha-lettertext", true);
-  showhidebutton("ha-additionsbtn", "ha-lettertextbtn", "ha-lettertext", "ha-additions", false);
+  showhidebutton("ha-lettertextbtn", "ha-additionsbtn", "ha-additions", "ha-lettertext", false);
+  showhidebutton("ha-additionsbtn", "ha-lettertextbtn", "ha-lettertext", "ha-additions", true);
 });

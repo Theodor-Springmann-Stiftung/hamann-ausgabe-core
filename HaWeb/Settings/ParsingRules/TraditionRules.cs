@@ -44,7 +44,6 @@ public static class TraditionRules
     private static readonly string MARGINGALBOXCLASS = HaWeb.Settings.CSSClasses.MARGINGALBOXCLASS;
 
     // Zeilen:
-    // :
     private static readonly string ZHLINECLASS = HaWeb.Settings.CSSClasses.ZHLINECLASS;
     private static readonly string FIRSTLINECLASS = HaWeb.Settings.CSSClasses.FIRSTLINECLASS;
     private static readonly string ZHBREAKCLASS = HaWeb.Settings.CSSClasses.ZHBREAKCLASS;
@@ -69,6 +68,12 @@ public static class TraditionRules
     public static readonly string TRADCOMMENTCOLUMNCLASS = HaWeb.Settings.CSSClasses.TRADCOMMENTCOLUMNCLASS;
     public static readonly string TRADZHTEXTCLASS = HaWeb.Settings.CSSClasses.TRADZHTEXTCLASS;
     public static readonly string TRADZHTEXTBOXCLASS = HaWeb.Settings.CSSClasses.TRADZHTEXTBOXCLASS;
+
+    // Marker-Classes
+    private static readonly string EDITMARKERCLASS = HaWeb.Settings.CSSClasses.EDITMARKERCLASS;
+    private static readonly string COMMENTMARKERCLASS = HaWeb.Settings.CSSClasses.COMMENTMARKERCLASS;
+    private static readonly string HANDMARKERCLASS = HaWeb.Settings.CSSClasses.HANDMARKERCLASS;
+
 
     // Parsing Rules for Letters
     // General rules (for the lettertext column, also for parsing the marginals, awa tradtions and editreasons)
@@ -236,6 +241,9 @@ public static class TraditionRules
                         sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINGALBOXCLASS));
                         foreach (var marginal in margs)
                         {
+                            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTMARKERCLASS, marginal.Index));
+                            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+
                             // In Marginal, the Root-Element (<marginal>) is somehow parsed,
                             // so we don't need to enclose it in a seperate div.
                             if (marginal.Element != null) {

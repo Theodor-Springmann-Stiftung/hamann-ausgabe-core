@@ -13,10 +13,10 @@ using HaWeb.Settings.ParsingRules;
 
 public static class LetterHelpers
 {
-    public static string CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals)
+    public static string CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits)
     {
         var rd = readerService.RequestStringReader(letter.Element);
-        var letterState = new LetterState(lib, readerService, meta, marginals);
+        var letterState = new LetterState(lib, readerService, meta, marginals, hands, edits);
         new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, LetterRules.OTagRules, LetterRules.STagRules, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
         // new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, null, LetterRules.STagRulesLineCount);
 
@@ -63,7 +63,8 @@ public static class LetterHelpers
                 new HaWeb.HTMLParser.XMLHelper<EditState>(editsState, rd, sb2, EditRules.OTagRules, null, EditRules.CTagRules, EditRules.TextRules, EditRules.WhitespaceRules);
                 rd.Read();
                 sb2.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
-                if ((edit.StartPage != edit.EndPage || edit.StartLine != edit.EndLine) && XElement.Parse(sb2.ToString()).Value.ToString().Length >= 60)
+                // Old: (edit.StartPage != edit.EndPage || edit.StartLine != edit.EndLine) && 
+                if (XElement.Parse(sb2.ToString()).Value.ToString().Length >= 20)
                 {
                     var text = XElement.Parse(sb2.ToString()).Value.ToString();
                     text = text.ToString().Split(' ').Take(1).First() + " [&#x2026;] " + text.ToString().Split(' ').TakeLast(1).First();

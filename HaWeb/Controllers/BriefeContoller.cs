@@ -61,7 +61,7 @@ public class Briefecontroller : Controller
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(_lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(_lib, _readerService, editreasons);
         if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.LetterHelpers.CreateTraditions(_lib, _readerService, marginals, tradition);
-        if (text != null && !String.IsNullOrWhiteSpace(text.Element)) model.ParsedText = HaWeb.HTMLHelpers.LetterHelpers.CreateLetter(_lib, _readerService, meta, text, marginals);
+        if (text != null && !String.IsNullOrWhiteSpace(text.Element)) model.ParsedText = HaWeb.HTMLHelpers.LetterHelpers.CreateLetter(_lib, _readerService, meta, text, marginals, hands, editreasons);
 
         // Return
         return View(model);

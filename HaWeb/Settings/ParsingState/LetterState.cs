@@ -16,6 +16,8 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal Meta Meta;
 
     internal IEnumerable<Marginal>? Marginals;
+    internal IEnumerable<Hand>? Hands;
+    internal IEnumerable<Editreason>? Edits;
 
     // State
     internal bool active_del;
@@ -27,12 +29,13 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal StringBuilder sb_lettertext;
 
 
-    public LetterState(ILibrary lib, IReaderService readerService, Meta meta, IEnumerable<Marginal>? marginals) {
+    public LetterState(ILibrary lib, IReaderService readerService, Meta meta, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
         Lib = lib;
         ReaderService = readerService;
         Meta = meta;
         Marginals = marginals;
-
+        Hands = hands;
+        Edits = edits;
         SetupState();
     }
 

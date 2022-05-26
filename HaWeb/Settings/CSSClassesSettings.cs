@@ -72,6 +72,11 @@ public static class CSSClasses {
     public const string FIRSTPAGECLASS = "ha-firstpage";
     public const string EMPTYLINECLASS = "ha-emptyline";
 
+    // Marker
+    public const string EDITMARKERCLASS = "ha-editmarker";
+    public const string COMMENTMARKERCLASS = "ha-commentmarker";
+    public const string HANDMARKERCLASS = "ha-handmarker";
+
     // TODO Classes used in Razor Pages:
 
 

@@ -62,16 +62,14 @@
         @if (Model.ParsedEdits != null) {
             <div class="ha-edits">
                 <div class="ha-editstitle">Textkritische Anmerkungen</div>
+                <div class="ha-editsinfo">Der Brieftext wurde anhand der überlieferten Quellen (vgl. Provenienz) kritisch geprüft. Notwendige Korrekturen gegenüber dem in ZH gedruckten Text wurden vorgenommen und sind vollständig annotiert. Die in den beiden Auflagen von ZH angehängten Korrekturvorschläge werden vollständig aufgelistet, werden aber nur dann im Text realisiert, sofern diese anhand überlieferter Quellen verifiziert werden konnten.</div>
                 <div class="ha-editentries">
                     <table>
                     @foreach (var edit in Model.ParsedEdits) {
                         <tr>
-                            <td>
-                            <div class="ha-editfrom">@edit.Item1</div>
-                            @if (!String.IsNullOrEmpty(edit.Item2)) {
-                                <div class="ha-editto">–@edit.Item2</div>
-                            }
-                            </td>
+                            <td class="ha-editfromto">
+                            <div class="ha-editfrom">@edit.Item1</div>@if (!String.IsNullOrEmpty(edit.Item2)) {<div class="ha-editto">–@edit.Item2</div>
+                            }</td>
                             <td class="ha-editreference">@Html.Raw(@edit.Item3)</td>
                             <td class="ha-editreas">@Html.Raw(@edit.Item4)</td>
                         </tr>
