@@ -230,21 +230,24 @@ public class LetterRules
                 var margs = reader.State.Marginals.Where(x => x.Page == reader.State.currpage && x.Line == reader.State.currline);
                 if (margs != null && margs.Any())
                 {
+                    var sb2 = new StringBuilder();
                     margs = margs.OrderBy(x => Int32.Parse(x.Index));
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTMARKERCLASS, "ma-" + reader.State.currpage + "-" + reader.State.currline));
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINGALBOXCLASS));
                     foreach (var marginal in margs)
                     {
-                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTMARKERCLASS, "ma-" + marginal.Index));
-                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-
                         // In Marginal, the Root-Element (<marginal>) is somehow parsed,
                         // so we don't need to enclose it in a seperate div.
                         var rd = reader.State.ReaderService.RequestStringReader(marginal.Element);
                         new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>(reader.State, rd, sb, LetterRules.OTagRules, null, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
                         new HaWeb.HTMLHelpers.LinkHelper(reader.State.Lib, rd, sb, false);
+                        new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>(reader.State, rd, sb2, LetterRules.OTagRules, null, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
+                        new HaWeb.HTMLHelpers.LinkHelper(reader.State.Lib, rd, sb2, false);
                         rd.Read();
                     }
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                    reader.State.ParsedMarginals.Add((reader.State.currpage, reader.State.currline, sb2.ToString()));
                 }
             }
 

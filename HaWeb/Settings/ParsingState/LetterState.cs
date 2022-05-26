@@ -19,6 +19,8 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal IEnumerable<Hand>? Hands;
     internal IEnumerable<Editreason>? Edits;
 
+    internal List<(string, string, string)> ParsedMarginals;
+
     // State
     internal bool active_del;
     internal bool active_skipwhitespace;
@@ -41,6 +43,7 @@ public class LetterState : HaWeb.HTMLParser.IState {
 
 
     public void SetupState() {
+        ParsedMarginals = new List<(string, string, string)>();
         sb_lettertext = new StringBuilder();
         active_skipwhitespace = true;
         currline = "-1";
