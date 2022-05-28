@@ -1,8 +1,18 @@
 module.exports = {
+  darkMode: 'class',
   content: [
     "./wwwroot/**/*.{html,js}",
     "./Views/**/*.{cshtml,html,js}",
     "./Settings/CSSClassesSettings.cs"
+  ],
+  safelist: [
+    "ha-indent-1",
+    "ha-indent-2",
+    "ha-indent-3",
+    "ha-indent-4",
+    "ha-indent-5",
+    "ha-indent-6",
+    "ha-indent-7",
   ],
   theme: {
     fontFamily: {
@@ -11,7 +21,7 @@ module.exports = {
       classy: ['Playfair', 'serif'],
     },
     screens: {
-      'sm': '786px',
+      'sm': '700px',
       'md': '960px',
       'desktop': '1190px',
       'xl': '1440px',

@@ -121,9 +121,6 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
       }
     });
   }
-
-  //element.appendChild(btn);
-  //element.insertBefore(btn, element.firstChild);
   element.parentNode.insertBefore(btn, element);
 };
 
@@ -155,41 +152,101 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
   }
 };
 
-const showhidebutton = function (buttonid, prevbuttonid, hideid, showid, starthidden) {
+/* Button to hide / show traditions, marginals and the text of the letter */
+const showhidebutton = function (
+  buttonid,
+  divid,
+  buttonlist,
+  divlist,
+  starthidden
+) {
   let button = document.getElementById(buttonid);
-  let prevbtn = document.getElementById(prevbuttonid);
-  if (starthidden) {
-    let hiddenelement = document.getElementById(hideid);
-      let shownelement = document.getElementById(showid);
-      if (hiddenelement !== null) {
-        hiddenelement.classList.add("hide");
-      }
-      if (shownelement !== null) {
-        shownelement.classList.remove("hide");
-      }
-      prevbtn.classList.remove("active");
-      button.classList.add("active");
+  let div = document.getElementById(divid);
+
+  if (starthidden && div !== null) {
+    div.classList.add("hide");
   }
-  if(button !== null) {
-    button.addEventListener("click", function() {
-      let hiddenelement = document.getElementById(hideid);
-      let shownelement = document.getElementById(showid);
-      if (hiddenelement !== null) {
-        hiddenelement.classList.add("hide");
-      }
-      if (shownelement !== null) {
-        shownelement.classList.remove("hide");
-      }
-      prevbtn.classList.remove("active");
-      button.classList.add("active");
-    })
+
+  if (!starthidden && button !== null) {
+    button.classList.add("active");
   }
+
+  if (button !== null) {
+    button.addEventListener("click", function () {
+      for (let btn of buttonlist) {
+        let inactivebutton = document.getElementById(btn);
+        if (inactivebutton !== null) inactivebutton.classList.remove("active");
+      }
+
+      for (let element of divlist) {
+        let hiddenelement = document.getElementById(element);
+        if (hiddenelement !== null) hiddenelement.classList.add("hide");
+      }
+
+      if (button !== null) button.classList.add("active");
+      if (div !== null) div.classList.remove("hide");
+    });
+  }
+};
+
+// Functions for switching theme
+const go_to_dark = function() {
+  localStorage.setItem('theme', 'ha-toggledark');
+  document.documentElement.classList.add('dark');
 }
 
+const go_to_twilight = function() {
+  document.documentElement.classList.remove('dark')
+  let elements = document.getElementsByClassName("ha-twilighttogglebar");
+  for (let el of elements) {
+    el.classList.add("dark");
+  }
+  localStorage.setItem('theme', 'ha-toggletwilight');
+}
+
+const go_to_bright = function() {
+  document.documentElement.classList.remove('dark');
+  let elements = document.getElementsByClassName("ha-twilighttogglebar");
+  for (let el of elements) {
+    el.classList.remove("dark");
+  }
+  localStorage.setItem('theme', 'ha-togglebright');
+}
+
+// Functions for reading theme settings
+const get_theme_settings = function(standard) {
+  var theme = localStorage.getItem('theme');
+  if (theme === null) theme = standard;
+  let toggleSwitch = document.getElementById(theme).click();
+}
+
+const collapseboxes = function() {
+  for (entry of this.document.getElementsByClassName("ha-letlinks")) {
+    entry.maxHeight = "auto";
+    let btns = entry.parentNode.getElementsByClassName("ha-btn-collapsed-box");
+    for (btn of btns) {
+      btn.remove();
+    }
+  }
+
+  for (entry of this.document.getElementsByClassName("ha-marginalbox")) {
+    entry.maxHeight = "auto";
+    let btns = entry.parentNode.getElementsByClassName("ha-btn-collapsed-box");
+    for (btn of btns) {
+      btn.remove();
+    }
+  }
+  overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
+  overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
+  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
+}
+
+//////////////////////////////// ONLOAD ////////////////////////////////////
 window.addEventListener("load", function () {
+  // Menu: Show / Hide Buttons for mobile View
   if (
-    document.getElementById("openmenubutton") != null &&
-    document.getElementById("closemenubutton") != null
+    document.getElementById("openmenubutton") !== null &&
+    document.getElementById("closemenubutton") !== null
   ) {
     document
       .getElementById("openmenubutton")
@@ -198,13 +255,61 @@ window.addEventListener("load", function () {
       .getElementById("closemenubutton")
       .addEventListener("click", closemenu);
   }
+
+  // Menu / Register / Search View: Mark active link
   if (document.getElementById("ha-topnav") != null)
     markactive_startswith(document.getElementById("ha-topnav"));
   if (document.getElementById("ha-register-nav") != null)
     markactive_exact(document.getElementById("ha-register-nav"));
-  overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
-  overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
-  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
-  showhidebutton("ha-lettertextbtn", "ha-additionsbtn", "ha-additions", "ha-lettertext", false);
-  showhidebutton("ha-additionsbtn", "ha-lettertextbtn", "ha-lettertext", "ha-additions", true);
+
+  // Letter / Register View: Collapse all unfit boxes
+  collapseboxes();
+  //this.window.addEventListener('resize', collapseboxes);
+
+
+  // Letter View: Show / Hide Tabs
+  let buttonlist = ["ha-lettertextbtn", "ha-additionsbtn", "ha-marginalsbtn"];
+  let divlist = ["ha-lettertext", "ha-additions", "ha-marginals"];
+  showhidebutton(
+    "ha-lettertextbtn",
+    "ha-lettertext",
+    buttonlist,
+    divlist,
+    false
+  );
+  showhidebutton("ha-additionsbtn", "ha-additions", buttonlist, divlist, true);
+  showhidebutton("ha-marginalsbtn", "ha-marginals", buttonlist, divlist, true);
+
+  // Theme: Get saved theme from memory and check the box accordingly
+  // Register theme toggler
+  if (
+    document.getElementById("ha-togglebright") !== null &&
+    document.getElementById("ha-toggletwilight") !== null &&
+    this.document.getElementById("ha-toggledark") !== null
+  ) {
+    document
+      .getElementById("ha-togglebright")
+      .addEventListener("click", go_to_bright);
+    document
+      .getElementById("ha-toggledark")
+      .addEventListener("click", go_to_dark);
+    document
+      .getElementById("ha-toggletwilight")
+      .addEventListener("click", go_to_twilight);
+  }
+  get_theme_settings("ha-togglebright");
 });
+
+// import resolveConfig from 'tailwindcss/resolveConfig'
+// import tailwindConfig from './tailwind.config.js'
+
+// const fullConfig = resolveConfig(tailwindConfig)
+
+// fullConfig.theme.width[4]
+// // => '1rem'
+
+// fullConfig.theme.screens.md
+// // => '768px'
+
+// fullConfig.theme.boxShadow['2xl']
+// // => '0 25px 50px -12px rgba(0, 0, 0, 0.25)'

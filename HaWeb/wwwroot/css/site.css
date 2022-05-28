@@ -24,825 +24,960 @@
 */
 
 @font-face {
-    font-family: 'Biolinum';
-    src: url('../fonts/LinBiolinum_R.woff') format('woff');
-    font-display: swap;
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Biolinum";
+  src: url("../fonts/LinBiolinum_R.woff") format("woff");
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Libertine';
-    src: url('../fonts/LinLibertine_R.woff') format('woff');
-    font-display: swap;
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Libertine";
+  src: url("../fonts/LinLibertine_R.woff") format("woff");
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Biolinum';
-    src: url('../fonts/LinBiolinum_RI.woff') format('woff');
-    font-display: swap;
-    font-weight: normal;
-    font-style: italic;
+  font-family: "Biolinum";
+  src: url("../fonts/LinBiolinum_RI.woff") format("woff");
+  font-display: swap;
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Biolinum';
-    src: url('../fonts/LinBiolinum_RB.woff') format('woff');
-    font-display: swap;
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Biolinum";
+  src: url("../fonts/LinBiolinum_RB.woff") format("woff");
+  font-display: swap;
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Libertine';
-    src: url('../fonts/LinLibertine_RI.woff') format('woff');
-    font-display: swap;
-    font-weight: normal;
-    font-style: italic;
+  font-family: "Libertine";
+  src: url("../fonts/LinLibertine_RI.woff") format("woff");
+  font-display: swap;
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Libertine';
-    src: url('../fonts/LinLibertine_RB.woff') format('woff');
-    font-display: swap;
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Libertine";
+  src: url("../fonts/LinLibertine_RB.woff") format("woff");
+  font-display: swap;
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Playfair';
-    src: url('../fonts/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
-    font-display: swap;
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Playfair";
+  src: url("../fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
 }
 
 @layer components {
-    /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
-    body {
-        @apply text-base desktop:text-lg w-full h-full
-    }
+  /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
+  body {
+    @apply text-base desktop:text-lg w-full h-full;
+  }
 
-    .ha-topnav {
-        @apply flex desktop:grow-0 desktop:shrink-0 md:text-lg 2xl:text-xl desktop:place-self-end xl:mb-1
-    }
+  .ha-topnav {
+    @apply flex desktop:grow-0 desktop:shrink-0 md:text-lg 2xl:text-xl desktop:place-self-end xl:mb-1;
+  }
 
-    .ha-topnav a {
-        @apply hidden text-slate-700 hover:text-slate-900  desktop:inline-block mr-6 2xl:mr-7
-    }
+  .ha-topnav a {
+    @apply hidden text-slate-700 hover:text-slate-900  desktop:inline-block mr-6 2xl:mr-7;
+  }
 
-    .ha-topnav a:last-child {
-        @apply mr-0
-    }
+  .ha-topnav a:last-child {
+    @apply mr-0;
+  }
 
-    .ha-topnav-dropdown {
-        @apply hidden desktop:relative desktop:inline-block
-    }
+  .ha-topnav-dropdown {
+    @apply hidden desktop:relative desktop:inline-block;
+  }
 
-    .ha-topnav-dropdown:hover .ha-topnav-dropdown-content {
-        @apply desktop:block
-    }
+  .ha-topnav-dropdown:hover .ha-topnav-dropdown-content {
+    @apply desktop:block;
+  }
 
-    .ha-topnav-dropdown .ha-topnav-dropdown-content {
-        @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-slate-400 border-b z-50
-    }
+  .ha-topnav-dropdown .ha-topnav-dropdown-content {
+    @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-slate-400 border-b z-50;
+  }
 
-    .ha-topnav-dropdown .ha-topnav-dropdown-content a {
-        @apply pl-2 pr-3 py-2 block mr-0
-    }
+  .ha-topnav-dropdown .ha-topnav-dropdown-content a {
+    @apply pl-2 pr-3 py-2 block mr-0;
+  }
 
-    .ha-topnav-dropdown .ha-topnav-dropdown-content .active {
-        @apply border-none
-    }
+  .ha-topnav-dropdown .ha-topnav-dropdown-content .active {
+    @apply border-none;
+  }
 
-    .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
-        @apply bg-slate-100
-    }
+  .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
+    @apply bg-slate-100;
+  }
 
-    .ha-footer {
-        @apply  bg-slate-50 w-full h-16 mx-auto mt-4 p-4 md:p-4 desktop:p-4 text-lg font-serif text-right
-    }
+  /* Classes for the footer */
+  .ha-footer {
+    @apply font-serif;
+  }
+
+  .ha-footer .ha-footertext {
+    @apply bg-slate-50 p-2 px-4 mx-auto max-w-screen-desktop text-right text-sm;
+  }
+
+  .ha-footer a {
+    @apply underline decoration-dotted hover:decoration-solid;
+  }
+
+  .ha-footer .ha-themetoggles {
+    @apply whitespace-nowrap relative bg-slate-200 px-0.5 rounded-3xl h-4 w-[49px] shadow-inner
+  }
+
+  .ha-footer .ha-themetoggles * {
+    @apply float-left;
+  }
+
+  .ha-footer .ha-themetoggles input[type="radio"] {
+    @apply hidden;
+  }
+
+  .ha-footer .ha-themetoggles label {
+    @apply z-10 block w-[11px] h-[11px] my-[3px] mx-[2px] rounded-3xl cursor-pointer text-center
+  }
+
+  .ha-footer .ha-themetoggles .ha-themetoggleslider {
+    @apply w-[11px] h-[11px] absolute top-[3px] rounded-3xl transition-all duration-100 ease-in-out shadow-md
+  }
+
+  .ha-footer .ha-themetoggles #ha-toggledark:checked ~ .ha-themetoggleslider {
+      @apply bg-slate-800  left-1
+  }
+
+  .ha-footer .ha-themetoggles #ha-toggletwilight:checked ~ .ha-themetoggleslider {
+      @apply bg-slate-500 left-[19px]
+  }
+
+  .ha-footer .ha-themetoggles #ha-togglebright:checked ~ .ha-themetoggleslider {
+      @apply bg-slate-50 left-[34px]
+  }
+
+  /* Classes for static pages */
 
-    .ha-footer a {
-        @apply underline decoration-dotted
-    }
+  .ha-static {
+    @apply w-full bg-slate-50 py-12 px-12 md:px-16 hyphenate font-serif;
+  }
 
-    .ha-footer a:hover {
-        @apply underline decoration-solid
-    }
+  .ha-static h1 {
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6;
+  }
 
-/* Classes for static pages */
+  .ha-static h2 {
+    @apply my-3 mt-4 text-lg desktop:text-2xl;
+  }
 
-    .ha-static {
-        @apply w-full bg-slate-50 py-12 px-12 md:px-16 hyphenate font-serif
-    }
+  .ha-static h3 {
+    @apply mt-4 mb-2 text-hamannHighlight;
+  }
 
-    .ha-static h1 {
-        @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
-    }
+  .ha-static table {
+    @apply my-3 w-full;
+  }
 
-    .ha-static h2 {
-        @apply my-3 mt-4 text-lg desktop:text-2xl
-    }
+  .ha-static table th {
+    @apply pl-2 pr-2 desktop:pr-4 text-left font-normal text-hamannHighlight;
+  }
 
-    .ha-static h3 {
-        @apply mt-4 mb-2 text-hamannHighlight
-    }
+  .ha-static table tr td {
+    @apply pl-2 pr-2 desktop:pr-4 align-top desktop:whitespace-nowrap;
+  }
 
-    .ha-static table {
-        @apply my-3 w-full
-    }
-
-    .ha-static table th {
-        @apply pl-2 pr-2 desktop:pr-4 text-left font-normal text-hamannHighlight
-    }
-
-    .ha-static table tr td {
-        @apply pl-2 pr-2 desktop:pr-4 align-top desktop:whitespace-nowrap
-    }
-
-    .ha-static table tr td:last-child {
-        @apply desktop:whitespace-normal
-    }
-
-    .ha-static table tr:nth-child(even) {
-        @apply bg-slate-200
-    }
-
-    .ha-static p {
-        @apply my-3
-    }
-
-    .ha-static a {
-        @apply underline decoration-dotted
-    }
-
-    .ha-static a:hover {
-        @apply underline decoration-solid
-    }
-
-    .ha-static .ha-footnote {
-        @apply relative text-sm desktop:text-base
-    }
-
-    .ha-static .ha-footnote .ha-footnote-ref {
-        @apply inline-block absolute text-right w-8 -left-10
-    }
-
-/* Classes for register pages */
-
-    .ha-register {
-        @apply w-full font-serif numeric-mediaeval
-    }
-
-    .ha-register .ha-register-head,
-    .ha-register .ha-register-body {
-        @apply bg-slate-50 pt-9 md:pt-12 px-9 md:px-16
-    }
-
-    .ha-register .ha-register-head {
-        @apply border-b-2 border-slate-200  
-    }
-
-    .ha-register .ha-register-head h1 {
-        @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
-    }
-
-    .ha-register .ha-register-head .ha-register-nav {
-        @apply font-sans
-    }
-
-    .ha-register .ha-register-head .ha-register-nav a {
-        @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900
-    }
-
-    .ha-register .ha-register-head .ha-register-nav a:first {
-        @apply pl-0 
-    }
-
-    .ha-register .ha-register-head .ha-register-nav a.active {
-        @apply border-b-2 border-slate-200
-    }
-
-    .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
-        @apply inline-block
-    }
-
-    .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
-        @apply inline-block
-    }
-
-    .ha-register .ha-register-body {
-        @apply md:pr-96 pb-9 md:pb-12
-    }
-
-    .ha-register .ha-register-body .ha-comment {
-        @apply block mb-9 md:mb-12
-    }
-
-    .ha-register .ha-register-body .ha-comment a {
-        @apply underline decoration-dotted hover:decoration-solid
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-headcomment {
-        @apply desktop:relative block
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-subcomment {
-        @apply desktop:relative block ml-8 mt-2
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-commenthead {
-        @apply block
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
-        @apply inline font-bold
-    }
-
-    .ha-register .ha-forschung .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
-        @apply inline font-normal 
-    }
-
-    .ha-register .ha-forschung .ha-register-body .ha-comment {
-        @apply mb-4 md:mb-6 -indent-4 pl-4
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
-        @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-slate-600 caps-allpetite ml-2
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks .ha-hkb {
-        @apply inline text-slate-900
-    }
-
-    .ha-register .ha-neuzeit .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks,
-    .ha-register .ha-forschung .ha-register-body .ha-headcomment .ha-commenthead .ha-letlinks {
-        @apply desktop:left-[48rem]
-    }
-
-    .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks,
-    .ha-register .ha-forschung .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
-        @apply desktop:left-[46rem]
-    }
-
-    .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma a {
-        @apply pl-2
-    }
-
-    .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma svg {
-        @apply inline
-    }
-
-    .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
-    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
-        @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:bg-slate-50 desktop:absolute desktop:border-l-2 desktop:border-t-[3px] desktop:border-t-slate-50 pl-2
-    }
-
-    .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
-        @apply hover:text-slate-900 no-underline
-    }
-
-/* Classes for MetaData View */
-
-    .ha-letterhead {
-        @apply flex flex-row 
-    }
-
-    .ha-letterhead .ha-letternumber {
-        @apply flex text-5xl desktop:font-normal desktop:text-6xl mr-4 desktop:mr-6
-    }
-
-    .ha-letterhead .ha-letternumber .ha-letternumberinline {
-        @apply inline align-middle leading-none
-    }
-
-    .ha-letterhead .ha-metadata {
-        @apply flex self-end grow shrink-0
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadatarows {
-        @apply flex flex-col
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadataupperrow {
-        @apply flex flex-row leading-snug
-    }
-
-    .strikethrough {
-        @apply line-through
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadatarows .ha-metadataupperrow .ha-metadatadate {
-        @apply flex caps-petite numeric-mediaeval
-    }
-
-    .ha-letterhead .ha-metadata .ha-tooltip {
-        @apply self-center cursor-default inline-block relative
-    }
-
-    .ha-letterhead .ha-metadata .ha-tooltiptext {
-        @apply bg-slate-100 rounded text-sm px-1 py-0.5 absolute z-10 text-center shadow
-    }
-
-    .ha-letterhead .ha-metadata .ha-tooltiptext::after {
-        @apply absolute top-full left-1/2
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-        @apply text-xs bg-slate-100 rounded px-2 ml-2 py-[0.1rem] shadow
-    }
-    
-    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
-        @apply relative inline-block
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
-        @apply border-b-2 border-gray-600
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before,
-    .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
-        @apply w-full h-0 absolute right-0 top-1/2
-    }
-
-    .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
-        @apply flex leading-snug
-    }
-
-
-/* Classes for Letter View */
-
-    .ha-letterheader {
-        @apply bg-slate-50 pt-8 md:pt-12 px-6 md:px-16 border-slate-200 border-b-2
-    }
-
-    .ha-letterheader .ha-letterheadernav {
-        @apply mt-9 flex grow
-    }
-
-    .ha-letterheader .ha-lettertabs {
-        @apply flex grow
-    }
-
-    .ha-letterheader .ha-lettertabs a {
-        @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900 cursor-pointer
-    }
-
-    .ha-letterheader .ha-lettertabs a.active {
-        @apply pointer-events-none border-b-2 border-slate-200 text-hamannHighlight
-    }
-
-    .ha-letterheader .ha-lettertabs a:first {
-        @apply pl-0 
-    }
-
-    .ha-letterheader .ha-lettermetalinks {
-        @apply self-end border-b-2 border-slate-200
-    }
-
-    .ha-letterheader .ha-lettermetalinks a {
-        @apply self-end caps-petite text-slate-700 hover:text-slate-900
-    }
-
-    .ha-letterheader .ha-lettermetalinks .ha-hkb {
-        @apply inline-block caps-allpetite
-    }
-
-    .ha-letterbody {
-        @apply flex flex-row flex-nowrap bg-slate-50 pb-8
-    }
-
-    .ha-lettertext {
-        @apply shrink-0 border-l-2 ml-12 px-4 pt-4 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval
-    }
-
-    .ha-additions .ha-tradition div {
-        @apply inline
-    }
-
-    .ha-additions .ha-tradition {
-        @apply max-w-3xl
-    }
-
-    .ha-additions {
-        @apply ml-12 px-4 pt-4 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval
-    }
-
-    .ha-additions .ha-app {
-        @apply !inline-block font-bold pt-6
-    }
-
-    .ha-additions .ha-tradition .ha-app:first-child {
-        @apply pt-0
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext {
-        @apply !block font-serif relative w-fit -ml-4 pl-4
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-firstline {
-        @apply shadow rounded
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount {
-        @apply absolute -left-[8.6rem] text-right w-32 text-xs oldstyle-nums mt-1 font-sans
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-zhpage,
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-zhline {
-        @apply px-1 pb-1 bg-slate-50 caps-allpetite normal-nums
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-linecount .ha-hiddenlinecount {
-        @apply hidden
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
-        @apply absolute -right-[21rem] desktop:-right-[28rem] w-[19rem] desktop:w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
-        @apply inline-block
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox.ha-expanded-box {
-        @apply pb-1
-    }
-
-    .ha-additions .ha-tradition a {
-        @apply !underline decoration-dotted hover:decoration-solid text-slate-700 hover:text-slate-900
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
-        @apply pr-6
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
-        @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900
-    }
-
-    .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
-        @apply  hidden md:block absolute text-slate-600 hover:text-slate-900 cursor-pointer -right-[0.5rem] desktop:-right-[2.5rem] leading-none mt-[2px] 
-    }
-
-    .ha-additions .ha-hands {
-        @apply pt-6
-    }
-
-    .ha-additions .ha-hands .ha-handstitle {
-        @apply font-bold
-    }
-
-    .ha-additions .ha-hands .ha-handentries .ha-handfrom,
-    .ha-additions .ha-hands .ha-handentries .ha-handto {
-        @apply inline text-sm font-semibold whitespace-nowrap
-    }
-
-    .ha-additions .ha-hands .ha-handentries .ha-handperson {
-        @apply inline pl-4 whitespace-nowrap
-    }
-
-    .ha-additions .ha-edits .ha-editstitle {
-        @apply font-bold
-    }
-
-    .ha-additions .ha-edits .ha-editentries .ha-editfromto {
-        @apply whitespace-nowrap
-    }
-
-    .ha-additions .ha-edits .ha-editentries .ha-editfrom,
-    .ha-additions .ha-edits .ha-editentries .ha-editto {
-        @apply inline text-sm font-semibold whitespace-nowrap
-    }
-
-    .ha-additions .ha-edits .ha-editentries .ha-editreference {
-        @apply whitespace-nowrap
-    }
-
-    .ha-additions .ha-edits .ha-editentries .ha-editreference div {
-        @apply inline
-    }
-    
-    .ha-additions .ha-edits {
-        @apply pt-6
-    }
-
-    .ha-additions .ha-edits .ha-editstitle {
-        @apply font-bold
-    }
-
-    .ha-additions .ha-edits .ha-editsinfo {
-        @apply mr-72 pb-4
-    }
-
-    .ha-additions .ha-edits .ha-editentries tr td {
-        @apply align-text-top
-    }
-
-    .ha-additions .ha-edits .ha-editentries .ha-editreas div {
-        @apply inline font-sans
-    }
-
-    .ha-additions .ha-edits .ha-editentries table {
-        /* @apply w-full */
-    }
-
-    .ha-additions .ha-edits .ha-editentries tr td:nth-of-type(1) {
-        @apply pr-1 pl-1 text-right
-    }
-
-    .ha-additions .ha-edits .ha-editentries tr td:nth-of-type(2) {
-        @apply border-r-2 pl-1 pr-3 text-sm
-    }
-
-    .ha-additions .ha-edits .ha-editentries tr td:nth-of-type(3) {
-        @apply pl-3
-    }
-
-    /* .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
-        @apply bg-slate-200
-    } */
-
-    .ha-additions .ha-edits .ha-editentries .ha-editreas .ha-zh * {
-        @apply !font-serif
-    }
-
-    .hide {
-        @apply hidden
-    }
-
-    .ha-lettertext div {
-        @apply inline
-    }
-
-    .ha-lettertext .ha-linecount .ha-firstline {
-        @apply shadow rounded
-    }
-
-    .ha-lettertext .ha-linecount {
-        @apply absolute -left-[8.6rem] text-right w-32 text-xs oldstyle-nums mt-1 font-sans
-    }
-
-    .ha-lettertext .ha-linecount .ha-zhpage,
-    .ha-lettertext .ha-linecount .ha-zhline {
-        @apply px-1 pb-1 bg-slate-50 caps-allpetite normal-nums
-    }
-
-    .ha-lettertext .ha-linecount .ha-hiddenlinecount {
-        @apply hidden
-    }
-
-    .ha-lettertext .ha-marginalbox {
-        @apply absolute -right-[21rem] desktop:-right-[28rem] w-[19rem] desktop:w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap
-    }
-
-    .ha-lettertext .ha-marginalbox .ha-marginal {
-        @apply inline-block
-    }
-
-    .ha-lettertext .ha-marginalbox.ha-expanded-box {
-        @apply pb-1
-    }
-
-    .ha-lettertext .ha-marginalbox .ha-marginal {
-        @apply pr-6
-    }
-
-    .ha-lettertext .ha-marginalbox .ha-marginal .ha-text {
-
-    }
-
-    .ha-lettertext .ha-marginalbox .ha-marginal a {
-        @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900
-    }
-
-    .ha-lettertext .ha-btn-collapsed-box {
-        @apply hidden md:block absolute text-slate-700 hover:text-slate-900 cursor-pointer -right-[0.5rem] desktop:-right-[2.5rem] leading-none mt-[2px] 
-    }
-
-
-/* Classes from the General parser */
-
-
-/* Classes from .NET */
-
-    .ha-up {
-        @apply -top-3 relative
-    }
-
-    .ha-bzg {
-        @apply !font-serif !text-xs !font-semibold
-    }
-
-    .ha-text {
-        @apply inline
-    }
-
-    .ha-title {
-        @apply inline italic
-    }
-
-    .ha-insertedlemma {
-        @apply inline
-    }
-
-    .ha-serif {
-        @apply font-serif
-    }
-
-    .ha-aq,
-    .ha-aq * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply font-sans
-    }
-
-    .ha-ul,
-    .ha-ul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply underline
-    }
-
-    .ha-del,
-    .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply line-through
-    }
-
-    .ha-hand,
-    .ha-hand * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply font-classy text-[0.9rem]
-    }
-
-    .ha-added,
-    .ha-added * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply bg-slate-300 px-1 rounded-sm
-    }
-
-    .ha-note,
-    .ha-note * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply italic text-slate-700
-    }
-
-    .ha-sup {
-        @apply relative -top-[0.3em] text-[80%]
-    }
-
-    /* TODO: Something dooesnt work here */
-    .ha-super {
-        @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em]
-    }
-
-    .ha-sub {
-        @apply relative text-xs leading-none align-baseline -bottom-[0.25em]
-    }
-
-    .ha-ful,
-    .ha-ful * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply inline border-b border-black pb-[2px]
-    }
-
-    .ha-dul,
-    .ha-dul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply underline decoration-double
-    }
-
-    .ha-tul,
-    .ha-tul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-        @apply underline border-b-[3px] border-double border-black
-    }
-
-    .up {
-        @apply relative -top[0.5em]
-    }
-
-    .ha-alignright {
-        @apply absolute right-1
-    }
-
-    .ha-aligncenter {
-        @apply absolute right-0 left-0 whitespace-nowrap min-w-[33%] text-center
-    }
-
-    .ha-lineline {
-        @apply border-t border-black w-1/3 mx-40 mt-[0.6rem] absolute
-    }
-
-    .ha-sal {
-        @apply inline-block ml-6
-    }
-
-/* Classes from Javascript */
-
-    .active {
-        @apply !text-hamannHighlight pointer-events-none
-    }
-
-    .active:hover {
-        @apply text-hamannHighlight
-    }
-
-    .ha-topnav a.active {
-        @apply underline underline-offset-2 desktop:no-underline desktop:border-b-4
-    }
-
-    .ha-topnav.ha-topnav-collapsed {
-        @apply block w-full h-full mt-4 text-base desktop:flex desktop:w-fit desktop:mt-0 md:text-lg 2xl:text-xl
-    }
-
-    .ha-topnav.ha-topnav-collapsed a {
-        @apply block py-1 w-full text-left clear-both desktop:inline-block desktop:py-0 desktop:w-fit
-    }
-
-    
-    .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown {
-        @apply block desktop:inline-block
-    }
-
-    .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown:hover .ha-topnav-dropdown-content {
-        @apply desktop:block
-    }
-
-    .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown .ha-topnav-dropdown-content {
-        @apply block shadow-none border-none pt-0 desktop:hidden desktop:shadow-md desktop:border-b desktop:pt-2
-    }
-
-    .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown .ha-topnav-dropdown-content a {
-        @apply py-1 desktop:py-2
-    }
-
-    .ha-register .ha-headcomment .ha-btn-collapsed-box {
-        @apply left-[47.6rem]
-    }
-
-    .ha-register .ha-subcomment .ha-btn-collapsed-box {
-        @apply left-[45.6rem]
-    }
-
-    .ha-register .ha-btn-collapsed-box {
-        @apply hidden desktop:block absolute -top-[0.15rem] text-slate-600 hover:text-slate-900 cursor-pointer
-    }
-
-    .ha-collapsed-box {
-        @apply z-0 overflow-hidden
-    }
-
-    .ha-expanded-box {
-        @apply shadow-md z-[1000] !h-auto !max-h-screen
-    }
-
-    /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
+  .ha-static table tr td:last-child {
+    @apply desktop:whitespace-normal;
+  }
+
+  .ha-static table tr:nth-child(even) {
+    @apply bg-slate-200;
+  }
+
+  .ha-static p {
+    @apply my-3;
+  }
+
+  .ha-static a {
+    @apply underline decoration-dotted;
+  }
+
+  .ha-static a:hover {
+    @apply underline decoration-solid;
+  }
+
+  .ha-static .ha-footnote {
+    @apply relative text-sm desktop:text-base;
+  }
+
+  .ha-static .ha-footnote .ha-footnote-ref {
+    @apply inline-block absolute text-right w-8 -left-10;
+  }
+
+  /* Classes for register pages */
+
+  .ha-register {
+    @apply w-full font-serif numeric-mediaeval;
+  }
+
+  .ha-register .ha-register-head,
+  .ha-register .ha-register-body {
+    @apply bg-slate-50 pt-9 md:pt-12 px-9 md:px-16;
+  }
+
+  .ha-register .ha-register-head {
+    @apply border-b-2 border-slate-200 rounded-t-sm;
+  }
+
+  .ha-register .ha-register-head h1 {
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6;
+  }
+
+  .ha-register .ha-register-head .ha-register-nav {
+    @apply font-sans;
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a {
+    @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900;
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a:first {
+    @apply pl-0;
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a.active {
+    @apply border-b-2 border-slate-200;
+  }
+
+  .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
+    @apply inline-block;
+  }
+
+  .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
+    @apply inline-block;
+  }
+
+  .ha-register .ha-register-body {
+    @apply md:pr-96 pb-9 md:pb-12 rounded-b-sm;
+  }
+
+  .ha-register .ha-register-body .ha-comment {
+    @apply block mb-9 md:mb-12;
+  }
+
+  .ha-register .ha-register-body .ha-comment a {
+    @apply underline decoration-dotted hover:decoration-solid;
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-headcomment {
+    @apply desktop:relative block;
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-subcomment {
+    @apply desktop:relative block ml-8 mt-2;
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead {
+    @apply block;
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
+    @apply inline font-bold;
+  }
+
+  .ha-register
+    .ha-forschung
+    .ha-register-body
+    .ha-comment
+    .ha-commenthead
+    .ha-lemma {
+    @apply inline font-normal;
+  }
+
+  .ha-register .ha-forschung .ha-register-body .ha-comment {
+    @apply mb-4 md:mb-6 -indent-4 pl-4;
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-slate-600 caps-allpetite ml-2;
+  }
+
+  .ha-register
+    .ha-register-body
+    .ha-comment
+    .ha-commenthead
+    .ha-letlinks
+    .ha-hkb {
+    @apply inline text-slate-900;
+  }
+
+  .ha-register
+    .ha-neuzeit
+    .ha-register-body
+    .ha-headcomment
+    .ha-commenthead
+    .ha-letlinks,
+  .ha-register
+    .ha-forschung
+    .ha-register-body
+    .ha-headcomment
+    .ha-commenthead
+    .ha-letlinks {
+    @apply desktop:left-[48rem];
+  }
+
+  .ha-register
+    .ha-neuzeit
+    .ha-register-body
+    .ha-subcomment
+    .ha-commenthead
+    .ha-letlinks,
+  .ha-register
+    .ha-forschung
+    .ha-register-body
+    .ha-subcomment
+    .ha-commenthead
+    .ha-letlinks {
+    @apply desktop:left-[46rem];
+  }
+
+  .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma a {
+    @apply pl-2;
+  }
+
+  .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma svg {
+    @apply inline;
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
+  .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
+    @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:bg-slate-50 desktop:absolute desktop:border-l-2 desktop:border-t-[3px] desktop:border-t-slate-50 pl-2;
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
+    @apply hover:text-slate-900 no-underline;
+  }
+
+  /* Classes for MetaData View */
+
+  .ha-letterhead {
+    @apply flex flex-row;
+  }
+
+  .ha-letterhead .ha-letternumber {
+    @apply flex text-5xl desktop:font-normal desktop:text-6xl mr-4 desktop:mr-6;
+  }
+
+  .ha-letterhead .ha-letternumber .ha-letternumberinline {
+    @apply inline align-middle leading-none;
+  }
+
+  .ha-letterhead .ha-metadata {
+    @apply flex self-end grow shrink-0;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadatarows {
+    @apply flex flex-col;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow {
+    @apply flex flex-row leading-snug;
+  }
+
+  .strikethrough {
+    @apply line-through;
+  }
+
+  .ha-letterhead
+    .ha-metadata
+    .ha-metadatarows
+    .ha-metadataupperrow
+    .ha-metadatadate {
+    @apply flex caps-petite numeric-mediaeval;
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltip {
+    @apply self-center cursor-default inline-block relative;
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltiptext {
+    @apply bg-slate-100 rounded text-sm px-1 py-0.5 absolute z-10 text-center shadow;
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltiptext::after {
+    @apply absolute top-full left-1/2;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
+    @apply text-xs bg-slate-100 rounded px-2 ml-2 py-[0.1rem] shadow;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
+    @apply relative inline-block;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
+    @apply border-b-2 border-gray-600;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before,
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
+    @apply w-full h-0 absolute right-0 top-1/2;
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
+    @apply flex leading-snug;
+  }
+
+  /* Classes for Letter View */
+
+  .ha-letterheader {
+    @apply bg-slate-50 dark:bg-slate-800 dark:text-slate-50 rounded-t-sm pt-8 md:pt-12 px-6 md:px-16 border-slate-200 border-b-2;
+  }
+
+  .ha-letterheader .ha-letterheadernav {
+    @apply mt-9 flex grow;
+  }
+
+  .ha-letterheader .ha-lettertabs {
+    @apply flex grow;
+  }
+
+  .ha-letterheader .ha-lettertabs a {
+    @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900 cursor-pointer;
+  }
+
+  .ha-letterheader .ha-lettertabs .ha-marginalsbtn {
+    @apply md:hidden;
+  }
+
+  .ha-letterheader .ha-lettertabs a.active {
+    @apply pointer-events-none border-b-2 border-slate-200 text-hamannHighlight;
+  }
+
+  .ha-letterheader .ha-lettertabs a:first {
+    @apply pl-0;
+  }
+
+  .ha-letterheader .ha-lettermetalinks {
+    @apply self-end border-b-2 border-slate-200;
+  }
+
+  .ha-letterheader .ha-lettermetalinks a {
+    @apply self-end caps-petite text-slate-700 hover:text-slate-900;
+  }
+
+  .ha-letterheader .ha-lettermetalinks .ha-hkb {
+    @apply inline-block caps-allpetite;
+  }
+
+  .ha-letterbody {
+    @apply flex flex-row flex-nowrap bg-slate-50 rounded-b-sm;
+  }
+
+  .ha-lettertext {
+    @apply sm:shrink-0 sm:border-l-2 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
+  }
+
+  .ha-marginals {
+    @apply max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] bg-slate-50 numeric-mediaeval;
+  }
+
+  .ha-marginals table td {
+    @apply align-text-top;
+  }
+
+  .ha-marginals .ha-marginalfromto {
+    @apply whitespace-nowrap text-sm font-semibold pr-4;
+  }
+
+  .ha-marginals .ha-marginaltext .ha-bzg {
+    @apply inline;
+  }
+
+  .ha-marginals .ha-marginaltext a {
+    @apply underline decoration-dotted hover:decoration-solid;
+  }
+
+  .ha-additions .ha-tradition div {
+    @apply inline;
+  }
+
+  .ha-additions .ha-tradition {
+    @apply max-w-4xl;
+  }
+
+  .ha-additions {
+    @apply ml-4 md:ml-12 px-4 pt-4 pb-4 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
+  }
+
+  .ha-additions .ha-app {
+    @apply !block font-bold pt-6;
+  }
+
+  .ha-additions .ha-app + br {
+    @apply hidden;
+  }
+
+  .ha-additions .ha-tradition .ha-app:first-child {
+    @apply pt-0;
+  }
+
+  .ha-additions .ha-tradition {
+    @apply hyphenate;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext {
+    @apply !block font-serif relative w-fit -ml-4 pl-4 unhyphenate;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
+    @apply absolute -right-[21rem] desktop:-right-[28rem] w-[19rem] desktop:w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
+    @apply inline-block;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox.ha-expanded-box {
+    @apply pb-1;
+  }
+
+  .ha-additions .ha-tradition a {
+    @apply !underline decoration-dotted hover:decoration-solid text-slate-700 hover:text-slate-900;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
+    @apply pr-6;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
+    @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900;
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
+    @apply hidden md:block absolute text-slate-600 hover:text-slate-900 cursor-pointer -right-[0.5rem] desktop:-right-[2.5rem] leading-none mt-[2px];
+  }
+
+  .ha-additions .ha-hands {
+    @apply pt-6;
+  }
+
+  .ha-additions .ha-hands .ha-handstitle {
+    @apply font-bold;
+  }
+
+  .ha-additions .ha-hands .ha-handentries .ha-handfrom,
+  .ha-additions .ha-hands .ha-handentries .ha-handto {
+    @apply inline text-sm font-semibold whitespace-nowrap;
+  }
+
+  .ha-additions .ha-hands .ha-handentries .ha-handperson {
+    @apply inline pl-4 whitespace-nowrap;
+  }
+
+  .ha-additions .ha-edits .ha-editstitle {
+    @apply font-bold;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editfromto {
+    @apply whitespace-nowrap;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editfrom,
+  .ha-additions .ha-edits .ha-editentries .ha-editto {
+    @apply inline text-sm font-semibold whitespace-nowrap;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference {
+    @apply whitespace-nowrap;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference div {
+    @apply inline;
+  }
+
+  .ha-additions .ha-edits {
+    @apply pt-6 max-w-4xl;
+  }
+
+  .ha-additions .ha-edits .ha-editstitle {
+    @apply font-bold;
+  }
+
+  .ha-additions .ha-edits .ha-editsinfo {
+    @apply pb-4 hyphenate;
+  }
+
+  .ha-additions .ha-edits .ha-editentries tr td {
+    @apply align-text-top;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreas div {
+    @apply inline font-sans;
+  }
+
+  .ha-additions .ha-edits .ha-editentries table {
+    /* @apply w-full */
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editfromto {
+    @apply pr-1 pl-1;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference {
+    @apply border-r-2 pl-1 pr-3 text-sm;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference br {
+    @apply hidden;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreas {
+    @apply pl-3 w-full;
+  }
+
+  .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
+    @apply bg-slate-100;
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreas .ha-zh * {
+    @apply !font-serif;
+  }
+
+  .hide {
+    @apply hidden;
+  }
+
+  .ha-lettertext div {
+    @apply inline;
+  }
+
+  .ha-linecount.ha-firstline {
+    @apply hidden sm:inline-block sm:bg-slate-100 shadow rounded px-1 sm:pb-1 caps-allpetite normal-nums sm:max-w-[5rem] whitespace-nowrap sm:-left-[4rem] desktop:-left-[5.5rem]
+  }
+
+  .ha-linecount {
+    @apply sm:absolute sm:-left-[8.6rem] sm:text-right sm:w-32 text-xs sm:mt-1 font-sans select-none
+  }
+
+  .ha-linecount .ha-zhline {
+    @apply hidden sm:inline;
+  }
+
+  .ha-linecount .ha-zhpage {
+    @apply inline-block sm:inline;
+  }
+
+  .ha-linecount .ha-zhpage,
+  .ha-linecount .ha-zhline {
+    @apply px-1 sm:pb-1 sm:bg-slate-50 caps-allpetite normal-nums
+  }
+
+  .ha-linecount .ha-hiddenlinecount {
+    @apply !hidden;
+  }
+
+  .ha-lettertext .ha-marginalbox {
+    @apply absolute -right-[21rem] desktop:-right-[28rem] w-[19rem] desktop:w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
+  }
+
+  .ha-lettertext .ha-marginalbox .ha-marginal {
+    @apply inline-block;
+  }
+
+  .ha-lettertext .ha-marginalbox.ha-expanded-box {
+    @apply pb-1;
+  }
+
+  .ha-lettertext .ha-marginalbox .ha-marginal {
+    @apply pr-6;
+  }
+
+  .ha-lettertext .ha-marginalbox .ha-marginal .ha-text {
+
+  }
+
+  .ha-lettertext .ha-marginalbox .ha-marginal a {
+    @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900;
+  }
+
+  .ha-lettertext .ha-btn-collapsed-box {
+    @apply hidden md:block absolute text-slate-700 hover:text-slate-900 cursor-pointer -right-[0.5rem] desktop:-right-[2.5rem] leading-none mt-[2px];
+  }
+
+  /* Classes from the General parser */
+
+  /* Classes from .NET */
+  .ha-zhbreak {
+    @apply hidden sm:inline;
+  }
+
+  .ha-up {
+    @apply -top-3 relative;
+  }
+
+  .ha-bzg {
+    @apply !font-serif !text-xs !font-semibold;
+  }
+
+  .ha-text {
+    @apply inline;
+  }
+
+  .ha-title {
+    @apply inline italic;
+  }
+
+  .ha-insertedlemma {
+    @apply inline;
+  }
+
+  .ha-serif {
+    @apply font-serif;
+  }
+
+  .ha-aq,
+  .ha-aq * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply font-sans;
+  }
+
+  .ha-ul,
+  .ha-ul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply underline;
+  }
+
+  .ha-del,
+  .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply line-through;
+  }
+
+  .ha-hand,
+  .ha-hand
+    *
+    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply font-classy text-[0.9rem];
+  }
+
+  .ha-added,
+  .ha-added
+    *
+    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply bg-slate-300 px-1 rounded-sm;
+  }
+
+  .ha-note,
+  .ha-note
+    *
+    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply italic text-slate-700;
+  }
+
+  .ha-sup {
+    @apply relative -top-[0.3em] text-[80%];
+  }
+
+  /* TODO: Something dooesnt work here */
+  .ha-super {
+    @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em];
+  }
+
+  .ha-sub {
+    @apply relative text-xs leading-none align-baseline -bottom-[0.25em];
+  }
+
+  .ha-ful,
+  .ha-ful * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply inline border-b border-black pb-[2px];
+  }
+
+  .ha-dul,
+  .ha-dul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply underline decoration-double;
+  }
+
+  .ha-tul,
+  .ha-tul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply underline border-b-[3px] border-double border-black;
+  }
+
+  .up {
+    @apply relative -top[0.5em];
+  }
+
+  .ha-alignright {
+    @apply float-right;
+  }
+
+  .ha-aligncenter {
+    @apply absolute left-1/2 whitespace-nowrap -translate-x-1/2;
+  }
+
+  .ha-lineline {
+    @apply border-t border-black w-1/3 mx-40 mt-[0.6rem] absolute;
+  }
+
+  .ha-sal {
+    @apply inline-block ml-6;
+  }
+
+  /* Classes for indents */
+  .ha-indent-1 {
+    @apply pl-2 sm:pl-4;
+  }
+
+  .ha-indent-2 {
+    @apply pl-4 sm:pl-8;
+  }
+
+  .ha-indent-3 {
+    @apply pl-6 sm:pl-12;
+  }
+
+  .ha-indent-4 {
+    @apply pl-8 sm:pl-16;
+  }
+
+  .ha-indent-5 {
+    @apply pl-10 sm:pl-20;
+  }
+
+  .ha-indent-6 {
+    @apply pl-20 sm:pl-44;
+  }
+
+  .ha-indent-7 {
+    @apply pl-32 sm:pl-64;
+  }
+
+  /* Classes from Javascript */
+
+  .active {
+    @apply !text-hamannHighlight pointer-events-none;
+  }
+
+  .active:hover {
+    @apply text-hamannHighlight;
+  }
+
+  .ha-topnav a.active {
+    @apply underline underline-offset-2 desktop:no-underline desktop:border-b-4;
+  }
+
+  .ha-topnav.ha-topnav-collapsed {
+    @apply block w-full h-full mt-4 text-base desktop:flex desktop:w-fit desktop:mt-0 md:text-lg 2xl:text-xl;
+  }
+
+  .ha-topnav.ha-topnav-collapsed a {
+    @apply block py-1 w-full text-left clear-both desktop:inline-block desktop:py-0 desktop:w-fit;
+  }
+
+  .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown {
+    @apply block desktop:inline-block;
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown:hover
+    .ha-topnav-dropdown-content {
+    @apply desktop:block;
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown
+    .ha-topnav-dropdown-content {
+    @apply block shadow-none border-none pt-0 desktop:hidden desktop:shadow-md desktop:border-b desktop:pt-2;
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown
+    .ha-topnav-dropdown-content
+    a {
+    @apply py-1 desktop:py-2;
+  }
+
+  .ha-register .ha-headcomment .ha-btn-collapsed-box {
+    @apply left-[47.6rem];
+  }
+
+  .ha-register .ha-subcomment .ha-btn-collapsed-box {
+    @apply left-[45.6rem];
+  }
+
+  .ha-register .ha-btn-collapsed-box {
+    @apply hidden desktop:block absolute -top-[0.15rem] text-slate-600 hover:text-slate-900 cursor-pointer;
+  }
+
+  .ha-collapsed-box {
+    @apply z-0 overflow-hidden;
+  }
+
+  .ha-expanded-box {
+    @apply shadow-md z-[1000] !h-auto !max-h-screen;
+  }
+
+  /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
     .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box:hover {
         @apply shadow-md z-[1000] !h-auto
     } */
 }
 
 .ha-lettertext .ha-marginalbox .ha-marginal::after {
-    content: '';
+  content: "";
 }
 
 .ha-lettertext .ha-marginalbox .ha-marginal:last-of-type::after {
-    content: '';
+  content: "";
 }
 
 .ha-nr::before {
-    content: ' \200E\25E6';
+  content: " \200E\25E6";
 }
 
 .ha-nr::after {
-    content: ' \200E\25E6';
+  content: " \200E\25E6";
 }
 
 .ha-added::before {
-    content: '';
+  content: "";
 }
 
 .ha-added::after {
-    content: '';
+  content: "";
 }
 
 .ha-note::before {
-    content: '';
+  content: "";
 }
 
 .ha-note::after {
-    content: '';
+  content: "";
 }
 
 .ha-bzg::after {
-    content: ']';
+  content: "]";
 }
 
 .ha-additions .ha-edits .ha-editentries tr td:nth-of-type(2)::after {
-    content:  ']';
+  content: "";
 }
 
 * {
-    text-decoration-skip-ink: all;
+  text-decoration-skip-ink: all;
 }
 
 body {
-    background-image:url('../img/subtlenet2.png');
-    background-repeat:repeat;
+  background-image: url("../img/subtlenet2.png");
+  background-repeat: repeat;
 }
 
 /* ul {
@@ -850,743 +985,699 @@ body {
 } */
 
 .diagdel {
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
 }
 
-.diagdel::before, .diagdel::after {
-    content: '';
-    width: 100%;
-    height: 0%;
-    position: absolute;
-    right: 0;
-    bottom: 1.5ex;
+.diagdel::before,
+.diagdel::after {
+  content: "";
+  width: 100%;
+  height: 0%;
+  position: absolute;
+  right: 0;
+  bottom: 1.5ex;
 }
 
 .diagdel::before {
-    border-bottom: 1px solid black;
-    -webkit-transform: skewY(-36deg);
-    transform: skewY(-36deg);
+  border-bottom: 1px solid black;
+  -webkit-transform: skewY(-36deg);
+  transform: skewY(-36deg);
 }
-
 
 .del .del,
 .del .del * {
-    -moz-text-decoration-style: double;
-    -webkit-text-decoration-style: double !important;
-    text-decoration-thickness: 1px;
-    text-decoration-style: double;
+  -moz-text-decoration-style: double;
+  -webkit-text-decoration-style: double !important;
+  text-decoration-thickness: 1px;
+  text-decoration-style: double;
 }
 
 .del .del .ul,
-.ul .del .del, 
+.ul .del .del,
 .del .ul .del {
-    text-decoration: line-through underline;
-    -moz-text-decoration-style: double;
-    -webkit-text-decoration-style: double !important;
-    text-decoration-thickness: 1px;
-    text-decoration-style: double;
+  text-decoration: line-through underline;
+  -moz-text-decoration-style: double;
+  -webkit-text-decoration-style: double !important;
+  text-decoration-thickness: 1px;
+  text-decoration-style: double;
 }
 
 .del .ul,
 .ul .del {
-    text-decoration: line-through underline;
-    text-decoration-thickness: 1px;
-    text-decoration-skip-ink: auto;
-    -webkit-text-decoration-skip-ink: auto;
+  text-decoration: line-through underline;
+  text-decoration-thickness: 1px;
+  text-decoration-skip-ink: auto;
+  -webkit-text-decoration-skip-ink: auto;
 }
 
 .downshadow-sm {
-    -webkit-box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
-    box-shadow: 5px 6px 5px -7px rgba(0,0,0,0.79);
+  -webkit-box-shadow: 5px 6px 5px -7px rgba(0, 0, 0, 0.79);
+  box-shadow: 5px 6px 5px -7px rgba(0, 0, 0, 0.79);
 }
 
 .hyphenate {
-    hyphens: auto;
+  hyphens: auto;
 }
 
 .unhyphenate {
-    hyphens: none;
+  hyphens: none;
 }
 
 .numeric-mediaeval {
-    font-variant-numeric: oldstyle-nums;
+  font-variant-numeric: oldstyle-nums;
 }
 
 .numeric-normal {
-    font-variant-numeric: normal;
+  font-variant-numeric: normal;
 }
 
 .caps-allpetite {
-    font-variant-caps: all-petite-caps;
+  font-variant-caps: all-petite-caps;
 }
 
 .caps-petite {
-    font-variant-caps: petite-caps;
+  font-variant-caps: petite-caps;
 }
 
 .caps-normal {
-    font-variant-caps: normal;
+  font-variant-caps: normal;
 }
 
 .break-inside-avoid {
-    break-inside: avoid;
+  break-inside: avoid;
 }
 
 .ha-menu-arrowsymbol::after {
-    display: inline-block;
-    margin-left: 0.2em;
-    vertical-align: 0.2em;
-    content: "";
-    border-top: 0.3em solid;
-    border-right: 0.3em solid transparent;
-    border-bottom: 0;
-    border-left: 0.3em solid transparent;
+  display: inline-block;
+  margin-left: 0.2em;
+  vertical-align: 0.2em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
 }
 
 .ha-menusymbol {
-    background:var(--white);
-    border-radius:4px;
+  background: var(--white);
+  border-radius: 4px;
 }
 
 .ha-menusymbol svg {
-    width:24px;
-    height:24px;
-    stroke:#000000;
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:miter;
-    fill:none;
-    color:#000000;
+  width: 24px;
+  height: 24px;
+  stroke: #000000;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: miter;
+  fill: none;
+  color: #000000;
 }
 
 .ha-tooltip .ha-tooltiptext {
-    white-space: nowrap;
-    visibility: hidden;
-    min-width: 160px;
-    bottom: 155%;
-    left: 50%;
-    margin-left: -80px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .ha-tooltip .ha-tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent transparent;
-  }
-  
-  .ha-tooltip:hover .ha-tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
-  
+  white-space: nowrap;
+  visibility: hidden;
+  min-width: 160px;
+  bottom: 155%;
+  left: 50%;
+  margin-left: -80px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
+.ha-tooltip .ha-tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent
+    transparent;
+}
+
+.ha-tooltip:hover .ha-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
 
 .ha-open-btn-collapsed-box::before {
-    content: '\200E+';
-    font-weight: 900;
+  content: "\200E+";
+  font-weight: 900;
 }
 
 .ha-close-btn-collapsed-box::before {
-    content: '\200E\00D7';
-    font-weight: 900;
+  content: "\200E\00D7";
+  font-weight: 900;
 }
 
-/* Classes for indents */
-.ha-indent-1 {
-    padding-left: 1rem;
-    background-color: var(--hamannWeiss);
+.ha-text {
+    user-select: contain;
 }
-
-.ha-indent-2 {
-    padding-left: 2rem;
-    background-color: var(--hamannWeiss);
-}
-
-.ha-indent-3 {
-    padding-left: 3rem;
-    background-color: var(--hamannWeiss);
-}
-
-.ha-indent-4 {
-    padding-left: 4rem;
-    background-color: var(--hamannWeiss);
-}
-
-.ha-indent-5 {
-    padding-left: 5rem;
-    background-color: var(--hamannWeiss);
-}
-
-.ha-indent-6 {
-    padding-left: 11rem;
-    background-color: var(--hamannWeiss);
-}
-
-.ha-indent-7 {
-    padding-left: 16rem;
-    background-color: var(--hamannWeiss);
-}
-
 /* Classes for tables */
 .ha-table {
-    overflow: hidden;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums !important;
+  overflow: hidden;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums !important;
 }
 
 .ha-hatab-0-2 {
-    display: inline;
-    position: static;
-    min-width: 50%;
+  display: inline;
+  position: static;
+  min-width: 50%;
 }
 
 .ha-hatab-1-2 {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    min-width: 50%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  min-width: 50%;
 }
 
 .ha-hatab-0-3 {
-    display: inline;
-    position: static;
-    min-width: 33.333%;
+  display: inline;
+  position: static;
+  min-width: 33.333%;
 }
 
 .ha-hatab-1-3 {
-    display: inline-block;
-    position: absolute;
-    left: 33%;
-    min-width: 33.333%;
+  display: inline-block;
+  position: absolute;
+  left: 33%;
+  min-width: 33.333%;
 }
 
 .ha-hatab-2-3 {
-    display: inline-block;
-    position: absolute;
-    left: 66%;
-    min-width: 33.333%;
+  display: inline-block;
+  position: absolute;
+  left: 66%;
+  min-width: 33.333%;
 }
 
 .ha-hatab-0-4 {
-    display: inline;
-    position: static;
-    min-width: 25%;
+  display: inline;
+  position: static;
+  min-width: 25%;
 }
 
 .ha-hatab-1-4 {
-    display: inline-block;
-    position: absolute;
-    left: 25%;
-    min-width: 25%;
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  min-width: 25%;
 }
 
 .ha-hatab-2-4 {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    min-width: 25%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  min-width: 25%;
 }
 
 .ha-hatab-3-4 {
-    display: inline-block;
-    position: absolute;
-    left: 75%;
-    min-width: 25%;
+  display: inline-block;
+  position: absolute;
+  left: 75%;
+  min-width: 25%;
 }
 
 .ha-hatab-0-5 {
-    display: inline;
-    position: static;
-    min-width: 20%;
+  display: inline;
+  position: static;
+  min-width: 20%;
 }
 
 .ha-hatab-1-5 {
-    display: inline-block;
-    position: absolute;
-    left: 20%;
-    min-width: 20%;
+  display: inline-block;
+  position: absolute;
+  left: 20%;
+  min-width: 20%;
 }
 
 .ha-hatab-2-5 {
-    display: inline-block;
-    position: absolute;
-    left: 40%;
-    min-width: 20%;
+  display: inline-block;
+  position: absolute;
+  left: 40%;
+  min-width: 20%;
 }
 
 .ha-hatab-3-5 {
-    display: inline-block;
-    position: absolute;
-    left: 60%;
-    min-width: 20%;
+  display: inline-block;
+  position: absolute;
+  left: 60%;
+  min-width: 20%;
 }
 
 .ha-hatab-4-5 {
-    display: inline-block;
-    position: absolute;
-    left: 80%;
-    min-width: 20%;
+  display: inline-block;
+  position: absolute;
+  left: 80%;
+  min-width: 20%;
 }
 
 .ha-hatab-0-6 {
-    display: inline;
-    position: static;
-    min-width: 16.667%;
+  display: inline;
+  position: static;
+  min-width: 16.667%;
 }
 
 .ha-hatab-1-6 {
-    display: inline-block;
-    position: absolute;
-    left: 16.667%;
-    min-width: 16.667%;
+  display: inline-block;
+  position: absolute;
+  left: 16.667%;
+  min-width: 16.667%;
 }
 
 .ha-hatab-2-6 {
-    display: inline-block;
-    position: absolute;
-    left: 33.333%;
-    min-width: 16.667%;
+  display: inline-block;
+  position: absolute;
+  left: 33.333%;
+  min-width: 16.667%;
 }
 
 .ha-hatab-3-6 {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    min-width: 16.667%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  min-width: 16.667%;
 }
 
 .ha-hatab-4-6 {
-    display: inline-block;
-    position: absolute;
-    left: 66.667%;
-    min-width: 16.667%;
+  display: inline-block;
+  position: absolute;
+  left: 66.667%;
+  min-width: 16.667%;
 }
 
 .ha-hatab-5-6 {
-    display: inline-block;
-    position: absolute;
-    left: 83.333%;
-    min-width: 16.667%;
+  display: inline-block;
+  position: absolute;
+  left: 83.333%;
+  min-width: 16.667%;
 }
 
 .ha-hatab-0-7 {
-    display: inline;
-    position: static;
-    min-width: 14.286%;
+  display: inline;
+  position: static;
+  min-width: 14.286%;
 }
 
 .ha-hatab-1-7 {
-    display: inline-block;
-    position: absolute;
-    left: 14.286%;
-    min-width: 14.286%;
+  display: inline-block;
+  position: absolute;
+  left: 14.286%;
+  min-width: 14.286%;
 }
 
 .ha-hatab-2-7 {
-    display: inline-block;
-    position: absolute;
-    left: 28.571%;
-    min-width: 14.286%;
+  display: inline-block;
+  position: absolute;
+  left: 28.571%;
+  min-width: 14.286%;
 }
 
 .ha-hatab-3-7 {
-    display: inline-block;
-    position: absolute;
-    left: 42.857%;
-    min-width: 14.286%;
+  display: inline-block;
+  position: absolute;
+  left: 42.857%;
+  min-width: 14.286%;
 }
 
 .ha-hatab-4-7 {
-    display: inline-block;
-    position: absolute;
-    left: 57.143%;
-    min-width: 14.286%;
+  display: inline-block;
+  position: absolute;
+  left: 57.143%;
+  min-width: 14.286%;
 }
 
 .ha-hatab-5-7 {
-    display: inline-block;
-    position: absolute;
-    left: 71.429%;
-    min-width: 14.286%;
+  display: inline-block;
+  position: absolute;
+  left: 71.429%;
+  min-width: 14.286%;
 }
 
 .ha-hatab-6-7 {
-    display: inline-block;
-    position: absolute;
-    left: 85.714%;
-    min-width: 14.286%;
+  display: inline-block;
+  position: absolute;
+  left: 85.714%;
+  min-width: 14.286%;
 }
 
 .ha-hatab-0-8 {
-    display: inline;
-    position: static;
-    min-width: 12.5%;
+  display: inline;
+  position: static;
+  min-width: 12.5%;
 }
 
 .ha-hatab-1-8 {
-    display: inline-block;
-    position: absolute;
-    left: 12.5%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 12.5%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-2-8 {
-    display: inline-block;
-    position: absolute;
-    left: 25%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-3-8 {
-    display: inline-block;
-    position: absolute;
-    left: 37.5%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 37.5%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-4-8 {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-5-8 {
-    display: inline-block;
-    position: absolute;
-    left: 62.5%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 62.5%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-6-8 {
-    display: inline-block;
-    position: absolute;
-    left: 75%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 75%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-7-8 {
-    display: inline-block;
-    position: absolute;
-    left: 87.5%;
-    min-width: 12.5%;
+  display: inline-block;
+  position: absolute;
+  left: 87.5%;
+  min-width: 12.5%;
 }
 
 .ha-hatab-0-9 {
-    display: inline;
-    position: static;
-    min-width: 11.111%;
+  display: inline;
+  position: static;
+  min-width: 11.111%;
 }
 
 .ha-hatab-1-9 {
-    display: inline-block;
-    position: absolute;
-    left: 11.111%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 11.111%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-2-9 {
-    display: inline-block;
-    position: absolute;
-    left: 22.222%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 22.222%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-3-9 {
-    display: inline-block;
-    position: absolute;
-    left: 33.333%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 33.333%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-4-9 {
-    display: inline-block;
-    position: absolute;
-    left: 44.444%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 44.444%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-5-9 {
-    display: inline-block;
-    position: absolute;
-    left: 55.555%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 55.555%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-6-9 {
-    display: inline-block;
-    position: absolute;
-    left: 66.666%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 66.666%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-7-9 {
-    display: inline-block;
-    position: absolute;
-    left: 77.777%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 77.777%;
+  min-width: 11.111%;
 }
 
 .ha-hatab-8-9 {
-    display: inline-block;
-    position: absolute;
-    left: 88.888%;
-    min-width: 11.111%;
+  display: inline-block;
+  position: absolute;
+  left: 88.888%;
+  min-width: 11.111%;
 }
 
-
 .ha-hatab-0-10 {
-    display: inline-block;
-    position: absolute;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  min-width: 10%;
 }
 
 .ha-hatab-1-10 {
-    display: inline-block;
-    position: absolute;
-    left: 10%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 10%;
+  min-width: 10%;
 }
 
 .ha-hatab-2-10 {
-    display: inline-block;
-    position: absolute;
-    left: 20%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 20%;
+  min-width: 10%;
 }
 
 .ha-hatab-3-10 {
-    display: inline-block;
-    position: absolute;
-    left: 30%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 30%;
+  min-width: 10%;
 }
 
 .ha-hatab-4-10 {
-    display: inline-block;
-    position: absolute;
-    left: 40%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 40%;
+  min-width: 10%;
 }
 
 .ha-hatab-5-10 {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  min-width: 10%;
 }
 
 .ha-hatab-6-10 {
-    display: inline-block;
-    position: absolute;
-    left: 60%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 60%;
+  min-width: 10%;
 }
 
 .ha-hatab-7-10 {
-    display: inline-block;
-    position: absolute;
-    left: 70%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 70%;
+  min-width: 10%;
 }
 
 .ha-hatab-8-10 {
-    display: inline-block;
-    position: absolute;
-    left: 80%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 80%;
+  min-width: 10%;
 }
 
 .ha-hatab-9-10 {
-    display: inline-block;
-    position: absolute;
-    left: 90%;
-    min-width: 10%;
+  display: inline-block;
+  position: absolute;
+  left: 90%;
+  min-width: 10%;
 }
 
 .ha-hatab-0-11 {
-    display: inline-block;
-    position: absolute;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  min-width: 9.091%;
 }
 
 .ha-hatab-1-11 {
-    display: inline-block;
-    position: absolute;
-    left: 9.091%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 9.091%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-2-11 {
-    display: inline-block;
-    position: absolute;
-    left: 18.182%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 18.182%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-3-11 {
-    display: inline-block;
-    position: absolute;
-    left: 27.273%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 27.273%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-4-11 {
-    display: inline-block;
-    position: absolute;
-    left: 36.364%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 36.364%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-5-11 {
-    display: inline-block;
-    position: absolute;
-    left: 45.455%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 45.455%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-6-11 {
-    display: inline-block;
-    position: absolute;
-    left: 54.545%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 54.545%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-7-11 {
-    display: inline-block;
-    position: absolute;
-    left: 63.636%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 63.636%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-8-11 {
-    display: inline-block;
-    position: absolute;
-    left: 72.727%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 72.727%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-9-11 {
-    display: inline-block;
-    position: absolute;
-    left: 81.818%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 81.818%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-10-11 {
-    display: inline-block;
-    position: absolute;
-    left: 90.909%;
-    min-width: 9.091%;
+  display: inline-block;
+  position: absolute;
+  left: 90.909%;
+  min-width: 9.091%;
 }
 
 .ha-hatab-0-12 {
-    display: inline-block;
-    position: absolute;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  min-width: 8.333%;
 }
 
 .ha-hatab-1-12 {
-    display: inline-block;
-    position: absolute;
-    left: 8.333%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 8.333%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-2-12 {
-    display: inline-block;
-    position: absolute;
-    left: 16.666%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 16.666%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-3-12 {
-    display: inline-block;
-    position: absolute;
-    left: 25%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-4-12 {
-    display: inline-block;
-    position: absolute;
-    left: 33.333%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 33.333%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-5-12 {
-    display: inline-block;
-    position: absolute;
-    left: 41.666%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 41.666%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-6-12 {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-7-12 {
-    display: inline-block;
-    position: absolute;
-    left: 58.333%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 58.333%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-8-12 {
-    display: inline-block;
-    position: absolute;
-    left: 66.666%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 66.666%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-9-12 {
-    display: inline-block;
-    position: absolute;
-    left: 75%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 75%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-10-12 {
-    display: inline-block;
-    position: absolute;
-    left: 83.333%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 83.333%;
+  min-width: 8.333%;
 }
 
 .ha-hatab-11-12 {
-    display: inline-block;
-    position: absolute;
-    left: 91.666%;
-    min-width: 8.333%;
+  display: inline-block;
+  position: absolute;
+  left: 91.666%;
+  min-width: 8.333%;
 }
 
+.ha-cross::before,
+.ha-cross::after {
+  content: "";
+}
 
-.ha-cross::before, .ha-cross::after {
-    content: '';
-  }
-
-  .ha-cross::before {
-    -webkit-transform: skewY(-27deg);
-    transform: skewY(-27deg);
-  }
-
-
-/* Not possible otherwise, overwrites javascript set style values, which cant be defined before render */
-/* @media (max-width: 1190px) {
-    .ha-register .ha-neuzeit .ha-register-body .ha-subcomment .ha-commenthead .ha-letlinks {
-        height: auto !important;
-        overflow: unset !important;
-    }
-} */
+.ha-cross::before {
+  -webkit-transform: skewY(-27deg);
+  transform: skewY(-27deg);
+}

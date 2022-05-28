@@ -151,7 +151,7 @@ public static class EditRules {
     })};
     
     public static readonly TagFuncList STagRules = new TagFuncList() {
-        ( ( x, _) => x.Name == "line", (sb, tag, _) => sb.Append("&emsp;") )
+        ( ( x, _) => x.Name == "line", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br")) )
     };
 
     public static readonly WhitespaceFuncList WhitespaceRules = new WhitespaceFuncList() {

@@ -14,22 +14,21 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal ILibrary Lib;
     internal IReaderService ReaderService;
     internal Meta Meta;
-
     internal IEnumerable<Marginal>? Marginals;
     internal IEnumerable<Hand>? Hands;
     internal IEnumerable<Editreason>? Edits;
 
-    internal List<(string, string, string)> ParsedMarginals;
-
     // State
     internal bool active_del;
     internal bool active_skipwhitespace;
+    internal bool mustwrap;
     internal string currline;
     internal string currpage;
 
-    // Parsing-Combinations
+    // Results
     internal StringBuilder sb_lettertext;
-
+    internal List<(string, string, string)>? ParsedMarginals;
+    internal string Startline;
 
     public LetterState(ILibrary lib, IReaderService readerService, Meta meta, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
         Lib = lib;
@@ -43,11 +42,11 @@ public class LetterState : HaWeb.HTMLParser.IState {
 
 
     public void SetupState() {
-        ParsedMarginals = new List<(string, string, string)>();
         sb_lettertext = new StringBuilder();
         active_skipwhitespace = true;
         currline = "-1";
         currpage = "";
+        mustwrap = false;
 
         // Initialize State
         if (Meta.ZH != null) {

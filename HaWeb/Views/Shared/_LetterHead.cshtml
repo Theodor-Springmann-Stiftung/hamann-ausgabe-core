@@ -12,14 +12,14 @@
                 <div class="ha-metadatadate">
                     @Model.Meta.Date
                 </div>
-                @if (Model.ParsedZHString != null) {
+                @if (Model.ParsedZHString != null && Model.ShowZHData) {
                     <div class="ha-tooltip">
                         <div class="ha-pill">
-                            <span>@Model.ParsedZHString</span>
+                            <span>@Html.Raw(Model.ParsedZHString)</span>
                         </div>
                     </div>
                 }
-                else {
+                else if (Model.ParsedZHString == null && Model.ShowZHData) {
                     <div class="ha-tooltip">
                         <div class="ha-pill">
                             <span>Neu</span>

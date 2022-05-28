@@ -7,8 +7,7 @@ public class BriefeViewModel
     public BriefeMetaViewModel MetaData { get; private set; }
 
     public string? ParsedText { get; set; }
-    public string? ParsedLineCount { get; set; }
-    public string? ParsedMarginals { get; set; }
+    public List<(string, string, string)>? ParsedMarginals { get; set; }
     public string? ParsedTradition { get; set; }
     // From, Until, Reference, Edit, sartpage, startline
     public List<(string, string, string, string, string, string)>? ParsedEdits { get; set; }

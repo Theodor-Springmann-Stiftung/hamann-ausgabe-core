@@ -72,10 +72,19 @@ public class LetterRules
     // Parsing Rules for Letters
     // General rules (for the lettertext column, also for parsing the marginals, awa tradtions and editreasons)
     public static readonly TagFuncList OTagRules = new TagFuncList() {
-        ( ( x, _) => x.Name == "align" && x["pos"] == "center", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ALIGNCENTERCLASS)) ),
-        ( ( x, _) => x.Name == "align" && x["pos"] == "right", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ALIGNRIGHTCLASS)) ),
+        ( ( x, _) => x.Name == "align" && x["pos"] == "center", (sb, tag, reader) => {
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ALIGNCENTERCLASS));
+            reader.State.mustwrap = true;
+        } ),
+        ( ( x, _) => x.Name == "align" && x["pos"] == "right", (sb, tag, reader) => {
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ALIGNRIGHTCLASS));
+            reader.State.mustwrap = true;
+        }),
         ( ( x, _) => x.Name == "added", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ADDEDCLASS)) ),
-        ( ( x, _) => x.Name == "sal", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, SALCLASS)) ),
+        ( ( x, _) => x.Name == "sal", (sb, tag, reader) => {
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, SALCLASS));
+            reader.State.mustwrap = true;
+        }),
         ( ( x, _) => x.Name == "aq", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, AQCLASS)) ),
         ( ( x, _) => x.Name == "super", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, SUPERCLASS)) ),
         ( ( x, _) => x.Name == "del", (sb, tag, reader) => {
@@ -92,7 +101,10 @@ public class LetterRules
         ( ( x, _) => x.Name == "up", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, UPCLASS)) ),
         ( ( x, _) => x.Name == "sub", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, SUBCLASS)) ),
         ( ( x, _) => x.Name == "tul", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TULCLASS)) ),
-        ( ( x, _) => x.Name == "header", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HEADERCLASS)) ),
+        ( ( x, _) => x.Name == "header", (sb, tag, reader) => {
+            reader.State.mustwrap = true;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HEADERCLASS)); 
+        }),
         ( ( x, _) => x.Name == "lemma", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LEMMACLASS)) ),
         ( ( x, _) => x.Name == "eintrag", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ENTRYCLASS)) ),
         ( ( x, _) => x.Name == "titel", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) ),
@@ -110,7 +122,10 @@ public class LetterRules
             reader.State.active_skipwhitespace = !reader.State.active_skipwhitespace;
         }),
         ( ( x, _) => x.Name == "tabs", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TABLECLASS)) ),
-        ( ( x, _) => x.Name == "tab" && !String.IsNullOrWhiteSpace(x["value"]), (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TABCLASS + tag["value"]))),
+        ( ( x, _) => x.Name == "tab" && !String.IsNullOrWhiteSpace(x["value"]), (sb, tag, reader) => {
+            reader.State.mustwrap = true;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TABCLASS + tag["value"]));
+        }),
         ( ( x, _) => x.Name == "edit" && !String.IsNullOrWhiteSpace(x["ref"]), (sb, tag, _) => {
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, EDITMARKERCLASS, "ea-" + tag["ref"]));
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
@@ -123,9 +138,15 @@ public class LetterRules
     };
 
     public static readonly TagFuncList CTagRules = new TagFuncList() {
-        ( ( x, _) => x.Name == "align", (sb, tag, _) =>  sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( ( x, _) => x.Name == "align", (sb, tag, reader) =>  {
+            reader.State.mustwrap = true;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+        }),
         ( ( x, _) => x.Name == "added", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( ( x, _) => x.Name == "sal", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( ( x, _) => x.Name == "sal", (sb, tag, reader) => {
+            reader.State.mustwrap = true;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+        }),
         ( ( x, _) => x.Name == "aq", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "super", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "del", (sb, tag, reader) => {
@@ -142,7 +163,10 @@ public class LetterRules
         ( ( x, _) => x.Name == "ful", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "sub", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "tul", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( ( x, _) => x.Name == "header", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( ( x, _) => x.Name == "header", (sb, tag, reader) => {
+            reader.State.mustwrap = true;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+        }),
         ( ( x, _) => x.Name == "lemma", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "eintrag", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "titel", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
@@ -157,7 +181,10 @@ public class LetterRules
         ( ( x, _) => x.Name == "letterTradition", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "marginal", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( ( x, _) => x.Name == "tabs", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
-        ( ( x, _) => x.Name == "tab", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
+        ( ( x, _) => x.Name == "tab", (sb, tag, reader) => {
+            reader.State.mustwrap = true;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+        }),
         ( ( x, _) => x.Name == "hand", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) )
     };
 
@@ -174,55 +201,47 @@ public class LetterRules
     public static readonly TagFuncList STagRules = new TagFuncList() {
         ( (x, _) => x.Name == "page", (sb, tag, reader) => reader.State.currpage = tag["index"] ),
         ( (x, _) => x.Name == "line", (sb, tag, reader) => {
-            // This is the beginning of the Text, so no <br> needed, just a special linecount
-            if(reader.State.currline == "-1") {
-                reader.State.currline = tag["index"];
-
-                // First Linecount
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS + " " + FIRSTLINECLASS, ""));
-                if(reader.State.Meta.ZH != null) {
-                    sb.Append("ZH&nbsp;");
-                    sb.Append(HaWeb.HTMLHelpers.ConversionHelpers.ToRoman(Int32.Parse(reader.State.Meta.ZH.Volume)));
-                    sb.Append("&nbsp;");
-                }
-                sb.Append("S." + "&nbsp;");
-                if (tag["index"] != "1")
-                    sb.Append(reader.State.currpage + "&thinsp;/&thinsp;" + tag["index"]);
-                else
-                    sb.Append(reader.State.currpage);
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            if(!String.IsNullOrWhiteSpace(tag["tab"]) || !String.IsNullOrWhiteSpace(tag["type"])) {
+                reader.State.mustwrap = true;
             }
 
             // This is NOT the beginning of the text, so we set a br, and then, linecount
-            else {
-                reader.State.currline = tag["index"];
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", ZHBREAKCLASS));
-
+            if(reader.State.currline != "-1") {
+                if (!reader.State.mustwrap)
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br", ZHBREAKCLASS));
+                else
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br"));
+                reader.State.mustwrap = false;
+                
                 // Linecount
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
+                if(!String.IsNullOrWhiteSpace(tag["index"])) { 
+                    reader.State.currline = tag["index"];
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
                 
-                // Fall 1: Neue Seite
-                if (reader.State.currline == "1") {
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS, ""));
-                    sb.Append("S.&nbsp;" + reader.State.currpage);
-                } 
+                    // Fall 1: Neue Seite
+                    if (reader.State.currline == "1") {
+                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHPAGECLASS, ""));
+                        sb.Append("S.&nbsp;" + reader.State.currpage);
+                    } 
 
-                // Fall 2: Neue Zeile, teilbar durch 5
-                else if (Int32.TryParse(tag["index"], out var _) && Int32.Parse(tag["index"]) % 5 == 0) {
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECLASS, ""));
-                    sb.Append(tag["index"]);
-                } 
-                
-                // Fall 3: Neue Zeile, nicht teilbar durch 5, deswegen versteckt
-                else {
-                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECLASS + " " + HIDDENZHLINECOUNT, ""));
-                    sb.Append(tag["index"]);
+                    // Fall 2: Neue Zeile, teilbar durch 5
+                    else if (Int32.TryParse(tag["index"], out var _) && Int32.Parse(tag["index"]) % 5 == 0) {
+                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECLASS, ""));
+                        sb.Append(tag["index"]);
+                    } 
+                    
+                    // Fall 3: Neue Zeile, nicht teilbar durch 5, deswegen versteckt
+                    else {
+                        sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECLASS + " " + HIDDENZHLINECOUNT, ""));
+                        sb.Append(tag["index"]);
+                    }
+
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                 }
-
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-                sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            } else if (reader.State.currline == "-1" && !String.IsNullOrWhiteSpace(tag["index"])) {
+                reader.State.Startline = tag["index"];
+                reader.State.currline = tag["index"];
             }
 
             // Marginalien
@@ -230,6 +249,7 @@ public class LetterRules
                 var margs = reader.State.Marginals.Where(x => x.Page == reader.State.currpage && x.Line == reader.State.currline);
                 if (margs != null && margs.Any())
                 {
+                    if(reader.State.ParsedMarginals == null) reader.State.ParsedMarginals = new List<(string, string, string)>();
                     var sb2 = new StringBuilder();
                     margs = margs.OrderBy(x => Int32.Parse(x.Index));
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTMARKERCLASS, "ma-" + reader.State.currpage + "-" + reader.State.currline));
