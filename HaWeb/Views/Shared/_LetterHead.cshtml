@@ -12,6 +12,7 @@
                 <div class="ha-metadatadate">
                     @Model.Meta.Date
                 </div>
+                @if (Model.HasText) {
                 @if (Model.ParsedZHString != null && Model.ShowZHData) {
                     <div class="ha-tooltip">
                         <div class="ha-pill">
@@ -90,22 +91,26 @@
                         </div>
                     </div>
                 }
+                }
             </div>
-            <div class="ha-metadatapersons">
-                @if (Model.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
-                    <span>@Model.ParsedSenders</span>
-                    <div class="ha-tooltip">
-                              ↛
-                        <div class="ha-tooltiptext" style="bottom: 100%;">
-                            Entwurf
+                <div class="ha-metadatapersons">
+                    @if (!String.IsNullOrWhiteSpace(Model.ParsedReceivers)) {
+                    @if (Model.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
+                        <span>@Model.ParsedSenders</span>
+                        <div class="ha-tooltip">
+                                ↛
+                            <div class="ha-tooltiptext" style="bottom: 100%;">
+                                Entwurf
+                            </div>
                         </div>
-                    </div>
-                    <span>@Model.ParsedReceivers</span>
-                }
-                else {
-                    <span>@Model.ParsedSenders → @Model.ParsedReceivers</span>
-                }
-            </div>
+                        <span>@Model.ParsedReceivers</span>
+                    }
+                    else {
+                        <span>@Model.ParsedSenders → @Model.ParsedReceivers</span>
+                    }
+                    }
+                </div>
+
         </div>
     </div>
 </div>

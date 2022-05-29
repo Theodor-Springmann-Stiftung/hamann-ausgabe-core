@@ -28,19 +28,17 @@ Für diese Anpassungen sind in etwa 3-4 Monate eingeplant.
 - Ladezeiten (???)
 - PDF-Parser
 
-hamann-werke.de 
+hamann-werke.de
 Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die Ausgaben...
 
 Briefe beim Namen
 
 - GND Normdaten der Namen
 
-- Esther falsch abgekürzt
-- Marginalien in dne Traditions an die falsche Zeile gesetzt
-- Lessing-Registereitrag
-- 224 erse beidenkomm vertauscht
 
-TODO Letter 41 2x Zeile 25, also auch zwei Mal der Kommentar
-TODO 148 153 letzter kommentar
-TODO 332
-TODO 367
+TODO 367 684 708 tabellen, min-size für ha-lettertext
+TODO 682 kein word-wrap, max-size für ha-lettertext
+TODO Regeln nach tradition übertragen, mit min-width
+TODO Word-wrap before align, tabs
+TODO blinken before js
+

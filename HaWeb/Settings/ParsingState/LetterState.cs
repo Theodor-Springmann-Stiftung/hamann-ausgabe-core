@@ -19,11 +19,16 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal IEnumerable<Editreason>? Edits;
 
     // State
-    internal bool active_del;
+    // Must we skip all of the upcoming whitespace?
     internal bool active_skipwhitespace;
-    internal bool mustwrap;
+    // Is there a semantically important line break, left or right of the current line?
+    internal (bool, bool) mustwrap;
+    // What's the current line?
     internal string currline;
+    // What's the current page?
     internal string currpage;
+    // Does the container need a min-widt, so percentages are useful (tables)
+    internal bool minwidth;
 
     // Results
     internal StringBuilder sb_lettertext;
@@ -46,7 +51,8 @@ public class LetterState : HaWeb.HTMLParser.IState {
         active_skipwhitespace = true;
         currline = "-1";
         currpage = "";
-        mustwrap = false;
+        mustwrap = (false, false);
+        minwidth = false;
 
         // Initialize State
         if (Meta.ZH != null) {

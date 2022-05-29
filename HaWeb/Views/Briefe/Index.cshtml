@@ -1,12 +1,22 @@
 @model BriefeViewModel;
-
+@{
+    var minwidth = "";
+    if (Model.MinWidth)
+        minwidth = "ha-minwidth";
+}
 <div class="ha-twilighttogglebar">
     <div class="ha-letterheader">
         @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", Model.MetaData)
         <div class="ha-letterheadernav">
             <div class="ha-lettertabs">
-                <a class="" id="ha-lettertextbtn">Brieftext</a>
-                <a class="ha-marginalsbtn" id="ha-marginalsbtn">Stellenkommentar</a>
+                @if (Model.ParsedText != null && !String.IsNullOrWhiteSpace(Model.ParsedText))
+                {
+                    <a class="" id="ha-lettertextbtn">Brieftext</a>
+                    @if (Model.ParsedMarginals != null)
+                    {
+                        <a class="ha-marginalsbtn " id="ha-marginalsbtn">Stellenkommentar</a>
+                    }
+                }
                 <a class="" id="ha-additionsbtn">Überlieferung & Textkritik</a>
                 <a class="">PDF</a>
             </div>
@@ -37,31 +47,33 @@
     </div>
 </div>
 
-<div class="ha-letterbody" id="ha-letterbody">
-    <div class="ha-lettertext" id="ha-lettertext">
-        @if (Model.ParsedText != null)
-        {
-            <div class="ha-linecount ha-firstline">
-                    @if (Model.MetaData.ParsedZHString != null) {
-                        <span>@Html.Raw(Model.MetaData.ParsedZHString)</span>
-                    }
-                    else {
-                        <div class="ha-tooltip">
-                            <div class="ha-pill">
-                                <span>Neu</span>
-                            </div>
-                        </div>
-                    }
-            </div>
-            @Html.Raw(@Model.ParsedText)
-        }
+
+<div class="ha-letterbody " id="ha-letterbody">
+    <div class="ha-lettertext @minwidth" id="ha-lettertext">
+        <div class="ha-linecount ha-firstline">
+            @if (Model.MetaData.ParsedZHString != null)
+            {
+                <span>@Html.Raw(Model.MetaData.ParsedZHString)</span>
+            }
+            else
+            {
+                <div class="ha-tooltip">
+                    <div class="ha-pill">
+                        <span>Neu</span>
+                    </div>
+                </div>
+            }
+        </div>
+        @Html.Raw(@Model.ParsedText)
+        @* It's not beautiful but it's a hack to keep the last comment within parent element boundaries: *@
+        <br>
+        <div class="ha-marginalbox"></div>
     </div>
 
-    <div class="ha-marginals" id="ha-marginals">
-        @if (Model.ParsedMarginals != null)
-        {
+    @if (Model.ParsedMarginals != null)
+    {
+        <div class="ha-marginals " id="ha-marginals">
             <table>
-
                 @foreach (var marginal in Model.ParsedMarginals)
                 {
                     <tr>
@@ -70,9 +82,8 @@
                     </tr>
                 }
             </table>
-
-        }
-    </div>
+        </div>
+    }
 
     <div class="ha-additions" id="ha-additions">
         @if (Model.ParsedTradition != null)
@@ -90,8 +101,11 @@
                         {
                             <tr class="ha-handentry">
                                 <td>
-                                @* Not beautiful, but here's whitespace in between otherwise *@
-                                    <div class="ha-handfrom">@hand.Item1</div>@if (!String.IsNullOrEmpty(hand.Item2)) {<div class="ha-handto">–@hand.Item2</div>
+                                    @* Not beautiful, but here's whitespace in between otherwise *@
+                                    <div class="ha-handfrom">@hand.Item1</div>@if (!String.IsNullOrEmpty(hand.Item2))
+                                    {
+                                        <div
+                                class="ha-handto">–@hand.Item2</div>
                                     }
                                 </td>
                                 <td class="ha-handperson">@hand.Item3</td>
@@ -117,7 +131,10 @@
                         {
                             <tr>
                                 <td class="ha-editfromto">
-                                    <div class="ha-editfrom">@edit.Item1</div>@if (!String.IsNullOrEmpty(edit.Item2)) {<div class="ha-editto">–@edit.Item2</div>
+                                    <div class="ha-editfrom">@edit.Item1</div>@if (!String.IsNullOrEmpty(edit.Item2))
+                                    {
+                                        <div
+                                class="ha-editto">–@edit.Item2</div>
                                     }
                                 </td>
                                 <td class="ha-editreference">

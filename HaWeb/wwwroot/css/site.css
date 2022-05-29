@@ -486,7 +486,11 @@
   }
 
   .ha-lettertext {
-    @apply sm:shrink-0 sm:border-l-2 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
+    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 sm:border-l-2 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
+  }
+
+  .ha-lettertext.ha-minwidth {
+    @apply min-w-[38rem] desktop:min-w-[45rem]
   }
 
   .ha-marginals {
@@ -542,7 +546,7 @@
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
-    @apply absolute -right-[21rem] desktop:-right-[28rem] w-[19rem] desktop:w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
+    @apply absolute -right-[20rem] desktop:-right-[26rem] w-[19rem] desktop:w-[23rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
@@ -689,7 +693,7 @@
   }
 
   .ha-lettertext .ha-marginalbox {
-    @apply absolute -right-[21rem] desktop:-right-[28rem] w-[19rem] desktop:w-[24rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 mr-4 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
+    @apply absolute -right-[20rem] desktop:-right-[26rem] w-[19rem] desktop:w-[23rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
   }
 
   .ha-lettertext .ha-marginalbox .ha-marginal {

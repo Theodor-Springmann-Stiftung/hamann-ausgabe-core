@@ -63,9 +63,11 @@ public class Briefecontroller : Controller
         if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.LetterHelpers.CreateTraditions(_lib, _readerService, marginals, tradition).sb_tradition.ToString();
         if (text != null && !String.IsNullOrWhiteSpace(text.Element)) {
             var parsedLetter = HaWeb.HTMLHelpers.LetterHelpers.CreateLetter(_lib, _readerService, meta, text, marginals, hands, editreasons);
-            (model.ParsedText, model.ParsedMarginals) = (parsedLetter.sb_lettertext.ToString(), parsedLetter.ParsedMarginals);
+            (model.ParsedText, model.ParsedMarginals, model.MinWidth) = (parsedLetter.sb_lettertext.ToString(), parsedLetter.ParsedMarginals, parsedLetter.minwidth);
             if (parsedLetter.Startline != "-1" && parsedLetter.Startline != "1" && model.MetaData.ParsedZHString != null)
-                model.MetaData.ParsedZHString += "&thinsp;/&thinsp;" + parsedLetter.Startline;
+                model.MetaData.ParsedZHString += " / " + parsedLetter.Startline;
+            if (model.ParsedText == null || String.IsNullOrWhiteSpace(model.ParsedText))
+                model.MetaData.HasText = false;
         } 
 
         // Return

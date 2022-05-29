@@ -157,22 +157,6 @@ const overlappingcollapsebox = function (selector, hoverfunction, parentbox) {
         collapsebox(clientrects[i][0], newlength);
         addbuttoncaollapsebox(clientrects[i][0], newlength, hoverfunction);
       }
-    } else {
-      if (boundigparent !== null) {
-        let overlap =  clientrects[i][1].bottom - boundigparent.bottom;
-        console.log(clientrects[i][0]);
-        console.log(pb);
-        console.log(clientrects[i][1].bottom, boundigparent.bottom);
-        console.log(overlap);
-        if (overlap >= 0) {
-          let newlength = clientrects[i][1].height - overlap;
-          console.log(newlength);
-          let remainder = newlength % lineheight;
-          newlength = newlength - remainder;
-          collapsebox(clientrects[i][0], newlength);
-          addbuttoncaollapsebox(clientrects[i][0], newlength, hoverfunction);
-        }
-      }
     }
   }
 };
@@ -295,15 +279,16 @@ window.addEventListener("load", function () {
   // Letter View: Show / Hide Tabs
   let buttonlist = ["ha-lettertextbtn", "ha-additionsbtn", "ha-marginalsbtn"];
   let divlist = ["ha-lettertext", "ha-additions", "ha-marginals"];
-  showhidebutton(
-    "ha-lettertextbtn",
-    "ha-lettertext",
-    buttonlist,
-    divlist,
-    false
-  );
-  showhidebutton("ha-additionsbtn", "ha-additions", buttonlist, divlist, true);
-  showhidebutton("ha-marginalsbtn", "ha-marginals", buttonlist, divlist, true);
+
+  if (this.document.getElementById("ha-lettertextbtn") !== null) {
+    showhidebutton("ha-lettertextbtn", "ha-lettertext", buttonlist, divlist, false);
+    showhidebutton("ha-additionsbtn", "ha-additions", buttonlist, divlist, true);
+    showhidebutton("ha-marginalsbtn", "ha-marginals", buttonlist, divlist, true);
+  } else {
+    showhidebutton("ha-lettertextbtn", "ha-lettertext", buttonlist, divlist, true);
+    showhidebutton("ha-additionsbtn", "ha-additions", buttonlist, divlist, false);
+    showhidebutton("ha-marginalsbtn", "ha-marginals", buttonlist, divlist, true);
+  }
 
   // Theme: Get saved theme from memory and check the box accordingly
   // Register theme toggler
