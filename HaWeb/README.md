@@ -39,3 +39,8 @@ Briefe beim Namen
 - Marginalien in dne Traditions an die falsche Zeile gesetzt
 - Lessing-Registereitrag
 - 224 erse beidenkomm vertauscht
+
+TODO Letter 41 2x Zeile 25, also auch zwei Mal der Kommentar
+TODO 148 153 letzter kommentar
+TODO 332
+TODO 367

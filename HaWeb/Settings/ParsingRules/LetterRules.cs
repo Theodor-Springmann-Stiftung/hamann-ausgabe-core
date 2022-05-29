@@ -245,7 +245,7 @@ public class LetterRules
             }
 
             // Marginalien
-            if(reader.State.Marginals != null) {
+            if(reader.State.Marginals != null && !String.IsNullOrWhiteSpace(tag["index"])) {
                 var margs = reader.State.Marginals.Where(x => x.Page == reader.State.currpage && x.Line == reader.State.currline);
                 if (margs != null && margs.Any())
                 {
@@ -275,12 +275,14 @@ public class LetterRules
             if(tag["type"] == "line") { 
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINELINECLASS));
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                reader.State.mustwrap = true;
             }
 
             // Line tab=
             if(!String.IsNullOrWhiteSpace(tag["tab"])) {
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINEINDENTCLASS + tag["tab"]));
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+                if (tag["tab"] != "1") reader.State.mustwrap = true;
             }
         }
     )};

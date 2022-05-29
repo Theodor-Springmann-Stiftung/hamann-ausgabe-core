@@ -554,7 +554,7 @@
   }
 
   .ha-additions .ha-tradition a {
-    @apply !underline decoration-dotted hover:decoration-solid text-slate-700 hover:text-slate-900;
+    @apply !underline decoration-dotted hover:decoration-solid 
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
@@ -562,7 +562,7 @@
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
-    @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900;
+    @apply !underline decoration-dotted hover:decoration-solid 
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
@@ -709,7 +709,7 @@
   }
 
   .ha-lettertext .ha-marginalbox .ha-marginal a {
-    @apply !underline decoration-dotted hover:decoration-solid text-slate-800 hover:text-slate-900;
+    @apply !underline decoration-dotted hover:decoration-solid 
   }
 
   .ha-lettertext .ha-btn-collapsed-box {
@@ -758,8 +758,8 @@
   }
 
   .ha-del,
-  .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply line-through;
+  .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal, .ha-diagdel) {
+    @apply inline line-through;
   }
 
   .ha-hand,
@@ -781,6 +781,10 @@
     *
     :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
     @apply italic text-slate-700;
+  }
+
+  .ha-emph {
+    @apply italic
   }
 
   .ha-sup {
@@ -984,39 +988,40 @@ body {
     list-style-type:circle;
 } */
 
-.diagdel {
-  text-decoration: none;
+.ha-diagdel {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
   position: relative;
-  display: inline-block;
+  display: inline-block !important;
 }
 
-.diagdel::before,
-.diagdel::after {
+.ha-diagdel::before,
+.ha-diagdel::after {
   content: "";
   width: 100%;
   height: 0%;
   position: absolute;
   right: 0;
-  bottom: 1.5ex;
+  bottom: 1.4ex;
 }
 
-.diagdel::before {
+.ha-diagdel::before {
   border-bottom: 1px solid black;
   -webkit-transform: skewY(-36deg);
   transform: skewY(-36deg);
 }
 
-.del .del,
-.del .del * {
+.ha-del .ha-del,
+.ha-del .ha-del * {
   -moz-text-decoration-style: double;
   -webkit-text-decoration-style: double !important;
   text-decoration-thickness: 1px;
   text-decoration-style: double;
 }
 
-.del .del .ul,
-.ul .del .del,
-.del .ul .del {
+.ha-del .ha-del .ha-ul,
+.ha-ul .ha-del .ha-del,
+.ha-del .ha-ul .ha-del {
   text-decoration: line-through underline;
   -moz-text-decoration-style: double;
   -webkit-text-decoration-style: double !important;
@@ -1024,8 +1029,8 @@ body {
   text-decoration-style: double;
 }
 
-.del .ul,
-.ul .del {
+.ha-del .ha-ul,
+.ha-ul .ha-del {
   text-decoration: line-through underline;
   text-decoration-thickness: 1px;
   text-decoration-skip-ink: auto;

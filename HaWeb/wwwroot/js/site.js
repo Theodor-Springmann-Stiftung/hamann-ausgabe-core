@@ -47,7 +47,7 @@ const getLineHeight = function (element) {
   var temp = document.createElement(element.nodeName),
     ret;
   temp.setAttribute("class", element.className);
-  temp.innerHTML = "A";
+  temp.innerHTML = "Ü";
 
   element.parentNode.appendChild(temp);
   ret = temp.clientHeight;
@@ -125,7 +125,7 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
 };
 
 /* TODO: need a resize watcher to undo and reapply the effect on breakpoint */
-const overlappingcollapsebox = function (selector, hoverfunction) {
+const overlappingcollapsebox = function (selector, hoverfunction, parentbox) {
   let boxes = document.querySelectorAll(selector);
   let clientrects = [];
   let lineheight = 1;
@@ -138,15 +138,40 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
     clientrects.push([element, element.getBoundingClientRect()]);
   }
 
+  let boundigparent = null;
+  let pb = null;
+  if (parentbox !== null) {
+    pb = document.getElementById(parentbox);
+    if (pb !== null) {
+      boundigparent = pb.getBoundingClientRect();
+    }
+  }
+
   for (var i = 0; i < clientrects.length; i++) {
     if (i < clientrects.length - 1) {
       let overlap = clientrects[i][1].bottom - clientrects[i + 1][1].top;
       if (overlap >= 0) {
         let newlength = clientrects[i][1].height - overlap;
         let remainder = newlength % lineheight;
-        newlength = newlength - remainder;
+        newlength = newlength - remainder - 1;
         collapsebox(clientrects[i][0], newlength);
         addbuttoncaollapsebox(clientrects[i][0], newlength, hoverfunction);
+      }
+    } else {
+      if (boundigparent !== null) {
+        let overlap =  clientrects[i][1].bottom - boundigparent.bottom;
+        console.log(clientrects[i][0]);
+        console.log(pb);
+        console.log(clientrects[i][1].bottom, boundigparent.bottom);
+        console.log(overlap);
+        if (overlap >= 0) {
+          let newlength = clientrects[i][1].height - overlap;
+          console.log(newlength);
+          let remainder = newlength % lineheight;
+          newlength = newlength - remainder;
+          collapsebox(clientrects[i][0], newlength);
+          addbuttoncaollapsebox(clientrects[i][0], newlength, hoverfunction);
+        }
       }
     }
   }
@@ -238,7 +263,7 @@ const collapseboxes = function() {
   }
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
-  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
+  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true, "ha-letterbody");
 }
 
 //////////////////////////////// ONLOAD ////////////////////////////////////

@@ -1540,8 +1540,6 @@ body {
 }
 
 .ha-additions .ha-tradition a {
-  --tw-text-opacity: 1;
-  color: rgb(51 65 85 / var(--tw-text-opacity));
   -webkit-text-decoration-line: underline !important;
           text-decoration-line: underline !important;
   -webkit-text-decoration-style: dotted;
@@ -1549,8 +1547,6 @@ body {
 }
 
 .ha-additions .ha-tradition a:hover {
-  --tw-text-opacity: 1;
-  color: rgb(15 23 42 / var(--tw-text-opacity));
   -webkit-text-decoration-style: solid;
           text-decoration-style: solid;
 }
@@ -1560,8 +1556,6 @@ body {
 }
 
 .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
-  --tw-text-opacity: 1;
-  color: rgb(30 41 59 / var(--tw-text-opacity));
   -webkit-text-decoration-line: underline !important;
           text-decoration-line: underline !important;
   -webkit-text-decoration-style: dotted;
@@ -1569,8 +1563,6 @@ body {
 }
 
 .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a:hover {
-  --tw-text-opacity: 1;
-  color: rgb(15 23 42 / var(--tw-text-opacity));
   -webkit-text-decoration-style: solid;
           text-decoration-style: solid;
 }
@@ -1860,8 +1852,6 @@ body {
 }
 
 .ha-lettertext .ha-marginalbox .ha-marginal a {
-  --tw-text-opacity: 1;
-  color: rgb(30 41 59 / var(--tw-text-opacity));
   -webkit-text-decoration-line: underline !important;
           text-decoration-line: underline !important;
   -webkit-text-decoration-style: dotted;
@@ -1869,8 +1859,6 @@ body {
 }
 
 .ha-lettertext .ha-marginalbox .ha-marginal a:hover {
-  --tw-text-opacity: 1;
-  color: rgb(15 23 42 / var(--tw-text-opacity));
   -webkit-text-decoration-style: solid;
           text-decoration-style: solid;
 }
@@ -1955,7 +1943,8 @@ body {
           text-decoration-line: underline;
 }
 
-.ha-del, .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+.ha-del, .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal, .ha-diagdel) {
+  display: inline;
   -webkit-text-decoration-line: line-through;
           text-decoration-line: line-through;
 }
@@ -1983,6 +1972,10 @@ body {
   font-style: italic;
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
+}
+
+.ha-emph {
+  font-style: italic;
 }
 
 .ha-sup {
@@ -2690,38 +2683,40 @@ body {
     list-style-type:circle;
 } */
 
-.diagdel {
-  text-decoration: none;
+.ha-diagdel {
+  text-decoration: none !important;
+  -webkit-text-decoration-line: none !important;
+          text-decoration-line: none !important;
   position: relative;
-  display: inline-block;
+  display: inline-block !important;
 }
 
-.diagdel::before,
-.diagdel::after {
+.ha-diagdel::before,
+.ha-diagdel::after {
   content: "";
   width: 100%;
   height: 0%;
   position: absolute;
   right: 0;
-  bottom: 1.5ex;
+  bottom: 1.4ex;
 }
 
-.diagdel::before {
+.ha-diagdel::before {
   border-bottom: 1px solid black;
   transform: skewY(-36deg);
 }
 
-.del .del,
-.del .del * {
+.ha-del .ha-del,
+.ha-del .ha-del * {
   -moz-text-decoration-style: double;
   -webkit-text-decoration-style: double !important;
   text-decoration-thickness: 1px;
   text-decoration-style: double;
 }
 
-.del .del .ul,
-.ul .del .del,
-.del .ul .del {
+.ha-del .ha-del .ha-ul,
+.ha-ul .ha-del .ha-del,
+.ha-del .ha-ul .ha-del {
   text-decoration: line-through underline;
   -moz-text-decoration-style: double;
   -webkit-text-decoration-style: double !important;
@@ -2729,8 +2724,8 @@ body {
   text-decoration-style: double;
 }
 
-.del .ul,
-.ul .del {
+.ha-del .ha-ul,
+.ha-ul .ha-del {
   text-decoration: line-through underline;
   text-decoration-thickness: 1px;
   text-decoration-skip-ink: auto;
