@@ -44,6 +44,7 @@ public class LetterRules
     private static readonly string EMPHCLASS = HaWeb.Settings.CSSClasses.EMPHCLASS;
     private static readonly string APPCLASS = HaWeb.Settings.CSSClasses.APPCLASS;
     private static readonly string MARGINGALBOXCLASS = HaWeb.Settings.CSSClasses.MARGINGALBOXCLASS;
+    private static readonly string MARGINALLISTCLASS = HaWeb.Settings.CSSClasses.MARGINALLISTCLASS;
 
     // Zeilen:
     private static readonly string ZHLINECLASS = HaWeb.Settings.CSSClasses.ZHLINECLASS;
@@ -254,6 +255,7 @@ public class LetterRules
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, COMMENTMARKERCLASS, "ma-" + reader.State.currpage + "-" + reader.State.currline));
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINGALBOXCLASS));
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, MARGINALLISTCLASS));
                     foreach (var marginal in margs)
                     {
                         // In Marginal, the Root-Element (<marginal>) is somehow parsed,
@@ -265,6 +267,7 @@ public class LetterRules
                         new HaWeb.HTMLHelpers.LinkHelper(reader.State.Lib, rd, sb2, false);
                         rd.Read();
                     }
+                    sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                     reader.State.ParsedMarginals.Add((reader.State.currpage, reader.State.currline, sb2.ToString()));
                 }

@@ -48,11 +48,9 @@ const getLineHeight = function (element) {
     ret;
   temp.setAttribute("class", element.className);
   temp.innerHTML = "Ü";
-
   element.parentNode.appendChild(temp);
-  ret = temp.clientHeight;
+  ret = temp.getBoundingClientRect().height;
   temp.parentNode.removeChild(temp);
-
   return ret;
 };
 
@@ -68,7 +66,7 @@ const uncollapsebox = function (element) {
 };
 
 const addbuttoncaollapsebox = function (element, height, hoverfunction) {
-  const btn = document.createElement("div");
+  let btn = document.createElement("div");
   btn.classList.add("ha-btn-collapsed-box");
 
   if (element.classList.contains("ha-collapsed-box")) {
@@ -125,37 +123,26 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
 };
 
 /* TODO: need a resize watcher to undo and reapply the effect on breakpoint */
-const overlappingcollapsebox = function (selector, hoverfunction, parentbox) {
+const overlappingcollapsebox = function (selector, hoverfunction) {
   let boxes = document.querySelectorAll(selector);
-  let clientrects = [];
   let lineheight = 1;
 
   if (boxes.length >= 1) {
     lineheight = getLineHeight(boxes[0]);
   }
 
-  for (element of boxes) {
-    clientrects.push([element, element.getBoundingClientRect()]);
-  }
-
-  let boundigparent = null;
-  let pb = null;
-  if (parentbox !== null) {
-    pb = document.getElementById(parentbox);
-    if (pb !== null) {
-      boundigparent = pb.getBoundingClientRect();
-    }
-  }
-
-  for (var i = 0; i < clientrects.length; i++) {
-    if (i < clientrects.length - 1) {
-      let overlap = clientrects[i][1].bottom - clientrects[i + 1][1].top;
-      if (overlap >= 0) {
-        let newlength = clientrects[i][1].height - overlap;
+  for (var i = 0; i < boxes.length; i++) {
+    if (i < boxes.length - 1) {
+      let element = boxes[i];
+      let thisrect = element.getBoundingClientRect();
+      let nextrect = boxes[i+1].getBoundingClientRect();
+      let overlap = thisrect.bottom - nextrect.top;
+      if (overlap >= 0 && !(window.getComputedStyle(element).display === "none")) {
+        let newlength = thisrect.height - overlap;
         let remainder = newlength % lineheight;
         newlength = newlength - remainder - 1;
-        collapsebox(clientrects[i][0], newlength);
-        addbuttoncaollapsebox(clientrects[i][0], newlength, hoverfunction);
+        requestAnimationFrame(() => { collapsebox(element, newlength) });
+        requestAnimationFrame(() => { addbuttoncaollapsebox(element, newlength, hoverfunction) });
       }
     }
   }
@@ -230,25 +217,11 @@ const get_theme_settings = function(standard) {
 }
 
 const collapseboxes = function() {
-  for (entry of this.document.getElementsByClassName("ha-letlinks")) {
-    entry.maxHeight = "auto";
-    let btns = entry.parentNode.getElementsByClassName("ha-btn-collapsed-box");
-    for (btn of btns) {
-      btn.remove();
-    }
-  }
-
-  for (entry of this.document.getElementsByClassName("ha-marginalbox")) {
-    entry.maxHeight = "auto";
-    let btns = entry.parentNode.getElementsByClassName("ha-btn-collapsed-box");
-    for (btn of btns) {
-      btn.remove();
-    }
-  }
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
-  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true, "ha-letterbody");
+  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
 }
+
 
 //////////////////////////////// ONLOAD ////////////////////////////////////
 window.addEventListener("load", function () {
@@ -271,9 +244,13 @@ window.addEventListener("load", function () {
   if (document.getElementById("ha-register-nav") != null)
     markactive_exact(document.getElementById("ha-register-nav"));
 
-  // Letter / Register View: Collapse all unfit boxes
+  // Letter / Register View: Collapse all unfit boxes + resize observer
   collapseboxes();
-  //this.window.addEventListener('resize', collapseboxes);
+  var doit;
+  this.window.addEventListener('resize', function() {
+    this.clearTimeout(doit);
+    this.setTimeout(collapseboxes, 250);
+  });
 
 
   // Letter View: Show / Hide Tabs

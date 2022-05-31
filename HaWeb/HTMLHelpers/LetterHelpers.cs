@@ -23,10 +23,10 @@ public static class LetterHelpers
         return letterState;
     }
 
-    public static TraditionState CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition)
+    public static TraditionState CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits)
     {
         var rd = readerService.RequestStringReader(tradition.Element);
-        var traditionState = new TraditionState(lib, rd, readerService, marginals);
+        var traditionState = new TraditionState(lib, rd, readerService, marginals, hands, edits);
         new HaWeb.HTMLParser.XMLHelper<TraditionState>(traditionState, rd, traditionState.sb_tradition, TraditionRules.OTagRules, TraditionRules.STagRules, TraditionRules.CTagRules, TraditionRules.TextRules, TraditionRules.WhitespaceRules);
         new HaWeb.HTMLHelpers.LinkHelper(lib, rd, traditionState.sb_tradition);
         rd.Read();

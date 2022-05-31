@@ -14,6 +14,7 @@ public class BriefeViewModel
     public string? ParsedText { get; set; }
     public string? ParsedTradition { get; set; }
     public bool MinWidth { get; set; } = false;
+    public bool MinWidthTrad { get; set; } = false;
 
     // From, Until, Reference, Edit, sartpage, startline
     public List<(string, string, string, string, string, string)>? ParsedEdits

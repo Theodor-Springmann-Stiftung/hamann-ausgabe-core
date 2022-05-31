@@ -55,6 +55,7 @@ public static class CSSClasses {
     public const string EMPHCLASS = "ha-emph";
     public const string APPCLASS = "ha-app";
     public const string MARGINGALBOXCLASS = "ha-marginalbox";
+    public const string MARGINALLISTCLASS = "ha-marginallist";
     public const string TRADLINECOUNTCLASS = "ha-tradlinecount";
     public const string TRADCOMMENTCOLUMNCLASS = "ha-tradcommentcolumn";
     public const string TRADZHTEXTCLASS = "ha-tradzhtext";

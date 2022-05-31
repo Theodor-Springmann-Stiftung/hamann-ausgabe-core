@@ -60,10 +60,15 @@ public class Briefecontroller : Controller
         if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(prevmeta, false), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(_lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(_lib, _readerService, editreasons);
-        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) model.ParsedTradition = HaWeb.HTMLHelpers.LetterHelpers.CreateTraditions(_lib, _readerService, marginals, tradition).sb_tradition.ToString();
+        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) {
+            var parsedTraditions = HaWeb.HTMLHelpers.LetterHelpers.CreateTraditions(_lib, _readerService, marginals, tradition, hands, editreasons);
+            (model.ParsedTradition, model.ParsedMarginals, model.MinWidthTrad) = (parsedTraditions.sb_tradition.ToString(), parsedTraditions.ParsedMarginals, parsedTraditions.minwidth);
+        }
         if (text != null && !String.IsNullOrWhiteSpace(text.Element)) {
             var parsedLetter = HaWeb.HTMLHelpers.LetterHelpers.CreateLetter(_lib, _readerService, meta, text, marginals, hands, editreasons);
-            (model.ParsedText, model.ParsedMarginals, model.MinWidth) = (parsedLetter.sb_lettertext.ToString(), parsedLetter.ParsedMarginals, parsedLetter.minwidth);
+            (model.ParsedText, model.MinWidth) = (parsedLetter.sb_lettertext.ToString(), parsedLetter.minwidth);
+            if (model.ParsedMarginals != null && parsedLetter.ParsedMarginals != null) model.ParsedMarginals.AddRange(parsedLetter.ParsedMarginals);
+            else model.ParsedMarginals = parsedLetter.ParsedMarginals;
             if (parsedLetter.Startline != "-1" && parsedLetter.Startline != "1" && model.MetaData.ParsedZHString != null)
                 model.MetaData.ParsedZHString += " / " + parsedLetter.Startline;
             if (model.ParsedText == null || String.IsNullOrWhiteSpace(model.ParsedText))

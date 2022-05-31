@@ -36,9 +36,7 @@ Briefe beim Namen
 - GND Normdaten der Namen
 
 
-TODO 367 684 708 tabellen, min-size für ha-lettertext
-TODO 682 kein word-wrap, max-size für ha-lettertext
-TODO Regeln nach tradition übertragen, mit min-width
+TODO tabellen ok, ausser 939: dort sind htabs geschachtelt
 TODO Word-wrap before align, tabs
 TODO blinken before js
 

@@ -3,6 +3,9 @@
     var minwidth = "";
     if (Model.MinWidth)
         minwidth = "ha-minwidth";
+    var minwidthtrads = "";
+    if (Model.MinWidthTrad)
+        minwidthtrads = "ha-minwidth"; 
 }
 <div class="ha-twilighttogglebar">
     <div class="ha-letterheader">
@@ -86,11 +89,13 @@
     }
 
     <div class="ha-additions" id="ha-additions">
+        <div class="@minwidthtrads">
         @if (Model.ParsedTradition != null)
         {
             @Html.Raw(Model.ParsedTradition)
         }
-
+        </div>
+        
         @if (Model.ParsedHands != null && Model.ParsedHands.Any())
         {
             <div class="ha-hands">

@@ -489,10 +489,6 @@
     @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 sm:border-l-2 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
   }
 
-  .ha-lettertext.ha-minwidth {
-    @apply min-w-[38rem] desktop:min-w-[45rem]
-  }
-
   .ha-marginals {
     @apply max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] bg-slate-50 numeric-mediaeval;
   }
@@ -545,32 +541,8 @@
     @apply !block font-serif relative w-fit -ml-4 pl-4 unhyphenate;
   }
 
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
-    @apply absolute -right-[20rem] desktop:-right-[26rem] w-[19rem] desktop:w-[23rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
-  }
-
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
-    @apply inline-block;
-  }
-
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox.ha-expanded-box {
-    @apply pb-1;
-  }
-
   .ha-additions .ha-tradition a {
     @apply !underline decoration-dotted hover:decoration-solid 
-  }
-
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
-    @apply pr-6;
-  }
-
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
-    @apply !underline decoration-dotted hover:decoration-solid 
-  }
-
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
-    @apply hidden md:block absolute text-slate-600 hover:text-slate-900 cursor-pointer -right-[0.5rem] desktop:-right-[2.5rem] leading-none mt-[2px];
   }
 
   .ha-additions .ha-hands {
@@ -692,32 +664,53 @@
     @apply !hidden;
   }
 
+  .ha-tradzhtext .ha-marginal::before,
+  .ha-lettertext .ha-marginal:before {
+    @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 bg-slate-400 content-['']
+  } 
+
+  .ha-tradzhtext .ha-marginalbox,
   .ha-lettertext .ha-marginalbox {
-    @apply absolute -right-[20rem] desktop:-right-[26rem] w-[19rem] desktop:w-[23rem] text-sm border-l-2 border-slate-300 leading-tight pl-2 bg-slate-50 pr-1 hyphenate mt-1 rounded-sm font-sans hidden md:flex flex-wrap;
+    @apply hidden pl-2 md:block absolute left-full ml-6 mt-1 w-[16rem] desktop:w-[24rem] text-sm leading-tight bg-slate-50 hyphenate rounded-sm font-sans 
+  }
+  
+  .ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist,
+  .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
+    @apply shadow-md
+  }  
+
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist,
+  .ha-lettertext .ha-marginalbox .ha-marginallist {
+    @apply text-sm leading-tight flex flex-wrap gap-x-4
   }
 
-  .ha-lettertext .ha-marginalbox .ha-marginal {
-    @apply inline-block;
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal {
+    @apply pl-2 inline grow relative
   }
 
-  .ha-lettertext .ha-marginalbox.ha-expanded-box {
-    @apply pb-1;
-  }
-
-  .ha-lettertext .ha-marginalbox .ha-marginal {
-    @apply pr-6;
-  }
-
-  .ha-lettertext .ha-marginalbox .ha-marginal .ha-text {
-
-  }
-
-  .ha-lettertext .ha-marginalbox .ha-marginal a {
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal a,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal a {
     @apply !underline decoration-dotted hover:decoration-solid 
   }
 
+  .ha-tradzhtext .ha-btn-collapsed-box,
   .ha-lettertext .ha-btn-collapsed-box {
-    @apply hidden md:block absolute text-slate-700 hover:text-slate-900 cursor-pointer -right-[0.5rem] desktop:-right-[2.5rem] leading-none mt-[2px];
+    @apply absolute left-full ml-4 hidden md:block text-slate-700 hover:text-slate-900 cursor-pointer leading-none mt-0.5;
+  }
+
+  .ha-minwidth .ha-tradzhtext,
+  .ha-lettertext.ha-minwidth {
+    @apply min-w-[38rem] desktop:min-w-[55rem]
+  }
+
+  .ha-minwidth .ha-tradzhtext .ha-alignright,
+  .ha-lettertext.ha-minwidth .ha-alignright {
+    @apply float-right mr-[20%];
+  }
+
+  .ha-lettertext.ha-minwidth .ha-aligncenter {
+    @apply absolute left-1/3 whitespace-nowrap -translate-x-1/2;
   }
 
   /* Classes from the General parser */
@@ -926,17 +919,21 @@
   }
 
   .ha-collapsed-box {
-    @apply z-0 overflow-hidden;
+    @apply z-0 overflow-hidden overflow-ellipsis cursor-default
   }
 
   .ha-expanded-box {
-    @apply shadow-md z-[1000] !h-auto !max-h-screen;
+    @apply pb-1 z-[1000] !h-auto !max-h-screen;
   }
 
   /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
     .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box:hover {
         @apply shadow-md z-[1000] !h-auto
     } */
+}
+
+.ha-lettertext .ha-marginalbox:before {
+  content: "";
 }
 
 .ha-lettertext .ha-marginalbox .ha-marginal::after {

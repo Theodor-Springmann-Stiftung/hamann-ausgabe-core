@@ -11,36 +11,45 @@ public class TraditionState : HaWeb.HTMLParser.IState {
     internal IReaderService ReaderService;
 
     internal IEnumerable<Marginal>? Marginals;
+    internal IEnumerable<Hand>? Hands;
+    internal IEnumerable<Editreason>? Edits;
 
-    internal bool active_del;
+    // State
+    // Must we skip all of the upcoming whitespace?
     internal bool active_skipwhitespace;
-    internal bool active_firstedit;
+    // Is there a semantically important line break, left or right of the current line?
+    internal (bool, bool) mustwrap;
+    // What's the current line?
     internal string currline;
+    // What's the current page?
     internal string currpage;
+    // Does the container need a min-widt, so percentages are useful (tables)
+    internal bool minwidth;
+    // Is there an active_zhtext
     internal bool active_trad;
 
     internal StringBuilder sb_tradition;     // Überlieferung
-    internal StringBuilder sb_trad_zhtext;   // Überlieferung, ZHText
+    internal List<(string, string, string)>? ParsedMarginals;
+    internal string Startline;
 
     internal IReader rd_tradition;
 
-    public TraditionState(ILibrary lib, IReader reader, IReaderService readerService, IEnumerable<Marginal>? marginals) 
+    public TraditionState(ILibrary lib, IReader reader, IReaderService readerService, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) 
     {
         Lib = lib;
         rd_tradition = reader;
         Marginals = marginals;
         ReaderService = readerService;
+        Hands = hands;
+        Edits = edits;
         SetupState();
     }
 
     public void SetupState() {
         sb_tradition = new StringBuilder();
-        sb_trad_zhtext = new StringBuilder();
        
         active_trad = false;
-        active_del = false;
         active_skipwhitespace = true;
-        active_firstedit = true;
         currline = "-1";
         currpage = "";
     }

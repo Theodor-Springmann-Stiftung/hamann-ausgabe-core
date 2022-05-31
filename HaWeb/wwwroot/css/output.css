@@ -1390,16 +1390,6 @@ body {
   }
 }
 
-.ha-lettertext.ha-minwidth {
-  min-width: 38rem;
-}
-
-@media (min-width: 1190px) {
-  .ha-lettertext.ha-minwidth {
-    min-width: 45rem;
-  }
-}
-
 .ha-marginals {
   position: relative;
   margin-left: 1rem;
@@ -1510,51 +1500,6 @@ body {
           hyphens: none;
 }
 
-.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
-  position: absolute;
-  right: -20rem;
-  margin-top: 0.25rem;
-  display: none;
-  width: 19rem;
-  flex-wrap: wrap;
-  border-radius: 0.125rem;
-  border-left-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgb(203 213 225 / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
-  padding-left: 0.5rem;
-  padding-right: 0.25rem;
-  font-family: Biolinum, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  line-height: 1.25;
-  -webkit-hyphens: auto;
-      -ms-hyphens: auto;
-          hyphens: auto;
-}
-
-@media (min-width: 960px) {
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
-    display: flex;
-  }
-}
-
-@media (min-width: 1190px) {
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox {
-    right: -26rem;
-    width: 23rem;
-  }
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
-  display: inline-block;
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox.ha-expanded-box {
-  padding-bottom: 0.25rem;
-}
-
 .ha-additions .ha-tradition a {
   -webkit-text-decoration-line: underline !important;
           text-decoration-line: underline !important;
@@ -1565,50 +1510,6 @@ body {
 .ha-additions .ha-tradition a:hover {
   -webkit-text-decoration-style: solid;
           text-decoration-style: solid;
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal {
-  padding-right: 1.5rem;
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a {
-  -webkit-text-decoration-line: underline !important;
-          text-decoration-line: underline !important;
-  -webkit-text-decoration-style: dotted;
-          text-decoration-style: dotted;
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-marginalbox .ha-marginal a:hover {
-  -webkit-text-decoration-style: solid;
-          text-decoration-style: solid;
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
-  position: absolute;
-  right: -0.5rem;
-  margin-top: 2px;
-  display: none;
-  cursor: pointer;
-  line-height: 1;
-  --tw-text-opacity: 1;
-  color: rgb(71 85 105 / var(--tw-text-opacity));
-}
-
-.ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box:hover {
-  --tw-text-opacity: 1;
-  color: rgb(15 23 42 / var(--tw-text-opacity));
-}
-
-@media (min-width: 960px) {
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
-    display: block;
-  }
-}
-
-@media (min-width: 1190px) {
-  .ha-additions .ha-tradition .ha-tradzhtext .ha-btn-collapsed-box {
-    right: -2.5rem;
-  }
 }
 
 .ha-additions .ha-hands {
@@ -1814,21 +1715,29 @@ body {
   display: none !important;
 }
 
-.ha-lettertext .ha-marginalbox {
+.ha-tradzhtext .ha-marginal::before, .ha-lettertext .ha-marginal:before {
   position: absolute;
-  right: -20rem;
+  top: 0.1rem;
+  bottom: 0.1rem;
+  left: 0px;
+  width: 0.125rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+  --tw-content: '';
+  content: var(--tw-content);
+}
+
+.ha-tradzhtext .ha-marginalbox, .ha-lettertext .ha-marginalbox {
+  position: absolute;
+  left: 100%;
+  margin-left: 1.5rem;
   margin-top: 0.25rem;
   display: none;
-  width: 19rem;
-  flex-wrap: wrap;
+  width: 16rem;
   border-radius: 0.125rem;
-  border-left-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgb(203 213 225 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
   padding-left: 0.5rem;
-  padding-right: 0.25rem;
   font-family: Biolinum, sans-serif;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1839,49 +1748,57 @@ body {
 }
 
 @media (min-width: 960px) {
-  .ha-lettertext .ha-marginalbox {
-    display: flex;
+  .ha-tradzhtext .ha-marginalbox, .ha-lettertext .ha-marginalbox {
+    display: block;
   }
 }
 
 @media (min-width: 1190px) {
-  .ha-lettertext .ha-marginalbox {
-    right: -26rem;
-    width: 23rem;
+  .ha-tradzhtext .ha-marginalbox, .ha-lettertext .ha-marginalbox {
+    width: 24rem;
   }
 }
 
-.ha-lettertext .ha-marginalbox .ha-marginal {
-  display: inline-block;
+.ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist, .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.ha-lettertext .ha-marginalbox.ha-expanded-box {
-  padding-bottom: 0.25rem;
+.ha-tradzhtext .ha-marginalbox .ha-marginallist, .ha-lettertext .ha-marginalbox .ha-marginallist {
+  display: flex;
+  flex-wrap: wrap;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  line-height: 1.25;
 }
 
-.ha-lettertext .ha-marginalbox .ha-marginal {
-  padding-right: 1.5rem;
+.ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal, .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal {
+  position: relative;
+  display: inline;
+  flex-grow: 1;
+  padding-left: 0.5rem;
 }
 
-.ha-lettertext .ha-marginalbox .ha-marginal .ha-text {
-}
-
-.ha-lettertext .ha-marginalbox .ha-marginal a {
+.ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal a, .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal a {
   -webkit-text-decoration-line: underline !important;
           text-decoration-line: underline !important;
   -webkit-text-decoration-style: dotted;
           text-decoration-style: dotted;
 }
 
-.ha-lettertext .ha-marginalbox .ha-marginal a:hover {
+.ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal a:hover, .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal a:hover {
   -webkit-text-decoration-style: solid;
           text-decoration-style: solid;
 }
 
-.ha-lettertext .ha-btn-collapsed-box {
+.ha-tradzhtext .ha-btn-collapsed-box, .ha-lettertext .ha-btn-collapsed-box {
   position: absolute;
-  right: -0.5rem;
-  margin-top: 2px;
+  left: 100%;
+  margin-left: 1rem;
+  margin-top: 0.125rem;
   display: none;
   cursor: pointer;
   line-height: 1;
@@ -1889,21 +1806,38 @@ body {
   color: rgb(51 65 85 / var(--tw-text-opacity));
 }
 
-.ha-lettertext .ha-btn-collapsed-box:hover {
+.ha-tradzhtext .ha-btn-collapsed-box:hover, .ha-lettertext .ha-btn-collapsed-box:hover {
   --tw-text-opacity: 1;
   color: rgb(15 23 42 / var(--tw-text-opacity));
 }
 
 @media (min-width: 960px) {
-  .ha-lettertext .ha-btn-collapsed-box {
+  .ha-tradzhtext .ha-btn-collapsed-box, .ha-lettertext .ha-btn-collapsed-box {
     display: block;
   }
 }
 
+.ha-minwidth .ha-tradzhtext, .ha-lettertext.ha-minwidth {
+  min-width: 38rem;
+}
+
 @media (min-width: 1190px) {
-  .ha-lettertext .ha-btn-collapsed-box {
-    right: -2.5rem;
+  .ha-minwidth .ha-tradzhtext, .ha-lettertext.ha-minwidth {
+    min-width: 55rem;
   }
+}
+
+.ha-minwidth .ha-tradzhtext .ha-alignright, .ha-lettertext.ha-minwidth .ha-alignright {
+  float: right;
+  margin-right: 20%;
+}
+
+.ha-lettertext.ha-minwidth .ha-aligncenter {
+  position: absolute;
+  left: 33.333333%;
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  white-space: nowrap;
 }
 
 /* Classes from the General parser */
@@ -2301,16 +2235,16 @@ body {
 
 .ha-collapsed-box {
   z-index: 0;
+  cursor: default;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ha-expanded-box {
   z-index: 1000;
   height: auto !important;
   max-height: 100vh !important;
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  padding-bottom: 0.25rem;
 }
 
 /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
@@ -2642,6 +2576,10 @@ body {
   font-weight: normal;
 
   font-style: normal;
+}
+
+.ha-lettertext .ha-marginalbox:before {
+  content: "";
 }
 
 .ha-lettertext .ha-marginalbox .ha-marginal::after {
