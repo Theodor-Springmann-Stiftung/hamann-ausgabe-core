@@ -2,7 +2,7 @@
     var showCredits = ViewData["showCredits"] == "true" ? true : false;
 }
 <header class="sticky w-100 font-serif mb-6">
-    <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 py-3 px-3 desktop:px-8 flex-wrap">
+    <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 dark:shadow-xl dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap">
         <a href="/" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
             <img src="/favicon.ico" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 p-1 border border-gray-900 border-t-gray-200 border-l-gray-200 " alt="HKB-Logo" loading="lazy" />
                 <span class="sm:hidden">Hamann: Komm. Briefausgabe</span> 
@@ -62,7 +62,7 @@
     </nav>
     @if(showCredits) 
     {
-        <div class="desktop:block hidden w-100 bg-slate-50 pb-3 px-3 desktop:px-8 overflow-hidden whitespace-nowrap text-ellipsis">
+        <div class="desktop:block hidden w-100 bg-slate-50 dark:pt-2 dark:pb-2 dark:bg-slate-800 pb-3 px-3 desktop:px-8 overflow-hidden whitespace-nowrap text-ellipsis">
             <a href="/Edition/Mitwirkende">Hg. v. Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von G. Babelotzky, K. Bucher, Ch. Großmann, C.F. Haak, L. Klopfer, J. Knüchel, I. Langkabel und S. Martens (Heidelberg 2020ff.)</a>
         </div>
     }

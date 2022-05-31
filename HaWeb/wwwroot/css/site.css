@@ -81,6 +81,247 @@
 
 @layer components {
   /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
+
+  /* Everything related to theme color */
+  body {
+    @apply text-black dark:text-white dark:bg-gray-800 dark:bg-none
+  }
+
+  .ha-topnav-dropdown .ha-topnav-dropdown-content {
+    @apply bg-slate-50 shadow-md border-slate-400 border-b
+  }
+
+  .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
+    @apply bg-slate-100
+  }
+
+  .ha-topnav a {
+    @apply text-slate-700 hover:text-slate-900 
+  }
+
+  .ha-topnav a.active {
+    @apply desktop:border-b-4 desktop:border-slate-200 dark:border-slate-700 dark:font-bold
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown
+    .ha-topnav-dropdown-content {
+    @apply shadow-none desktop:shadow-md desktop:border-b
+  }
+
+  .ha-menusymbol svg {
+    @apply text-black stroke-black
+  }
+
+  .ha-footer .ha-footertext {
+    @apply bg-slate-50 text-black dark:bg-slate-700 dark:text-white
+  }
+
+  .ha-footer .ha-themetoggles {
+    @apply bg-slate-200 shadow-inner
+  }
+
+  .ha-footer .ha-themetoggles #ha-toggledark:checked ~ .ha-themetoggleslider {
+    @apply bg-slate-800
+  }
+
+  .ha-footer .ha-themetoggles #ha-toggletwilight:checked ~ .ha-themetoggleslider {
+      @apply bg-slate-500
+  }
+
+  .ha-footer .ha-themetoggles #ha-togglebright:checked ~ .ha-themetoggleslider {
+      @apply bg-slate-50
+  }
+
+  .ha-static {
+    @apply bg-slate-50 dark:bg-gray-900
+  }
+
+  .ha-static h3 {
+    @apply text-hamannHighlight dark:text-white dark:font-bold
+  }
+
+  .ha-static table th {
+    @apply text-hamannHighlight dark:text-white dark:font-bold
+  }
+
+  .ha-static table tr:nth-child(even) {
+    @apply bg-slate-200 dark:bg-slate-700
+  }
+
+  .ha-register .ha-register-head,
+  .ha-register .ha-register-body {
+    @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 dark:shadow-xl
+  }
+
+  .ha-register .ha-register-head {
+    @apply border-b-2 border-slate-200
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-300
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a.active {
+    @apply border-b-2 border-slate-200 dark:!text-gray-200 dark:font-bold
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
+  .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
+    @apply desktop:bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-l-2 border-slate-300 dark:border-slate-500
+  }
+
+  .ha-register .ha-register-body .ha-commenthead .ha-letlinks.ha-expanded-box {
+    @apply shadow-md
+  }
+
+  .ha-register .ha-btn-collapsed-box {
+    @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer
+  }
+
+  .ha-register
+    .ha-register-body
+    .ha-comment
+    .ha-commenthead
+    .ha-letlinks
+    .ha-hkb {
+    @apply text-slate-900 dark:text-white
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
+    @apply hover:text-slate-900 dark:hover:text-gray-200 no-underline hover:underline
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+    @apply text-slate-600 dark:text-white
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltiptext {
+    @apply bg-slate-100 shadow
+  }
+
+  .ha-tooltip .ha-tooltiptext::after {
+    @apply border-t-slate-600 border-l-transparent border-r-transparent border-b-transparent
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
+    @apply bg-slate-100 shadow dark:bg-gray-700
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
+    @apply border-b-2 border-gray-600 dark:border-gray-200
+  }
+
+  .ha-letterheader {
+    @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-slate-200 border-b-2 dark:shadow-xl
+  }
+
+  .ha-letterheader .ha-lettertabs a {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-200
+  }
+
+  .ha-letterheader .ha-lettertabs a.active {
+    @apply border-b-2 border-slate-200 text-hamannHighlight dark:!text-gray-200 dark:font-bold
+  }
+
+  .ha-letterheader .ha-lettermetalinks {
+    @apply border-b-2 border-slate-200
+  }
+
+  .ha-letterheader .ha-lettermetalinks a {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-200
+  }
+
+  .ha-letterbody {
+    @apply bg-slate-50 dark:bg-slate-900 dark:shadow-xl
+  }
+
+  .ha-lettertext {
+    @apply bg-slate-50 dark:bg-slate-900 sm:border-l-2  sm:dark:border-none
+  }
+
+  .ha-marginals {
+    @apply bg-slate-50 dark:bg-slate-900
+  }
+
+  .ha-additions {
+    @apply bg-slate-50 dark:bg-slate-900
+  }
+
+  .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
+    @apply bg-slate-100 dark:bg-slate-900
+  }
+
+  .ha-linecount.ha-firstline {
+    @apply sm:bg-slate-100 sm:dark:bg-gray-700 shadow 
+  }
+
+  .ha-linecount .ha-zhpage,
+  .ha-linecount .ha-zhline {
+    @apply sm:bg-slate-50 sm:dark:bg-slate-900
+  }
+
+  .ha-tradzhtext .ha-marginal::before,
+  .ha-lettertext .ha-marginal:before {
+    @apply bg-slate-400 dark:bg-slate-500
+  } 
+
+  .ha-tradzhtext .ha-marginalbox,
+  .ha-lettertext .ha-marginalbox {
+    @apply bg-slate-50 dark:bg-slate-900
+  }
+
+  .ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist,
+  .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
+    @apply shadow-md
+  }
+
+  .ha-tradzhtext .ha-btn-collapsed-box,
+  .ha-lettertext .ha-btn-collapsed-box {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-200
+  }
+
+  .ha-added,
+  .ha-added
+    *
+    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply bg-slate-300 dark:bg-slate-600
+  }
+
+  .ha-note,
+  .ha-note
+    *
+    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply text-slate-700 dark:text-slate-500
+  }
+
+  .ha-ful,
+  .ha-ful * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply border-black dark:border-white
+  }
+
+  .ha-tul,
+  .ha-tul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+    @apply border-black dark:border-white
+  }
+
+  .ha-diagdel::before {
+    @apply border-black dark:border-white
+  }
+
+  .ha-lineline {
+    @apply border-black dark:border-white
+  }
+
+  .active {
+    @apply !text-hamannHighlight dark:!text-black
+  }
+
+  .active:hover {
+    @apply !text-hamannHighlight dark:!text-gray-800
+  }
+
+
   body {
     @apply text-base desktop:text-lg w-full h-full;
   }
@@ -90,7 +331,7 @@
   }
 
   .ha-topnav a {
-    @apply hidden text-slate-700 hover:text-slate-900  desktop:inline-block mr-6 2xl:mr-7;
+    @apply hidden desktop:inline-block mr-6 2xl:mr-7
   }
 
   .ha-topnav a:last-child {
@@ -106,7 +347,7 @@
   }
 
   .ha-topnav-dropdown .ha-topnav-dropdown-content {
-    @apply hidden mr-6 pt-1 right-0 desktop:absolute bg-slate-50 min-w-[130px] shadow-md border-slate-400 border-b z-50;
+    @apply hidden mr-6 pt-1 right-0 desktop:absolute min-w-[130px] z-50;
   }
 
   .ha-topnav-dropdown .ha-topnav-dropdown-content a {
@@ -114,11 +355,7 @@
   }
 
   .ha-topnav-dropdown .ha-topnav-dropdown-content .active {
-    @apply border-none;
-  }
-
-  .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
-    @apply bg-slate-100;
+    @apply border-none
   }
 
   /* Classes for the footer */
@@ -127,23 +364,23 @@
   }
 
   .ha-footer .ha-footertext {
-    @apply bg-slate-50 p-2 px-4 mx-auto max-w-screen-desktop text-right text-sm;
+    @apply p-2 px-4 mx-auto max-w-screen-desktop text-right text-sm
   }
 
   .ha-footer a {
-    @apply underline decoration-dotted hover:decoration-solid;
+    @apply underline decoration-dotted hover:decoration-solid
   }
 
   .ha-footer .ha-themetoggles {
-    @apply whitespace-nowrap relative bg-slate-200 px-0.5 rounded-3xl h-4 w-[49px] shadow-inner
+    @apply whitespace-nowrap relative px-0.5 rounded-3xl h-4 w-[49px] 
   }
 
   .ha-footer .ha-themetoggles * {
-    @apply float-left;
+    @apply float-left
   }
 
   .ha-footer .ha-themetoggles input[type="radio"] {
-    @apply hidden;
+    @apply hidden
   }
 
   .ha-footer .ha-themetoggles label {
@@ -155,33 +392,33 @@
   }
 
   .ha-footer .ha-themetoggles #ha-toggledark:checked ~ .ha-themetoggleslider {
-      @apply bg-slate-800  left-1
+      @apply  left-1
   }
 
   .ha-footer .ha-themetoggles #ha-toggletwilight:checked ~ .ha-themetoggleslider {
-      @apply bg-slate-500 left-[19px]
+      @apply left-[19px]
   }
 
   .ha-footer .ha-themetoggles #ha-togglebright:checked ~ .ha-themetoggleslider {
-      @apply bg-slate-50 left-[34px]
+      @apply left-[34px]
   }
 
   /* Classes for static pages */
 
   .ha-static {
-    @apply w-full bg-slate-50 py-12 px-12 md:px-16 hyphenate font-serif;
+    @apply w-full py-12 px-12 md:px-16 hyphenate font-serif
   }
 
   .ha-static h1 {
-    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6;
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
   }
 
   .ha-static h2 {
-    @apply my-3 mt-4 text-lg desktop:text-2xl;
+    @apply my-3 mt-4 text-lg desktop:text-2xl
   }
 
   .ha-static h3 {
-    @apply mt-4 mb-2 text-hamannHighlight;
+    @apply mt-4 mb-2
   }
 
   .ha-static table {
@@ -189,7 +426,7 @@
   }
 
   .ha-static table th {
-    @apply pl-2 pr-2 desktop:pr-4 text-left font-normal text-hamannHighlight;
+    @apply pl-2 pr-2 desktop:pr-4 text-left font-normal
   }
 
   .ha-static table tr td {
@@ -197,102 +434,94 @@
   }
 
   .ha-static table tr td:last-child {
-    @apply desktop:whitespace-normal;
-  }
-
-  .ha-static table tr:nth-child(even) {
-    @apply bg-slate-200;
+    @apply desktop:whitespace-normal
   }
 
   .ha-static p {
-    @apply my-3;
+    @apply my-3
   }
 
   .ha-static a {
-    @apply underline decoration-dotted;
+    @apply underline decoration-dotted
   }
 
   .ha-static a:hover {
-    @apply underline decoration-solid;
+    @apply underline decoration-solid
   }
 
   .ha-static .ha-footnote {
-    @apply relative text-sm desktop:text-base;
+    @apply relative text-sm desktop:text-base
   }
 
   .ha-static .ha-footnote .ha-footnote-ref {
-    @apply inline-block absolute text-right w-8 -left-10;
+    @apply inline-block absolute text-right w-8 -left-10
   }
 
   /* Classes for register pages */
 
   .ha-register {
-    @apply w-full font-serif numeric-mediaeval;
+    @apply w-full font-serif numeric-mediaeval
   }
 
   .ha-register .ha-register-head,
   .ha-register .ha-register-body {
-    @apply bg-slate-50 pt-9 md:pt-12 px-9 md:px-16;
+    @apply pt-9 md:pt-12 px-9 md:px-16
   }
 
   .ha-register .ha-register-head {
-    @apply border-b-2 border-slate-200 rounded-t-sm;
+    @apply rounded-t-sm
   }
 
   .ha-register .ha-register-head h1 {
-    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6;
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
   }
 
   .ha-register .ha-register-head .ha-register-nav {
-    @apply font-sans;
+    @apply font-sans
   }
 
   .ha-register .ha-register-head .ha-register-nav a {
-    @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900;
+    @apply inline-block px-1 mr-1 md:mr-3
   }
 
   .ha-register .ha-register-head .ha-register-nav a:first {
-    @apply pl-0;
-  }
-
-  .ha-register .ha-register-head .ha-register-nav a.active {
-    @apply border-b-2 border-slate-200;
+    @apply pl-0
   }
 
   .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
-    @apply inline-block;
+    @apply inline-block
   }
 
   .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
-    @apply inline-block;
+    @apply inline-block
   }
 
   .ha-register .ha-register-body {
-    @apply md:pr-96 pb-9 md:pb-12 rounded-b-sm;
+    @apply md:pr-96 pb-9 md:pb-12 rounded-b-sm
   }
 
   .ha-register .ha-register-body .ha-comment {
-    @apply block mb-9 md:mb-12;
+    @apply block mb-9 md:mb-12
   }
 
   .ha-register .ha-register-body .ha-comment a {
-    @apply underline decoration-dotted hover:decoration-solid;
+    @apply underline decoration-dotted hover:decoration-solid
   }
 
   .ha-register .ha-register-body .ha-comment .ha-headcomment {
-    @apply desktop:relative block;
+    @apply desktop:relative block
   }
 
   .ha-register .ha-register-body .ha-comment .ha-subcomment {
-    @apply desktop:relative block ml-8 mt-2;
+    @apply desktop:relative block ml-8 mt-2
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead {
-    @apply block;
+    @apply block
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
-    @apply inline font-bold;
+    @apply inline font-bold
   }
 
   .ha-register
@@ -305,11 +534,11 @@
   }
 
   .ha-register .ha-forschung .ha-register-body .ha-comment {
-    @apply mb-4 md:mb-6 -indent-4 pl-4;
+    @apply mb-4 md:mb-6 -indent-4 pl-4
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
-    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans text-slate-600 caps-allpetite ml-2;
+    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2
   }
 
   .ha-register
@@ -318,7 +547,7 @@
     .ha-commenthead
     .ha-letlinks
     .ha-hkb {
-    @apply inline text-slate-900;
+    @apply inline
   }
 
   .ha-register
@@ -333,7 +562,7 @@
     .ha-headcomment
     .ha-commenthead
     .ha-letlinks {
-    @apply desktop:left-[48rem];
+    @apply desktop:left-[48rem]
   }
 
   .ha-register
@@ -348,54 +577,54 @@
     .ha-subcomment
     .ha-commenthead
     .ha-letlinks {
-    @apply desktop:left-[46rem];
+    @apply desktop:left-[46rem]
   }
 
   .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma a {
-    @apply pl-2;
+    @apply pl-2
   }
 
   .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma svg {
-    @apply inline;
+    @apply inline
   }
 
   .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
   .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
-    @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:bg-slate-50 desktop:absolute desktop:border-l-2 desktop:border-t-[3px] desktop:border-t-slate-50 pl-2;
+    @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:absolute pl-2
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
-    @apply hover:text-slate-900 no-underline;
+    @apply hover:text-slate-900
   }
 
   /* Classes for MetaData View */
 
   .ha-letterhead {
-    @apply flex flex-row;
+    @apply flex flex-row
   }
 
   .ha-letterhead .ha-letternumber {
-    @apply flex text-5xl desktop:font-normal desktop:text-6xl mr-4 desktop:mr-6;
+    @apply flex text-5xl desktop:font-normal desktop:text-6xl mr-4 desktop:mr-6
   }
 
   .ha-letterhead .ha-letternumber .ha-letternumberinline {
-    @apply inline align-middle leading-none;
+    @apply inline align-middle leading-none
   }
 
   .ha-letterhead .ha-metadata {
-    @apply flex self-end grow shrink-0;
+    @apply flex self-end grow shrink-0
   }
 
   .ha-letterhead .ha-metadata .ha-metadatarows {
-    @apply flex flex-col;
+    @apply flex flex-col
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow {
-    @apply flex flex-row leading-snug;
+    @apply flex flex-row leading-snug
   }
 
   .strikethrough {
-    @apply line-through;
+    @apply line-through
   }
 
   .ha-letterhead
@@ -403,58 +632,54 @@
     .ha-metadatarows
     .ha-metadataupperrow
     .ha-metadatadate {
-    @apply flex caps-petite numeric-mediaeval;
+    @apply flex caps-petite numeric-mediaeval
   }
 
   .ha-letterhead .ha-metadata .ha-tooltip {
-    @apply self-center cursor-default inline-block relative;
+    @apply self-center cursor-default inline-block relative
   }
 
   .ha-letterhead .ha-metadata .ha-tooltiptext {
-    @apply bg-slate-100 rounded text-sm px-1 py-0.5 absolute z-10 text-center shadow;
+    @apply rounded text-sm px-1 py-0.5 absolute z-10 text-center
   }
 
   .ha-letterhead .ha-metadata .ha-tooltiptext::after {
-    @apply absolute top-full left-1/2;
+    @apply absolute top-full left-1/2
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply text-xs bg-slate-100 rounded px-2 ml-2 py-[0.1rem] shadow;
+    @apply text-xs rounded px-2 ml-2 py-[0.1rem]
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
-    @apply relative inline-block;
-  }
-
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
-    @apply border-b-2 border-gray-600;
+    @apply relative inline-block
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before,
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
-    @apply w-full h-0 absolute right-0 top-1/2;
+    @apply w-full h-0 absolute right-0 top-1/2
   }
 
   .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
-    @apply flex leading-snug;
+    @apply flex leading-snug
   }
 
   /* Classes for Letter View */
 
   .ha-letterheader {
-    @apply bg-slate-50 dark:bg-slate-800 dark:text-slate-50 rounded-t-sm pt-8 md:pt-12 px-6 md:px-16 border-slate-200 border-b-2;
+    @apply rounded-t-sm pt-8 md:pt-12 px-6 md:px-16
   }
 
   .ha-letterheader .ha-letterheadernav {
-    @apply mt-9 flex grow;
+    @apply mt-9 flex grow
   }
 
   .ha-letterheader .ha-lettertabs {
-    @apply flex grow;
+    @apply flex grow
   }
 
   .ha-letterheader .ha-lettertabs a {
-    @apply inline-block px-1 mr-1 md:mr-3 text-slate-700 hover:text-slate-900 cursor-pointer;
+    @apply inline-block px-1 mr-1 md:mr-3 cursor-pointer
   }
 
   .ha-letterheader .ha-lettertabs .ha-marginalsbtn {
@@ -462,83 +687,83 @@
   }
 
   .ha-letterheader .ha-lettertabs a.active {
-    @apply pointer-events-none border-b-2 border-slate-200 text-hamannHighlight;
+    @apply pointer-events-none 
   }
 
   .ha-letterheader .ha-lettertabs a:first {
-    @apply pl-0;
+    @apply pl-0
   }
 
   .ha-letterheader .ha-lettermetalinks {
-    @apply self-end border-b-2 border-slate-200;
+    @apply self-end 
   }
 
   .ha-letterheader .ha-lettermetalinks a {
-    @apply self-end caps-petite text-slate-700 hover:text-slate-900;
+    @apply self-end caps-petite
   }
 
   .ha-letterheader .ha-lettermetalinks .ha-hkb {
-    @apply inline-block caps-allpetite;
+    @apply inline-block caps-allpetite
   }
 
   .ha-letterbody {
-    @apply flex flex-row flex-nowrap bg-slate-50 rounded-b-sm;
+    @apply flex flex-row flex-nowrap rounded-b-sm
   }
 
   .ha-lettertext {
-    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 sm:border-l-2 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
+    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48]  numeric-mediaeval
   }
 
   .ha-marginals {
-    @apply max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] bg-slate-50 numeric-mediaeval;
+    @apply max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] numeric-mediaeval
   }
 
   .ha-marginals table td {
-    @apply align-text-top;
+    @apply align-text-top
   }
 
   .ha-marginals .ha-marginalfromto {
-    @apply whitespace-nowrap text-sm font-semibold pr-4;
+    @apply whitespace-nowrap text-sm font-semibold pr-4
   }
 
   .ha-marginals .ha-marginaltext .ha-bzg {
-    @apply inline;
+    @apply inline
   }
 
   .ha-marginals .ha-marginaltext a {
-    @apply underline decoration-dotted hover:decoration-solid;
+    @apply underline decoration-dotted hover:decoration-solid
   }
 
   .ha-additions .ha-tradition div {
-    @apply inline;
+    @apply inline
   }
 
   .ha-additions .ha-tradition {
-    @apply max-w-4xl;
+    @apply max-w-4xl
   }
 
   .ha-additions {
-    @apply ml-4 md:ml-12 px-4 pt-4 pb-4 relative font-serif leading-[1.48] bg-slate-50 numeric-mediaeval;
+    @apply ml-4 md:ml-12 px-4 pt-4 pb-4 relative font-serif leading-[1.48] numeric-mediaeval
   }
 
   .ha-additions .ha-app {
-    @apply !block font-bold pt-6;
+    @apply !block font-bold pt-6
   }
 
   .ha-additions .ha-app + br {
-    @apply hidden;
+    @apply hidden
   }
 
   .ha-additions .ha-tradition .ha-app:first-child {
-    @apply pt-0;
+    @apply pt-0
   }
 
   .ha-additions .ha-tradition {
-    @apply hyphenate;
+    @apply hyphenate
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext {
-    @apply !block font-serif relative w-fit -ml-4 pl-4 unhyphenate;
+    @apply !block font-serif relative w-fit -ml-4 pl-4 unhyphenate
   }
 
   .ha-additions .ha-tradition a {
@@ -546,101 +771,93 @@
   }
 
   .ha-additions .ha-hands {
-    @apply pt-6;
+    @apply pt-6
   }
 
   .ha-additions .ha-hands .ha-handstitle {
-    @apply font-bold;
+    @apply font-bold
   }
 
   .ha-additions .ha-hands .ha-handentries .ha-handfrom,
   .ha-additions .ha-hands .ha-handentries .ha-handto {
-    @apply inline text-sm font-semibold whitespace-nowrap;
+    @apply inline text-sm font-semibold whitespace-nowrap
   }
 
   .ha-additions .ha-hands .ha-handentries .ha-handperson {
-    @apply inline pl-4 whitespace-nowrap;
+    @apply inline pl-4 whitespace-nowrap
   }
 
   .ha-additions .ha-edits .ha-editstitle {
-    @apply font-bold;
+    @apply font-bold
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editfromto {
-    @apply whitespace-nowrap;
+    @apply whitespace-nowrap
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editfrom,
   .ha-additions .ha-edits .ha-editentries .ha-editto {
-    @apply inline text-sm font-semibold whitespace-nowrap;
+    @apply inline text-sm font-semibold whitespace-nowrap
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreference {
-    @apply whitespace-nowrap;
+    @apply whitespace-nowrap
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreference div {
-    @apply inline;
+    @apply inline
   }
 
   .ha-additions .ha-edits {
-    @apply pt-6 max-w-4xl;
+    @apply pt-6 max-w-4xl
   }
 
   .ha-additions .ha-edits .ha-editstitle {
-    @apply font-bold;
+    @apply font-bold
   }
 
   .ha-additions .ha-edits .ha-editsinfo {
-    @apply pb-4 hyphenate;
+    @apply pb-4 hyphenate
   }
 
   .ha-additions .ha-edits .ha-editentries tr td {
-    @apply align-text-top;
+    @apply align-text-top
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreas div {
-    @apply inline font-sans;
-  }
-
-  .ha-additions .ha-edits .ha-editentries table {
-    /* @apply w-full */
+    @apply inline font-sans
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editfromto {
-    @apply pr-1 pl-1;
+    @apply pr-1 pl-1
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreference {
-    @apply border-r-2 pl-1 pr-3 text-sm;
+    @apply border-r-2 pl-1 pr-3 text-sm
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreference br {
-    @apply hidden;
+    @apply hidden
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreas {
-    @apply pl-3 w-full;
-  }
-
-  .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
-    @apply bg-slate-100;
+    @apply pl-3 w-full
   }
 
   .ha-additions .ha-edits .ha-editentries .ha-editreas .ha-zh * {
-    @apply !font-serif;
+    @apply !font-serif
   }
 
   .hide {
-    @apply hidden;
+    @apply hidden
   }
 
   .ha-lettertext div {
-    @apply inline;
+    @apply inline
   }
 
   .ha-linecount.ha-firstline {
-    @apply hidden sm:inline-block sm:bg-slate-100 shadow rounded px-1 sm:pb-1 caps-allpetite normal-nums sm:max-w-[5rem] whitespace-nowrap sm:-left-[4rem] desktop:-left-[5.5rem]
+    @apply hidden sm:inline-block rounded px-1 sm:pb-1 caps-allpetite normal-nums sm:max-w-[5rem] whitespace-nowrap sm:-left-[4rem] desktop:-left-[5.5rem]
   }
 
   .ha-linecount {
@@ -648,7 +865,7 @@
   }
 
   .ha-linecount .ha-zhline {
-    @apply hidden sm:inline;
+    @apply hidden sm:inline
   }
 
   .ha-linecount .ha-zhpage {
@@ -657,27 +874,22 @@
 
   .ha-linecount .ha-zhpage,
   .ha-linecount .ha-zhline {
-    @apply px-1 sm:pb-1 sm:bg-slate-50 caps-allpetite normal-nums
+    @apply px-1 sm:pb-1 caps-allpetite normal-nums
   }
 
   .ha-linecount .ha-hiddenlinecount {
-    @apply !hidden;
+    @apply !hidden
   }
 
   .ha-tradzhtext .ha-marginal::before,
   .ha-lettertext .ha-marginal:before {
-    @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 bg-slate-400 content-['']
+    @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
   } 
 
   .ha-tradzhtext .ha-marginalbox,
   .ha-lettertext .ha-marginalbox {
-    @apply hidden pl-2 md:block absolute left-full ml-6 mt-1 w-[16rem] desktop:w-[24rem] text-sm leading-tight bg-slate-50 hyphenate rounded-sm font-sans 
+    @apply hidden pl-2 md:block absolute left-full ml-6 mt-1 w-[16rem] desktop:w-[24rem] text-sm leading-tight hyphenate rounded-sm font-sans 
   }
-  
-  .ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist,
-  .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
-    @apply shadow-md
-  }  
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist,
   .ha-lettertext .ha-marginalbox .ha-marginallist {
@@ -696,7 +908,7 @@
 
   .ha-tradzhtext .ha-btn-collapsed-box,
   .ha-lettertext .ha-btn-collapsed-box {
-    @apply absolute left-full ml-4 hidden md:block text-slate-700 hover:text-slate-900 cursor-pointer leading-none mt-0.5;
+    @apply absolute left-full ml-4 hidden md:block cursor-pointer leading-none mt-0.5
   }
 
   .ha-minwidth .ha-tradzhtext,
@@ -706,78 +918,78 @@
 
   .ha-minwidth .ha-tradzhtext .ha-alignright,
   .ha-lettertext.ha-minwidth .ha-alignright {
-    @apply float-right mr-[20%];
+    @apply float-right mr-[20%]
   }
 
   .ha-lettertext.ha-minwidth .ha-aligncenter {
-    @apply absolute left-1/3 whitespace-nowrap -translate-x-1/2;
+    @apply absolute left-1/3 whitespace-nowrap -translate-x-1/2
   }
 
   /* Classes from the General parser */
 
   /* Classes from .NET */
   .ha-zhbreak {
-    @apply hidden sm:inline;
+    @apply hidden sm:inline
   }
 
   .ha-up {
-    @apply -top-3 relative;
+    @apply -top-3 relative
   }
 
   .ha-bzg {
-    @apply !font-serif !text-xs !font-semibold;
+    @apply !font-serif !text-xs !font-semibold
   }
 
   .ha-text {
-    @apply inline;
+    @apply inline
   }
 
   .ha-title {
-    @apply inline italic;
+    @apply inline italic
   }
 
   .ha-insertedlemma {
-    @apply inline;
+    @apply inline
   }
 
   .ha-serif {
-    @apply font-serif;
+    @apply font-serif
   }
 
   .ha-aq,
   .ha-aq * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply font-sans;
+    @apply font-sans
   }
 
   .ha-ul,
   .ha-ul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply underline;
+    @apply underline
   }
 
   .ha-del,
   .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal, .ha-diagdel) {
-    @apply inline line-through;
+    @apply inline line-through
   }
 
   .ha-hand,
   .ha-hand
     *
     :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply font-classy text-[0.9rem];
+    @apply font-classy text-[0.9rem]
   }
 
   .ha-added,
   .ha-added
     *
     :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply bg-slate-300 px-1 rounded-sm;
+    @apply px-1 rounded-sm
   }
 
   .ha-note,
   .ha-note
     *
     :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply italic text-slate-700;
+    @apply italic
   }
 
   .ha-emph {
@@ -785,137 +997,133 @@
   }
 
   .ha-sup {
-    @apply relative -top-[0.3em] text-[80%];
+    @apply relative -top-[0.3em] text-[80%]
   }
 
   /* TODO: Something dooesnt work here */
   .ha-super {
-    @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em];
+    @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em]
   }
 
   .ha-sub {
-    @apply relative text-xs leading-none align-baseline -bottom-[0.25em];
+    @apply relative text-xs leading-none align-baseline -bottom-[0.25em]
   }
 
   .ha-ful,
   .ha-ful * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply inline border-b border-black pb-[2px];
+    @apply inline border-b pb-[2px]
   }
 
   .ha-dul,
   .ha-dul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply underline decoration-double;
+    @apply underline decoration-double
   }
 
   .ha-tul,
   .ha-tul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
-    @apply underline border-b-[3px] border-double border-black;
+    @apply underline border-b-[3px] border-double
   }
 
   .up {
-    @apply relative -top[0.5em];
+    @apply relative -top[0.5em]
   }
 
   .ha-alignright {
-    @apply float-right;
+    @apply float-right
   }
 
   .ha-aligncenter {
-    @apply absolute left-1/2 whitespace-nowrap -translate-x-1/2;
+    @apply absolute left-1/2 whitespace-nowrap -translate-x-1/2
   }
 
   .ha-lineline {
-    @apply border-t border-black w-1/3 mx-40 mt-[0.6rem] absolute;
+    @apply border-t w-1/3 mx-40 mt-[0.6rem] absolute
   }
 
   .ha-sal {
-    @apply inline-block ml-6;
+    @apply inline-block ml-6
   }
 
   /* Classes for indents */
   .ha-indent-1 {
-    @apply pl-2 sm:pl-4;
+    @apply pl-2 sm:pl-4
   }
 
   .ha-indent-2 {
-    @apply pl-4 sm:pl-8;
+    @apply pl-4 sm:pl-8
   }
 
   .ha-indent-3 {
-    @apply pl-6 sm:pl-12;
+    @apply pl-6 sm:pl-12
   }
 
   .ha-indent-4 {
-    @apply pl-8 sm:pl-16;
+    @apply pl-8 sm:pl-16
   }
 
   .ha-indent-5 {
-    @apply pl-10 sm:pl-20;
+    @apply pl-10 sm:pl-20
   }
 
   .ha-indent-6 {
-    @apply pl-20 sm:pl-44;
+    @apply pl-20 sm:pl-44
   }
 
   .ha-indent-7 {
-    @apply pl-32 sm:pl-64;
+    @apply pl-32 sm:pl-64
   }
 
   /* Classes from Javascript */
 
   .active {
-    @apply !text-hamannHighlight pointer-events-none;
-  }
-
-  .active:hover {
-    @apply text-hamannHighlight;
+    @apply  pointer-events-none
   }
 
   .ha-topnav a.active {
-    @apply underline underline-offset-2 desktop:no-underline desktop:border-b-4;
+    @apply underline underline-offset-2 desktop:no-underline
   }
 
   .ha-topnav.ha-topnav-collapsed {
-    @apply block w-full h-full mt-4 text-base desktop:flex desktop:w-fit desktop:mt-0 md:text-lg 2xl:text-xl;
+    @apply block w-full h-full mt-4 text-base desktop:flex desktop:w-fit desktop:mt-0 md:text-lg 2xl:text-xl
   }
 
   .ha-topnav.ha-topnav-collapsed a {
-    @apply block py-1 w-full text-left clear-both desktop:inline-block desktop:py-0 desktop:w-fit;
+    @apply block py-1 w-full text-left clear-both desktop:inline-block desktop:py-0 desktop:w-fit
   }
 
   .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown {
-    @apply block desktop:inline-block;
+    @apply block desktop:inline-block
   }
 
   .ha-topnav.ha-topnav-collapsed
     .ha-topnav-dropdown:hover
     .ha-topnav-dropdown-content {
-    @apply desktop:block;
+    @apply desktop:block
   }
 
   .ha-topnav.ha-topnav-collapsed
     .ha-topnav-dropdown
     .ha-topnav-dropdown-content {
-    @apply block shadow-none border-none pt-0 desktop:hidden desktop:shadow-md desktop:border-b desktop:pt-2;
+    @apply block shadow-none border-none pt-0 desktop:hidden desktop:pt-2
   }
 
   .ha-topnav.ha-topnav-collapsed
     .ha-topnav-dropdown
     .ha-topnav-dropdown-content
     a {
-    @apply py-1 desktop:py-2;
+    @apply py-1 desktop:py-2
   }
 
   .ha-register .ha-headcomment .ha-btn-collapsed-box {
-    @apply left-[47.6rem];
+    @apply left-[47.6rem]
   }
 
   .ha-register .ha-subcomment .ha-btn-collapsed-box {
-    @apply left-[45.6rem];
+    @apply left-[45.6rem]
   }
 
   .ha-register .ha-btn-collapsed-box {
-    @apply hidden desktop:block absolute -top-[0.15rem] text-slate-600 hover:text-slate-900 cursor-pointer;
+    @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer
   }
 
   .ha-collapsed-box {
@@ -923,7 +1131,7 @@
   }
 
   .ha-expanded-box {
-    @apply pb-1 z-[1000] !h-auto !max-h-screen;
+    @apply pb-1 z-[1000] !h-auto !max-h-screen
   }
 
   /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
@@ -1007,7 +1215,8 @@ body {
 }
 
 .ha-diagdel::before {
-  border-bottom: 1px solid black;
+  border-width: 1px;
+  border-style: solid;
   -webkit-transform: skewY(-36deg);
   transform: skewY(-36deg);
 }
@@ -1036,11 +1245,6 @@ body {
   text-decoration-thickness: 1px;
   text-decoration-skip-ink: auto;
   -webkit-text-decoration-skip-ink: auto;
-}
-
-.downshadow-sm {
-  -webkit-box-shadow: 5px 6px 5px -7px rgba(0, 0, 0, 0.79);
-  box-shadow: 5px 6px 5px -7px rgba(0, 0, 0, 0.79);
 }
 
 .hyphenate {
@@ -1087,19 +1291,16 @@ body {
 }
 
 .ha-menusymbol {
-  background: var(--white);
   border-radius: 4px;
 }
 
 .ha-menusymbol svg {
   width: 24px;
   height: 24px;
-  stroke: #000000;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: miter;
   fill: none;
-  color: #000000;
 }
 
 .ha-tooltip .ha-tooltiptext {
@@ -1121,8 +1322,8 @@ body {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent
-    transparent;
+  /* border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent
+    transparent; */
 }
 
 .ha-tooltip:hover .ha-tooltiptext {
