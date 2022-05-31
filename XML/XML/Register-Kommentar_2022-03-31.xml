@@ -323,6 +323,12 @@ In der <titel>Opera</titel>-Ausgabe von 1590 (s.o.) Bd.&#x202f;2, S.&#x202f;177�
 <kommentar id="arnoldt" type="neuzeit">
 <lemma>Daniel Heinrich Arnoldt</lemma>
 <eintrag>1706&#x2013;1775. Ab 1770 Generalsuperintendent zu Königsberg.</eintrag>
+<subsection id="arnoldt-gedanken" type="neuzeit" sort="10">
+<lemma>Arnoldt, <titel>Vernunft- und schriftmäßige Gedanken von den Lebenspflichten der Christen</titel></lemma>
+<eintrag>
+<titel>Vernunft- und schriftmäßige Gedanken von den Lebenspflichten der Christen</titel> (Königsberg 1764).
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="arvieux" type="neuzeit">
@@ -401,6 +407,11 @@ Dt. Übers. zitiert nach: Wilhelm Thimme u. Carl Andresen (Übers.), <titel>Augu
 Dt. Übers. zitiert nach: Kurt Flasch u. Burkhard Mojsisch (Übers.), <titel>Augustinus, Confessiones – Bekenntnisse</titel> (Stuttgart 2009).<line type="break"/>
 <titel>D. Aurelii Augustini Hippon. Episcopi Libri XIII Confessionum</titel> (Bamberg: Endter 1701) [Biga&#x202F;15/232: »Augustini Confessiones, Bamb. 701«].</eintrag>
 </subsection>
+</kommentar>
+
+<kommentar id="ausfuehrliche-kritische-nachrichten" type="neuzeit">
+<lemma>Ausführliche und kritische Nachrichten von den besten und merkwürdigsten Schriften unserer Zeit, nebst andern zur Gelahrtheit gehörigen Sachen</lemma>
+<eintrag>Lindau, Frankfurt, Leipzig 1763–66, hrsg. von Jacob Otto. Digitalisat: <wwwlink address="https://gdz.sub.uni-goettingen.de/id/PPN731784995">Niedersächsische Staats- und Universitätsbibliothek Göttingen</wwwlink>.  </eintrag>
 </kommentar>
 
 <kommentar id="auvigny" type="neuzeit">
@@ -552,6 +563,11 @@ Wiss. Ausg.: <titel>Ästhetik</titel>, hg.&#x00A0;v. Dagmar Mirbach (2&#x00A0;Bd
 <lemma>Baumgarten, <titel>Auslegung des Propheten Joels</titel></lemma>
 <eintrag>
 <titel>Auslegung des Propheten Joels</titel> (Halle: Chr. P. Francke 1756).</eintrag>
+</subsection>
+<subsection id="baumgarten-pauli" type="neuzeit" sort="30">
+<lemma>Baumgarten, <titel>Erklärung des Briefes Pauli an die Hebräer</titel></lemma>
+<eintrag>
+<titel>Erklärung des Briefes Pauli an die Hebräer mit Andreas Gottlieb Maschens Anmerkungen und Paraphrasi, auch Semler’s Beyträgen zu genauerer Einsicht dieses Briefes</titel> (Halle 1763).</eintrag>
 </subsection>
 </kommentar>
 
@@ -783,6 +799,11 @@ Zu J. Chr. Berens’ Einfluss auf den jungen Hamann siehe <link ref="gra-h-2011"
 <kommentar id="berkeley" type="neuzeit">
 <lemma>George Berkeley</lemma>
 <eintrag>1685&#x2013;1753. Irischer Philosoph, Bischof, siehe <wwwlink address="https://www.oxforddnb.com/view/10.1093/ref:odnb/9780198614128.001.0001/odnb-9780198614128-e-2211">M. A. Stewart: Berkeley, George, in: <titel>Oxford DNB</titel></wwwlink>.</eintrag>
+<subsection id="berkeley-dialogues" type="neuzeit" sort="5">
+<lemma>Berkeley, <titel>Three Dialogues between Hylas and Philonous</titel></lemma>
+<eintrag>
+<titel>Three Dialogues between Hylas and Philonous</titel> (London: G. James for Henry Clements 1713).</eintrag>
+</subsection>
 <subsection id="berkeley-miscellany" type="neuzeit" sort="10">
 <lemma>Berkeley, <titel>A Miscellany</titel></lemma>
 <eintrag>
@@ -793,6 +814,17 @@ Zu J. Chr. Berens’ Einfluss auf den jungen Hamann siehe <link ref="gra-h-2011"
 <kommentar id="berlinische" type="neuzeit">
 <lemma>Berlinische privilegirte Zeitung</lemma>
 <eintrag>Seit 1721 von Johann Andreas Rüdiger mit königl. Zeitungs-Konzession herausgegeben, ab 1751 vom Buchhändler Christian Friedrich Voß (Vossische Zeitung), drei Nummern wöchentlich mit je vier Seiten. <link ref="lessing" linktext="true"/> rezensierte darin Neuerscheinungen auf dem Buchmarkt.</eintrag>
+</kommentar>
+
+<kommentar id="berger" type="neuzeit">
+<lemma>Theodor Berger</lemma>
+<eintrag>1683&#x2013;1773. Professor der Geschichte und Rechte in Coburg, siehe <wwwlink address="https://www.deutsche-biographie.de/pnd122236335.html#adbcontent">Beck, August: Berger, Theodor, in: <titel>ADB</titel>&#x202F;2 (1875), S.&#x202F;382</wwwlink>.
+<subsection id="berger-universalhistorie" type="neuzeit" sort="10">
+<lemma>Berger, <titel>Synchronistische Universalhistorie der vornehmsten europäischen Reiche und Staaten</titel></lemma>
+<eintrag>
+<titel>Synchronistische Universalhistorie der vornehmsten europäischen Reiche und Staaten von Erschaffung der Welt an bis auf das jetzt laufende Jahr</titel> (Coburg 1729).</eintrag>
+</subsection>
+</eintrag>
 </kommentar>
 
 <kommentar id="bernard" type="neuzeit">
@@ -1223,6 +1255,11 @@ Hamanns Notiz dazu N&#x00A0;V S.&#x202F;276/13: »Taseodrugiten, eine Art Montan
 <eintrag>
 <titel>Ocellus Lucanus en grec et en français, avec des dissertations sur les principales questions de la métaphysique, de la physique, et de la morale des anciens; qui peuvent servir de suite à la Philosophie du Bon Sens</titel> (Berlin 1762).</eintrag>
 </subsection>
+<subsection id="boyer-beiträge" type="neuzeit" sort="10">
+<lemma>d’Argens, <titel>und der Demoiselle Cochois gemeinschaftliche Beyträge zum Vergnügen für den Geist und das Herz</titel></lemma>
+<eintrag>
+<titel>Des Marquis d’Argens und der Demoiselle Cochois gemeinschaftliche Beyträge zum Vergnügen für den Geist und das Herz. Aus dem Französischen übersetzt</titel> (Berlin: Mylius 1763). Digitalisat: <wwwlink address="https://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10103463-7">BSB München: P.o.gall. 2646 d-1</wwwlink>.</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="boysen" type="neuzeit">
@@ -1491,6 +1528,11 @@ Hamanns Notiz dazu N&#x00A0;V S.&#x202F;276/13: »Taseodrugiten, eine Art Montan
 </subsection>
 </kommentar>
 
+<kommentar id="busching" type="neuzeit">
+<lemma>Anton Friedrich Büsching</lemma>
+<eintrag>1724&#x2013;1793. Evang. Theologe und Geograph.</eintrag>
+</kommentar>
+
 <kommentar id="buttlar-ej" type="neuzeit">
 <lemma>Ernst Johann v. Buttlar</lemma>
 <eintrag>1690&#x2013;1771. Erbherr von Bersebeck, schwedischer Kammerherr in Kurland und Starost auf Kewillen. 1737&#x2013;57 (mit Unterbrechungen) russ. Resident im Herzogtum Kurland, dadurch sehr einflussreich. Verpachtete sequestierte Lehnsgüter an kurl. Edelleute u. schuf dadurch eine Gruppe, die durch ihr persönliches Interesse an Russland gebunden war. <wwwlink address="https://bbld.de/GND1194610919">Buttlar, Ernst Johann v., in: <titel>Baltisches Biographisches Lexikon</titel>, S.&#x202F;135</wwwlink>.</eintrag>
@@ -1544,6 +1586,17 @@ Er vermittelte 1753 für Hamann die Hausmeisterstelle in Grünhof bei den <link 
 <kommentar id="canstein" type="neuzeit">
 <lemma>Karl Hildebrandt Frh. v. Canstein</lemma>
 <eintrag>1667&#x2013;1719. Stifter der Bibelanstalt in Halle.</eintrag>
+</kommentar>
+
+<kommentar id="cardanus" type="neuzeit">
+<lemma>Hieronymus Cardanus</lemma>
+<eintrag>1501&#x2013;1576. Ital. Philosoph, Mathematiker und Arzt.</eintrag>
+<subsection id="cardanus-utilitate" type="neuzeit">
+<lemma>Cardanus, <titel>De utilitate ex adversis capienda libri IV</titel></lemma>
+<eintrag>
+<titel>De utilitate ex adversis capienda libri IV</titel> (Basel: Petri 1561) [Biga&#x202F;121/336: »Hier. Cardanus de vtilitate ex aduersis capienda, Fran. 648«]. Digitalisat: <wwwlink address="https://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10191606-5">BSB München: Ph.pr. 216</wwwlink>.
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="carius" type="neuzeit">
@@ -1811,7 +1864,7 @@ Dt. Übers. zitiert nach: Ernst A. Kirfel (Übers.), <titel>Marcus Tullius Cicer
 <lemma>Cic. <titel>nat.</titel></lemma>
 <eintrag>Vom Wesen der Götter, lat. de natura deorum.<line type="break"/>
 Dt. Übers. zitiert nach: Wolfgang Gerlach u. Karl Bayer (Übers.), <titel>Marcus Tullius Cicero, Vom Wesen der Götter. Drei Bücher, lateinisch-deutsch</titel> (München 1978).<line type="break"/>
-<link ref="olivet">Pierre-Josèphe Thoulier d’Olivet</link>, <titel>M. Tullii Ciceronis Eclogæ, Pensées de Ciceron. Traduites pur seryir à l’éducation de la Jeunesse par Mr. l’Abbé D’Olivet</titel> (Berlin 1749). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:gbv:3:1-193168">ULB Halle: AB 29964</wwwlink>.
+<link ref="olivet" linktext="false">Pierre-Josèphe Thoulier d’Olivet</link>, <titel>M. Tullii Ciceronis Eclogæ, Pensées de Ciceron. Traduites pur seryir à l’éducation de la Jeunesse par Mr. l’Abbé D’Olivet</titel> (Berlin 1749). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:gbv:3:1-193168">ULB Halle: AB 29964</wwwlink>.
 </eintrag>
 </subsection>
 <subsection id="cic-div" type="neuzeit" sort="70">
@@ -1882,6 +1935,18 @@ Dt. Übers. zitiert nach: Laila Straume-Zimmermann, Ferdinand Broemser u. Olof G
 <lemma>Clausnitzer, <titel>Predigten von der Erhöhung Jesu</titel></lemma>
 <eintrag>
 <titel>Predigten von der Erhöhung Jesu; mit einer Vorrede, Von den Vorzügen der christlichen Beredsamkeit vor der heidnischen, begleitet von <link ref="schlegel-ja" linktext="false">Johann Adolf Schlegeln</link></titel> (Leipzig: Dyk 1753).
+</eintrag>
+</subsection>
+</kommentar>
+
+<kommentar id="cless" type="neuzeit">
+<lemma>David Jonathan Cless</lemma>
+<eintrag>1731&#x2013;1803. Evangelischer Theologe, siehe <wwwlink address="https://www.deutsche-biographie.de/pnd116545542.html"></wwwlink>.
+</eintrag>
+<subsection id="cless-observationes" type="neuzeit" sort="10">
+<lemma>Cless, <titel>Observationes ad Commentationem Dni. Imanuelis Kant</titel></lemma>
+<eintrag>
+<titel>Observationes ad Commentationem Dni. Imanuelis Kant de uno possibli fundamento Demonstr. Exist. Dei die von dem einzig möglichen Beweisgrund zu einer Demonstr. des Daseyns Gottes quas preside Godofr. Plouquet pp prorite consequendis Magisterii philosophici honoribus Dan. Fr. Hermann, Aldingensis  in Tübingen im Octobr. 1763 gehalten</titel> (Tübingen 1763).
 </eintrag>
 </subsection>
 </kommentar>
@@ -2260,6 +2325,11 @@ Dangeuil verwandte sehr frei J. Tuckers <link ref="tucker" subref="tucker-essay"
 </subsection>
 </kommentar>
 
+<kommentar id="dante" type="neuzeit">
+<lemma>Dante Alighieri</lemma>
+<eintrag>1256&#x2013;1321. Ital. Dichter und Philosoph.</eintrag>
+</kommentar>
+
 <kommentar id="danziger" type="neuzeit">
 <lemma>Danziger Beyträge</lemma>
 <eintrag>
@@ -2464,6 +2534,25 @@ Dt. Übers. zitiert nach: Otto Apel u. Hans Günter Zekl (Übers.), <titel>Leben
 <lemma>Humphry Ditton</lemma>
 <eintrag>1675&#x2013;1714. Engl. Mathematiker. <wwwlink address="https://www.oxforddnb.com/view/10.1093/ref:odnb/9780198614128.001.0001/odnb-9780198614128-e-7692">Flood, R.: Ditton, Humphry, in: <titel>Oxford DNB</titel></wwwlink>.
 </eintrag>
+</kommentar>
+
+<kommentar id="dodsley" type="neuzeit">
+<lemma>Robert Dodsley</lemma>
+<eintrag>1704&#x2013;1764. Engl. Schriftsteller und Buchhändler in London.<wwwlink address="https://doi.org/10.1093/ref:odnb/7755">Tierney, James E.: Dodsley, Robert, in: <titel>Oxford DNB</titel></wwwlink>.
+</eintrag>
+<subsection id="dodsley-preceptor" type="neuzeit" sort="10">
+<lemma>Dodsley, <titel>The Preceptor</titel></lemma>
+<eintrag>
+<titel>The Preceptor containing a general course of education</titel> (2 Bde; London 1748).<line type="break"/>
+Übers.: <titel>Der Lehrmeister, oder ein allgemeines System der Erziehung, worinn die ersten Grundsätze einer feinern Gelehrsamkeit so vorgetragne werden, daß man dadurch ds Genie der Jugend am glücklichsten prüfen und ihren Unterrricht befödern kann. Mit nützlichen Kupfern erläutert. Aus dem Englischen übersetzt</titel> [von H. E. v. Teubern] (Leipzig: Heinsius 1762). Digitalisat, 2. Auflage 1765: <wwwlink address="	http://resolver.staatsbibliothek-berlin.de/SBB0000ED9C00020000">Staatsbibliothek zu Berlin: 	B XXIII, 296-1 R</wwwlink>.
+</eintrag>
+</subsection>
+<subsection id="dodsley-collection" type="neuzeit" sort="20">
+<lemma>Dodsley, <titel>A Collection of Poems by Several Hands</titel></lemma>
+<eintrag>
+<titel>A Collection of Poems by Several Hands</titel> (7 Bde; London 1755-1767).
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="dommerich" type="neuzeit">
@@ -2771,7 +2860,7 @@ Dt. Übers. zitiert nach: Otto Weinreich, <titel>Römische Satiren</titel> (Zür
 <subsection id="erotianus-hippokratis" type="neuzeit">
 <lemma>Erotianus, <titel>Magni Hippokratis</titel></lemma>
 <eintrag>
-<titel>Magni <link ref="hippokrates" linktext="false">Hippocratis</link>, medicorum omnium facile principis, opera omnia quae extant: in VIII. sectiones ex Erotiani mente distributa. Nunc denuo latina interpretatione &#x26; annotationibus illustrata, Anutio Foesio</titel> (Genf 1657). 
+<titel>Magni <link ref="hippokrates" linktext="false">Hippocratis</link>, medicorum omnium facile principis, opera omnia quae extant: in VIII. sectiones ex Erotiani mente distributa. Nunc denuo latina interpretatione &#x26; annotationibus illustrata, Anutio Foesio</titel> (Genf 1657). [Biga 2/26: »Hippocratis Opera gr. et lat. ex. ed. Foessi, Gen. 657«]. 
 </eintrag>
 </subsection>
 </kommentar>
@@ -3059,6 +3148,11 @@ Dt. Übers. zitiert nach: Ernst Dohm u. Gustav Fabricius (Übers.), <titel>Jean 
 <titel>Nouveaux Dialogues des Morts</titel> (Paris 1683).<line type="break"/>
 Wiss. Ausg.: Hans-Horst Henschen (Übers.), <titel>Bernard de Fontenelle: Totengespräche</titel> (Frankfurt a.&#x202F;M. 1991).</eintrag>
 </subsection>
+<subsection id="fontenelle-lettres" type="neuzeit" sort="15">
+<lemma>Fontenelle, <titel>Lettres galantes</titel></lemma>
+<eintrag>
+<titel>Lettres galantes de Monsieur le Chevalier d’Her***</titel> (2&#x00A0;Bde.; Paris 1683/87).</eintrag>
+</subsection>
 <subsection id="fontenelle-mondes" type="neuzeit" sort="20">
 <lemma>Fontenelle, <titel>Entretiens sur la pluralité des mondes</titel></lemma>
 <eintrag>
@@ -3261,6 +3355,17 @@ G
 </subsection>
 </kommentar>
 
+<kommentar id="garnier" type="neuzeit">
+<lemma>Jean-Jacques Garnier</lemma>
+<eintrag>1729&#x2013;1805. Frz. Historiograph, Akademiemitglied. <titel>Biographie universelle, ancienne et moderne</titel> (Bd.&#x202F;16, 1816), S.&#x202F;489–491.</eintrag>
+<subsection id="garnier-lettres" type="neuzeit">
+<lemma>Garnier, <titel>L’Homme de lettres</titel></lemma>
+<eintrag>
+<titel>L’Homme de lettres</titel> (Paris 1764). [Biga&#x202F;Biga 176/744: »L’Homme de lettres par Garnier, Par. 764«].
+</eintrag>
+</subsection>
+</kommentar>
+
 <kommentar id="gaudio" type="neuzeit">
 <lemma>Vincenz Maria Gaudio</lemma>
 <eintrag>1722&#x2013;1796. Lehrer der ital. Sprache in Gießen und Göttingen, siehe <wwwlink address="https://www.deutsche-biographie.de/pnd100849008.html">Deutsche Biographie</wwwlink>.</eintrag>
@@ -3283,6 +3388,11 @@ G
 Übers.: <titel>Versuch über die Schreibart der Alten, besonders Plato. Aus dem Engl. übersetzt</titel>, in: <titel>Sammlung vermischter Schriften zur Beförderung der schönen Wissenschaften</titel>, hrsg. von Friedrich Nicolai, Bd. 3/4 (Berlin 1759).
 </eintrag>
 </subsection>
+</kommentar>
+
+<kommentar id="gelehrte-abhandlungen" type="neuzeit">
+<lemma>Gelehrte Abhandlungen und Nachrichten aus und von Rußland, geliefert von der Schule der evangelischen St. Peterskirche zu Petersburg</lemma>
+<eintrag>1764-1765, 2 Stück, in Königsberg hrsg. von <link ref="busching" linktext="true" /> [Biga&#x202F;85/176: »Büsching. Nachrichten von den evangelischen Gemeinen in Petersburg«]</eintrag>
 </kommentar>
 
 <kommentar id="gellert-cf" type="neuzeit">
@@ -3330,6 +3440,11 @@ Dt. Übers. zitiert nach: Georg Fritz Weiß (Übers.), <titel>Die attischen Näc
 <eintrag>
 <titel>Anmerkungen zum Gebrauche deutscher Kunstrichter: nebst einigen andern Wahrheiten</titel> (1762). Digitalisat: <wwwlink address="http://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10575603-9">BSB München: L.eleg.g. 591 t</wwwlink>.</eintrag>
 </subsection>
+<subsection id="gellius-jg-geschichte" type="neuzeit" sort="20">
+<lemma>Gellius, <titel>Die Geschichte eines jungen Herrn von ihm selbst aufgezeichnet</titel></lemma>
+<eintrag>
+<titel>Die Geschichte eines jungen Herrn von ihm selbst aufgezeichnet. Aus dem Englischen</titel> (Leipzig 1763).</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="gemmingen" type="neuzeit">
@@ -3348,6 +3463,18 @@ Dt. Übers. zitiert nach: Georg Fritz Weiß (Übers.), <titel>Die attischen Näc
 </eintrag>
 </subsection>
 </kommentar>
+
+<kommentar id="georg" type="neuzeit">
+<lemma>Georg von Pisidien</lemma>
+<eintrag>ca. 580&#x2013;635. Oströmischer Dichter.
+</eintrag>
+<subsection id="georg-hexameron" type="neuzeit" sort="10">
+<lemma>Georg von Pisidien, <titel>Hexameron seu cosmurgia</titel></lemma>
+<eintrag>
+<titel>Hexameron seu cosmurgia opus six dierum sive mundi officium poema. Eiusdem senarii de vanitate vitae</titel>(Paris: Morel 1584).</eintrag>
+</subsection>
+</kommentar>
+
 
 <kommentar id="gerdes" type="neuzeit">
 <lemma>Daniel Gerdes</lemma>
@@ -3528,6 +3655,19 @@ Walter Hettche (Hg.), <titel>Johann Wilhelm Ludwig Gleim: Ausgewählte Werke</ti
 <eintrag>Studienfreund Hs., später Waisengerichts-Sekretär.</eintrag>
 </kommentar>
 
+<kommentar id="goldsmith" type="neuzeit">
+<lemma>Oliver Goldsmith</lemma>
+<eintrag>1728&#x2013;1774. Irischer Schriftsteller, siehe <wwwlink address="https://doi.org/10.1093/ref:odnb/10924">John A. Dussinger: Goldsmith, Oliver, in: <titel>Oxford DNB</titel></wwwlink>.</eintrag>
+<subsection id="goldsmith-letters" type="neuzeit">
+<lemma>Goldsmith, <titel>The Citizen of the World or Letters from a Chinese Philosopher</titel></lemma>
+<eintrag>
+<titel>The Citizen of the World or Letters from a Chinese Philosopher, residing in London, to his Friends in the East</titel> (London 1762).
+<line type="break"/>
+Übers.: <titel>Briefe eines chinesischen Weltweisen an seine Freunde in den Morgenländern</titel> (2&#x00A0;Bde., Leipzig: Weidmanns Erben und Reich, 1763/64). 
+</eintrag>
+</subsection>
+</kommentar>
+
 <kommentar id="golius" type="neuzeit">
 <lemma>Jakobus Golius</lemma>
 <eintrag>1596&#x2013;1667. Niederländ. Orientalist und Philologe in Leyden, siehe <wwwlink address="https://www.deutsche-biographie.de/sfz98665.html#adbcontent">Slee, Jacob Cornelis van: Golius, Jakob, in: <titel>ADB</titel>&#x202F;9 (1879), S.&#x202F;343</wwwlink>.
@@ -3620,6 +3760,12 @@ Wiss. Ausg.: <titel>Ausgewählte Werke</titel>, hg.&#x00A0;v. Joachim u. Brigitt
 <lemma>Theodor Theophil Gregorovius</lemma>
 <eintrag>Lebensdaten nicht ermittelt. Zusammen mit <link ref="lindner-jg" linktext="true"/> und <link ref="lauson" linktext="true"/> in Königsberg immatrikuliert.</eintrag>
 </kommentar>
+
+<kommentar id="greis" type="neuzeit">
+<lemma>Der Greis</lemma>
+<eintrag>Theil 1–16, 1763-1766, moralische Wochenschrift hrsg. in Magdeburg von Johann Samuel Patzke (1727-1787), evang. Theologe</eintrag>
+</kommentar>
+
 
 <kommentar id="gresset" type="neuzeit">
 <lemma>Jean Baptiste Louis Gresset</lemma>
@@ -3811,7 +3957,7 @@ Auch in <titel>Moralische Gedichte</titel>, S.&#x202F;61&#x2013;86.
 <subsection id="hahn-echb-lettres" type="neuzeit" sort="10">
 <lemma>Hahn, <titel>Lettres morales pour former le coeur</titel></lemma>
 <eintrag>
-<titel>Lettres morales pour former le coeur; traduite de l’Allemand de Mr. Dusch</titel> (Königsberg 1765).</eintrag>
+<titel>Lettres morales pour former le coeur; traduite de l’Allemand de Mr. Dusch</titel> (Königsberg: Kanter 1765).</eintrag>
 </subsection>
 </kommentar>
 
@@ -3995,7 +4141,7 @@ Editionen: N&#x00A0;IV S.&#x202F;247f. basiert auf einer Reinschrift des Bruders
 <eintrag>
 <titel>Sokratische Denkwürdigkeiten für die lange Weile des Publicums zusammengetragen von einem Liebhaber der langen Weile.</titel> (Amsterdam [Königsberg: Hartung] 1759). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:hbz:6:1-235892">ULB Münster: N. Hamann Bd.&#x202F;77/118/119</wwwlink>.<line type="break"/>
 Entstehungszeitraum: Juni bis November/Dezember 1759.<line type="break"/>
-Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;57&#x2013;82 und Erstdruck = ED.<line type="break"/>
+Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;57&#x2013;82 und Erstdruck = ED, sowie nach der Historisch-kritischen Ausgabe = SD: <link ref="2021" linktext="false">Sokratische Denkwürdigkeiten. Wolken. Historisch-kritische Ausgabe (2021)</link>.<line type="break"/>
 Außerdem: <titel>Johann Georg Hamanns Hauptschriften erklärt</titel>, hg.&#x00A0;v. Fritz Blanke, Lothar Schreiner u. Karlfried Gründer, Bd.&#x202F;2: <titel>Sokratische Denkwürdigkeiten</titel>, erkl. von Fritz Blanke (Gütersloh 1959). J. G. Hamann, <titel>Sokratische Denkwürdigkeiten. Aesthetica in nuce</titel>, mit einem Kommentar hg.&#x00A0;v. Sven-Aage Jorgensen (Stuttgart 1998), S.&#x202F;3&#x2013;73.
 </eintrag>
 </subsection>
@@ -4066,7 +4212,7 @@ Und: Wiederabruck in den <link ref="briefe-literatur" linktext="true" />, Tl.&#x
 <eintrag>
 <titel>Wolken. Ein Nachspiel Sokratischer Denkwürdigkeiten</titel> (Altona [Königsberg]: Kanter 1761). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:hbz:6:1-240652">ULB Münster: N. Hamann Bd.&#x202F;118/119</wwwlink>.<line type="break"/>
 Entstehungszeitraum: 1760.<line type="break"/>
-Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;83&#x2013;109 und Erstdruck = ED.
+Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;83&#x2013;109 und Erstdruck = ED, sowie nach der Historisch-kritischen Ausgabe = W: <link ref="2021" linktext="false">Sokratische Denkwürdigkeiten. Wolken. Historisch-kritische Ausgabe (2021)</link>.
 </eintrag>
 </subsection>
 
@@ -4082,7 +4228,7 @@ Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;279&#x2013
 <subsection id="hamann-project" type="neuzeit" sort="260">
 <lemma>Hamann, <titel>Französisches Project</titel></lemma>
 <eintrag>
-<titel>Französisches Project einer nützlichen, bewährten und neuen Einpropfung : Oder Beylage zum Magazin für Alle, welches in den Königsbergschen wöchentlichen Frag- und Anzeigungs-Nachrichten einen treufleißigen Abdruck der auserlesensten Collectaneen und Stückgüter aus dem Ballast einer Privatbibliotheck in sich hält ; zum allgemeinen Gebrauch jeder Leser ... und zur besondern Nothdurft einiger Aerzte, Landwirthe und Naturkundigen, denen ihre Praxis nicht als Auszüge zu lesen erlaubt ; Uebersetzt nach verjüngtem Maaßstab</titel> (Königsberg: Kanter 1761). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:gbv:3:1-805579">ULB Halle: AB 153091 (20)</wwwlink>.<line type="break"/>
+<titel>Französisches Project einer nützlichen, bewährten und neuen Einpropfung : Oder Beylage zum Magazin für Alle, welches in den Königsbergschen wöchentlichen Frag- und Anzeigungs-Nachrichten einen treufleißigen Abdruck der auserlesensten Collectaneen und Stückgüter aus dem Ballast einer Privatbibliotheck in sich hält ; zum allgemeinen Gebrauch jeder Leser ... und zur besondern Nothdurft einiger Aerzte, Landwirthe und Naturkundigen, denen ihre Praxis nichts als Auszüge zu lesen erlaubt ; Uebersetzt nach verjüngtem Maaßstab</titel> (Königsberg: Kanter 1761). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:gbv:3:1-805579">ULB Halle: AB 153091 (20)</wwwlink>.<line type="break"/>
 2. Fassung: in den <link ref="hamann" subref="hamann-kreuzzuege" linktext="false"><titel>Kreuzzügen des Philologen</titel></link>, ED S.&#x202f;66–76.<line type="break"/>
 Entstehungszeitraum: Oktober 1761.<line type="break"/>
 Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;151&#x2013;156 und der 2. Fassung im Erstdruck der <link ref="hamann" subref="hamann-kreuzzuege" linktext="false"><titel>Kreuzzüge</titel></link> = ED.
@@ -4168,6 +4314,15 @@ Enthält die Briefe Nr.&#x202F;<intlink letter="168" linktext="false">168</intli
 Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;351&#x2013;373 und Erstdruck = ED.
 </eintrag>
 </subsection>
+
+<subsection id="hamann-hamburgische" type="neuzeit" sort= "350">
+<lemma>Hamann, <titel>Hamburgische Nachricht</titel></lemma>
+<eintrag>
+<titel>Hamburgische Nachricht; Göttingsche Anzeige; Berlinsche Beurtheilung der Kreuzzüge des Philologen</titel> (Mitau 1763). Digitalisat: <wwwlink address="https://dlibra.bibliotekaelblaska.pl/dlibra/publication/32830/edition/31408/content">Elbląg Digital Library </wwwlink>.
+Editionen: Seitenangaben im Briefkommentar nach N&#x00A0;II S.&#x202F;241&#x2013;274 und Erstdruck = ED.
+</eintrag>
+</subsection>
+
 </kommentar>
 
 <kommentar id="hamann-jc" type="neuzeit">
@@ -4601,6 +4756,12 @@ Eine Erweiterung erschien ab 1753 als Teil 2 u. 3. <titel>Theron and Aspasio or,
 <titel>Rhapsodie</titel> (Königsberg: Kanter 1763). Digitalisat: <wwwlink address="http://nbn-resolving.de/urn:nbn:de:gbv:3:1-257438">ULB Halle: AB 154221 (5)</wwwlink>.
 </eintrag>
 </subsection>
+<subsection id="hippel-gruft" type="neuzeit" sort="40">
+<lemma>Hippel, <titel>Der Funckschen Gruft im Namen einiger Freunde gewidmet</titel></lemma>
+<eintrag>
+<titel>Der Funckschen Gruft im Namen einiger Freunde gewidmet</titel> (Königsberg: Kanter 1764).
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="hippokrates" type="neuzeit">
@@ -4617,6 +4778,17 @@ Eine Erweiterung erschien ab 1753 als Teil 2 u. 3. <titel>Theron and Aspasio or,
 <lemma>Hippokr., <titel>ep.</titel></lemma>
 <eintrag>
 <titel>Briefe, lat. Epistulae, griech. Ἐπιστολαί</titel>.
+</eintrag>
+</subsection>
+</kommentar>
+
+<kommentar id="hirzel" type="neuzeit">
+<lemma>Johann Caspar Hirzel</lemma>
+<eintrag>1725&#x2013;1803. Arzt, Ratsherr in Zürich, Politiker und Ökonom, siehe <wwwlink address="https://www.deutsche-biographie.de/sfz32614.html#adbcontent">mmm: Hirzel, Hans Caspar, in: <titel>ADB</titel>&#x202F;12 (1880), S.&#x202F;485–488</wwwlink>.</eintrag>
+<subsection id="hirzel-bauer" type="neuzeit" sort="10">
+<lemma>Hirzel, <titel>Die Wirthschaft eines philosophischen Bauers</titel></lemma>
+<eintrag>
+<titel>Die Wirthschaft eines philosophischen Bauers</titel> (Zürich: Heidegger und Compagnie 1761) [Biga&#x202F;104/128: »H. C. Hirzels Wirthschaft eines philosophischen Bauers, Zür. 761«].
 </eintrag>
 </subsection>
 </kommentar>
@@ -5066,6 +5238,13 @@ Jüdischer Krieg, lat. de bello Iudaico, griech. Περὶ τοῦ Ἰουδαι
 </subsection>
 </kommentar>
 
+<kommentar id="juengling" type="neuzeit">
+<lemma>Der Jüngling</lemma>
+<eintrag>Moralische Wochenschrift. 1764 (jeden Mittwoch), 1768 und 1775 weitere Auflagen erschienen bei <link ref="kanter-jj" linktext="true" />. Herausgegeben von Johann Andreas Cramer, Johann Arnold Ebert, Gottlieb Wilhelm Rabener und Niklas Dietrich Giseke. Digitalisat, 1764: <wwwlink address="https://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb11045929-5">BSB München: Ph.pr. 690 mx-1764</wwwlink>.
+ </eintrag>
+ </kommentar>
+
+
 <kommentar id="justi" type="neuzeit">
 <lemma>Johann Heinrich Gottlob v. Justi</lemma>
 <eintrag>1720&#x2013;1771. Ab 1765 Leiter der staatlichen Bergwerke Preußens, siehe <wwwlink address="https://www.deutsche-biographie.de/sfz38138.html#adbcontent">Inama von Sternegg, Theodor: Justi, Johann Heinrich Gottlob von, in: <titel>ADB</titel>&#x202F;14 (1881), S.&#x202F;747&#x2013;753</wwwlink>.
@@ -5169,6 +5348,13 @@ Wiss. Ausg.: <titel>Kant’s Gesammelte Schriften. Akademieausgabe</titel> (AA) 
 <titel>Allgemeine Naturgeschichte und Theorie des Himmels, oder Versuch von der Verfassung und dem mechanischen Ursprunge des ganzen Weltgebäudes nach Newtonischen Grundsätzen abgehandelt</titel> (Königsberg, Leipzig: Petersen 1755). Digitalisat: <wwwlink address="http://www.deutschestextarchiv.de/book/show/kant_naturgeschichte_1755">SUB Göttingen: 8 ASTR I, 6522 RARA</wwwlink>.<line type="break"/>
 <titel>AA</titel>&#x00A0;I: Vorkritische Schriften I, S.&#x202F;215&#x2013;368.</eintrag>
 </subsection>
+<subsection id="kant-metaphysicae" type="neuzeit" sort="25">
+<lemma>Kant, <titel>Metaphysicae cum Geometria junctae</titel></lemma>
+<eintrag>
+<titel>Metaphysicae cum Geometria junctae usus un Philosophia Naturali</titel> (Königsberg: Hartung 1756) Digitalisat: <wwwlink address="http://hdl.handle.net/10062/69613">Univ. Tartuensis: R Mrg 3366a</wwwlink>.<line type="break"/>
+<titel>AA</titel>&#x00A0;I: Vorkritische Schriften I, S.&#x202F;473&#x2013;487.
+</eintrag>
+</subsection>
 <subsection id="kant-optimismus" type="neuzeit" sort="30">
 <lemma>Kant, <titel>Betrachtungen über den Optimismus</titel></lemma>
 <eintrag>
@@ -5192,6 +5378,24 @@ Wiss. Ausg.: <titel>Kant’s Gesammelte Schriften. Akademieausgabe</titel> (AA) 
 <eintrag>
 <titel>Untersuchung über die Deutlichkeit der Grundsätze der natürlichen Theologie und der Moral, in: Dissertation qui a remporté le prix proposé par l’Académie Royale des Sciences et belles-lettres de Prusse, sur la Nature, les espèces, et les degrés de l’evidence avec les pieces qui ont concouru</titel> (Berlin: Haude et Spener 1764).<line type="break"/>
 <titel>AA</titel>&#x00A0;II: Vorkritische Schriften II, S.&#x202F;273&#x2013;301.</eintrag>
+</subsection>
+<subsection id="kant-beobachtungen" type="neuzeit" sort="70">
+<lemma>Kant, <titel>Beobachtungen über das Gefühl des Schönen und Erhabenen</titel></lemma>
+<eintrag>
+<titel>Beobachtungen über das Gefühl des Schönen und Erhabenen</titel> (Königsberg 1764) [Biga&#x202F;102/91 u. 117/285: »Im. Kant’s Beobachtungen über das Gefühl des Schönen und Erhabenen, Königsb. 764« u. »Im. Kant’s Beobachtungen über das Gefühl vom Erhabenen und Schoenen, Kgsb. 764«].<line type="break"/>
+<titel>AA</titel>&#x00A0;II: Vorkritische Schriften II, S.&#x202F;205&#x2013;256.</eintrag>
+</subsection>
+<subsection id="kant-kopfes" type="neuzeit" sort="75">
+<lemma>Kant, <titel>Versuch über die Krankheiten des Kopfes</titel></lemma>
+<eintrag>
+<titel>Versuch über die Krankheiten des Kopfes</titel>. In: <link ref="konigsberger-gp-z" linktext="true" />, 13.-27. Februar 1764.<line type="break"/>
+<titel>AA</titel>&#x00A0;II: Vorkritische Schriften II, S.&#x202F;259&#x2013;272.</eintrag>
+</subsection>
+<subsection id="kant-geisterseher" type="neuzeit" sort="80">
+<lemma>Kant, <titel>Träume eines Geistersehers erläutert durch Träume der Metaphysik</titel></lemma>
+<eintrag>
+<titel>Träume eines Geistersehers erläutert durch Träume der Metaphysik</titel> (Königsberg 1766). [Biga&#x202F;117/284: »Traeume eines Geistersehers erlaeutert durch Traeume der Metaphysick, Kgsb. 766«]<line type="break"/>
+<titel>AA</titel>&#x00A0;II: Vorkritische Schriften II, S.&#x202F;315&#x2013;374.</eintrag>
 </subsection>
 </kommentar>
 
@@ -5780,6 +5984,8 @@ L
 </subsection>
 </kommentar>
 
+
+
 <kommentar id="lauson" type="neuzeit">
 <lemma>Johann Friedrich Lauson</lemma>
 <eintrag>1727&#x2013;1783. <wwwlink address="https://www.deutsche-biographie.de/sfz48507.html">Brenning, Lauson, Johann Friedrich, in: <titel>ADB</titel>&#x202F;18 (1883), S.&#x202F;71</wwwlink> sowie Joseph Kohnen, <titel>Johann Friedrich Lauson (1727&#x2013;1783)</titel>, in: Ders., <titel>Lyrik in Königsberg</titel> 1749&#x2013;1799 (Frankfurt a.&#x202F;M. u.a. 2000), S.&#x202F;35&#x2013;54. Zu Hamanns Beziehung zu Lauson siehe <link ref="koh-j-1997" linktext="false">Kohnen (1997)</link>. Beiträger der Zeitschrift <link ref="hamann" subref="daphne" linktext="false"><titel>Daphne</titel></link>.
@@ -5870,6 +6076,12 @@ Das Trauergedicht auf die Mutter von <link ref="hennings" linktext="true"/> wurd
 <kommentar id="leibniz" type="neuzeit">
 <lemma>Gottfried Wilhelm Leibniz</lemma>
 <eintrag>1646&#x2013;1716.</eintrag>
+<subsection id="leibniz-theodizee" type="neuzeit" sort="10">
+<lemma>Leibniz, <titel>Essais de théodicée</titel></lemma>
+<eintrag>
+<titel>Essais de théodicée sur la bonté de Dieu, la liberté de l’homme &#x26; l’origine du mal</titel>(Amsterdam: Troyel 1710). [Biga&#x202F;100/56: »Leibnizens Theodicee, Hann. 744« u. 118/297: »Essyas de Theodicée sur la Bonté de Dieu, la Liberté de l’homme &#x26; l’origine du Mal, Amst. 710«]. Digitalisat, von Johann Chistoph Gottsched herausgegebene Ausgabe 1744: <wwwlink address="https://nbn-resolving.de/urn:nbn:de:gbv:3:1-341819">Halle, Saale: Universitäts- und Landesbibliothek Sachsen-Anhalt: Signaturformel nach Ex. der GWLB Hannover: [1], *8 **4, a-d8, A-Z8, Aa-Zz8, Aaa-Kkk8</wwwlink>.
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="lenclos" type="neuzeit">
@@ -6224,6 +6436,13 @@ Evtl. ist auch 1762 bei Woltersdorf in Königsberg das Stück als Einzelausgabe 
 Übers.: <titel>Die so genannte Moscowitische Brieffe, oder die, wider die löbliche rußische Nation von einem aus der andern Welt zurück gekommenen Italiaener ausgesprengte abendtheurliche Verläumdungen und Tausend-Lügen aus dem Französischen übersetzt, mit einem zulänglichen Register versehen, und dem Brieffsteller so wohl, als seinen gleichgesinnten Freunden, mit dienlichen Erinnerungen wieder heimgeschickt von einem Teutschen</titel> (Frankfurt 1738).</eintrag>
 </subsection>
 </kommentar>
+
+<kommentar id="locke" type="neuzeit">
+<lemma>John Locke</lemma>
+<eintrag>1632&#x2013;1704. Engl. Philosoph, siehe <wwwlink address="https://doi.org/10.1093/ref:odnb/16885">Milton, J. R.: Locke, John, in: <titel>Oxford DNB</titel></wwwlink>.
+</eintrag>
+</kommentar>
+
 
 <kommentar id="loen" type="neuzeit">
 <lemma>Johann Michael v. Loen</lemma>
@@ -6643,6 +6862,12 @@ In der <link ref="hamann" subref="h-dangeuil" linktext="false"><titel>Beylage zu
 <eintrag>
 Erschienen zuerst in der von ihm für kurze Zeit herausgegebenen Zeitschrift <titel>Le Mercure</titel> (Paris 1758).<line type="break"/>
 Übers.: <titel>Moralische Erzählungen von Herrn Marmontel</titel> (5&#x00A0;Tle., Karlsruhe 1762–1770). Digitalisat: Tl.&#x202f;1, 2.&#x202f;Aufl. 1763: <wwwlink address="https://www.digitale-sammlungen.de/de/view/bsb10094287">BSB München: P.o.gall. 1372-1</wwwlink>.
+</eintrag>
+</subsection>
+<subsection id="marmontel-dichtkunst" type="neuzeit" sort="10">
+<lemma>Marmontel, <titel>Des Herrn Marmontels Dichtkunst</titel></lemma>
+<eintrag>
+<titel>Des Herrn Marmontels Dichtkunst, aus dem Französischen übersetzt und mit einigen Zusätzen vermehrt</titel> (3 Tle; Bremen: Cramer 1766). Digitalisat: <wwwlink address="https://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10094284-6">Bayerische Staatsbibliothek: P.o.gall. 1370-1/2</wwwlink>.
 </eintrag>
 </subsection>
 </kommentar>
@@ -7127,6 +7352,16 @@ Der Abdruck des Textes in den <titel>Literaturbriefen</titel> ist mit der Heraus
 </subsection>
 </kommentar>
 
+<kommentar id="montfaucon-nph" type="neuzeit">
+<lemma>Nicolas-Pierre-Henri Abbé de Villars Montfaucon</lemma>
+<eintrag>1635&#x2013;1673.</eintrag>
+<subsection id="montfaucon-nph-suite" type="neuzeit" sort="10">
+<lemma>Montfaucon, <titel>La suite de Comte de Gabalis</titel></lemma>
+<eintrag>
+<titel>La suite de Comte de Gabalis, ou Nouveaux entretiens sur les sciences secrètes touchant la nouvelle Philosophie</titel> (Amsterdam 1715). [Biga&#x202F;150/360: »Le Comte de Gabalis avec la Suite, Amst. 715«].</eintrag>
+</subsection>
+</kommentar>
+
 <kommentar id="montpensier" type="neuzeit">
 <lemma>Anne Marie Louise d’Orléans, duchesse de Montpensier</lemma>
 <eintrag>1627&#x2013;1693. Herzogin von Montpensier, Cousine Ludwigs XIV.</eintrag>
@@ -7212,13 +7447,19 @@ Siehe auch <link ref="bodmer" subref="bodmer-europa" linktext="true" />.<line ty
 <subsection id="moser-schreiben" type="neuzeit" sort="50">
 <lemma>Moser, <titel>Treuherziges Schreiben eines Layenbruders</titel></lemma>
 <eintrag>
-<titel>Treuherziges Schreiben eines Layenbruders im Reich an den Magum in Norden, oder doch in Europa</titel>, in: 258. Brief der <link ref="briefe-literatur" linktext="true" /> , 16. Teil (Berlin 1763), S. 67–86. Digitalisat: <wwwlink address="http://ds.ub.uni-bielefeld.de/viewer/image/1921386_009/71/">Universität Bielefeld</wwwlink>.   
+<titel>Treuherziges Schreiben eines Layenbruders im Reich an den Magum in Norden, oder doch in Europa</titel>, in: 258. Brief der <link ref="briefe-literatur" linktext="true" />, 16. Teil (Berlin 1763), S. 67–86. Digitalisat: <wwwlink address="http://ds.ub.uni-bielefeld.de/viewer/image/1921386_009/71/">Universität Bielefeld</wwwlink>; auch als Einzeldruck 1762 erschienen, Digitalisat: <wwwlink address="https://sammlungen.ulb.uni-muenster.de/urn/urn:nbn:de:hbz:6:1-240679">Universitäts- und Landesbibliothek Münster: N. Hamann Bd. 120</wwwlink>   
 </eintrag>
 </subsection>
 <subsection id="moser-augen" type="neuzeit" sort="60">
 <lemma>Moser, <titel>Der Herr und Knecht mit philosophischen Augen betrachtet</titel></lemma>
 <eintrag>
 <titel>Der Herr und Knecht mit philosophischen Augen betrachtet</titel> (Berlin 1763). Digitalisat: <wwwlink address="https://www.digitale-sammlungen.de/de/view/bsb10741890">BSB München: Num.ant. 119#Beibd.2</wwwlink>.   
+</eintrag>
+</subsection>
+<subsection id="moser-gesammelte" type="neuzeit" sort="70">
+<lemma>Moser, <titel>Gesammelte moralische und politische Schriften</titel></lemma>
+<eintrag>
+<titel>Friderich Carls von Moser Fürstlich-Hessen-Casselischen Geheimen Raths gesammelte moralische und politische Schriften.</titel> (Bd.&#x202f;1 u. 2, Frankfurt a.&#x202F;M.: Johann Christian Gebhard 1763/4). Digitalisat: <wwwlink address="https://mdz-nbn-resolving.de/details:bsb10041385">BSB München: Ph.pr. 865-1</wwwlink>.   
 </eintrag>
 </subsection>
 </kommentar>
@@ -7472,9 +7713,9 @@ O
 </eintrag>
 </subsection>
 <subsection id="oest-schlüsse" type="neuzeit" sort="40">
-<lemma>Oest, <titel>Schlüsse eines Materialisten</titel></lemma>
+<lemma>Oest, <titel>Streitschriften über die Schlüsse eines Materialisten</titel></lemma>
 <eintrag>
-<titel>Streitschriften über die Schlüsse eines Materialisten in den Bremischen Wochenblättern zum Nutzen und Vergnügen; Schreiben an Doris über die Schlüsse eines Materialisten</titel> (1754) [Biga&#x202F;160/508: »Schreiben an Doris über die Schlüsse eines Materialisten, 753. Streitschriften über die Schlüsse eines Materialisten, 754. Ditton und Oest über den Materialismus, eod.«]. Digitalisat: <wwwlink address="http://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10044366-8">BSB München: Ph.sp. 764#Beibd.1</wwwlink>.<line type="break"/>
+<titel>Streitschriften über die Schlüsse eines Materialisten in den Bremischen Wochenblättern zum Nutzen und Vergnügen</titel> (1754). Ausgehend von einer Positionensammlung, die an einem Bremischen Gymnasium veranstaltet wurde, zum Thema Materialismus, veröffentlichte Oest als Herausgeber der Bremischen Wochenblätter diesen Sammelband, darin enthalten: <titel>Schreiben an Doris über die Schlüsse eines Materialisten. Nebst einem poetischen Sendschreiben an den Verfasser des Lehrgedichts: Coban, oder von Gott und der Welt</titel> (1753), <titel>Ditton und Oest über den Materialismus. Zum Nutzen und Vergnügen</titel> (1754) [Biga&#x202F;160/508: »Schreiben an Doris über die Schlüsse eines Materialisten, 753. Streitschriften über die Schlüsse eines Materialisten, 754. Ditton und Oest über den Materialismus, eod.«]. Digitalisat: <wwwlink address="https://www.digitale-sammlungen.de/de/view/bsb10044365">BSB München: Ph.sp. 764</wwwlink>.<line type="break"/>
 Darin werden Textauszüge aus <titel>Discourse on the Resurrection of Jesus Christ</titel> (1714) des engl. Mathematikers Humphry Ditton (1675&#x2013;1715) in Übersetzung wiedergegeben und dessen Thesen zur Immaterialität der Seele kommentiert.
 </eintrag>
 </subsection>
@@ -7581,6 +7822,9 @@ Dt. Übers. zit. nach: Georg Luck (Übers.:), <titel>Tristia</titel> (2&#x202f;B
 </kommentar>
 
 P
+
+
+
 <kommentar id="palissot" type="neuzeit">
 <lemma>Charles Palissot de Montenoy</lemma>
 <eintrag>1730&#x2013;1814. Frz. Schriftsteller, Bibliothekar in Paris. <titel>Biographie universelle, ancienne et moderne</titel> (Bd.&#x202F;32, 1822), S.&#x202F;417–424.</eintrag>
@@ -7596,6 +7840,17 @@ Gegen die großen Philosophen: damit sind vor allem die Enzyklopädisten gemeint
 <kommentar id="palmstrauch" type="neuzeit">
 <lemma>Martin Reinhold v. Palmstrauch</lemma>
 <eintrag>Lebensdaten nicht ermittelt. Russ. Unteroffizier.</eintrag>
+</kommentar>
+
+<kommentar id="panciroli" type="neuzeit">
+<lemma>Guido Panciroli</lemma>
+<eintrag>1523&#x2013;1599. Professor der Rechtswissenschaft in Turin und Padua.</eintrag>
+<subsection id="panciroli-rerum" type="neuzeit">
+<lemma>Panciroli, <titel>Rerum memorabilium iam olim deperditarum</titel></lemma>
+<eintrag>
+<titel>Rerum memorabilium iam olim deperditarum et contra recens atque ingeniose inventarum</titel> (Amberg 1599). [Biga&#x202F;186/109: »Guid. Pancirolli Lib. I. rerum memorabilium olim deperditarum cet. Amb. 599«]. Digitalisat, 1617: <wwwlink address="https://digitale.bibliothek.uni-halle.de/vd17/content/titleinfo/8906540">Universitäts- und Landesbibliothek Sachsen-Anhalt</wwwlink>.
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="parisius" type="neuzeit">
@@ -7658,6 +7913,11 @@ nicht ermittelt: Biga&#x202F;15/240: »Juvenalis et Persius ex ed. Farnabii, Hag
 <eintrag>Hofbuchhändler in Mietau.</eintrag>
 </kommentar>
 
+<kommentar id="petrarca" type="neuzeit">
+<lemma>Francesco Petrarca</lemma>
+<eintrag>1304&#x2013;1374. Ital. Dichter und Geschichtsschreiber.</eintrag>
+</kommentar>
+
 <kommentar id="petron" type="neuzeit">
 <lemma>Petron</lemma>
 <eintrag>Titus Petronius Arbiter. Um 14–66.</eintrag>
@@ -7671,9 +7931,37 @@ Dt. Übers. zitiert nach: Carl Hoffmann (Übers.), <titel>Petronius, Satiricon. 
 </subsection>
 </kommentar>
 
+<kommentar id="petty" type="neuzeit">
+<lemma>Sir William Petty</lemma>
+<eintrag>1623&#x2013;1687. Engl. Politiker und Ökonom. <wwwlink address="https://doi.org/10.1093/ref:odnb/22069">Barnard, Toby: Petty, Sir William, in: <titel>Oxford DNB</titel></wwwlink>.
+</eintrag>
+<subsection id="petty-essays" type="neuzeit">
+<lemma>Petty, <titel>Essays in political Arithmetick with Memoire of the Author’s Life</titel></lemma>
+<eintrag>
+<titel>Essays in political Arithmetick with Memoire of the Author’s Life</titel> (London 1755). [Biga&#x202F;113/253: »Will. Petty’s Essays in political Arithmetick with Memoire of the Author’s Life, Lond. 755«].
+</eintrag>
+</subsection>
+</kommentar>
+
+
 <kommentar id="pfalz-zweibruecken-karoline" type="neuzeit">
 <lemma>Karoline Henriette Christine Philippine Luise von Pfalz-Zweibrücken</lemma>
 <eintrag>1721&#x2013;1774. Erste Frau von <link ref="hessen-ludwig-landgraf" linktext="true" />.</eintrag>
+</kommentar>
+
+<kommentar id="pfeffel" type="neuzeit">
+<lemma>Gottlieb Konrad Pfeffel</lemma>
+<eintrag>1736&#x2013;1809. Erzähler, Dramatiker, siehe <wwwlink address="https://www.deutsche-biographie.de/pnd118740709.html#adbcontent">Martin: Pfeffel, Konrad, in: <titel>ADB</titel>&#x202F;25 (1887), S.&#x202F;614&#x2013;618</wwwlink>..</eintrag>
+<subsection id="pfeffel-versuche" type="neuzeit">
+<lemma>Pfeffel, <titel>Poetische Versuche in drey Büchern</titel></lemma>
+<eintrag>
+<titel>Poetische Versuche in drey Büchern</titel> (Frankfurt am Main 1761). [Biga&#x202F;151/377: »(Pfeffels) poetische Versuche, Frkft. 761«]</eintrag>
+</subsection>
+<subsection id="pfeffel-philemon" type="neuzeit">
+<lemma>Pfeffel, <titel>Philemon und Baucis</titel></lemma>
+<eintrag>
+<titel>Philemon und Baucis. Ein Schauspiel in Versen von einem Aufzug</titel> (Straßburg 1763). [Biga&#x202F;152/401: »Philemon und Baucis, Strassb. 763«]. Digitalisat: <wwwlink address="https://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10116146-7">BSB München: P.o.germ. 1065 y</wwwlink>.</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="pflug" type="neuzeit">
@@ -7688,6 +7976,16 @@ Dt. Übers. zitiert nach: Carl Hoffmann (Übers.), <titel>Petronius, Satiricon. 
 <lemma>Philidor, <titel>L’Analyze des échecs</titel></lemma>
 <eintrag>
 <titel>L’Analyze des échecs, contenant une nouvelle méthode pour apprendre en peu de tems se perfectioner dans se noble jeu</titel> (London 1749) (N&#x00A0;V S.&#x202F;151/34: London 1752).</eintrag>
+</subsection>
+</kommentar>
+
+<kommentar id="philippi" type="neuzeit">
+<lemma>Johann Albrecht Philippi</lemma>
+<eintrag>1721&#x2013;1791. Reolizeidirektor und Stadtpräsident von Berlin, siehe <wwwlink address="https://www.deutsche-biographie.de/pnd115741208.html"></wwwlink>.</eintrag>
+<subsection id="philippi-briefe" type="neuzeit">
+<lemma>Philippi, <titel>Anmuthige und Satyrische Briefe in historischen Erzählungen über verschiedene Begebenheiten</titel></lemma>
+<eintrag>
+<titel>Anmuthige und Satyrische Briefe in historischen Erzählungen über verschiedene Begebenheiten</titel> (Köln [Berlin] 1764). Digitalisat: <wwwlink address="https://collections.thulb.uni-jena.de/receive/HisBest_cbu_00034441?derivate=HisBest_derivate_00020065">Thüringer Universitäts- und Landesbibliothek Jena: 8 Art.lib.XIV,835(1)</wwwlink>.</eintrag>
 </subsection>
 </kommentar>
 
@@ -8246,6 +8544,12 @@ R
 <lemma>Karl Wilhelm Ramler</lemma>
 <eintrag>1725&#x2013;1798. Dichter und Philosoph in Berlin. <wwwlink address="https://www.deutsche-biographie.de/pnd119059614.html#ndbcontent">Fromm, Eberhard: Ramler, Karl Wilhelm, in: <titel>NDB</titel>&#x202f; 21 (2003), S.&#x202f;131.</wwwlink>.
 </eintrag>
+<subsection id="ramler-hymen" type="neuzeit">
+<lemma>Ramler, <titel>Ode an Hymen</titel></lemma>
+<eintrag>
+<titel>Ode an Hymen</titel> (Berlin 1763). Digitalisat: <wwwlink address="https://digitale.bibliothek.uni-halle.de/vd18/content/titleinfo/9709070">Halle, Saale: Universitäts- und Landesbibliothek Sachsen-Anhalt: 01 A 6638 (19)</wwwlink>.
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="rapin" type="neuzeit">
@@ -8712,6 +9016,12 @@ Zum berühmten Bibliothekskatalog Salthenius’: <titel>XXII. Daniel Salthenius<
 </subsection>
 </kommentar>
 
+<kommentar id="sammler" type="neuzeit">
+<lemma>Der Sammler zum Zeitvertreib und Nutzen der Teutschen</lemma>
+<eintrag>Erlangen: Heyder 1764f., hrsg. von Peter von Hohenthal (1726–1794), Digitalisat: <wwwlink address=" https://digi.ub.uni-heidelberg.de/diglit/sammler_zeitvertreibe1764/0005">UB Heidelberg</wwwlink>.
+ </eintrag>
+</kommentar>
+
 <kommentar id="sanctius" type="neuzeit">
 <lemma>Franciscus Sanctius</lemma>
 <eintrag>Francisco Sánchez de las Brozas, 1523–1601. Spanischer Philologe.</eintrag>
@@ -8848,6 +9158,19 @@ Zum berühmten Bibliothekskatalog Salthenius’: <titel>XXII. Daniel Salthenius<
 <lemma>Immanuel Johann Gerhard Scheller</lemma>
 <eintrag>1735–1803. Philologe, 1771 Rektor des Gymnasiums und Bibliothekar in Brieg.</eintrag>
 </kommentar>
+
+<kommentar id="schieferdecker" type="neuzeit">
+<lemma>Johann David Schieferdecker</lemma>
+<eintrag>1672&#x2013;1721. Orientalist; siehe <wwwlink address="https://www.deutsche-biographie.de/sfz78275.html#adbcontent">L., von: Schieferdecker, Johann David, in: <titel>ADB</titel>&#x202F;31 (1890), S.&#x202F;179</wwwlink>.
+</eintrag>
+<subsection id="schieferdecker-nucleus" type="neuzeit" sort="10">
+<lemma>Schieferdecker, <titel>Nucleus Institutionum Arabicarum enucleatus</titel></lemma>
+<eintrag>
+<titel>Nucleus Institutionum Arabicarum enucleatus, Variis Linguae ornamentis atque Praeceptis dialecti Turcicae illustratus</titel>(Leipzig 1695). [Biga&#x202F;69/180: »J. D. Schieferdeckeri Nucleus Institutionum Arabicarum et Grammatica Turcica, Cizae 695«]. Digitalisat: <wwwlink address="http://resolver.staatsbibliothek-berlin.de/SBB00000DF900000000">SB Berlin: Zu 1994</wwwlink>.  
+</eintrag>
+</subsection>
+</kommentar>
+
 
 <kommentar id="schiffert" type="neuzeit">
 <lemma>Christian Schiffert</lemma>
@@ -9245,10 +9568,10 @@ Eine kürzende Übers. erschien als <titel>Compendium Seckendorfianum oder Kurzg
 <eintrag>1737&#x2013;1802. Professor am Collège in Amiens. Später Professor für lateinische Poesie an der Universität in Paris.
 </eintrag>
 <subsection id="selis-inoculation" type="neuzeit" sort="10">
-<lemma>Sévigné, <titel>L’inoculation du bon sens</titel></lemma>
+<lemma>Sélis, <titel>L’inoculation du bon sens</titel></lemma>
 <eintrag>
 <titel>L’inoculation du bon sens</titel> (London [Paris] 1761) [Biga&#x202f;177/756: »L’inoculation du bon sens (par l’Abbé Coyer) Londr. 761. Ingratum DANAI donum.«]. Digitalisat: <wwwlink address="http://opacplus.bsb-muenchen.de/title/BV002838289">BSB München: Ph.pr. 1407 o#Beibd.1</wwwlink>.<line type="break"/>
-Übers.: <titel>Die Einpfropfung der gesunden Vernunft. Aus dem Französischen übersetzt und mit dem zweiten Theil vermehret</titel>, von Jean Soret (London [Gotha] 1761). Digitalisat: <wwwlink address="https://opacplus.bsb-muenchen.de/title/BV001649337">SB Bamberg: Bip.L.fr.o.141</wwwlink>.
+Übers.: <titel>Die Einpfropfung der gesunden Vernunft. Aus dem Französischen übersetzt und mit dem zweiten Theil vermehret</titel> (London [Gotha, Mevius] 1761). Digitalisat: <wwwlink address="https://opacplus.bsb-muenchen.de/title/BV001649337">SB Bamberg: Bip.L.fr.o.141</wwwlink>.
 </eintrag>
 </subsection>
 </kommentar>
@@ -9393,6 +9716,17 @@ Hamann hat daraus Teile aus zwei Kapiteln übersetzt: »A Letter concerning Enth
 <lemma>Skelton, <titel>Deism revealed</titel></lemma>
 <eintrag><titel>Deism revealed, or, the attack on Christianity candidly reviewed in its real merits, as they stand in the celebrated writings of Lord Herbert, Lord Shaftesbury, Hobbes, Toland, Tindal, Collins, Mandeville, Dodwell, Woolston, Morgan, Chubb, And others</titel> (2&#x00A0;Bde., London 1751).<line type="break"/>
 Übers.: <titel>Die offenbahrte Deisterey, oder Unpartheyische Untersuchung der Angriffe und Einwendungen gegen das Christenthum, nach ihrem eigentlichen Werthe und nach dem vornehmsten Inhalte der berüchtigten Schriften von Lord Herbert, Lord Shaftesbury, Hobbes, Toland, Tindal, Collins, Mandeville, Dodwell, Woolston, Morgan, Chubb, und andere. A. d. Engl. übers. [von Matthäus Theodor Christoph Mittelstedt]</titel> (2&#x202f;Bde., Braunschweig 1756) [Biga&#x202F;36/304: »Skeltons offenbarte Deisterey, 1. und 2ter Th. Braunschw.«]. Digitalisat, Tl.&#x202f;1: <wwwlink address="http://opacplus.bsb-muenchen.de/title/BV013624374">SB Regensburg: 999/Theol.syst.225(1/2</wwwlink>.
+</eintrag>
+</subsection>
+</kommentar>
+
+<kommentar id="smollet" type="neuzeit">
+<lemma>Tobias Smollet</lemma>
+<eintrag>1721&#x2013;1771. Schottischer Arzt und Schriftsteller.
+</eintrag>
+<subsection id="smollet-pickle" type="neuzeit" sort="10">
+<lemma>Smollet, <titel>Williams Pickle</titel></lemma>
+<eintrag><titel>Histoire et aventures de Sir Williams Pickle</titel> (4 Bde., Amsterdam, Leipzig [i.e. Paris] 1753). Digitalisat, Bd.&#x202f;1: <wwwlink address="https://www.digitale-sammlungen.de/en/view/bsb10750228">BSB München: P.o.angl. 388 c-1/2</wwwlink>.
 </eintrag>
 </subsection>
 </kommentar>
@@ -9583,7 +9917,7 @@ Christian Tobias Damm, <titel>Der Ausgang des Aeas, ein Trauerspiel aus dem Grie
 
 <kommentar id="sticotti" type="neuzeit">
 <lemma>Antoine Jean Sticotti</lemma>
-<eintrag>1715&#x2013;1772.
+<eintrag>1715&#x2013;1772.  Schauspieler und Bühnenautor, kam 1716 aus Norditalien nach Paris, nach großen Erfolgen dort zog er 1759 nach Berlin. 
 </eintrag>
 <subsection id="sticotti-musique" type="neuzeit" sort="10">
 <lemma>Sticotti, <titel>La Musique de l’âme</titel></lemma>
@@ -9684,6 +10018,18 @@ http://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10903915-2">BSB München: Res/4
 <eintrag>
 <titel>Die göttliche Ordnung in den Veränderungen des menschlichen Geschlechts aus der Geburt, dem Tode und der Fortpflanzung desselben</titel> (Berlin: Gohls 1741) [Biga&#x202F;101/84: »J. A. Süssmilch’s göttliche Ordnung in den Veränderungen des menschlichen Geschlechts, 1. 2. Th. Berl. 761. 62«]. Digitalisat: <wwwlink address="
 http://resolver.staatsbibliothek-berlin.de/SBB000051A300000000">SBB-PK Berlin Bibl. Diez oct. 6948</wwwlink>.
+</eintrag>
+</subsection>
+</kommentar>
+
+<kommentar id="swedenborg" type="neuzeit">
+<lemma>Emanuel v. Swedenborg</lemma>
+<eintrag>1688&#x2013;1772. Schwed. Naturforscher und Theosoph.
+</eintrag>
+<subsection id="swedenborg-opera" type="neuzeit" sort="10">
+<lemma>Swedenborg, <titel>Opera philosophica et mineralia</titel></lemma>
+<eintrag>
+<titel>Opera philosophica et mineralia</titel> (3&#x00A0;Bde; Dresden, Leipzig: Friderich Hekel 1734).
 </eintrag>
 </subsection>
 </kommentar>
@@ -10040,6 +10386,16 @@ Im Anhang sind sieben Gedichte von <link ref="lindner-jg" linktext="true" /> abg
 </subsection>
 </kommentar>
 
+<kommentar id="tscherning" type="neuzeit">
+<lemma>Andreas Tscherning</lemma>
+<eintrag>1611&#x2013;1659. Prof. der Dichtkunst in Rostock, siehe <wwwlink address="https://www.deutsche-biographie.de/sfz83064.html#adbcontent">Hippe, Max: Tscherning, Andreas, in: <titel>ADB</titel>&#x202F;38 (1894), S.&#x202F;714&#x2013;716</wwwlink>.</eintrag>
+<subsection id="tscherning-gedichte" type="neuzeit">
+<lemma>Tscherning, <titel>Deutscher Gedichte Frühling</titel></lemma>
+<eintrag>
+<titel>Deutscher Gedichte Frühling</titel> (Rostock 1642). [Biga&#x202F;143/221: »A. Tscherning’s deutscher Gedichte Frühling, Rost.«].
+</eintrag>
+</subsection>
+</kommentar>
 
 <kommentar id="tucker" type="neuzeit">
 <lemma>Josiah Tucker</lemma>
@@ -10049,6 +10405,17 @@ Im Anhang sind sieben Gedichte von <link ref="lindner-jg" linktext="true" /> abg
 <eintrag>
 <titel>Essay on the Advantages and Disadvantages, which respectively attend France and Great Britain with regard to Trade</titel> (London 1749; die Neuaufl. ab 1750 waren teilw. erweiterte) [Biga&#x202F;116/276: »(Jos. Tucker’s) ... Essay on the Advantages and Disadvantages, which respectively attend France and Great Britain with regard to Trade, 753«].<line type="break"/>
 H. muss das Exemplar dieses Werk nach 1756 bekommen haben, da es ihm für die <link ref="hamann" subref="h-dangeuil" linktext="false"><titel>Beylage zu Dangeuil</titel></link> noch nicht zur Verfügung stand (s. ebd. ED S.&#x202F;398). Dangeuil (<link ref="dangeuil" subref="dangeuil-remarques" linktext="true"/>) stützte sich in seinem Text auch wesentlich auf Tuckers »Essay« bzw. kopierte ihn gar großteils.
+</eintrag>
+</subsection>
+</kommentar>
+
+<kommentar id="tyrtaios" type="neuzeit">
+<lemma>Tyrtaios</lemma>
+<eintrag>7. Jahrhundert v. Chr. Griech. Elegiendichter.</eintrag>
+<subsection id="tyrtaios-klotz" type="neuzeit">
+<lemma>Klotz, <titel>Tyrtaei</titel></lemma>
+<eintrag>
+<titel>Tyrtaei quae restant omnia, colelgit, commentario illustravit. Chr. Adolph. Klotzius</titel> (Bremen 1764). [Biga&#x202F;8/122: »Tyrtaeus gr. ex ed. Klotzii, Brem. 764«]. 
 </eintrag>
 </subsection>
 </kommentar>
@@ -10539,6 +10906,17 @@ Hamann las und besaß die in Amsterdam erschienene Neuedition von 1761, erweiter
 </subsection>
 </kommentar>
 
+<kommentar id="wegelin" type="neuzeit">
+<lemma>Jakob Daniel Wegelin</lemma>
+<eintrag>1721&#x2013;1791. Schweizer und reform. Theologe und Philologe, siehe <wwwlink address="https://www.deutsche-biographie.de/pnd121644111.html#adbcontent">Dierauer, Johannes: Wegelin, Jakob, in: <titel>ADB</titel>&#x202F;41 (1896), S.&#x202F;423f.</wwwlink>.</eintrag>
+<subsection id="wegelin-gespraeche" type="neuzeit">
+<lemma>Wegelin, <titel>Religiöse Gespräche der Todten</titel></lemma>
+<eintrag>
+<titel>Religiöse Gespräche der Todten</titel> (Lindau 1762).
+</eintrag>
+</subsection>
+</kommentar>
+
 <kommentar id="wegner" type="neuzeit">
 <lemma>Otto Salomo Wegner</lemma>
 <eintrag>1718&#x2013;1768. Kammerdirektor und Kriegsrat in Königsberg</eintrag>
@@ -10675,6 +11053,18 @@ Vielleicht ist Hamann durch <link ref="lessing" linktext="false">Lessings</link>
 <titel>Thornische Nachrichten von gelehrten Sachen</titel> (3&#x202F;Bde., Thorn 1762/6). [Biga&#x202F;199/113: »Thornische Nachrichten von gelehrten Sachen, 762–66. incompl.«]. Digitalisat: <wwwlink address="https://kpbc.umk.pl/dlibra/publication/3549/edition/5066">Kujavisch-Pommersche Digitale Bibliothek</wwwlink>.
 </eintrag>
 </subsection>
+<subsection id="willamovius-dithyramben" type="neuzeit">
+<lemma>Willamovius, <titel>Dithyramben</titel></lemma>
+<eintrag>
+<titel>Dithyramben</titel> (Berlin 1763). [Biga&#x202F;144/241: »Dithyramben, Berl. 766«]. 
+</eintrag>
+</subsection>
+<subsection id="willamovius-sammlung" type="neuzeit">
+<lemma>Willamovius, <titel>Sammlung</titel></lemma>
+<eintrag>
+<titel>Sammlung, oder nach der Mode: Magazin von Einfällen</titel> (Breslau, Leipzig 1763.). [Biga&#x202F;151/369: »Magazin von Einfällen, Bresl. 763«]. 
+</eintrag>
+</subsection>
 </kommentar>
 
 <kommentar id="willis" type="neuzeit">
@@ -10709,6 +11099,12 @@ Vielleicht ist Hamann durch <link ref="lessing" linktext="false">Lessings</link>
 <lemma>Winckelmann, <titel>Anmerkungen über die Baukunst der Alten</titel></lemma>
 <eintrag>
 <titel>Anmerkungen über die Baukunst der Alten, entworfen von Johann Winkelmann</titel> (Leipzig: Dyck 1762). Digitalisat: <wwwlink address="http://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10222132-0">BSB München: 4 Arch. 217</wwwlink>.
+</eintrag>
+</subsection>
+<subsection id="winckelmann-empfindung" type="neuzeit" sort="35">
+<lemma>Winckelmann, <titel>Abhandlung von der Fähigkeit der Empfindung des Schönen in der Kunst</titel></lemma>
+<eintrag>
+<titel>Abhandlung von der Fähigkeit der Empfindung des Schönen in der Kunst, und dem Unterrichte in derselben: An den Edelgebohrnen Freyherrn, Friedrich Rudolph von Berg aus Liefland</titel> (Dresden: Walther 1763) [Biga&#x202F;131/28: »Winckelman’s Abhandlung von der Fähigkeit der Empfindung des Schönen in der Kunst und dem Unterricht derselben, Dresd. 763«]. Digitalisat: <wwwlink address="https://mdz-nbn-resolving.de/urn:nbn:de:bvb:12-bsb10913738-7">BSB München: Res/Art. 1348 w</wwwlink>.
 </eintrag>
 </subsection>
 <subsection id="winckelmann-geschichte" type="neuzeit" sort="40">
@@ -11027,7 +11423,6 @@ Z
 </kommentar>
 
 </kommcat>
-
 
 
 </kommentare>
