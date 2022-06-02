@@ -140,7 +140,7 @@ public static class XMLFileHelpers
     //     return Array.Empty<byte>();
     // }
 
-    public static async Task<byte[]> ProcessStreamedFile(
+    public static async Task<byte[]?> ProcessStreamedFile(
         MultipartSection section, ContentDispositionHeaderValue contentDisposition, 
         ModelStateDictionary modelState, string[] permittedExtensions, long sizeLimit)
     {
@@ -152,16 +152,16 @@ public static class XMLFileHelpers
 
                 // Check if the file is empty or exceeds the size limit.
                 if (memoryStream.Length == 0)
-                    modelState.AddModelError("File", "The file is empty.");
+                    modelState.AddModelError("Error", "The file is empty.");
                 else if (memoryStream.Length > sizeLimit)
                 {
                     var megabyteSizeLimit = sizeLimit / 1048576;
-                    modelState.AddModelError("File", $"The file exceeds {megabyteSizeLimit:N1} MB.");
+                    modelState.AddModelError("Error", $"The file exceeds {megabyteSizeLimit:N1} MB.");
                 }
 
                 // Check file extension and first bytes
                 else if (!IsValidFileExtensionAndSignature(contentDisposition.FileName.Value, memoryStream, permittedExtensions))
-                    modelState.AddModelError("File", "The file must be of the following specs:<br>" +
+                    modelState.AddModelError("Error", "The file must be of the following specs:<br>" +
                         "1. The file must hava a .xml File-Extension<br>" +
                         "2. To make sure the file isn't executable the file must start with: <?xml version=\"1.0\" encoding=\"utf-8\"?> or <?xml version=\"1.0\"?>");
                 
@@ -171,10 +171,10 @@ public static class XMLFileHelpers
         }
         catch (Exception ex)
         {
-            modelState.AddModelError("File", $"The upload failed. Error: {ex.HResult}");
+            modelState.AddModelError("Error", $"The upload failed. Error: {ex.Message}");
         }
         
-        return Array.Empty<byte>();
+        return null;
     }
 
     private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, string[] permittedExtensions)

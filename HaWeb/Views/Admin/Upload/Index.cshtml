@@ -1,3 +1,4 @@
+@model UploadViewModel;
 Hello from Upload Index!
 
 <form id="uploadForm" action="Upload" method="post" 
@@ -17,6 +18,11 @@ Hello from Upload Index!
         <output form="uploadForm" name="result"></output>
     </div>
 </form>
+
+@foreach (var item in Model.AvailableRoots.OrderBy(x => x.Item1))
+{
+  <div>@item.Item1</div>
+}
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"

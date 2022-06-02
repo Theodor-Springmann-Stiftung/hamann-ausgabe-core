@@ -1,18 +1,29 @@
 using HaXMLReader;
 using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
+using HaWeb.XMLParser;
 using Microsoft.FeatureManagement;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<ILibrary>(x => HaDocument.Document.Create(new Options()));
-builder.Services.AddTransient<IReaderService, ReaderService>();
-builder.Services.AddFeatureManagement();
 
-// builder.Services.AddWebOptimizer();
+// // To list physical files from a path provided by configuration:
+// var physicalProvider = new PhysicalFileProvider(Configuration.GetValue<string>("StoredFilesPath"));
+// // To list physical files in the temporary files folder, use:
+// //var physicalProvider = new PhysicalFileProvider(Path.GetTempPath());
+// services.AddSingleton<IFileProvider>(physicalProvider);
+
+builder.Services.AddSingleton<ILibrary>(HaDocument.Document.Create(new Options()));
+builder.Services.AddTransient<IReaderService, ReaderService>();
+builder.Services.AddSingleton<IXMLService, XMLService>();
+builder.Services.AddFeatureManagement();
 
 var app = builder.Build();
 

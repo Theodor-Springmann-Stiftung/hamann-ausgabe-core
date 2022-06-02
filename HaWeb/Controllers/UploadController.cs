@@ -6,6 +6,7 @@ using Microsoft.FeatureManagement.Mvc;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -14,6 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 using HaWeb.Filters;
 using HaWeb.FileHelpers;
+using HaWeb.XMLParser;
+using HaWeb.Models;
+using System.Xml.Linq;
 
 public class UploadController : Controller
 {
@@ -22,18 +26,24 @@ public class UploadController : Controller
     private IReaderService _readerService;
     private readonly long _fileSizeLimit;
     private readonly string _targetFilePath;
+    private readonly IXMLService _xmlService;
 
     // Options
     private static readonly string[] _permittedExtensions = { ".xml" };
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
 
-    public UploadController(ILibrary lib, IReaderService readerService, IConfiguration config)
+    public UploadController(ILibrary lib, IReaderService readerService, IXMLService xmlService, IConfiguration config)
     {
         _lib = lib;
         _readerService = readerService;
+        _xmlService = xmlService;
         _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
-        _targetFilePath = config.GetValue<string>("StoredFilesPath");
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            _targetFilePath = config.GetValue<string>("StoredFilePathWindows");
+        } else {
+            _targetFilePath = config.GetValue<string>("StoredFilePathLinux");
+        }
     }
 
     [HttpGet]
@@ -42,71 +52,85 @@ public class UploadController : Controller
     [GenerateAntiforgeryTokenCookie]
     public IActionResult Index()
     {
-        return View("../Admin/Upload/Index");
+        var model = new UploadViewModel();
+        model.AvailableRoots = _xmlService.GetRoots().Select(x => (x.Type, "")).ToList();
+        return View("../Admin/Upload/Index", model);
     }
 
+
+//// UPLOAD ////
     [HttpPost]
     [Route("Admin/Upload")]
     [DisableFormValueModelBinding]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Post() {
-
-//// 1. Stage: Check Request and File on a byte-level
-        // Checks the COntent-Type Field (must be multipart + Boundary)
+//// 1. Stage: Check Request format and request spec
+        // Checks the Content-Type Field (must be multipart + Boundary)
         if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
         {
-            ModelState.AddModelError("File", $"Wrong / No Content Type on the Request");
+            ModelState.AddModelError("Error", $"Wrong / No Content Type on the Request");
             return BadRequest(ModelState);
         }
 
         // Divides the multipart document into it's sections and sets up a reader
         var boundary = MultipartRequestHelper.GetBoundary(MediaTypeHeaderValue.Parse(Request.ContentType), _defaultFormOptions.MultipartBoundaryLengthLimit);
         var reader = new MultipartReader(boundary, HttpContext.Request.Body);
-        var section = await reader.ReadNextSectionAsync();
+        MultipartSection? section = null;
+        try {
+            section = await reader.ReadNextSectionAsync();
+        }
+        catch (Exception ex) {
+            ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+        }
 
         while (section != null)
         {
             // Multipart document content disposition header read for a section:
             // Starts with boundary, contains field name, content-dispo, filename, content-type
             var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var contentDisposition);
-
             if (hasContentDispositionHeader && contentDisposition != null)
             {
                 // Checks if it is a section with content-disposition, name, filename
                 if (!MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
                 {
-                    ModelState.AddModelError("File", $"Wrong Content-Dispostion Headers in Multipart Document");
+                    ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");
                     return BadRequest(ModelState);
                 }
 
-                // Sanity checks on the file on a byte level, extension checking, is it empty etc.
+//// 2. Stage: Check File. Sanity checks on the file on a byte level, extension checking, is it empty etc.
                 var streamedFileContent = await XMLFileHelpers.ProcessStreamedFile(
                     section, contentDisposition, ModelState, 
                     _permittedExtensions, _fileSizeLimit);
-
-                if (!ModelState.IsValid)
+                if (!ModelState.IsValid || streamedFileContent == null)
                     return BadRequest(ModelState);
 
-//// 2. Stage: Valid XML checking
+//// 3. Stage: Valid XML checking using a simple XDocument.Load()
+                var xdocument = await XDocumentFileHelper.ProcessStreamedFile(streamedFileContent, ModelState);
+                if (!ModelState.IsValid || xdocument == null)
+                    return UnprocessableEntity(ModelState);
 
 //// 3. Stage: Is it a Hamann-Document? What kind?
+                var docs = _xmlService.ProbeHamannFile(xdocument, ModelState);
+                if (!ModelState.IsValid || docs == null || !docs.Any())
+                    return UnprocessableEntity(ModelState);
+                
+//// 5. Stage: Saving the File(s)
+                foreach (var doc in docs) {
+                    using (var targetStream = System.IO.File.Create(Path.Combine(_targetFilePath, doc.CreateFilename())))
+                        doc.Save(targetStream);
+                }
 
-//// 4. Stage: Get Filename for the stageing area
-
-//// 5. Stage: Saving the File
-                // // Encode Filename for display
-                // var trustedFileNameForDisplay = WebUtility.HtmlEncode(contentDisposition.FileName.Value);
-
-
-                // // TODO: generatre storage filename
-                // var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                // using (var targetStream = System.IO.File.Create(Path.Combine(_targetFilePath, trustedFileNameForFileStorage)))
-                //     await targetStream.WriteAsync(streamedFileContent);
+                return Created(nameof(UploadController), docs);
             }
 
-            // Drain any remaining section body that hasn't been consumed and
-            // read the headers for the next section.
-            section = await reader.ReadNextSectionAsync();
+           try
+            {
+                section = await reader.ReadNextSectionAsync();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+            }
         }
 
 //// Success! Return Last Created File View
