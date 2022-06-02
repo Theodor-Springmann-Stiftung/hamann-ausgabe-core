@@ -1,6 +1,7 @@
 using HaXMLReader;
 using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
+using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ILibrary>(x => HaDocument.Document.Create(new Options()));
 builder.Services.AddTransient<IReaderService, ReaderService>();
+builder.Services.AddFeatureManagement();
 
 // builder.Services.AddWebOptimizer();
 
@@ -26,9 +28,10 @@ if (!app.Environment.IsDevelopment())
 // app.UseWebOptimizer();
 app.UseAuthorization();
 app.UseStaticFiles();
-app.UseRouting();
 app.MapControllers();
 app.Run();
+
+
 
 class Options : IHaDocumentOptions {
     public string HamannXMLFilePath { get; set; } = HaWeb.Settings.General.XMLFILEPATH;

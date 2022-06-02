@@ -45,6 +45,8 @@
     <environment exclude="Development">
         @await Html.PartialAsync("/Views/Shared/_Javascript.cshtml")
     </environment>
+
+    @RenderSection("Scripts", required: false)
 </body>
 
 </html>

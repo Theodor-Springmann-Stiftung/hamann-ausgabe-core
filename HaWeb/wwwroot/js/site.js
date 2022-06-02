@@ -54,7 +54,7 @@ const getLineHeight = function (element) {
   return ret;
 };
 
-const collapsebox = function (element, height) {
+const collapsebox = function (element, height, lineheight) {
   element.style.maxHeight = height + "px";
   element.classList.add("ha-collapsed-box");
   element.classList.remove("ha-expanded-box");
@@ -135,14 +135,38 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
     if (i < boxes.length - 1) {
       let element = boxes[i];
       let thisrect = element.getBoundingClientRect();
-      let nextrect = boxes[i+1].getBoundingClientRect();
+      let nextrect = boxes[i + 1].getBoundingClientRect();
       let overlap = thisrect.bottom - nextrect.top;
-      if (overlap >= 0 && !(window.getComputedStyle(element).display === "none")) {
+      if (
+        overlap >= 0 &&
+        !(window.getComputedStyle(element).display === "none")
+      ) {
         let newlength = thisrect.height - overlap;
         let remainder = newlength % lineheight;
         newlength = newlength - remainder - 1;
-        requestAnimationFrame(() => { collapsebox(element, newlength) });
-        requestAnimationFrame(() => { addbuttoncaollapsebox(element, newlength, hoverfunction) });
+
+        // Line clamping for Marginals
+        if (element.classList.contains("ha-marginalbox")) {
+          let marginals = element.querySelectorAll(".ha-marginal");
+          let h = 0;
+          for (let m of marginals) {
+            let cr = m.getBoundingClientRect();
+            let eh = cr.bottom - cr.top;
+            h += eh;
+            if (h >= newlength) {
+              let lines = Math.floor(eh / lineheight);
+              let cutoff = Math.floor((h-newlength) / lineheight);
+              m.style.cssText += "-webkit-line-clamp: " + (lines-cutoff) + ";";
+            }
+          }
+        }
+
+        requestAnimationFrame(() => {
+          collapsebox(element, newlength, lineheight);
+        });
+        requestAnimationFrame(() => {
+          addbuttoncaollapsebox(element, newlength, hoverfunction);
+        });
       }
     }
   }
@@ -176,52 +200,57 @@ const showhidebutton = function (
 
       for (let element of divlist) {
         let hiddenelement = document.getElementById(element);
-        if (hiddenelement !== null) hiddenelement.classList.add("hide");
+        if (hiddenelement !== null) {
+          hiddenelement.classList.add("hide")
+          hiddenelement.classList.remove("flow-root");
+        };
       }
 
       if (button !== null) button.classList.add("active");
-      if (div !== null) div.classList.remove("hide");
+      if (div !== null) { 
+        div.classList.add("flow-root");
+        div.classList.remove("hide");
+      }
     });
   }
 };
 
 // Functions for switching theme
-const go_to_dark = function() {
-  localStorage.setItem('theme', 'ha-toggledark');
-  document.documentElement.classList.add('dark');
-}
+const go_to_dark = function () {
+  localStorage.setItem("theme", "ha-toggledark");
+  document.documentElement.classList.add("dark");
+};
 
-const go_to_twilight = function() {
-  document.documentElement.classList.remove('dark')
+const go_to_twilight = function () {
+  document.documentElement.classList.remove("dark");
   let elements = document.getElementsByClassName("ha-twilighttogglebar");
   for (let el of elements) {
     el.classList.add("dark");
   }
-  localStorage.setItem('theme', 'ha-toggletwilight');
-}
+  localStorage.setItem("theme", "ha-toggletwilight");
+};
 
-const go_to_bright = function() {
-  document.documentElement.classList.remove('dark');
+const go_to_bright = function () {
+  document.documentElement.classList.remove("dark");
   let elements = document.getElementsByClassName("ha-twilighttogglebar");
   for (let el of elements) {
     el.classList.remove("dark");
   }
-  localStorage.setItem('theme', 'ha-togglebright');
-}
+  localStorage.setItem("theme", "ha-togglebright");
+};
 
 // Functions for reading theme settings
-const get_theme_settings = function(standard) {
-  var theme = localStorage.getItem('theme');
+const get_theme_settings = function (standard) {
+  var theme = localStorage.getItem("theme");
   if (theme === null) theme = standard;
   let toggleSwitch = document.getElementById(theme).click();
-}
+};
 
-const collapseboxes = function() {
+const collapseboxes = function () {
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
   overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
-}
-
+};
 
 //////////////////////////////// ONLOAD ////////////////////////////////////
 window.addEventListener("load", function () {
@@ -247,24 +276,59 @@ window.addEventListener("load", function () {
   // Letter / Register View: Collapse all unfit boxes + resize observer
   collapseboxes();
   var doit;
-  this.window.addEventListener('resize', function() {
+  this.window.addEventListener("resize", function () {
     this.clearTimeout(doit);
     this.setTimeout(collapseboxes, 250);
   });
-
 
   // Letter View: Show / Hide Tabs
   let buttonlist = ["ha-lettertextbtn", "ha-additionsbtn", "ha-marginalsbtn"];
   let divlist = ["ha-lettertext", "ha-additions", "ha-marginals"];
 
   if (this.document.getElementById("ha-lettertextbtn") !== null) {
-    showhidebutton("ha-lettertextbtn", "ha-lettertext", buttonlist, divlist, false);
-    showhidebutton("ha-additionsbtn", "ha-additions", buttonlist, divlist, true);
-    showhidebutton("ha-marginalsbtn", "ha-marginals", buttonlist, divlist, true);
+    showhidebutton(
+      "ha-lettertextbtn",
+      "ha-lettertext",
+      buttonlist,
+      divlist,
+      false
+    );
+    showhidebutton(
+      "ha-additionsbtn",
+      "ha-additions",
+      buttonlist,
+      divlist,
+      true
+    );
+    showhidebutton(
+      "ha-marginalsbtn",
+      "ha-marginals",
+      buttonlist,
+      divlist,
+      true
+    );
   } else {
-    showhidebutton("ha-lettertextbtn", "ha-lettertext", buttonlist, divlist, true);
-    showhidebutton("ha-additionsbtn", "ha-additions", buttonlist, divlist, false);
-    showhidebutton("ha-marginalsbtn", "ha-marginals", buttonlist, divlist, true);
+    showhidebutton(
+      "ha-lettertextbtn",
+      "ha-lettertext",
+      buttonlist,
+      divlist,
+      true
+    );
+    showhidebutton(
+      "ha-additionsbtn",
+      "ha-additions",
+      buttonlist,
+      divlist,
+      false
+    );
+    showhidebutton(
+      "ha-marginalsbtn",
+      "ha-marginals",
+      buttonlist,
+      divlist,
+      true
+    );
   }
 
   // Theme: Get saved theme from memory and check the box accordingly

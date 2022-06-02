@@ -168,11 +168,16 @@
 
   .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
   .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
-    @apply desktop:bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-l-2 border-slate-300 dark:border-slate-500
+    @apply desktop:bg-slate-50 dark:bg-slate-900 dark:text-slate-50
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks::before,
+  .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks::before {
+    @apply bg-slate-400 dark:bg-slate-500
   }
 
   .ha-register .ha-register-body .ha-commenthead .ha-letlinks.ha-expanded-box {
-    @apply shadow-md
+    @apply shadow-md dark:shadow-lg
   }
 
   .ha-register .ha-btn-collapsed-box {
@@ -213,7 +218,7 @@
   }
 
   .ha-letterheader {
-    @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-slate-200 border-b-2 dark:shadow-xl
+    @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-slate-300 dark:border-slate-50 border-b-2 dark:shadow-xl
   }
 
   .ha-letterheader .ha-lettertabs a {
@@ -221,7 +226,7 @@
   }
 
   .ha-letterheader .ha-lettertabs a.active {
-    @apply border-b-2 border-slate-200 text-hamannHighlight dark:!text-gray-200 dark:font-bold
+    @apply border-b-[3px] border-slate-300 dark:border-slate-50 text-hamannHighlight dark:!text-gray-200 dark:font-bold
   }
 
   .ha-letterheader .ha-lettermetalinks {
@@ -245,7 +250,7 @@
   }
 
   .ha-additions {
-    @apply bg-slate-50 dark:bg-slate-900
+    @apply hidden bg-slate-50 dark:bg-slate-900
   }
 
   .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
@@ -273,7 +278,7 @@
 
   .ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist,
   .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
-    @apply shadow-md
+    @apply shadow-md dark:shadow-lg pb-1
   }
 
   .ha-tradzhtext .ha-btn-collapsed-box,
@@ -282,26 +287,22 @@
   }
 
   .ha-added,
-  .ha-added
-    *
-    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-added *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply bg-slate-300 dark:bg-slate-600
   }
 
   .ha-note,
-  .ha-note
-    *
-    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-note *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply text-slate-700 dark:text-slate-500
   }
 
   .ha-ful,
-  .ha-ful * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-ful *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply border-black dark:border-white
   }
 
   .ha-tul,
-  .ha-tul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-tul *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply border-black dark:border-white
   }
 
@@ -541,6 +542,10 @@
     @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2
   }
 
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks::before {
+    @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
+  }
+
   .ha-register
     .ha-register-body
     .ha-comment
@@ -711,11 +716,11 @@
   }
 
   .ha-lettertext {
-    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative font-serif leading-[1.48]  numeric-mediaeval
+    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative flow-root font-serif leading-[1.48]  numeric-mediaeval
   }
 
   .ha-marginals {
-    @apply max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] numeric-mediaeval
+    @apply hidden max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] numeric-mediaeval
   }
 
   .ha-marginals table td {
@@ -763,7 +768,7 @@
   }
 
   .ha-additions .ha-tradition .ha-tradzhtext {
-    @apply !block font-serif relative w-fit -ml-4 pl-4 unhyphenate
+    @apply !flow-root font-serif relative w-fit -ml-4 pl-4 unhyphenate
   }
 
   .ha-additions .ha-tradition a {
@@ -857,11 +862,11 @@
   }
 
   .ha-linecount.ha-firstline {
-    @apply hidden sm:inline-block rounded px-1 sm:pb-1 caps-allpetite normal-nums sm:max-w-[5rem] whitespace-nowrap sm:-left-[4rem] desktop:-left-[5.5rem]
+    @apply hidden sm:inline-block rounded px-1 sm:pb-1 caps-allpetite normal-nums whitespace-nowrap
   }
 
   .ha-linecount {
-    @apply sm:absolute sm:-left-[8.6rem] sm:text-right sm:w-32 text-xs sm:mt-1 font-sans select-none
+    @apply sm:absolute sm:right-full sm:mr-2 sm:text-right text-xs sm:mt-1 font-sans select-none
   }
 
   .ha-linecount .ha-zhline {
@@ -882,28 +887,35 @@
   }
 
   .ha-tradzhtext .ha-marginal::before,
-  .ha-lettertext .ha-marginal:before {
+  .ha-lettertext .ha-marginal::before {
     @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
   } 
 
   .ha-tradzhtext .ha-marginalbox,
   .ha-lettertext .ha-marginalbox {
-    @apply hidden pl-2 md:block absolute left-full ml-6 mt-1 w-[16rem] desktop:w-[24rem] text-sm leading-tight hyphenate rounded-sm font-sans 
+    @apply hidden pl-2 md:block absolute left-full ml-6 mt-1 w-[16rem] desktop:w-[24rem] text-sm leading-tight rounded-sm font-sans 
   }
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist,
   .ha-lettertext .ha-marginalbox .ha-marginallist {
-    @apply text-sm leading-tight flex flex-wrap gap-x-4
+    @apply text-sm leading-tight flex flex-wrap gap-x-6
   }
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal,
   .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal {
-    @apply pl-2 inline grow relative
+    @apply pl-2 inline relative
   }
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal a,
   .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal a {
     @apply !underline decoration-dotted hover:decoration-solid 
+  }
+
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal,
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal *,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal * {
+    @apply min-h-0 min-w-0 overflow-ellipsis overflow-hidden
   }
 
   .ha-tradzhtext .ha-btn-collapsed-box,
@@ -957,46 +969,40 @@
   }
 
   .ha-aq,
-  .ha-aq * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-aq *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply font-sans
   }
 
   .ha-ul,
-  .ha-ul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-ul *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply underline
   }
 
   .ha-del,
-  .ha-del * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal, .ha-diagdel) {
+  .ha-del *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-diagdel, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply inline line-through
   }
 
   .ha-hand,
-  .ha-hand
-    *
-    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-hand *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply font-classy text-[0.9rem]
   }
 
   .ha-added,
-  .ha-added
-    *
-    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-added *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply px-1 rounded-sm
   }
 
   .ha-note,
-  .ha-note
-    *
-    :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-note *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply italic
   }
 
-  .ha-emph {
+  .ha-emph *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply italic
   }
 
-  .ha-sup {
+  .ha-sup *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply relative -top-[0.3em] text-[80%]
   }
 
@@ -1010,17 +1016,17 @@
   }
 
   .ha-ful,
-  .ha-ful * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-ful *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply inline border-b pb-[2px]
   }
 
   .ha-dul,
-  .ha-dul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-dul *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply underline decoration-double
   }
 
   .ha-tul,
-  .ha-tul * :not(.ha-linecount *, .ha-linecount, .ha-marginal *, .ha-marginal) {
+  .ha-tul *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply underline border-b-[3px] border-double
   }
 
@@ -1126,18 +1132,14 @@
     @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer
   }
 
-  .ha-collapsed-box {
-    @apply z-0 overflow-hidden overflow-ellipsis cursor-default
+  .ha-collapsed-box,
+  .ha-collapsed-box * {
+    @apply z-0 overflow-hidden min-w-0 min-h-0 overflow-ellipsis cursor-default
   }
 
   .ha-expanded-box {
     @apply pb-1 z-[1000] !h-auto !max-h-screen
   }
-
-  /* .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-collapsed-box:hover,
-    .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-collapsed-box:hover {
-        @apply shadow-md z-[1000] !h-auto
-    } */
 }
 
 .ha-lettertext .ha-marginalbox:before {
@@ -1197,6 +1199,12 @@ body {
     list-style-type:circle;
 } */
 
+.ha-tradzhtext .ha-marginalbox.ha-collapsed-box .ha-marginallist .ha-marginal,
+.ha-lettertext .ha-marginalbox.ha-collapsed-box .ha-marginallist .ha-marginal {
+    display: -webkit-inline-box;
+    -webkit-box-orient: vertical;
+  }
+
 .ha-diagdel {
   text-decoration: none !important;
   text-decoration-line: none !important;
@@ -1222,7 +1230,7 @@ body {
 }
 
 .ha-del .ha-del,
-.ha-del .ha-del * {
+.ha-del .ha-del *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
   -moz-text-decoration-style: double;
   -webkit-text-decoration-style: double !important;
   text-decoration-thickness: 1px;

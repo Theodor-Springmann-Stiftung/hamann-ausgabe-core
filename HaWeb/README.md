@@ -35,8 +35,10 @@ Briefe beim Namen
 
 - GND Normdaten der Namen
 
-
-TODO tabellen ok, ausser 939: dort sind htabs geschachtelt
+TODO 1127 zu breit
+TODO tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
+TODO 659 align center und align-right ueberschneidugn
+TODO Kommentare und min-size von ha-lettertetx
 TODO Word-wrap before align, tabs
-TODO blinken before js
-
+TODO pills are not mobile friendly (hover / click)
+TODO Evtl alignment von center / right an der letzten oder nächsten zeile
