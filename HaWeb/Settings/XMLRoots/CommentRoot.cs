@@ -4,7 +4,8 @@ using HaWeb.XMLParser;
 
 public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Register";
-    public string Container { get; } = "kommcat";
+    public string Prefix { get; } = "register";
+    public string[] XPathContainer { get; } = { ".//data//kommentare/kommcat", ".//kommentare/kommcat" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "kommentar") return true;
@@ -18,19 +19,27 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
         else return null;
     };
 
-    public List<(string, string)>? GenerateFields(XMLRootDocument document) {
+    public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
         return null;
     }
 
-    public (string?, string) GenerateIdentificationString(XElement element) {
+    public (string?, string?) GenerateIdentificationString(XElement element) {
         var kat = element.Attribute("value");
         if (kat != null && !String.IsNullOrWhiteSpace(kat.Value)) 
             return (null, kat.Value);
-        return (null, Container);
+        return (null, null);
     }
 
     public bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2) {
         return true;
+    }
+
+    public XElement CreateHamannDocument(XElement element) {
+        var opus = new XElement("opus");
+        var kommentare = new XElement("kommentare");
+        kommentare.AddFirst(element);
+        opus.AddFirst(kommentare);
+        return opus;
     }
 
 }

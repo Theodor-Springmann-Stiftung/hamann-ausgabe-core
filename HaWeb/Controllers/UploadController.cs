@@ -18,6 +18,8 @@ using HaWeb.FileHelpers;
 using HaWeb.XMLParser;
 using HaWeb.Models;
 using System.Xml.Linq;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 public class UploadController : Controller
 {
@@ -109,18 +111,36 @@ public class UploadController : Controller
                 if (!ModelState.IsValid || xdocument == null)
                     return UnprocessableEntity(ModelState);
 
-//// 3. Stage: Is it a Hamann-Document? What kind?
+//// 4. Stage: Is it a Hamann-Document? What kind?
                 var docs = _xmlService.ProbeHamannFile(xdocument, ModelState);
                 if (!ModelState.IsValid || docs == null || !docs.Any())
                     return UnprocessableEntity(ModelState);
                 
 //// 5. Stage: Saving the File(s)
                 foreach (var doc in docs) {
-                    using (var targetStream = System.IO.File.Create(Path.Combine(_targetFilePath, doc.CreateFilename())))
-                        doc.Save(targetStream);
+                    var type = doc.Prefix;
+                    var directory = Path.Combine(_targetFilePath, type);
+                    if (!Directory.Exists(directory))
+                        Directory.CreateDirectory(directory);
+                    var path = Path.Combine(directory, doc.FileName);
+                    try {
+                        using (var targetStream = System.IO.File.Create(path))
+                            await doc.Save(targetStream, ModelState);
+                            if (!ModelState.IsValid) return StatusCode(500, ModelState);
+                    }
+                    catch (Exception ex) {
+                        ModelState.AddModelError("Error",  "Speichern der Datei fehlgeschlagen: " + ex.Message);
+                        return StatusCode(500, ModelState);
+                    }
                 }
 
-                return Created(nameof(UploadController), docs);
+// 6. State: Returning Ok, and redirecting 
+                JsonSerializerOptions options = new() {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                };
+
+                string json = JsonSerializer.Serialize(docs);
+                return Created(nameof(UploadController), json);
             }
 
            try

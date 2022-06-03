@@ -11,8 +11,13 @@ public class XMLService : IXMLService {
         types.ForEach( x => {
             if (this._Roots == null) this._Roots = new Dictionary<string, IXMLRoot>();
             var instance = (IXMLRoot)Activator.CreateInstance(x)!;
-            if (instance != null) this._Roots.Add(instance.Type, instance);
+            if (instance != null) this._Roots.Add(instance.Prefix, instance);
         });
+    }
+
+    public IXMLRoot? GetRoot(string name) {
+        _Roots.TryGetValue(name, out var root);
+        return root;
     }
 
     public List<IXMLRoot>? GetRoots() => this._Roots == null ? null : this._Roots.Values.ToList();
@@ -23,41 +28,23 @@ public class XMLService : IXMLService {
             return null;
         }
 
-        var res = _testElements(document.Root.Elements());
-        if (document.Root.Element("data") != null) {
-            var datares = _testElements(document.Element("data")!.Elements());
-            if (datares != null && res == null) res = datares;
-            else if (datares != null) res!.AddRange(datares);
-        }
-
-        return res;
-    }
-
-    private List<XMLRootDocument>? _testElements(IEnumerable<XElement>? elements) {
-        if (elements == null) return null;
         List<XMLRootDocument>? res = null;
-        foreach (var elem in elements) {
-           var doc = _testElement(elem);
-           if (doc != null) {
-               if (res == null) res = new List<XMLRootDocument>();
-               res.Add(doc);
-           }
+        if (document.Root != null && _Roots != null) {
+            foreach (var (_, root) in _Roots) {
+                var elements = root.IsTypeOf(document.Root);
+                if (elements != null &&  elements.Any())
+                    foreach (var elem in elements) {
+                        if (res == null) res = new List<XMLRootDocument>();
+                        res.Add(_createXMLRootDocument(root, elem));
+                    }
+            }
         }
+        if (res == null) ModelState.AddModelError("Error", "Kein zum Hamann-Briefe-Projekt passendes XML gefunden.");
         return res;
-    }
-
-    private XMLRootDocument? _testElement(XElement? element) {
-        if (element == null || _Roots == null) return null;
-        foreach (var (_, root) in _Roots) {
-            if(root.IsTypeOf(element))
-                return _createXMLRootDocument(root, element);
-        }
-        return null;
     }
 
     private XMLRootDocument _createXMLRootDocument(IXMLRoot Root, XElement element) {
-        var doc = new XMLRootDocument(Root.Type, Root.GenerateIdentificationString(element), element);
-        doc.Elements = Root.GetCollectedObjects(doc);
+        var doc = new XMLRootDocument(this, Root.Prefix, Root.GenerateIdentificationString(element), element);
         doc.Fields = Root.GenerateFields(doc);
         return doc;
     }

@@ -4,7 +4,8 @@ using HaWeb.XMLParser;
 
 public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Stellenkommentar";
-    public string Container { get; } = "marginalien";
+    public string Prefix { get; } = "stellenkommentar";
+    public string[] XPathContainer { get; } = { ".//data/marginalien", ".//marginalien" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "marginal") return true;
@@ -18,16 +19,22 @@ public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
         else return null;
     };
 
-    public List<(string, string)>? GenerateFields(XMLRootDocument document) {
+    public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
         return null;
     }
 
-    public (string?, string) GenerateIdentificationString(XElement element) {
-        return (null, Container);
+    public (string?, string?) GenerateIdentificationString(XElement element) {
+        return (null, null);
     }
 
     public bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2) {
         return true;
+    }
+
+    public XElement CreateHamannDocument(XElement element) {
+        var opus = new XElement("opus");
+        opus.AddFirst(element);
+        return opus;
     }
 
 }
