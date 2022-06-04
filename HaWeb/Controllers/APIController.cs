@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Http.Features;
 public class APIController : Controller {
 
     // DI
-    private ILibrary _lib;
+    private IHaDocumentWrappper _lib;
     private IReaderService _readerService;
     private readonly long _fileSizeLimit;
     private readonly string _targetFilePath;
@@ -31,7 +31,7 @@ public class APIController : Controller {
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
 
-    public APIController(ILibrary lib, IReaderService readerService, IXMLService xmlService, IConfiguration config) {
+    public APIController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
         _xmlService = xmlService;
