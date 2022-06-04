@@ -8,4 +8,5 @@ public interface IXMLService {
     public Task<List<XMLRootDocument>?> ProbeHamannFile(XDocument document, ModelStateDictionary ModelState);
     public Task UpdateAvailableFiles(XMLRootDocument doc, string basefilepath, ModelStateDictionary ModelState);
     public Dictionary<string, List<XMLRootDocument>> GetUsed();
+    public List<XMLRootDocument>? GetAvailableFiles(string prefix);
 }

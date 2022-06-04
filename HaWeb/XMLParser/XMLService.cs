@@ -87,6 +87,13 @@ public class XMLService : IXMLService {
         AutoDetermineUsed(prefix);
     }
 
+    public List<XMLRootDocument>? GetAvailableFiles(string prefix) {
+        if (_Roots == null || _availableFiles == null) return null;
+        if(!_Roots.ContainsKey(prefix) || !_availableFiles.ContainsKey(prefix)) return null;
+
+        return _availableFiles[prefix];
+    }
+
     public async Task UpdateAvailableFiles(XMLRootDocument doc, string basefilepath, ModelStateDictionary ModelState) {
         await _setEnabled();
         if (!UploadEnabled) {

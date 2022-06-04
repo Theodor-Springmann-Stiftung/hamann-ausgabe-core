@@ -259,6 +259,8 @@ window.addEventListener("load", function () {
     markactive_startswith(document.getElementById("ha-topnav"));
   if (document.getElementById("ha-register-nav") != null)
     markactive_exact(document.getElementById("ha-register-nav"));
+  if (this.document.getElementById("ha-adminuploadfields") != null)
+    markactive_startswith(document.getElementById("ha-adminuploadfields"));
 
   // Letter / Register View: Collapse all unfit boxes + resize observer
   collapseboxes();

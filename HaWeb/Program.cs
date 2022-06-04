@@ -29,7 +29,7 @@ var physicalProvider = new PhysicalFileProvider(filepath);
 
 
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
-builder.Services.AddSingleton<ILibrary>(HaDocument.Document.Create(new Options()));
+builder.Services.AddSingleton<HaWeb.FileHelpers.IHaDocumentWrappper, HaWeb.FileHelpers.HaDocumentWrapper>();
 builder.Services.AddTransient<IReaderService, ReaderService>();
 builder.Services.AddSingleton<IXMLService, XMLService>();
 builder.Services.AddFeatureManagement();
@@ -50,12 +50,3 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
 app.Run();
-
-
-
-class Options : IHaDocumentOptions {
-    public string HamannXMLFilePath { get; set; } = HaWeb.Settings.General.XMLFILEPATH;
-    public string[] AvailableVolumes { get; set; } = HaWeb.Settings.General.AVAILABLEVOLUMES;
-    public bool NormalizeWhitespace { get; set; } = HaWeb.Settings.General.NORMALIZEWHITESPACE;
-    public (int, int) AvailableYearRange {get; set; } = HaWeb.Settings.General.AVAILABLEYEARRANGE;
-}

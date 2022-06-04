@@ -3,27 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using HaDocument.Interfaces;
 using HaXMLReader.Interfaces;
 using Microsoft.FeatureManagement.Mvc;
-using System.IO;
-using System.Net;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Net.Http.Headers;
 using HaWeb.Filters;
-using HaWeb.FileHelpers;
 using HaWeb.XMLParser;
 using HaWeb.Models;
-using System.Xml.Linq;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+using HaWeb.FileHelpers;
 
 public class UploadController : Controller {
     // DI
-    private ILibrary _lib;
+    private IHaDocumentWrappper _lib;
     private IReaderService _readerService;
     private readonly long _fileSizeLimit;
     private readonly string _targetFilePath;
@@ -34,7 +24,7 @@ public class UploadController : Controller {
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
 
-    public UploadController(ILibrary lib, IReaderService readerService, IXMLService xmlService, IConfiguration config) {
+    public UploadController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
         _xmlService = xmlService;
@@ -48,94 +38,35 @@ public class UploadController : Controller {
 
     [HttpGet]
     [Route("Admin/Upload/{id?}")]
-    [FeatureGate(Features.UploadService)]
+    [FeatureGate(Features.AdminService)]
     [GenerateAntiforgeryTokenCookie]
     public IActionResult Index(string? id) {
-        var model = new UploadViewModel();
-        model.AvailableRoots = _xmlService.GetRoots();
-        model.UsedFiles = _xmlService.GetUsed();
-        var hello = "mama";
-        return View("../Admin/Upload/Index", model);
+        if (id != null) {
+            var root = _xmlService.GetRoot(id);
+            if (root == null) return error404();
+
+            var roots = _xmlService.GetRoots();
+            if (roots == null) return error404();
+
+            var usedFiles = _xmlService.GetUsed();
+            var availableFiles = _xmlService.GetAvailableFiles(id);
+
+            var model = new UploadViewModel(root.Type, id, roots, availableFiles, usedFiles);
+            return View("../Admin/Upload/Index", model);
+        }
+        else {
+            var roots = _xmlService.GetRoots();
+            if (roots == null) return error404();
+
+            var usedFiles = _xmlService.GetUsed();
+
+            var model = new UploadViewModel("Upload", id, roots, null, usedFiles);
+            return View("../Admin/Upload/Index", model);
+        }
     }
 
-
-    //// UPLOAD ////
-    [HttpPost]
-    [Route("Admin/Upload")]
-    [DisableFormValueModelBinding]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Post() {
-        List<XMLRootDocument>? docs = null;
-        //// 1. Stage: Check Request format and request spec
-        // Checks the Content-Type Field (must be multipart + Boundary)
-        if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType)) {
-            ModelState.AddModelError("Error", $"Wrong / No Content Type on the Request");
-            return BadRequest(ModelState);
-        }
-
-        // Divides the multipart document into it's sections and sets up a reader
-        var boundary = MultipartRequestHelper.GetBoundary(MediaTypeHeaderValue.Parse(Request.ContentType), _defaultFormOptions.MultipartBoundaryLengthLimit);
-        var reader = new MultipartReader(boundary, HttpContext.Request.Body);
-        MultipartSection? section = null;
-        try {
-            section = await reader.ReadNextSectionAsync();
-        } catch (Exception ex) {
-            ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
-        }
-
-        while (section != null) {
-            // Multipart document content disposition header read for a section:
-            // Starts with boundary, contains field name, content-dispo, filename, content-type
-            var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var contentDisposition);
-            if (hasContentDispositionHeader && contentDisposition != null) {
-                // Checks if it is a section with content-disposition, name, filename
-                if (!MultipartRequestHelper.HasFileContentDisposition(contentDisposition)) {
-                    ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");
-                    return BadRequest(ModelState);
-                }
-
-                //// 2. Stage: Check File. Sanity checks on the file on a byte level, extension checking, is it empty etc.
-                var streamedFileContent = await XMLFileHelpers.ProcessStreamedFile(
-                    section, contentDisposition, ModelState,
-                    _permittedExtensions, _fileSizeLimit);
-                if (!ModelState.IsValid || streamedFileContent == null)
-                    return BadRequest(ModelState);
-
-                //// 3. Stage: Valid XML checking using a simple XDocument.Load()
-                var xdocument = await XDocumentFileHelper.ProcessStreamedFile(streamedFileContent, ModelState);
-                if (!ModelState.IsValid || xdocument == null)
-                    return UnprocessableEntity(ModelState);
-
-                //// 4. Stage: Is it a Hamann-Document? What kind?
-                var retdocs = await _xmlService.ProbeHamannFile(xdocument, ModelState);
-                if (!ModelState.IsValid || retdocs == null || !retdocs.Any())
-                    return UnprocessableEntity(ModelState);
-
-                //// 5. Stage: Saving the File(s)
-                foreach (var doc in retdocs) {
-                    await _xmlService.UpdateAvailableFiles(doc, _targetFilePath, ModelState);
-                    if (!ModelState.IsValid) return StatusCode(500, ModelState);
-                    if (docs == null) docs = new List<XMLRootDocument>();
-                    docs.Add(doc);
-                }
-            }
-
-            try {
-                section = await reader.ReadNextSectionAsync();
-            } catch (Exception ex) {
-                ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
-            }
-        }
-
-        // 6. Stage: Success! Returning Ok, and redirecting 
-        JsonSerializerOptions options = new() {
-            ReferenceHandler = ReferenceHandler.Preserve,
-            Converters = {
-                new IdentificationStringJSONConverter()
-            }
-        };
-
-        string json = JsonSerializer.Serialize(docs);
-        return Created(nameof(UploadController), json);
+    private IActionResult error404() {
+        Response.StatusCode = 404;
+        return Redirect("/Error404");
     }
 }

@@ -664,6 +664,116 @@
     @apply flex leading-snug
   }
 
+  /* Classes for Upload View */
+  .ha-adminuploadfields {
+    @apply flex flex-row flex-wrap gap-x-4 gap-y-4
+  }
+
+  .ha-adminuploadfields .ha-uploadfield {
+    @apply block shrink-0 grow bg-slate-50 rounded shadow basis-64 max-w-xs
+  }
+
+  .ha-adminuploadfields .ha-uploadfield:hover {
+    @apply brightness-110
+  }
+
+  .ha-adminuploadfields .ha-uploadfield.active {
+    @apply !text-black shadow-red-100
+  }
+
+  .ha-adminuploadfields .ha-uploadfield .ha-uploadfieldname {
+    @apply px-3 pt-2 pb-1
+  }
+
+  .ha-adminuploadfields .ha-uploadusedfiles {
+    @apply text-sm whitespace-nowrap overflow-hidden text-ellipsis w-auto bg-slate-200 border-t border-slate-300 bg-opacity-30 px-2 py-0.5 
+  }
+
+  .ha-adminuploadfields .ha-uploadusedfiles.ha-uploadusedfilesnotfound {
+    @apply bg-slate-500 border-slate-500
+  }
+
+  .ha-adminuploadfields .ha-uploadpublishforms {
+    @apply flex flex-row gap-x-4 grow
+  }
+
+  .ha-adminuploadfields .ha-uploadform {
+    @apply bg-slate-50 rounded shadow grow relative
+  }
+
+  .ha-adminuploadfields .ha-uploadform .ha-uploadtext {
+    @apply text-center
+  }
+
+  .ha-adminuploadfields .ha-uploadform .ha-lds-ellipsis {
+    @apply left-1/2 -ml-[20px]
+  }
+
+  .ha-adminuploadfields .ha-uploadform .ha-uploadfilelabel {
+    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full
+  }
+
+  .ha-adminuploadfields .ha-uploadform .ha-uploadmessage {
+    @apply text-sm bg-slate-700 bg-opacity-30 px-1 rounded-sm
+  }
+
+  .ha-adminuploadfields .ha-publishform {
+    @apply bg-slate-50 rounded shadow grow px-3 py-2 
+  }
+
+  .ha-uploadheader {
+    @apply bg-slate-50 w-full mt-4 px-16 pt-12 pb-8 flex flex-row
+  }
+
+  .ha-uploadheader h1 {
+    @apply text-5xl
+  }
+
+  .ha-uploadheader .ha-usedfilesheader {
+    @apply flex
+  }
+
+  .ha-uploadheader .ha-usedfilesheaderlist {
+    @apply flex flex-row flex-wrap ml-6 gap-x-2 gap-y-1 self-end content-end mb-1
+  }
+
+  .ha-uploadheader .ha-usedfilesheaderlist .ha-usedfilesheaderfile {
+    @apply text-sm px-2 bg-slate-700 bg-opacity-30 rounded
+  }
+
+  .ha-uploadheader .ha-usedfilesheaderlist .ha-availablefilechooser {
+    @apply text-sm pr-1 bg-slate-700 bg-opacity-50 rounded
+  }
+
+  .ha-uploadheader .ha-usedfilesheaderlist .ha-availablefilechooser .ha-loadotherfilesbtn {
+    @apply inline-block
+  }
+
+  .ha-uploadcontainer {
+    @apply w-full bg-slate-50 flex flex-col gap-y-2 h-full
+  }
+
+  .ha-uploadcontainer .ha-errorswarnings {
+    @apply flex flex-row gap-x-2
+  }
+
+  .ha-uploadcontainer .ha-errorswarnings .ha-criticalerrors,
+  .ha-uploadcontainer .ha-errorswarnings .ha-warnings {
+    @apply basis-1/2 min-w-[40%] min-h-[400px] overflow-x-hidden overflow-y-scroll grow shrink
+  }
+
+  .ha-uploadcontainer .ha-errorswarnings .ha-criticalerrors {
+    @apply bg-red-200
+  }
+
+  .ha-uploadcontainer .ha-errorswarnings .ha-warnings {
+    @apply bg-orange-200
+  }
+
+  .ha-uploadcontainer .ha-crossfilechecking {
+    @apply w-full bg-cyan-200 grow shrink-0 h-full min-h-[400px]
+  }
+
   /* Classes for Letter View */
 
   .ha-letterheader {
@@ -1137,6 +1247,7 @@
   }
 }
 
+/* Content */
 .ha-lettertext .ha-marginalbox:before {
   content: "";
 }
@@ -1181,6 +1292,7 @@
   content: "";
 }
 
+/* Not implemented in tailwindcss */
 * {
   text-decoration-skip-ink: all;
 }
@@ -1189,10 +1301,6 @@ body {
   background-image: url("../img/subtlenet2.png");
   background-repeat: repeat;
 }
-
-/* ul {
-    list-style-type:circle;
-} */
 
 .ha-tradzhtext .ha-marginalbox.ha-collapsed-box .ha-marginallist .ha-marginal,
 .ha-lettertext .ha-marginalbox.ha-collapsed-box .ha-marginallist .ha-marginal {
@@ -1282,6 +1390,7 @@ body {
   break-inside: avoid;
 }
 
+/* Symbols, Icons, Drawings, Tooltips */
 .ha-menu-arrowsymbol::after {
   display: inline-block;
   margin-left: 0.2em;
@@ -1344,9 +1453,121 @@ body {
   font-weight: 900;
 }
 
-.ha-text {
-    user-select: contain;
+.ha-uploadheader .ha-usedfilesheaderlist .ha-plussign {
+  content: "\200E+ ";
+  font-weight: bold;
+  display: inline-block;
+  background-color: lightslategray;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
+
+/* Tooltip text */
+.ha-uploadform .ha-uploadmessage {
+  visibility: visible;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+
+  margin-top: 0.5rem;
+  width: 360px;
+  top: 100%;
+  left: 50%;
+  margin-left: -180px; /* Use half of the width (120/2 = 60), to center the tooltip */
+
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.ha-uploadform .ha-uploadmessage::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent grey transparent;
+
+}
+
+
+.ha-lds-ellipsis {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+}
+
+.ha-lds-ellipsis div {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #000;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.ha-lds-ellipsis div:nth-child(1) {
+  left: 6px;
+  animation: ha-lds-ellipsis1 0.6s infinite;
+}
+
+.ha-lds-ellipsis div:nth-child(2) {
+  left: 4px;
+  animation: ha-lds-ellipsis2 0.6s infinite;
+}
+
+.ha-lds-ellipsis div:nth-child(3) {
+  left: 16px;
+  animation: ha-lds-ellipsis2 0.6s infinite;
+}
+
+.ha-lds-ellipsis div:nth-child(4) {
+  left: 30px;
+  animation: ha-lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes ha-lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ha-lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes ha-lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(16px, 0);
+  }
+}
+
+.ha-cross::before,
+.ha-cross::after {
+  content: "";
+}
+
+.ha-cross::before {
+  -webkit-transform: skewY(-27deg);
+  transform: skewY(-27deg);
+}
+
 /* Classes for tables */
 .ha-table {
   overflow: hidden;
@@ -1880,14 +2101,4 @@ body {
   position: absolute;
   left: 91.666%;
   min-width: 8.333%;
-}
-
-.ha-cross::before,
-.ha-cross::after {
-  content: "";
-}
-
-.ha-cross::before {
-  -webkit-transform: skewY(-27deg);
-  transform: skewY(-27deg);
 }
