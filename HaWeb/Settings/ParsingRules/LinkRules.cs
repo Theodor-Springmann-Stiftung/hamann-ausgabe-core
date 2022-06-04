@@ -16,7 +16,7 @@ public static class LinkRules {
         ( (x, _) => x.Name == "titel", (strbd, _, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) ),
         ( (x, _) => x.Name == "title", (strbd, _, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TITLECLASS)) )
     };
-    
+
     public static readonly TagFuncList CTagRules = new TagFuncList() {
         ( (x, _) => x.Name == "lemma", (strbd, _, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),
         ( (x, _) => x.Name == "titel", (strbd, _, _) => strbd.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT)) ),

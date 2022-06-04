@@ -7,8 +7,7 @@ using HaDocument.Models;
 
 namespace HaWeb.Controllers;
 
-public class Briefecontroller : Controller
-{
+public class Briefecontroller : Controller {
     [BindProperty(SupportsGet = true)]
     public string? id { get; set; }
 
@@ -16,16 +15,14 @@ public class Briefecontroller : Controller
     private ILibrary _lib;
     private IReaderService _readerService;
 
-    public Briefecontroller(ILibrary lib, IReaderService readerService)
-    {
+    public Briefecontroller(ILibrary lib, IReaderService readerService) {
         _lib = lib;
         _readerService = readerService;
     }
 
     [Route("Briefe")]
     [Route("Briefe/{id?}")]
-    public IActionResult Index(string? id)
-    {
+    public IActionResult Index(string? id) {
         // Setup settings and variables
         var url = "/Briefe/";
         var defaultID = "1";
@@ -73,25 +70,22 @@ public class Briefecontroller : Controller
                 model.MetaData.ParsedZHString += " / " + parsedLetter.Startline;
             if (model.ParsedText == null || String.IsNullOrWhiteSpace(model.ParsedText))
                 model.MetaData.HasText = false;
-        } 
+        }
 
         // Return
         return View(model);
     }
 
-    private IActionResult error404()
-    {
+    private IActionResult error404() {
         Response.StatusCode = 404;
         return Redirect("/Error404");
     }
 
-    private BriefeMetaViewModel generateMetaViewModel(Meta meta, bool hasMarginals)
-    {
+    private BriefeMetaViewModel generateMetaViewModel(Meta meta, bool hasMarginals) {
         var senders = meta.Senders.Select(x => _lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => _lib.Persons[x].Name) ?? new List<string>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
-        return new BriefeMetaViewModel(meta, hasMarginals, false)
-        {
+        return new BriefeMetaViewModel(meta, hasMarginals, false) {
             ParsedZHString = zhstring,
             ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)

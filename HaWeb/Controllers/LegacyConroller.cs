@@ -6,8 +6,7 @@ using HaWeb.Models;
 namespace HaWeb.Controllers;
 
 
-public class LegacyContoller : Controller
-{
+public class LegacyContoller : Controller {
     [Route("Supplementa/")]
     [Route("Supplementa/Register")]
     [Route("Supplementa/Register/{id?}")]

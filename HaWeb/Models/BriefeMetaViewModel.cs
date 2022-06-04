@@ -1,8 +1,7 @@
 namespace HaWeb.Models;
 using HaDocument.Models;
 using System.Web;
-public class BriefeMetaViewModel
-{
+public class BriefeMetaViewModel {
     public Meta Meta { get; private set; }
     public bool HasMarginals { get; private set; }
     public bool ShowZHData { get; private set; }
@@ -12,11 +11,9 @@ public class BriefeMetaViewModel
     private string? _ParsedReceivers;
     private string? _ParsedZHString;
 
-    public string? ParsedSenders
-    {
+    public string? ParsedSenders {
         get => _ParsedSenders;
-        set
-        {
+        set {
             if (value != null)
                 _ParsedSenders = HttpUtility.HtmlEncode(value);
             else
@@ -24,11 +21,9 @@ public class BriefeMetaViewModel
         }
     }
 
-    public string? ParsedReceivers
-    {
+    public string? ParsedReceivers {
         get => _ParsedReceivers;
-        set
-        {
+        set {
             if (value != null)
                 _ParsedReceivers = HttpUtility.HtmlEncode(value);
             else
@@ -37,11 +32,9 @@ public class BriefeMetaViewModel
         }
     }
 
-    public string? ParsedZHString
-    {
+    public string? ParsedZHString {
         get => _ParsedZHString;
-        set
-        {
+        set {
             if (value != null)
                 _ParsedZHString = HttpUtility.HtmlEncode(value);
             else
@@ -54,8 +47,7 @@ public class BriefeMetaViewModel
     public (BriefeMetaViewModel, string)? Prev { get; set; }
 
 
-    public BriefeMetaViewModel(Meta meta, bool hasMarginals, bool showZHData)
-    {
+    public BriefeMetaViewModel(Meta meta, bool hasMarginals, bool showZHData) {
         Meta = meta;
         HasMarginals = hasMarginals;
         ShowZHData = showZHData;

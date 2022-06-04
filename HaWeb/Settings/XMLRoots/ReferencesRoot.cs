@@ -13,7 +13,7 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
         return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => { 
+    public Func<XElement, string?> GetKey { get; } = (elem) => {
         return elem.Name.ToString();
     };
 

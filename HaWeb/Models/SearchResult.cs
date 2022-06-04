@@ -26,10 +26,8 @@ public class DocumentResult {
     }
 }
 
-public class LetterComparer : IComparer<DocumentSearchResult>
-{
-    public int Compare(DocumentSearchResult first, DocumentSearchResult second)
-    {
+public class LetterComparer : IComparer<DocumentSearchResult> {
+    public int Compare(DocumentSearchResult first, DocumentSearchResult second) {
         var cmp = new DefaultComparer();
         return cmp.Compare(first.MetaData, second.MetaData);
     }

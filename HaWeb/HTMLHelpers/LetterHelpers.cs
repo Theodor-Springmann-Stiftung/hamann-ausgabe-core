@@ -11,10 +11,8 @@ using System.Xml.Linq;
 using HaWeb.Settings.ParsingState;
 using HaWeb.Settings.ParsingRules;
 
-public static class LetterHelpers
-{
-    public static LetterState CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits)
-    {
+public static class LetterHelpers {
+    public static LetterState CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
         var rd = readerService.RequestStringReader(letter.Element);
         var letterState = new LetterState(lib, readerService, meta, marginals, hands, edits);
         new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, LetterRules.OTagRules, LetterRules.STagRules, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
@@ -23,8 +21,7 @@ public static class LetterHelpers
         return letterState;
     }
 
-    public static TraditionState CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits)
-    {
+    public static TraditionState CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
         var rd = readerService.RequestStringReader(tradition.Element);
         var traditionState = new TraditionState(lib, rd, readerService, marginals, hands, edits);
         new HaWeb.HTMLParser.XMLHelper<TraditionState>(traditionState, rd, traditionState.sb_tradition, TraditionRules.OTagRules, TraditionRules.STagRules, TraditionRules.CTagRules, TraditionRules.TextRules, TraditionRules.WhitespaceRules);
@@ -33,13 +30,11 @@ public static class LetterHelpers
         return traditionState;
     }
 
-    public static List<(string, string, string, string, string, string)> CreateEdits(ILibrary lib, IReaderService readerService, IEnumerable<Editreason> editreasons)
-    {
+    public static List<(string, string, string, string, string, string)> CreateEdits(ILibrary lib, IReaderService readerService, IEnumerable<Editreason> editreasons) {
         editreasons = editreasons.OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.StartPage)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.StartLine));
         var editstrings = new List<(string, string, string, string, string, string)>();
         var editsState = new EditState();
-        foreach (var edit in editreasons)
-        {
+        foreach (var edit in editreasons) {
             var currstring = edit.StartPage + "/" + edit.StartLine;
             var endstring = "";
             var refstring = "";
@@ -47,10 +42,9 @@ public static class LetterHelpers
                 endstring += edit.EndPage + "/" + edit.EndLine;
             else if (edit.StartLine != edit.EndLine)
                 endstring += edit.EndLine;
-            
+
             editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("div", "edit"));
-            if (!String.IsNullOrWhiteSpace(edit.Reference))
-            {
+            if (!String.IsNullOrWhiteSpace(edit.Reference)) {
                 var sb2 = new StringBuilder();
                 sb2.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "reference"));
                 var rd = readerService.RequestStringReader(edit.Reference);
@@ -58,8 +52,7 @@ public static class LetterHelpers
                 rd.Read();
                 sb2.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
                 // Old: (edit.StartPage != edit.EndPage || edit.StartLine != edit.EndLine) && 
-                if (XElement.Parse(sb2.ToString()).Value.ToString().Length >= 20)
-                {
+                if (XElement.Parse(sb2.ToString()).Value.ToString().Length >= 20) {
                     var text = XElement.Parse(sb2.ToString()).Value.ToString();
                     text = text.ToString().Split(' ').Take(1).First() + " [&#x2026;] " + text.ToString().Split(' ').TakeLast(1).First();
                     var sb3 = new StringBuilder();
@@ -67,12 +60,10 @@ public static class LetterHelpers
                     sb3.Append(text);
                     sb3.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
                     refstring = sb3.ToString();
-                }
-                else
+                } else
                     refstring = sb2.ToString();
             }
-            if (!String.IsNullOrWhiteSpace(edit.Element))
-            {
+            if (!String.IsNullOrWhiteSpace(edit.Element)) {
                 editsState.sb_edits.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "corrections"));
                 var rd = readerService.RequestStringReader(edit.Element);
                 new HaWeb.HTMLParser.XMLHelper<EditState>(editsState, rd, editsState.sb_edits, EditRules.OTagRules, EditRules.STagRules, EditRules.CTagRules, EditRules.TextRules, EditRules.WhitespaceRules);
@@ -86,11 +77,9 @@ public static class LetterHelpers
         return editstrings;
     }
 
-    public static List<(string, string, string, string, string)> CreateHands(ILibrary lib, ImmutableList<Hand> hands)
-    {
+    public static List<(string, string, string, string, string)> CreateHands(ILibrary lib, ImmutableList<Hand> hands) {
         var handstrings = new List<(string, string, string, string, string)>();
-        foreach (var hand in hands.OrderBy(x => x.StartPage.Length).ThenBy(x => x.StartPage).ThenBy(x => x.StartLine.Length).ThenBy(x => x.StartLine))
-        {
+        foreach (var hand in hands.OrderBy(x => x.StartPage.Length).ThenBy(x => x.StartPage).ThenBy(x => x.StartLine.Length).ThenBy(x => x.StartLine)) {
             var currstring = hand.StartPage + "/" + hand.StartLine;
             var endstring = "";
             var personstring = "";
@@ -100,8 +89,7 @@ public static class LetterHelpers
                 if (hand.StartLine != hand.EndLine)
                 endstring += hand.EndLine;
             var persons = lib.HandPersons.Where(x => x.Key == hand.Person);
-            if (persons.Any())
-            {
+            if (persons.Any()) {
                 personstring += " " + persons.FirstOrDefault().Value.Name;
                 handstrings.Add((currstring, endstring, personstring, hand.StartPage, hand.StartLine));
             }

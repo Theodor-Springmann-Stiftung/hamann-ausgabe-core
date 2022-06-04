@@ -5,14 +5,14 @@ using HaWeb.XMLParser;
 public class DescriptionsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Metadaten";
     public string Prefix { get; } = "metadaten";
-    public string[] XPathContainer { get; } = {".//data/descriptions", ".//descriptions" };
+    public string[] XPathContainer { get; } = { ".//data/descriptions", ".//descriptions" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "letterDesc") return true;
         return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => { 
+    public Func<XElement, string?> GetKey { get; } = (elem) => {
         var index = elem.Attribute("ref");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;

@@ -34,8 +34,7 @@ public class TraditionState : HaWeb.HTMLParser.IState {
 
     internal IReader rd_tradition;
 
-    public TraditionState(ILibrary lib, IReader reader, IReaderService readerService, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) 
-    {
+    public TraditionState(ILibrary lib, IReader reader, IReaderService readerService, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
         Lib = lib;
         rd_tradition = reader;
         Marginals = marginals;
@@ -47,7 +46,7 @@ public class TraditionState : HaWeb.HTMLParser.IState {
 
     public void SetupState() {
         sb_tradition = new StringBuilder();
-       
+
         active_trad = false;
         active_skipwhitespace = true;
         currline = "-1";

@@ -1,8 +1,7 @@
 namespace HaWeb.Models;
 using System.Web;
 
-public class RegisterViewModel
-{
+public class RegisterViewModel {
     public string Category { get; private set; }
     public string Id { get; private set; }
     public string Title { get; private set; }
@@ -15,14 +14,12 @@ public class RegisterViewModel
     public List<CommentModel> ParsedComments { get; private set; }
 
     // Title, URL
-    public List<(string, string)>? AvailableCategories
-    {
+    public List<(string, string)>? AvailableCategories {
         get => _AvailableCategories;
-        set
-        {
+        set {
             if (value != null)
                 _AvailableCategories = value.Select(x => (
-                    HttpUtility.HtmlEncode(x.Item1), 
+                    HttpUtility.HtmlEncode(x.Item1),
                     HttpUtility.HtmlAttributeEncode(x.Item2))
                 ).ToList();
             else
@@ -31,14 +28,12 @@ public class RegisterViewModel
     }
 
     // Title, URL
-    public List<(string, string)>? AvailableSideCategories
-    {
+    public List<(string, string)>? AvailableSideCategories {
         get => _AvailableSideCategories;
-        set
-        {
+        set {
             if (value != null)
                 _AvailableSideCategories = value.Select(x => (
-                    HttpUtility.HtmlEncode(x.Item1), 
+                    HttpUtility.HtmlEncode(x.Item1),
                     HttpUtility.HtmlAttributeEncode(x.Item2))
                 ).ToList();
             else
@@ -46,8 +41,7 @@ public class RegisterViewModel
         }
     }
 
-    public RegisterViewModel(string category, string id, List<CommentModel> parsedComments, string title)
-    {
+    public RegisterViewModel(string category, string id, List<CommentModel> parsedComments, string title) {
         this.Category = HttpUtility.HtmlAttributeEncode(category);
         this.Id = HttpUtility.HtmlAttributeEncode(id);
         this.ParsedComments = parsedComments;

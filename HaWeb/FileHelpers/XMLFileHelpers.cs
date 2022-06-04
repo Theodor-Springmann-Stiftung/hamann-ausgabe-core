@@ -12,8 +12,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 
-public static class XMLFileHelpers
-{
+public static class XMLFileHelpers {
     //  File Signatures Database (https://www.filesignatures.net/)
     private static readonly Dictionary<string, List<byte[]>> _fileSignature = new Dictionary<string, List<byte[]>>
     {
@@ -33,9 +32,9 @@ public static class XMLFileHelpers
                 new byte[] { 0xFF, 0xD8, 0xFF, 0xE8 },
             }
         },
-        { ".zip", new List<byte[]> 
+        { ".zip", new List<byte[]>
             {
-                new byte[] { 0x50, 0x4B, 0x03, 0x04 }, 
+                new byte[] { 0x50, 0x4B, 0x03, 0x04 },
                 new byte[] { 0x50, 0x4B, 0x4C, 0x49, 0x54, 0x45 },
                 new byte[] { 0x50, 0x4B, 0x53, 0x70, 0x58 },
                 new byte[] { 0x50, 0x4B, 0x05, 0x06 },
@@ -90,7 +89,7 @@ public static class XMLFileHelpers
 
     //         return Array.Empty<byte>();
     //     }
-        
+
     //     if (formFile.Length > sizeLimit)
     //     {
     //         var megabyteSizeLimit = sizeLimit / 1048576;
@@ -141,20 +140,16 @@ public static class XMLFileHelpers
     // }
 
     public static async Task<byte[]?> ProcessStreamedFile(
-        MultipartSection section, ContentDispositionHeaderValue contentDisposition, 
-        ModelStateDictionary modelState, string[] permittedExtensions, long sizeLimit)
-    {
-        try
-        {
-            using (var memoryStream = new MemoryStream())
-            {
+        MultipartSection section, ContentDispositionHeaderValue contentDisposition,
+        ModelStateDictionary modelState, string[] permittedExtensions, long sizeLimit) {
+        try {
+            using (var memoryStream = new MemoryStream()) {
                 await section.Body.CopyToAsync(memoryStream);
 
                 // Check if the file is empty or exceeds the size limit.
                 if (memoryStream.Length == 0)
                     modelState.AddModelError("Error", "The file is empty.");
-                else if (memoryStream.Length > sizeLimit)
-                {
+                else if (memoryStream.Length > sizeLimit) {
                     var megabyteSizeLimit = sizeLimit / 1048576;
                     modelState.AddModelError("Error", $"The file exceeds {megabyteSizeLimit:N1} MB.");
                 }
@@ -164,21 +159,18 @@ public static class XMLFileHelpers
                     modelState.AddModelError("Error", "The file must be of the following specs:<br>" +
                         "1. The file must hava a .xml File-Extension<br>" +
                         "2. To make sure the file isn't executable the file must start with: <?xml version=\"1.0\" encoding=\"utf-8\"?> or <?xml version=\"1.0\"?>");
-                
+
                 // Return the File as a byte array
                 else return memoryStream.ToArray();
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             modelState.AddModelError("Error", $"The upload failed. Error: {ex.Message}");
         }
-        
+
         return null;
     }
 
-    private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, string[] permittedExtensions)
-    {
+    private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, string[] permittedExtensions) {
         if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0)
             return false;
 
@@ -189,11 +181,10 @@ public static class XMLFileHelpers
 
         data.Position = 0;
 
-        using (var reader = new BinaryReader(data))
-        {     
+        using (var reader = new BinaryReader(data)) {
             var signatures = _fileSignature[ext];
             var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
-            return signatures.Any(signature => 
+            return signatures.Any(signature =>
                 headerBytes.Take(signature.Length).SequenceEqual(signature));
         }
     }

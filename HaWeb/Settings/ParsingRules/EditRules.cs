@@ -149,7 +149,7 @@ public static class EditRules {
                 sb.Append(HttpUtility.HtmlEncode(txt.Value));
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
     })};
-    
+
     public static readonly TagFuncList STagRules = new TagFuncList() {
         ( ( x, _) => x.Name == "line", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("br")) )
     };

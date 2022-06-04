@@ -80,6 +80,9 @@
 }
 
 @layer components {
+  * {
+    @apply transition-colors duration-100
+  }
   /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
 
   /* Everything related to theme color */
@@ -118,19 +121,15 @@
   }
 
   .ha-footer .ha-themetoggles {
-    @apply bg-slate-200 shadow-inner
+    @apply bg-slate-200 dark:bg-slate-800 transition-colors duration-300 shadow-inner
   }
 
   .ha-footer .ha-themetoggles #ha-toggledark:checked ~ .ha-themetoggleslider {
-    @apply bg-slate-800
-  }
-
-  .ha-footer .ha-themetoggles #ha-toggletwilight:checked ~ .ha-themetoggleslider {
-      @apply bg-slate-500
+    @apply bg-slate-200 transition-colors duration-300
   }
 
   .ha-footer .ha-themetoggles #ha-togglebright:checked ~ .ha-themetoggleslider {
-      @apply bg-slate-50
+      @apply bg-slate-50 transition-colors duration-300
   }
 
   .ha-static {
@@ -278,7 +277,7 @@
 
   .ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist,
   .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
-    @apply shadow-md dark:shadow-lg pb-1
+    @apply shadow-md dark:shadow-lg pb-1 bg-slate-100 dark:bg-slate-600
   }
 
   .ha-tradzhtext .ha-btn-collapsed-box,
@@ -322,7 +321,7 @@
     @apply !text-hamannHighlight dark:!text-gray-800
   }
 
-
+/* Classes */
   body {
     @apply text-base desktop:text-lg w-full h-full;
   }
@@ -373,7 +372,7 @@
   }
 
   .ha-footer .ha-themetoggles {
-    @apply whitespace-nowrap relative px-0.5 rounded-3xl h-4 w-[49px] 
+    @apply whitespace-nowrap relative px-0.5 rounded-3xl h-4 w-[34px] 
   }
 
   .ha-footer .ha-themetoggles * {
@@ -396,12 +395,8 @@
       @apply  left-1
   }
 
-  .ha-footer .ha-themetoggles #ha-toggletwilight:checked ~ .ha-themetoggleslider {
-      @apply left-[19px]
-  }
-
   .ha-footer .ha-themetoggles #ha-togglebright:checked ~ .ha-themetoggleslider {
-      @apply left-[34px]
+      @apply left-[19px]
   }
 
   /* Classes for static pages */
@@ -898,7 +893,7 @@
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist,
   .ha-lettertext .ha-marginalbox .ha-marginallist {
-    @apply text-sm leading-tight flex flex-wrap gap-x-6
+    @apply text-sm leading-tight flex flex-wrap gap-x-6 pr-1
   }
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal,

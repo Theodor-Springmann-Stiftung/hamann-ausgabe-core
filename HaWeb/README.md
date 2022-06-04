@@ -42,3 +42,5 @@ TODO Kommentare und min-size von ha-lettertetx
 TODO Word-wrap before align, tabs
 TODO pills are not mobile friendly (hover / click)
 TODO Evtl alignment von center / right an der letzten oder nächsten zeile
+TODO Abhärten des Konstruktors von XMLRootDokument für von außerhalb platzierte Dokumente
+TODO XML-Check im Client

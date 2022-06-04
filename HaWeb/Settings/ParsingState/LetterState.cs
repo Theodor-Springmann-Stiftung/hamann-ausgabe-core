@@ -10,7 +10,7 @@ using System.Linq;
 using System.Xml.Linq;
 
 public class LetterState : HaWeb.HTMLParser.IState {
-     // Input
+    // Input
     internal ILibrary Lib;
     internal IReaderService ReaderService;
     internal Meta Meta;

@@ -14,36 +14,27 @@ public static class ConversionHelpers {
             {'M', 1000}
     };
 
-    public static int RomanToInteger(string roman)
-    {
+    public static int RomanToInteger(string roman) {
         var ro = roman.ToUpper();
         int number = 0;
-        for (int i = 0; i < roman.Length; i++)
-        {
-            if (RomanMap.ContainsKey(ro[i]) && (i + 1 >= ro.Length || RomanMap.ContainsKey(ro[i + 1])))
-            {
-                if (i + 1 < ro.Length && RomanMap[ro[i]] < RomanMap[ro[i + 1]])
-                {
+        for (int i = 0; i < roman.Length; i++) {
+            if (RomanMap.ContainsKey(ro[i]) && (i + 1 >= ro.Length || RomanMap.ContainsKey(ro[i + 1]))) {
+                if (i + 1 < ro.Length && RomanMap[ro[i]] < RomanMap[ro[i + 1]]) {
                     number -= RomanMap[ro[i]];
-                }
-                else
-                {
+                } else {
                     number += RomanMap[ro[i]];
                 }
-            }
-            else return 0;
+            } else return 0;
         }
         return number;
     }
 
-    public static int RomanOrNumberToInt(string number)
-    {
+    public static int RomanOrNumberToInt(string number) {
         var a = 0;
         if (Int32.TryParse(number, out a)) return a;
         else return RomanToInteger(number);
     }
-    public static string ToRoman(int number)
-    {
+    public static string ToRoman(int number) {
         if ((number < 0) || (number > 3999)) return string.Empty;
         if (number < 1) return string.Empty;
         if (number >= 1000) return "M" + ToRoman(number - 1000);

@@ -12,7 +12,7 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
         else return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => { 
+    public Func<XElement, string?> GetKey { get; } = (elem) => {
         var index = elem.Attribute("id");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;
@@ -25,7 +25,7 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
 
     public (string?, string?) GenerateIdentificationString(XElement element) {
         var kat = element.Attribute("value");
-        if (kat != null && !String.IsNullOrWhiteSpace(kat.Value)) 
+        if (kat != null && !String.IsNullOrWhiteSpace(kat.Value))
             return (null, kat.Value);
         return (null, null);
     }

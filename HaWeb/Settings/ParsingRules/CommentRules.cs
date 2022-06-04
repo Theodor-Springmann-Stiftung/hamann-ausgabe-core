@@ -37,16 +37,16 @@ public static class CommentRules {
             reader.OpenTags.Any() && reader.OpenTags.Last().Name == "lemma" &&
                 !txt.Value.Contains("Stücke zu") && !txt.Value.Contains("ZusDan")) {
                 var lnkstring = Regex.Replace(txt.Value, @"\s+", "");
-                sb.Append(HTMLHelpers.TagHelpers.CreateCustomElement("a", 
+                sb.Append(HTMLHelpers.TagHelpers.CreateCustomElement("a",
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "href", Value = "https://www.bibleserver.com/LUT/" + lnkstring},
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "target", Value = "_blank"},
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "rel", Value = "noopener noreferrer"}));
                 sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-external-link\"><path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"></path><polyline points=\"15 3 21 3 21 9\"></polyline><line x1=\"10\" y1=\"14\" x2=\"21\" y2=\"3\"></line></svg>");
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("a"));
-            } 
+            }
     })};
 
     public static readonly WhitespaceFuncList WhitespaceRules = new WhitespaceFuncList() {
         ( (x, _) => true, ( sb, txt, _) => sb.Append(txt.Value) )
     };
-} 
+}

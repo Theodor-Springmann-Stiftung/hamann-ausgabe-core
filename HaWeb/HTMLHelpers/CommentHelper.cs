@@ -7,16 +7,14 @@ using HaWeb.Settings.ParsingRules;
 using HaWeb.Settings.ParsingState;
 using System.Text;
 
-public static class CommentHelpers
-{
+public static class CommentHelpers {
     private static readonly string DEFAULTELEMENT = HaWeb.Settings.HTML.DEFAULTELEMENT;
     private static readonly string BACKLINKSCLASS = HaWeb.Settings.CSSClasses.BACKLINKSCLASS;
     private static readonly string LETLINKCLASS = HaWeb.Settings.CSSClasses.LETLINKCLASS;
     private static readonly string COMMENTHEADCLASS = HaWeb.Settings.CSSClasses.COMMENTHEADCLASS;
     private static readonly string BACKLINKSHKBCLASS = HaWeb.Settings.CSSClasses.BACKLINKSHKBCLASS;
 
-    public static string CreateHTML(ILibrary lib, IReaderService readerService, Comment comment, string category, CommentType type)
-    {
+    public static string CreateHTML(ILibrary lib, IReaderService readerService, Comment comment, string category, CommentType type) {
         var sb = new StringBuilder();
         var rd = readerService.RequestStringReader(comment.Lemma);
         var commentState = new CommentState(category, type);
@@ -28,17 +26,13 @@ public static class CommentHelpers
             .Where(x => lib.Metas.ContainsKey(x.Letter))
             .OrderBy(x => lib.Metas[x.Letter].Sort)
             .ThenBy(x => lib.Metas[x.Letter].Order) : null;
-        if (backlinks != null)
-        {
+        if (backlinks != null) {
             sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, BACKLINKSCLASS));
             var arrow = false;
-            foreach (var blk in backlinks)
-            {
+            foreach (var blk in backlinks) {
                 var let = lib.Metas.ContainsKey(blk.Letter) ? lib.Metas[blk.Letter] : null;
-                if (let != null)
-                {
-                    if (!arrow)
-                    {
+                if (let != null) {
+                    if (!arrow) {
                         sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, BACKLINKSHKBCLASS));
                         sb.Append("HKB&nbsp;");
                         sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));

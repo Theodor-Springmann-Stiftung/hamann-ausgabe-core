@@ -5,40 +5,32 @@ using HaWeb.Models;
 namespace HaWeb.Controllers;
 
 [Route("Edition/[action]")]
-public class EditionController : Controller
-{
+public class EditionController : Controller {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
+    public IActionResult Error() {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    public IActionResult Kontakt()
-    {
+    public IActionResult Kontakt() {
         return View();
     }
 
-    public IActionResult Mitwirkende()
-    {
+    public IActionResult Mitwirkende() {
         return View();
     }
 
-    public IActionResult Richtlinien()
-    {
+    public IActionResult Richtlinien() {
         return View();
     }
 
-    public IActionResult Werkausgabe()
-    {
+    public IActionResult Werkausgabe() {
         return View();
     }
 
-    public IActionResult Editionsgeschichte()
-    {
+    public IActionResult Editionsgeschichte() {
         return View();
     }
 
-    public IActionResult Datenschutzerklaerung()
-    {
+    public IActionResult Datenschutzerklaerung() {
         return View();
     }
 }

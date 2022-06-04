@@ -3,9 +3,7 @@ using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
 using HaWeb.XMLParser;
 using Microsoft.FeatureManagement;
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,12 +12,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
-// // To list physical files from a path provided by configuration:
-// var physicalProvider = new PhysicalFileProvider(Configuration.GetValue<string>("StoredFilesPath"));
-// // To list physical files in the temporary files folder, use:
-// //var physicalProvider = new PhysicalFileProvider(Path.GetTempPath());
-// services.AddSingleton<IFileProvider>(physicalProvider);
+// // To get files from a path provided by configuration:
+string? filepath = null;
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+    filepath = builder.Configuration.GetValue<string>("StoredFilePathWindows");
+} 
+else {
+    filepath = builder.Configuration.GetValue<string>("StoredFilePathLinux");
+}
 
+if (filepath == null) {
+    throw new Exception("You need to set a specific Filepath, either StoredFilePathWindows or StoredFilePathLinux");
+}
+
+var physicalProvider = new PhysicalFileProvider(filepath);
+
+
+builder.Services.AddSingleton<IFileProvider>(physicalProvider);
 builder.Services.AddSingleton<ILibrary>(HaDocument.Document.Create(new Options()));
 builder.Services.AddTransient<IReaderService, ReaderService>();
 builder.Services.AddSingleton<IXMLService, XMLService>();

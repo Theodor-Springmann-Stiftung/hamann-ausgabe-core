@@ -8,7 +8,7 @@ public interface IXMLRoot {
 
     // Name of the file prefix
     public abstract string Prefix { get; }
-    
+
     // XPaths to determine if container is present
     public abstract string[] XPathContainer { get; }
 
@@ -25,13 +25,14 @@ public interface IXMLRoot {
             var elements = root.XPathSelectElements(p);
             if (elements != null && elements.Any()) {
                 if (ret == null) ret = new List<XElement>();
-                ret.AddRange(elements);
+                foreach (var e in elements)
+                    if (!ret.Contains(e)) ret.Add(e);
             }
         }
         return ret;
     }
 
-    // Generate certain metadat fields to display about this root
+    // Generate certain metadata fields to display about this root
     public abstract List<(string, string?)>? GenerateFields(XMLRootDocument document);
 
     // Generate an identification string of which the hash will be the filename. 

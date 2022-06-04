@@ -3,12 +3,10 @@ using System;
 using System.IO;
 using Microsoft.Net.Http.Headers;
 
-public static class MultipartRequestHelper
-{
+public static class MultipartRequestHelper {
     // Content-Type: multipart/form-data; boundary="----WebKitFormBoundarymx2fSWqWSd0OxQqq"
     // The spec at https://tools.ietf.org/html/rfc2046#section-5.1 states that 70 characters is a reasonable limit.
-    public static string GetBoundary(MediaTypeHeaderValue contentType, int lengthLimit)
-    {
+    public static string GetBoundary(MediaTypeHeaderValue contentType, int lengthLimit) {
         var boundary = HeaderUtilities.RemoveQuotes(contentType.Boundary).Value;
 
         if (string.IsNullOrWhiteSpace(boundary))
@@ -23,8 +21,7 @@ public static class MultipartRequestHelper
     public static bool IsMultipartContentType(string? contentType)
         => !string.IsNullOrEmpty(contentType) && contentType.IndexOf("multipart/", StringComparison.OrdinalIgnoreCase) >= 0;
 
-    public static bool HasFormDataContentDisposition(ContentDispositionHeaderValue contentDisposition)
-    {
+    public static bool HasFormDataContentDisposition(ContentDispositionHeaderValue contentDisposition) {
         // Content-Disposition: form-data; name="key";
         return contentDisposition != null
             && contentDisposition.DispositionType.Equals("form-data")
@@ -32,8 +29,7 @@ public static class MultipartRequestHelper
             && string.IsNullOrEmpty(contentDisposition.FileNameStar.Value);
     }
 
-    public static bool HasFileContentDisposition(ContentDispositionHeaderValue? contentDisposition)
-    {
+    public static bool HasFileContentDisposition(ContentDispositionHeaderValue? contentDisposition) {
         return contentDisposition != null
             && contentDisposition.DispositionType.Equals("form-data")
             && (!string.IsNullOrEmpty(contentDisposition.FileName.Value)

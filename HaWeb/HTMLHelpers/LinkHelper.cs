@@ -37,21 +37,20 @@ public class LinkHelper {
         if (tag.Name == "wwwlink" || tag.Name == "intlink" || tag.Name == "link") {
             if (tag.EndTag && _followlinksinthis) {
                 _sb.Append(HTMLHelpers.TagHelpers.CreateEndElement("a"));
-            }
-            else {
+            } else {
                 if (tag.Name == "wwwlink" && tag.Values.ContainsKey("address") && _followlinksinthis)
-                    _sb.Append(HTMLHelpers.TagHelpers.CreateCustomElement("a", 
-                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "class", Value = WWWLINKCLASS }, 
-                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "href", Value = tag["address"]},
-                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "target", Value = "_blank"},
-                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "rel", Value = "noopener noreferrer"}));
+                    _sb.Append(HTMLHelpers.TagHelpers.CreateCustomElement("a",
+                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "class", Value = WWWLINKCLASS },
+                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "href", Value = tag["address"] },
+                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "target", Value = "_blank" },
+                        new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "rel", Value = "noopener noreferrer" }));
                 if (tag.Name == "intlink" && tag.Values.ContainsKey("letter") && _lib.Metas.ContainsKey(tag["letter"])) {
                     var letter = _lib.Metas[tag["letter"]];
                     _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
                     if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
                         var linkstring = "";
                         var ZHstring = "";
-                        var pglnstring= "";
+                        var pglnstring = "";
                         linkstring += "HKB&nbsp;" + letter.Autopsic;
                         if (tag.Values.ContainsKey("page")) {
                             pglnstring += tag["page"];
@@ -70,7 +69,7 @@ public class LinkHelper {
                 }
                 if (tag.Name == "link" && tag.Values != null) {
                     Comment comment = null;
-                    if (tag.Values.ContainsKey("subref") && _lib.SubCommentsByID.ContainsKey(tag["subref"])) 
+                    if (tag.Values.ContainsKey("subref") && _lib.SubCommentsByID.ContainsKey(tag["subref"]))
                         comment = _lib.SubCommentsByID[tag["subref"]];
                     else if (tag.Values.ContainsKey("ref"))
                         if (_lib.Comments.ContainsKey(tag["ref"]))
@@ -80,7 +79,7 @@ public class LinkHelper {
                     if (comment != null) {
                         var linkloc = String.IsNullOrWhiteSpace(comment.Parent) ? comment.Index : comment.Parent;
                         if (_followlinksinthis)
-                            if (comment.Type == "neuzeit") 
+                            if (comment.Type == "neuzeit")
                                 _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Register/" + linkloc[0] + "#" + comment.Index));
                             else if (comment.Type == "bibel")
                                 _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));

@@ -1,8 +1,7 @@
 namespace HaWeb.Models;
 using System.Web;
 
-public class BriefeViewModel
-{
+public class BriefeViewModel {
     public string Id { get; private set; }
     public string Index { get; private set; }
     public BriefeMetaViewModel MetaData { get; private set; }
@@ -17,11 +16,9 @@ public class BriefeViewModel
     public bool MinWidthTrad { get; set; } = false;
 
     // From, Until, Reference, Edit, sartpage, startline
-    public List<(string, string, string, string, string, string)>? ParsedEdits
-    {
+    public List<(string, string, string, string, string, string)>? ParsedEdits {
         get => _ParsedEdits;
-        set
-        {
+        set {
             if (value != null)
                 _ParsedEdits = value.Select(x => (
                     HttpUtility.HtmlEncode(x.Item1),
@@ -37,11 +34,9 @@ public class BriefeViewModel
     }
 
     // From, Until, Person, startpage, startline
-    public List<(string, string, string, string, string)>? ParsedHands
-    {
+    public List<(string, string, string, string, string)>? ParsedHands {
         get => _ParsedHands;
-        set
-        {
+        set {
             if (value != null)
                 _ParsedHands = value.Select(x => (
                     HttpUtility.HtmlEncode(x.Item1),
@@ -56,11 +51,9 @@ public class BriefeViewModel
     }
 
     // Page, Line, Element
-    public List<(string, string, string)>? ParsedMarginals
-    {
+    public List<(string, string, string)>? ParsedMarginals {
         get => _ParsedMarginals;
-        set
-        {
+        set {
             if (value != null)
                 _ParsedMarginals = value.Select(x => (
                     HttpUtility.HtmlEncode(x.Item1),
@@ -72,8 +65,7 @@ public class BriefeViewModel
         }
     }
 
-    public BriefeViewModel(string id, string index, BriefeMetaViewModel meta)
-    {
+    public BriefeViewModel(string id, string index, BriefeMetaViewModel meta) {
         Id = id;
         Index = index;
         MetaData = meta;

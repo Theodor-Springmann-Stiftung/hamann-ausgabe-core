@@ -12,7 +12,7 @@ public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
         else return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => { 
+    public Func<XElement, string?> GetKey { get; } = (elem) => {
         var index = elem.Attribute("index");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;

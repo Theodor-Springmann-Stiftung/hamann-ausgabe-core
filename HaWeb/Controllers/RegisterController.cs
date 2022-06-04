@@ -12,8 +12,7 @@ using System.Collections.Concurrent;
 namespace HaWeb.Controllers;
 
 [Route("Register/[action]/{id?}")]
-public class RegisterController : Controller
-{
+public class RegisterController : Controller {
     [BindProperty(SupportsGet = true)]
     public string? search { get; set; }
 
@@ -24,14 +23,12 @@ public class RegisterController : Controller
     private ILibrary _lib;
     private IReaderService _readerService;
 
-    public RegisterController(ILibrary lib, IReaderService readerService)
-    {
+    public RegisterController(ILibrary lib, IReaderService readerService) {
         _lib = lib;
         _readerService = readerService;
     }
 
-    public IActionResult Register(string? id)
-    {
+    public IActionResult Register(string? id) {
         // Setup settings and variables
         var url = "/Register/Register/";
         var category = "neuzeit";
@@ -52,15 +49,12 @@ public class RegisterController : Controller
 
         // Parsing
         var res = new List<CommentModel>();
-        foreach (var comm in comments)
-        {
+        foreach (var comm in comments) {
             var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
-            if (comm.Kommentare != null)
-            {
+            if (comm.Kommentare != null) {
                 parsedSubComments = new List<string>();
-                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
-                {
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
                     parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
@@ -68,8 +62,7 @@ public class RegisterController : Controller
         }
 
         // Model instantiation
-        var model = new RegisterViewModel(category, this.id, res, title)
-        {
+        var model = new RegisterViewModel(category, this.id, res, title) {
             AvailableCategories = availableCategories,
         };
 
@@ -77,8 +70,7 @@ public class RegisterController : Controller
         return View("Index", model);
     }
 
-    public IActionResult Bibelstellen(string? id)
-    {
+    public IActionResult Bibelstellen(string? id) {
         // Setup settings and variables
         var url = "/Register/Bibelstellen/";
         var category = "bibel";
@@ -91,7 +83,7 @@ public class RegisterController : Controller
         if (id == null) return Redirect(url + defaultLetter);
         normalizeID(id, defaultLetter);
         if (this.id != "AT" && this.id != "AP" && this.id != "NT") return error404();
-        
+
         // Data aquisition and validation
         var comments = _lib.CommentsByCategory[category].ToLookup(x => x.Index.Substring(0, 2).ToUpper())[this.id].OrderBy(x => x.Order);
         var availableCategories = new List<(string, string)>() { ("Altes Testament", url + "AT"), ("Apogryphen", url + "AP"), ("Neues Testament", url + "NT") };
@@ -99,15 +91,12 @@ public class RegisterController : Controller
 
         // Parsing
         var res = new List<CommentModel>();
-        foreach (var comm in comments)
-        {
+        foreach (var comm in comments) {
             var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
-            if (comm.Kommentare != null)
-            {
+            if (comm.Kommentare != null) {
                 parsedSubComments = new List<string>();
-                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma))
-                {
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma)) {
                     parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
@@ -115,8 +104,7 @@ public class RegisterController : Controller
         }
 
         // Model instantiation
-        var model = new RegisterViewModel(category, this.id, res, title)
-        {
+        var model = new RegisterViewModel(category, this.id, res, title) {
             AvailableCategories = availableCategories,
         };
 
@@ -124,8 +112,7 @@ public class RegisterController : Controller
         return View("Index", model);
     }
 
-    public IActionResult Forschung(string? id)
-    {
+    public IActionResult Forschung(string? id) {
         // Setup settings and variables
         var url = "/Register/Forschung/";
         var category = "forschung";
@@ -139,13 +126,12 @@ public class RegisterController : Controller
         normalizeID(id, defaultLetter);
         if (this.id != "EDITIONEN" && !_lib.CommentsByCategoryLetter[category].Contains(this.id)) return error404();
         if (this.id == "EDITIONEN" && !_lib.CommentsByCategoryLetter.Keys.Contains(this.id.ToLower())) return error404();
-        
+
         // Data aquisition and validation
         IOrderedEnumerable<Comment>? comments = null;
         if (this.id == "EDITIONEN") {
             comments = _lib.CommentsByCategory[this.id.ToLower()].OrderBy(x => x.Index);
-        } 
-        else {
+        } else {
             comments = _lib.CommentsByCategoryLetter[category][this.id].OrderBy(x => x.Index);
         }
         var availableCategories = _lib.CommentsByCategoryLetter[category].Select(x => (x.Key.ToUpper(), url + x.Key.ToUpper())).OrderBy(x => x.Item1).ToList();
@@ -154,15 +140,12 @@ public class RegisterController : Controller
 
         // Parsing
         var res = new List<CommentModel>();
-        foreach (var comm in comments)
-        {
+        foreach (var comm in comments) {
             var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
-            if (comm.Kommentare != null)
-            {
+            if (comm.Kommentare != null) {
                 parsedSubComments = new List<string>();
-                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order))
-                {
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
                     parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(_lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
@@ -170,8 +153,7 @@ public class RegisterController : Controller
         }
 
         // Model instantiation
-        var model = new RegisterViewModel(category, this.id, res, title)
-        {
+        var model = new RegisterViewModel(category, this.id, res, title) {
             AvailableCategories = availableCategories,
             AvailableSideCategories = AvailableSideCategories
         };
@@ -180,22 +162,18 @@ public class RegisterController : Controller
         return View("Index", model);
     }
 
-    private void normalizeID(string? id, string defaultid)
-    {
+    private void normalizeID(string? id, string defaultid) {
         this.id = this.id.ToUpper();
     }
 
-    private bool validationCheck(HashSet<string> permitted)
-    {
-        if (!permitted.Contains(id))
-        {
+    private bool validationCheck(HashSet<string> permitted) {
+        if (!permitted.Contains(id)) {
             return false;
         }
         return true;
     }
 
-    private IActionResult error404()
-    {
+    private IActionResult error404() {
         Response.StatusCode = 404;
         return Redirect("/Error404");
     }

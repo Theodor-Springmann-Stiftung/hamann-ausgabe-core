@@ -7,8 +7,7 @@ using TextFuncList = List<(Func<HaXMLReader.EvArgs.Text, HaWeb.HTMLParser.XMLHel
 using WhitespaceFuncList = List<(Func<HaXMLReader.EvArgs.Whitespace, HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>, bool>, Action<System.Text.StringBuilder, HaXMLReader.EvArgs.Whitespace, HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>>)>;
 
 // TODO: stringbuilder als Rückgabeparameter des XMHelpers ist eigentlich auch Part vom State
-public class LetterRules
-{
+public class LetterRules {
     private static readonly string DEFAULTELEMENT = HaWeb.Settings.HTML.DEFAULTELEMENT;
 
     private static readonly string LEMMACLASS = HaWeb.Settings.CSSClasses.LEMMACLASS;
@@ -101,7 +100,7 @@ public class LetterRules
         ( ( x, _) => x.Name == "sub", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, SUBCLASS)) ),
         ( ( x, _) => x.Name == "tul", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, TULCLASS)) ),
         ( ( x, _) => x.Name == "header", (sb, tag, reader) => {
-            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HEADERCLASS)); 
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, HEADERCLASS));
             reader.State.mustwrap = (true, true);
         }),
         ( ( x, _) => x.Name == "lemma", (sb, tag, _) => sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LEMMACLASS)) ),
@@ -214,7 +213,7 @@ public class LetterRules
                 reader.State.mustwrap = (false, false);
                 
                 // Linecount
-                if(!String.IsNullOrWhiteSpace(tag["index"])) { 
+                if(!String.IsNullOrWhiteSpace(tag["index"])) {
                     reader.State.currline = tag["index"];
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
                 
@@ -274,7 +273,7 @@ public class LetterRules
             }
 
             // Line type=line
-            if(tag["type"] == "line") { 
+            if(tag["type"] == "line") {
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, LINELINECLASS));
                 sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                 reader.State.mustwrap = (false, true);
@@ -288,7 +287,7 @@ public class LetterRules
             }
         }
     )};
-    
+
 
     public static readonly WhitespaceFuncList WhitespaceRules = new WhitespaceFuncList() {
         ( ( _, _) => true, ( sb, txt, reader) => {

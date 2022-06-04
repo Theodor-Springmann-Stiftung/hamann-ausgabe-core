@@ -63,7 +63,7 @@ public static class CSSClasses {
 
     // Zeilen:
     public const string ZHLINECLASS = "ha-zhline";
-    public const string FIRSTLINECLASS ="ha-firstline";
+    public const string FIRSTLINECLASS = "ha-firstline";
     public const string ZHBREAKCLASS = "ha-zhbreak";
     public const string LINELINECLASS = "ha-hr";
     public const string LINEINDENTCLASS = "ha-indent-"; // TODO: GEN

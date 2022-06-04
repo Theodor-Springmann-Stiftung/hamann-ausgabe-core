@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 
-public class GenerateAntiforgeryTokenCookieAttribute : ResultFilterAttribute
-{
-    public override void OnResultExecuting(ResultExecutingContext context)
-    {
+public class GenerateAntiforgeryTokenCookieAttribute : ResultFilterAttribute {
+    public override void OnResultExecuting(ResultExecutingContext context) {
         var antiforgery = context.HttpContext.RequestServices.GetService<IAntiforgery>();
 
         // Send the request token as a JavaScript-readable cookie
@@ -19,8 +17,7 @@ public class GenerateAntiforgeryTokenCookieAttribute : ResultFilterAttribute
             new CookieOptions() { HttpOnly = false });
     }
 
-    public override void OnResultExecuted(ResultExecutedContext context)
-    {
+    public override void OnResultExecuted(ResultExecutedContext context) {
     }
 }
 

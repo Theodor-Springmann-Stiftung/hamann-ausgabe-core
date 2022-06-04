@@ -1,57 +1,79 @@
 @model UploadViewModel;
-Hello from Upload Index!
 
-<form id="uploadForm" action="Upload" method="post" 
-    enctype="multipart/form-data" onsubmit="AJAXSubmit(this);return false;">
-    <dl>
-        <dt>
-            <label for="file">File</label>
-        </dt>
-        <dd>
-            <input id="file" type="file" name="file" />
-        </dd>
-    </dl>
-
-    <input class="btn" type="submit" value="Upload" />
-
-    <div style="margin-top:15px">
-        <output form="uploadForm" name="result"></output>
+<div class="ha-adminuploadfields">
+  @foreach (var item in Model.AvailableRoots.OrderBy(x => x.Type)) {
+    <div class="ha-uploadfield">
+      <div class="ha-uploadfieldname">@item.Type</div>
+      @if (Model.UsedFiles != null && Model.UsedFiles.ContainsKey(item.Prefix)) {
+        @foreach(var file in Model.UsedFiles[item.Prefix]) {
+          <span>@file.File.Name</span>
+        } 
+      }
     </div>
-</form>
-
-@foreach (var item in Model.AvailableRoots.OrderBy(x => x.Item1))
-{
-  <div>@item.Item1</div>
-}
+  }
+  <form class="ha-uploadform" id="uploadForm" action="Upload" method="post" enctype="multipart/form-data">
+      <label class="filelabel" id="dropzone">
+        <input class="hidden" id="file" type="file" accept=".xml" name="file" />
+        Upload2 es
+      </label>
+      <div class="ha-uploadmessage">
+          <output form="uploadForm" name="result"></output>
+      </div>
+  </form>
+</div>
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            crossorigin="anonymous"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-    </script>
 
   <script>
     "use strict";
 
-    async function AJAXSubmit (oFormElement) {
-      const formData = new FormData(oFormElement);
+    const dropHandler = function (formelement, ev, dropzone) {
+      ev.preventDefault();
 
-      try {
-        const response = await fetch(oFormElement.action, {
+      if (ev.dataTransfer.items) {
+        if (ev.dataTransfer.items[0].kind === 'file') {
+          var file = ev.dataTransfer.items[0].getAsFile();
+          AJAXSubmit(formelement, file);
+        } else {
+          var file = ev.dataTransfer.files[0];
+          AJAXSubmit(formelement, file);
+        }
+      }
+    }
+
+    const dragOverHandler = function (ev, dropzone) {
+      ev.preventDefault();
+    }
+
+    const dragLeaveHander = function (ev, dropzone) {
+      ev.preventDefault();
+    }
+
+    const dragEnterHandler = function (ev, dropzone) {
+      ev.preventDefault();
+    }
+
+    const AJAXSubmit = async function (oFormElement, file = null) {
+      var fd = new FormData();
+      if (file !== null) fd.append("file", file);
+      else fd = new FormData(oFormElement);
+      oFormElement.elements.namedItem("result").value = "Wait";
+      await fetch(oFormElement.action, {
           method: 'POST',
           headers: {
             'RequestVerificationToken': getCookie('RequestVerificationToken')
           },
-          body: formData
-        });
-
-        oFormElement.elements.namedItem("result").value = 
-          'Result: ' + response.status + ' ' + response.statusText;
-      } catch (error) {
-        console.error('Error:', error);
-      }
+          body: fd
+        })
+        .then(response => response.json())
+        .then(json => {
+          if ("Error" in json) {
+            oFormElement.elements.namedItem("result").value = json.Error;
+          } else {
+            oFormElement.elements.namedItem("result").value = "Erfolg!";
+          }
+        })
+        .catch ((e) => console.error('Error:', error))
     }
 
     function getCookie(name) {
@@ -59,5 +81,18 @@ Hello from Upload Index!
       var parts = value.split("; " + name + "=");
       if (parts.length == 2) return parts.pop().split(";").shift();
     }
+
+    window.addEventListener("load", function () {
+      var submitelement = document.getElementById("file");
+      var formelement = document.getElementById("uploadForm");
+      var dropzone = document.getElementById("dropzone");
+      submitelement.addEventListener("change", () => AJAXSubmit(formelement));
+      dropzone.addEventListener("drop", (ev) => dropHandler(formelement, ev, dropzone));
+      dropzone.addEventListener("dragover", (ev) => dragOverHandler(ev, dropzone));
+      dropzone.addEventListener("dragleave", (ev) => dragLeaveHander(ev, dropzone));
+      dropzone.addEventListener("dragenter", (ev) => dragEnterHandler(ev, dropzone));
+    });
+
+    
   </script>
 }

@@ -221,21 +221,8 @@ const go_to_dark = function () {
   document.documentElement.classList.add("dark");
 };
 
-const go_to_twilight = function () {
-  document.documentElement.classList.remove("dark");
-  let elements = document.getElementsByClassName("ha-twilighttogglebar");
-  for (let el of elements) {
-    el.classList.add("dark");
-  }
-  localStorage.setItem("theme", "ha-toggletwilight");
-};
-
 const go_to_bright = function () {
   document.documentElement.classList.remove("dark");
-  let elements = document.getElementsByClassName("ha-twilighttogglebar");
-  for (let el of elements) {
-    el.classList.remove("dark");
-  }
   localStorage.setItem("theme", "ha-togglebright");
 };
 
@@ -335,7 +322,6 @@ window.addEventListener("load", function () {
   // Register theme toggler
   if (
     document.getElementById("ha-togglebright") !== null &&
-    document.getElementById("ha-toggletwilight") !== null &&
     this.document.getElementById("ha-toggledark") !== null
   ) {
     document
@@ -344,9 +330,6 @@ window.addEventListener("load", function () {
     document
       .getElementById("ha-toggledark")
       .addEventListener("click", go_to_dark);
-    document
-      .getElementById("ha-toggletwilight")
-      .addEventListener("click", go_to_twilight);
   }
   get_theme_settings("ha-togglebright");
 });
