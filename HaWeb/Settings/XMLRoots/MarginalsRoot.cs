@@ -38,4 +38,14 @@ public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
         return opus;
     }
 
+    public void MergeIntoFile(XElement file, XMLRootDocument document) {
+        if (file.Element("marginalien") == null)
+            file.AddFirst(new XElement("marginalien"));
+        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+        var root = file.Element("marginalien");
+        foreach (var element in elements) {
+            root!.Add(element);
+        }
+    }
+
 }

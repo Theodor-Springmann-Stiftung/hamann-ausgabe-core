@@ -38,4 +38,13 @@ public class TraditionsRoot : HaWeb.XMLParser.IXMLRoot {
         return opus;
     }
 
+    public void MergeIntoFile(XElement file, XMLRootDocument document) {
+        if (file.Element("traditions") == null)
+            file.AddFirst(new XElement("traditions"));
+        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+        var root = file.Element("traditions");
+        foreach (var element in elements) {
+            root!.Add(element);
+        }
+    }
 }

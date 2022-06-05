@@ -156,6 +156,8 @@ namespace HaDocument.Reactors {
                 (_availableVolumes == null && _availableYearRange.Item1 == 0 && _availableYearRange.Item2 == 0)
             ) {
                 var ZHInfo = !inZH ? null : new ZHInfo(AltLineNumbering, dateChanged, Volume, Page);
+                if (Autopsic == "0")
+                    System.Diagnostics.Debugger.Break();
                 var meta = new Meta(
                     Index,
                     Autopsic,

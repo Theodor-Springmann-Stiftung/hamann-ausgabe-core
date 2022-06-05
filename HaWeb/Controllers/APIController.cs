@@ -50,7 +50,7 @@ public class APIController : Controller {
     [Route("API/Syntaxcheck/{id}")]
     [DisableFormValueModelBinding]
     [ValidateAntiForgeryToken]
-    [FeatureGate(Features.AdminService)]
+    [FeatureGate(Features.UploadService, Features.AdminService)]
     public async Task<IActionResult> SyntaxCheck(string id) {
         return Ok();
     }
@@ -60,8 +60,8 @@ public class APIController : Controller {
     [Route("API/Upload")]
     [DisableFormValueModelBinding]
     [ValidateAntiForgeryToken]
-    [FeatureGate(Features.UploadService)]
-    public async Task<IActionResult> Upload(string? id) {
+    [FeatureGate(Features.UploadService, Features.AdminService)]
+    public async Task<IActionResult> Upload() {
         List<XMLRootDocument>? docs = null;
         //// 1. Stage: Check Request format and request spec
         // Checks the Content-Type Field (must be multipart + Boundary)
@@ -114,19 +114,18 @@ public class APIController : Controller {
                     return UnprocessableEntity(ModelState);
 
                 //// 4. Stage: Is it a Hamann-Document? What kind?
-                var retdocs = await _xmlService.ProbeHamannFile(xdocument, ModelState);
+                var retdocs = _xmlService.ProbeHamannFile(xdocument, ModelState);
                 if (!ModelState.IsValid || retdocs == null || !retdocs.Any())
                     return UnprocessableEntity(ModelState);
 
                 //// 5. Stage: Saving the File(s)
                 foreach (var doc in retdocs) {
                     // Physical saving
-                    var task = _xmlProvider.Save(doc, _targetFilePath, ModelState);
+                    await _xmlProvider.Save(doc, _targetFilePath, ModelState);
                     // Setting the new docuemnt as used
                     _xmlService.Use(doc);
                     // Unsetting all old docuemnts as ununsed
                     _xmlService.AutoUse(doc.Prefix);
-                    await task;
                     if (!ModelState.IsValid) return StatusCode(500, ModelState);
                     if (docs == null) docs = new List<XMLRootDocument>();
                     docs.Add(doc);
@@ -137,6 +136,7 @@ public class APIController : Controller {
                 section = await reader.ReadNextSectionAsync();
             } catch (Exception ex) {
                 ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+                return BadRequest(ModelState);
             }
         }
 
@@ -150,5 +150,25 @@ public class APIController : Controller {
 
         string json = JsonSerializer.Serialize(docs);
         return Created(nameof(UploadController), json);
+    }
+
+
+     //// PUBLISH ////
+    [HttpPost]
+    [Route("API/LocalPublish")]
+    [DisableFormValueModelBinding]
+    [ValidateAntiForgeryToken]
+    [FeatureGate(Features.LocalPublishService, Features.AdminService, Features.UploadService)]
+    public async Task<IActionResult> LocalPublish() {
+        var element = _xmlService.MergeUsedDocuments(ModelState);
+        if (!ModelState.IsValid || element == null)
+            return BadRequest(ModelState);
+        var savedfile = await _xmlProvider.SaveHamannFile(element, _targetFilePath, ModelState);
+        if (!ModelState.IsValid || savedfile == null)
+            return BadRequest(ModelState);
+        _ = _lib.SetLibrary(savedfile.PhysicalPath, ModelState);
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        return Ok();
     }
 }

@@ -31,8 +31,8 @@ public class Briefecontroller : Controller {
 
         // Normalisation and Validation, (some) data aquisition
         if (id == null) return Redirect(url + defaultID);
-        this.id = id.ToLower();
-        var preliminarymeta = lib.Metas.Where(x => x.Value.Autopsic == this.id);
+        id = id.ToLower();
+        var preliminarymeta = lib.Metas.Where(x => x.Value.Autopsic == id);
         if (preliminarymeta == null || !preliminarymeta.Any()) return error404();
 
         // Get all neccessary data
@@ -54,7 +54,7 @@ public class Briefecontroller : Controller {
         // Model creation
         var hasMarginals = false;
         if (marginals != null && marginals.Any()) hasMarginals = true;
-        var model = new BriefeViewModel(this.id, index, generateMetaViewModel(lib, meta, hasMarginals));
+        var model = new BriefeViewModel(id, index, generateMetaViewModel(lib, meta, hasMarginals));
         if (nextmeta != null) model.MetaData.Next = (generateMetaViewModel(lib, nextmeta, false), url + nextmeta.Autopsic);
         if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(lib, prevmeta, false), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(lib, hands);

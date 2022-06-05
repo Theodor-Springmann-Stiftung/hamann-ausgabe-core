@@ -36,14 +36,13 @@
         </div>
     </form>
 
-    <form class="ha-publishform" action="Upload" method="post" enctype="multipart/form-data">
-        <label class="filelabel">
-          <input class="hidden"  type="file" accept=".xml" name="file" />
+    <form class="ha-publishform" id="ha-publishform" asp-controller="API" asp-action="LocalPublish" method="post" enctype="multipart/form-data">
+        <label class="ha-uploadfilelabel" id="ha-uploadfilelabel">
           Veröffentlichen
         </label>
-        <div class="ha-uploadmessage">
-            
-            <output form="uploadForm" name="result"></output>
+        <div class="ha-publishmessage" id="ha-publishmessage">
+          @* Fehler!<br/> *@
+          <output form="uploadForm" name="publish-result"></output>
         </div>
     </form>
   </div>
@@ -119,6 +118,27 @@
       ev.preventDefault();
     }
 
+    const LOCALPUBLISHSubmit = async function (oFormElement) {
+      var fd = new FormData();
+      document.getElementById("ha-publishmessage").style.opacity = "0";
+      await fetch(oFormElement.action, {
+          method: 'POST',
+          headers: {
+            'RequestVerificationToken': getCookie('RequestVerificationToken')
+          }
+        })
+        .then(response => response.json())
+        .then(json => {
+          if ("Error" in json) {
+            document.getElementById("ha-publishmessage").style.opacity = "1";
+            oFormElement.elements.namedItem("update-result").value = json.Error;
+          } else {
+            oFormElement.elements.namedItem("update-result").value = "Erfolg!";
+          }
+        })
+        .catch ((e) => console.log('Error:', e))
+    }
+
     const UPLOADSubmit = async function (oFormElement, file = null) {
       var fd = new FormData();
       if (file !== null) fd.append("file", file);
@@ -159,6 +179,9 @@
       var submitelement = document.getElementById("file");
       var formelement = document.getElementById("uploadForm");
       var dropzone = document.getElementById("dropzone");
+      var publishelement = document.getElementById("ha-publishform");
+      var publishbutton = document.getElementById("ha-uploadfilelabel");
+      publishbutton.addEventListener("click", () => LOCALPUBLISHSubmit(publishelement));
       submitelement.addEventListener("change", () => UPLOADSubmit(formelement));
       dropzone.addEventListener("drop", (ev) => dropHandler(formelement, ev, dropzone));
       dropzone.addEventListener("dragover", (ev) => dragOverHandler(ev, dropzone));

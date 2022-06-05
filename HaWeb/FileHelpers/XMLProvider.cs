@@ -3,11 +3,13 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
 using HaWeb.XMLParser;
+using System.Xml.Linq;
 
 public class XMLProvider : IXMLProvider {
     private IFileProvider _fileProvider;
     private Dictionary<string, FileList?>? _Files;
     private Dictionary<string, IXMLRoot>? _Roots;
+    private List<IFileInfo>? _HamannFiles;
 
     public XMLProvider(IFileProvider provider, IXMLService xmlservice) {
         _fileProvider = provider;
@@ -51,6 +53,35 @@ public class XMLProvider : IXMLProvider {
         if (_Files == null) _Files = new Dictionary<string, FileList?>();
         if (!_Files.ContainsKey(doc.Prefix)) _Files.Add(doc.Prefix, new FileList(doc.XMLRoot));
         _Files[doc.Prefix]!.Add(doc);
+    }
+
+    public async Task<IFileInfo?> SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary ModelState) {
+        var date = DateTime.Now;
+        var filename = "hamann_" + date.Year + "-" + date.Month + "-" + date.Day + ".xml";
+        var directory = Path.Combine(basefilepath, "hamann");
+        var path = Path.Combine(directory, filename);
+
+        try {
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            using (var targetStream = System.IO.File.Create(path))
+                await element.SaveAsync(targetStream, SaveOptions.DisableFormatting, new CancellationToken());
+        }
+        catch (Exception ex) {
+            ModelState.AddModelError("Error", "Die Datei konnte nicht gespeichert werden: " + ex.Message);
+            return null;
+        }
+
+        var info = _fileProvider.GetFileInfo(Path.Combine("hamann", filename));
+        if (info == null) {
+            ModelState.AddModelError("Error", "Auf die neu erstellte Dtaei konnte nicht zugegriffen werden.");
+            return null;
+        }
+
+        if (_HamannFiles == null) _HamannFiles = new List<IFileInfo>();
+        _HamannFiles.Add(info);
+
+        return info;
     }
 
     private Dictionary<string, FileList?>? _ScanFiles() {

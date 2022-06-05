@@ -13,12 +13,12 @@ public class DescriptionsRoot : HaWeb.XMLParser.IXMLRoot {
         return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => {
-        var index = elem.Attribute("ref");
-        if (index != null && !String.IsNullOrWhiteSpace(index.Value))
-            return index.Value;
-        else return null;
-    };
+    // public Func<XElement, string?> GetKey { get; } = (elem) => {
+    //     var index = elem.Attribute("ref");
+    //     if (index != null && !String.IsNullOrWhiteSpace(index.Value))
+    //         return index.Value;
+    //     else return null;
+    // };
 
     public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
         return null;
@@ -36,6 +36,16 @@ public class DescriptionsRoot : HaWeb.XMLParser.IXMLRoot {
         var opus = new XElement("opus");
         opus.AddFirst(element);
         return opus;
+    }
+
+    public void MergeIntoFile(XElement file, XMLRootDocument document) {
+        if (file.Element("descriptions") == null)
+            file.AddFirst(new XElement("descriptions"));
+        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+        var root = file.Element("descriptions");
+        foreach (var element in elements) {
+            root!.Add(element);
+        }
     }
 
 }

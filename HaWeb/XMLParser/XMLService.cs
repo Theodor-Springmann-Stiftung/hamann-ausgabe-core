@@ -30,7 +30,7 @@ public class XMLService : IXMLService {
 
     public Dictionary<string, IXMLRoot>? GetRootsDictionary() => this._Roots == null ? null : this._Roots;
 
-    public async Task<List<XMLRootDocument>?> ProbeHamannFile(XDocument document, ModelStateDictionary ModelState) {
+    public List<XMLRootDocument>? ProbeHamannFile(XDocument document, ModelStateDictionary ModelState) {
         if (document.Root!.Name != "opus") {
             ModelState.AddModelError("Error", "A valid Hamann-Docuemnt must begin with <opus>");
             return null;
@@ -84,6 +84,27 @@ public class XMLService : IXMLService {
             if (res == null) res = new FileList(filelist.XMLRoot);
             Use(ordered.Last());
         }
+    }
+
+    public XElement? MergeUsedDocuments(ModelStateDictionary ModelState) {
+        if (_Used == null || _Roots == null) {
+            ModelState.AddModelError("Error", "Keine Dokumente ausgewählt");
+            return null;
+        }
+
+        var opus = new XElement("opus");
+        foreach (var category in _Used) {
+            if (category.Value == null || category.Value.GetFileList() == null || !category.Value.GetFileList()!.Any()) {
+                ModelState.AddModelError("Error", _Roots![category.Key].Type + " nicht vorhanden.");
+                return null;
+            }
+
+            var documents = category.Value.GetFileList();
+            foreach (var document in documents!) {
+                document.XMLRoot.MergeIntoFile(opus, document);
+            }
+        }
+        return opus;
     }
 
     private XMLRootDocument _createXMLRootDocument(IXMLRoot Root, XElement element) {

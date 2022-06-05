@@ -53,7 +53,7 @@ public class XMLRootDocument {
         XMLRoot = xmlRoot;
         Prefix = prefix;
         IdentificationString = idString;
-        Date = DateTime.Today;
+        Date = DateTime.Now;
         _Element = element;
     }
 

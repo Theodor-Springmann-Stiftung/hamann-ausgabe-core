@@ -7,8 +7,9 @@ public interface IXMLService {
     public IXMLRoot? GetRoot(string name);
     public List<IXMLRoot>? GetRootsList();
     public Dictionary<string, IXMLRoot>? GetRootsDictionary();
-    public Task<List<XMLRootDocument>?> ProbeHamannFile(XDocument document, ModelStateDictionary ModelState);
+    public List<XMLRootDocument>? ProbeHamannFile(XDocument document, ModelStateDictionary ModelState);
     public Dictionary<string, FileList?>? GetUsedDictionary();
+    public XElement? MergeUsedDocuments(ModelStateDictionary ModelState);
     public void Use(XMLRootDocument doc);
     public void AutoUse(string prefix);
     public void AutoUse(FileList filelist);

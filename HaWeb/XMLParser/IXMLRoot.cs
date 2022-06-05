@@ -17,7 +17,7 @@ public interface IXMLRoot {
     public abstract Predicate<XElement> IsCollectedObject { get; }
 
     // Gets the Key of a collected object
-    public abstract Func<XElement, string?> GetKey { get; }
+    // public abstract Func<XElement, string?> GetKey { get; }
 
     // Can the Root be found within that document? 
     public List<XElement>? IsTypeOf(XElement root) {
@@ -45,18 +45,20 @@ public interface IXMLRoot {
     // Further deciding which of two documents replaces which
     public abstract bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2);
 
-    public Dictionary<string, XElement>? GetCollectedObjects(XMLRootDocument document) {
-        Dictionary<string, XElement>? ret = null;
-        var root = document.Root;
-        root.Elements().Where(x => this.IsCollectedObject(x)).ToList().ForEach(x => {
-            var id = this.GetKey(x);
-            if (id != null) {
-                if (ret == null) ret = new Dictionary<string, XElement>();
-                ret.Add(id, x);
-            }
-        });
-        return ret;
-    }
+    // public Dictionary<string, XElement>? GetCollectedObjects(XMLRootDocument document) {
+    //     Dictionary<string, XElement>? ret = null;
+    //     var root = document.Root;
+    //     root.Elements().Where(x => this.IsCollectedObject(x)).ToList().ForEach(x => {
+    //         var id = this.GetKey(x);
+    //         if (id != null) {
+    //             if (ret == null) ret = new Dictionary<string, XElement>();
+    //             ret.Add(id, x);
+    //         }
+    //     });
+    //     return ret;
+    // }
 
     public abstract XElement CreateHamannDocument(XElement element);
+
+    public abstract void MergeIntoFile(XElement file, XMLRootDocument document);
 }

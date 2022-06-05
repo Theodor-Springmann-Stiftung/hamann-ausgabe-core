@@ -2,6 +2,7 @@ namespace HaWeb.Settings.XMLRoots;
 using System.Xml.Linq;
 using HaWeb.Models;
 using HaWeb.XMLParser;
+using System.IO;
 
 public class DocumentRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Brieftext";
@@ -36,6 +37,16 @@ public class DocumentRoot : HaWeb.XMLParser.IXMLRoot {
         var opus = new XElement("opus");
         opus.AddFirst(element);
         return opus;
+    }
+
+    public void MergeIntoFile(XElement file, XMLRootDocument document) {
+        if (file.Element("document") == null)
+            file.AddFirst(new XElement("document"));
+        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+        var root = file.Element("document");
+        foreach (var element in elements) {
+            root!.Add(element);
+        }
     }
 
 }
