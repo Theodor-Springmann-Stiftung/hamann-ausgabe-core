@@ -1,5 +1,6 @@
 namespace HaWeb.Settings.XMLRoots;
 using System.Xml.Linq;
+using HaWeb.Models;
 using HaWeb.XMLParser;
 
 public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {

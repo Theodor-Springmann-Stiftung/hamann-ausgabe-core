@@ -2,6 +2,7 @@ using HaXMLReader;
 using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
 using HaWeb.XMLParser;
+using HaWeb.FileHelpers;
 using Microsoft.FeatureManagement;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.FileProviders;
@@ -13,6 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
 // // To get files from a path provided by configuration:
+// TODO: Test Read / Write Access
 string? filepath = null;
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
     filepath = builder.Configuration.GetValue<string>("StoredFilePathWindows");
@@ -27,10 +29,10 @@ if (filepath == null) {
 
 var physicalProvider = new PhysicalFileProvider(filepath);
 
-
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
 builder.Services.AddSingleton<HaWeb.FileHelpers.IHaDocumentWrappper, HaWeb.FileHelpers.HaDocumentWrapper>();
 builder.Services.AddTransient<IReaderService, ReaderService>();
+builder.Services.AddSingleton<IXMLProvider, XMLProvider>();
 builder.Services.AddSingleton<IXMLService, XMLService>();
 builder.Services.AddFeatureManagement();
 
@@ -45,7 +47,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-// app.UseWebOptimizer();
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();

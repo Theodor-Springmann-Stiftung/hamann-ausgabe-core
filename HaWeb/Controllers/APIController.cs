@@ -8,6 +8,7 @@ using Microsoft.Net.Http.Headers;
 using HaWeb.Filters;
 using HaWeb.FileHelpers;
 using HaWeb.XMLParser;
+using HaWeb.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using HaDocument.Interfaces;
@@ -25,14 +26,16 @@ public class APIController : Controller {
     private readonly long _fileSizeLimit;
     private readonly string _targetFilePath;
     private readonly IXMLService _xmlService;
+    private readonly IXMLProvider _xmlProvider;
 
     // Options
     private static readonly string[] _permittedExtensions = { ".xml" };
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
 
-    public APIController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IConfiguration config) {
+    public APIController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IXMLProvider xmlProvider, IConfiguration config) {
         _lib = lib;
+        _xmlProvider = xmlProvider;
         _readerService = readerService;
         _xmlService = xmlService;
         _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
@@ -117,7 +120,13 @@ public class APIController : Controller {
 
                 //// 5. Stage: Saving the File(s)
                 foreach (var doc in retdocs) {
-                    await _xmlService.UpdateAvailableFiles(doc, _targetFilePath, ModelState);
+                    // Physical saving
+                    var task = _xmlProvider.Save(doc, _targetFilePath, ModelState);
+                    // Setting the new docuemnt as used
+                    _xmlService.Use(doc);
+                    // Unsetting all old docuemnts as ununsed
+                    _xmlService.AutoUse(doc.Prefix);
+                    await task;
                     if (!ModelState.IsValid) return StatusCode(500, ModelState);
                     if (docs == null) docs = new List<XMLRootDocument>();
                     docs.Add(doc);

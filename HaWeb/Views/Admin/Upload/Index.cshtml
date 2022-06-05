@@ -6,14 +6,14 @@
         <div class="ha-uploadfieldname">@item.Type</div>
         @if (Model.UsedFiles != null && Model.UsedFiles.ContainsKey(item.Prefix)) {
           <div class="ha-uploadusedfiles">
-          @foreach(var file in Model.UsedFiles[item.Prefix]) {
-            @if (file == Model.UsedFiles[item.Prefix].Last())
+          @foreach(var file in Model.UsedFiles[item.Prefix].GetFileList()!) {
+            @if (file == Model.UsedFiles[item.Prefix].GetFileList()!.Last())
             {
-              <span class="ha-uploadusedfile">@file.File.Name</span>
+              <span class="ha-uploadusedfile">@file.FileName</span>
             }
             else
             {
-              <span class="ha-uploadusedfile">@file.File.Name;</span>
+              <span class="ha-uploadusedfile">@file.FileName;</span>
             }
           }
           </div>
@@ -56,7 +56,7 @@
   <div class="ha-usedfilesheader">
     <div class="ha-usedfilesheaderlist">
       @if(Model.UsedFiles != null && Model.UsedFiles.ContainsKey(Model.Prefix)) {
-        @foreach (var item in Model.UsedFiles[Model.Prefix])
+        @foreach (var item in Model.UsedFiles[Model.Prefix].GetFileList())
         {
           <div class="ha-usedfilesheaderfile">@item.File.Name</div>
         }

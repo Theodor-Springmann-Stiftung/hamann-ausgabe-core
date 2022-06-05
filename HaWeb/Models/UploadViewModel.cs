@@ -5,11 +5,11 @@ public class UploadViewModel {
     public string ActiveTitle { get; private set; }
     public string? Prefix { get; private set; }
     public List<IXMLRoot>? AvailableRoots { get; private set; }
-    public List<XMLRootDocument>? AvailableFiles { get; private set; }
-    public Dictionary<string, List<XMLRootDocument>>? UsedFiles { get; private set; }
+    public FileList? AvailableFiles { get; private set; }
+    public Dictionary<string, FileList>? UsedFiles { get; private set; }
 
 
-    public UploadViewModel(string title, string? prefix, List<IXMLRoot>? roots, List<XMLRootDocument>? availableFiles, Dictionary<string, List<XMLRootDocument>>? usedFiles) {
+    public UploadViewModel(string title, string? prefix, List<IXMLRoot>? roots, FileList? availableFiles, Dictionary<string, FileList>? usedFiles) {
         Prefix = prefix;
         ActiveTitle = title;
         AvailableRoots = roots;

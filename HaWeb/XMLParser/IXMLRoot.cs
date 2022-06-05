@@ -1,6 +1,7 @@
 namespace HaWeb.XMLParser;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using HaWeb.Models;
 
 public interface IXMLRoot {
     // Name of the IXMLRoot

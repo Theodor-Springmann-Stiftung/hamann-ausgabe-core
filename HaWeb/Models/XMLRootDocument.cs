@@ -1,13 +1,14 @@
-namespace HaWeb.XMLParser;
+namespace HaWeb.Models;
 using System.Xml.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.FileProviders;
+using HaWeb.XMLParser;
 
 public class XMLRootDocument {
     private XElement? _Element;
     private string? _filename;
-    private IXMLService _xmlService;
+    public IXMLRoot XMLRoot { get; private set; }
 
     [JsonIgnore]
     public XElement Root {
@@ -31,21 +32,20 @@ public class XMLRootDocument {
     public IFileInfo? File { get; private set; }
     public string Prefix { get; private set; }
     public DateTime Date { get; private set; }
-    public bool Used { get; private set; } = false;
 
     public (string?, string?) IdentificationString { get; private set; }
-    [JsonIgnore]
-    public List<(string, string)>? Fields { get; set; }
+    public List<(string, string?)>? Fields { get; set; }
 
     // Entry point for file reading
-    public XMLRootDocument(IXMLService xmlService, IFileInfo file) {
-        _xmlService = xmlService;
+    public XMLRootDocument(IXMLRoot xmlRoot, IFileInfo file) {
+        XMLRoot = xmlRoot;
+        Prefix = xmlRoot.Prefix;
         SetFile(file);
     }
 
     // Entry point for XML upload reading
-    public XMLRootDocument(IXMLService xmlService, string prefix, (string?, string?) idString, XElement element) {
-        _xmlService = xmlService;
+    public XMLRootDocument(IXMLRoot xmlRoot, string prefix, (string?, string?) idString, XElement element) {
+        XMLRoot = xmlRoot;
         Prefix = prefix;
         IdentificationString = idString;
         Date = DateTime.Today;
@@ -56,13 +56,6 @@ public class XMLRootDocument {
         File = file;
         Date = file.LastModified.DateTime;
         _GenerateFieldsFromFilename(file.Name);
-    }
-
-    public void SetUsed(bool used) {
-        Used = used;
-        if (used && _Element == null) {
-            _GetElement();
-        }
     }
 
     private string _CreateFilename() {
@@ -101,7 +94,7 @@ public class XMLRootDocument {
         if (File == null || String.IsNullOrWhiteSpace(File.PhysicalPath) || !File.Exists)
             throw new Exception("Es ist kein Pfad für die XML-Datei vorhanden.");
 
-        var root = _xmlService.GetRoot(Prefix);
+        var root = XMLRoot;
         if (root == null)
             throw new Exception("Kein gültiges Hamann-Dokument: " + File.PhysicalPath + "Vom Prefix: " + Prefix);
 
@@ -123,7 +116,7 @@ public class XMLRootDocument {
     }
 
     public async Task Save(Stream stream, ModelStateDictionary state) {
-        var root = _xmlService.GetRoot(Prefix);
+        var root = XMLRoot;
         if (root == null) {
             state.AddModelError("Error", "No corresponding Root Element found.");
             return;

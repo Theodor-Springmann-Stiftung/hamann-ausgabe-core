@@ -18,16 +18,18 @@ public class UploadController : Controller {
     private readonly long _fileSizeLimit;
     private readonly string _targetFilePath;
     private readonly IXMLService _xmlService;
+    private readonly IXMLProvider _xmlProvider;
 
     // Options
     private static readonly string[] _permittedExtensions = { ".xml" };
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
 
-    public UploadController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IConfiguration config) {
+    public UploadController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IXMLProvider xmlProvider, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
         _xmlService = xmlService;
+        _xmlProvider = xmlProvider;
         _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             _targetFilePath = config.GetValue<string>("StoredFilePathWindows");
@@ -42,23 +44,25 @@ public class UploadController : Controller {
     [GenerateAntiforgeryTokenCookie]
     public IActionResult Index(string? id) {
         if (id != null) {
+            id = id.ToLower();
+
             var root = _xmlService.GetRoot(id);
             if (root == null) return error404();
 
-            var roots = _xmlService.GetRoots();
+            var roots = _xmlService.GetRootsList();
             if (roots == null) return error404();
 
-            var usedFiles = _xmlService.GetUsed();
-            var availableFiles = _xmlService.GetAvailableFiles(id);
+            var usedFiles = _xmlService.GetUsedDictionary();
+            var availableFiles = _xmlProvider.GetFiles(id);
 
             var model = new UploadViewModel(root.Type, id, roots, availableFiles, usedFiles);
             return View("../Admin/Upload/Index", model);
         }
         else {
-            var roots = _xmlService.GetRoots();
+            var roots = _xmlService.GetRootsList();
             if (roots == null) return error404();
 
-            var usedFiles = _xmlService.GetUsed();
+            var usedFiles = _xmlService.GetUsedDictionary();
 
             var model = new UploadViewModel("Upload", id, roots, null, usedFiles);
             return View("../Admin/Upload/Index", model);

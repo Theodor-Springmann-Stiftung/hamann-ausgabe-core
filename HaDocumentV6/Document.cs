@@ -21,6 +21,7 @@ namespace HaDocument
         private static ILibrary _library;
 
         public static ILibrary Create(IHaDocumentOptions Settings) {
+            Console.WriteLine("PARSING");
             SettingsValidator.Validate(Settings);
             _settings = Settings;
             _createReader();

@@ -30,7 +30,7 @@ namespace HamannPrinter
             EndYearTextBox.Text = "1762"; // DEV
             XmlFileBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\XML"; // DEV
             OutputDirBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\Ausg"; // DEV
-            Act(); // DEV
+            //Act(); // DEV
         }
 
         private void SingleDocChanged(object sender, RoutedEventArgs e)
