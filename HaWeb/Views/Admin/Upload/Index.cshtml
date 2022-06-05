@@ -37,8 +37,9 @@
     </form>
 
     <form class="ha-publishform" id="ha-publishform" asp-controller="API" asp-action="LocalPublish" method="post" enctype="multipart/form-data">
-        <label class="ha-uploadfilelabel" id="ha-uploadfilelabel">
+        <label class="ha-publishfilelabel" id="ha-publishfilelabel">
           Veröffentlichen
+          <div class="ha-lds-ellipsis" id="ha-lds-ellipsis-publish"><div></div><div></div><div></div><div></div></div>
         </label>
         <div class="ha-publishmessage" id="ha-publishmessage">
           @* Fehler!<br/> *@
@@ -180,7 +181,7 @@
       var formelement = document.getElementById("uploadForm");
       var dropzone = document.getElementById("dropzone");
       var publishelement = document.getElementById("ha-publishform");
-      var publishbutton = document.getElementById("ha-uploadfilelabel");
+      var publishbutton = document.getElementById("ha-publishfilelabel");
       publishbutton.addEventListener("click", () => LOCALPUBLISHSubmit(publishelement));
       submitelement.addEventListener("change", () => UPLOADSubmit(formelement));
       dropzone.addEventListener("drop", (ev) => dropHandler(formelement, ev, dropzone));

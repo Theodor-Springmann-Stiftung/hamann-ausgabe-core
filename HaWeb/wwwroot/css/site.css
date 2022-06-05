@@ -718,7 +718,19 @@
   }
 
   .ha-adminuploadfields .ha-publishform {
-    @apply bg-slate-50 rounded shadow grow px-3 py-2 
+    @apply bg-slate-50 rounded shadow grow relative
+  }
+
+  .ha-adminuploadfields .ha-publishform .ha-lds-ellipsis {
+    @apply left-1/2 -ml-[20px]
+  }
+
+  .ha-adminuploadfields .ha-publishform .ha-publishfilelabel {
+    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full
+  }
+
+  .ha-adminuploadfields .ha-publishform .ha-publishmessage {
+    @apply text-sm bg-slate-700 bg-opacity-30 px-1 rounded-sm
   }
 
   .ha-uploadheader {
