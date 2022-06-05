@@ -8,6 +8,8 @@ using HaWeb.XMLParser;
 public class XMLRootDocument {
     private XElement? _Element;
     private string? _filename;
+
+    [JsonIgnore]
     public IXMLRoot XMLRoot { get; private set; }
 
     [JsonIgnore]
@@ -29,7 +31,7 @@ public class XMLRootDocument {
     }
 
     [JsonIgnore]
-    public IFileInfo? File { get; private set; }
+    public IFileInfo? File { get; set; }
     public string Prefix { get; private set; }
     public DateTime Date { get; private set; }
 
@@ -40,7 +42,10 @@ public class XMLRootDocument {
     public XMLRootDocument(IXMLRoot xmlRoot, IFileInfo file) {
         XMLRoot = xmlRoot;
         Prefix = xmlRoot.Prefix;
-        SetFile(file);
+        File = file;
+        Date = file.LastModified.LocalDateTime;
+        _filename = file.Name;
+        _GenerateFieldsFromFilename(file.Name);
     }
 
     // Entry point for XML upload reading
@@ -50,12 +55,6 @@ public class XMLRootDocument {
         IdentificationString = idString;
         Date = DateTime.Today;
         _Element = element;
-    }
-
-    public void SetFile(IFileInfo file) {
-        File = file;
-        Date = file.LastModified.DateTime;
-        _GenerateFieldsFromFilename(file.Name);
     }
 
     private string _CreateFilename() {

@@ -13,6 +13,11 @@ public class XMLProvider : IXMLProvider {
         _fileProvider = provider;
         _Roots = xmlservice.GetRootsDictionary();
         _Files = _ScanFiles();
+
+        if (_Files != null)
+            foreach(var category in _Files) 
+                if (category.Value != null)
+                    xmlservice.AutoUse(category.Value);
     }
 
     public FileList? GetFiles(string prefix)
@@ -41,7 +46,7 @@ public class XMLProvider : IXMLProvider {
             return;
         }
 
-        doc.SetFile(info);
+        doc.File = info;
 
         if (_Files == null) _Files = new Dictionary<string, FileList?>();
         if (!_Files.ContainsKey(doc.Prefix)) _Files.Add(doc.Prefix, new FileList(doc.XMLRoot));
