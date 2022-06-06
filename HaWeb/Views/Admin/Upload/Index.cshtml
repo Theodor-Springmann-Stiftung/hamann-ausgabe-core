@@ -1,13 +1,13 @@
-@model UploadViewModel?;
+@model UploadViewModel;
 
 <div class="ha-adminuploadfields" id="ha-adminuploadfields">
-  @foreach (var item in Model.AvailableRoots.OrderBy(x => x.Type)) {
+  @foreach (var item in Model.AvailableRoots!.OrderBy(x => x.Type)) {
       <a class="ha-uploadfield" asp-controller="Upload" asp-action="Index" asp-route-id="@item.Prefix">
         <div class="ha-uploadfieldname">@item.Type</div>
         @if (Model.UsedFiles != null && Model.UsedFiles.ContainsKey(item.Prefix)) {
           <div class="ha-uploadusedfiles">
-          @foreach(var file in Model.UsedFiles[item.Prefix].GetFileList()!) {
-            @if (file == Model.UsedFiles[item.Prefix].GetFileList()!.Last())
+          @foreach(var file in Model.UsedFiles[item.Prefix]!) {
+            @if (file == Model.UsedFiles[item.Prefix]!.Last())
             {
               <span class="ha-uploadusedfile">@file.FileName</span>
             }
@@ -38,7 +38,7 @@
 
     <form class="ha-publishform" id="ha-publishform" asp-controller="API" asp-action="LocalPublish" method="post" enctype="multipart/form-data">
         <label class="ha-publishfilelabel" id="ha-publishfilelabel">
-          Veröffentlichen
+          <div class="ha-publishtext">Veröffentlichen</div>
           <div class="ha-lds-ellipsis" id="ha-lds-ellipsis-publish"><div></div><div></div><div></div><div></div></div>
         </label>
         <div class="ha-publishmessage" id="ha-publishmessage">
@@ -56,9 +56,9 @@
   <div class="ha-usedfilesheader">
     <div class="ha-usedfilesheaderlist">
       @if(Model.UsedFiles != null && Model.UsedFiles.ContainsKey(Model.Prefix)) {
-        @foreach (var item in Model.UsedFiles[Model.Prefix].GetFileList())
+        @foreach (var item in Model.UsedFiles[Model.Prefix]!)
         {
-          <div class="ha-usedfilesheaderfile">@item.File.Name</div>
+          <div class="ha-usedfilesheaderfile">@item.FileName</div>
         }
       }
       else {
@@ -87,6 +87,11 @@
   <div class="ha-crossfilechecking">
     
   </div>
+}
+else {
+  <form class="ha-selecthamannfilesform" id="selecthamannfilesform" asp-controller="API" asp-action="SetUsedHamann" method="post" enctype="multipart/form-data">
+    
+  </form>
 }
 </div>
 
@@ -121,6 +126,8 @@
 
     const LOCALPUBLISHSubmit = async function (oFormElement) {
       var fd = new FormData();
+      document.getElementById("ha-publishfilelabel").style.pointerEvents = "none";
+      document.getElementById("ha-lds-ellipsis-publish").style.display = "inline-block";
       document.getElementById("ha-publishmessage").style.opacity = "0";
       await fetch(oFormElement.action, {
           method: 'POST',
@@ -131,19 +138,29 @@
         .then(response => response.json())
         .then(json => {
           if ("Error" in json) {
+            document.getElementById("ha-publishfilelabel").style.pointerEvents = "auto";
+            document.getElementById("ha-lds-ellipsis-publish").style.display = "none";
             document.getElementById("ha-publishmessage").style.opacity = "1";
             oFormElement.elements.namedItem("update-result").value = json.Error;
           } else {
+            document.getElementById("ha-publishfilelabel").style.pointerEvents = "auto";
+            document.getElementById("ha-lds-ellipsis-publish").style.display = "none";
+            document.getElementById("ha-publishmessage").style.opacity = "1";
             oFormElement.elements.namedItem("update-result").value = "Erfolg!";
           }
         })
-        .catch ((e) => console.log('Error:', e))
+        .catch ((e) => {
+          document.getElementById("ha-publishfilelabel").style.pointerEvents = "auto";
+          document.getElementById("ha-lds-ellipsis-publish").style.display = "none";
+          console.log('Error:', e);
+      })
     }
 
     const UPLOADSubmit = async function (oFormElement, file = null) {
       var fd = new FormData();
       if (file !== null) fd.append("file", file);
       else fd = new FormData(oFormElement);
+      document.getElementById("dropzone").style.pointerEvents = "none";
       document.getElementById("ha-lds-ellipsis").style.display = "inline-block";
       document.getElementById("ha-uploadmessage").style.opacity = "0";
       await fetch(oFormElement.action, {
@@ -156,18 +173,27 @@
         .then(response => response.json())
         .then(json => {
           if ("Error" in json) {
+            document.getElementById("dropzone").style.pointerEvents = "auto";
             document.getElementById("ha-lds-ellipsis").style.display = "none";
             document.getElementById("ha-uploadmessage").style.opacity = "1";
             oFormElement.elements.namedItem("upload-result").value = json.Error;
           } else {
+            document.getElementById("dropzone").style.pointerEvents = "auto";
             document.getElementById("ha-lds-ellipsis").style.display = "none";
             oFormElement.elements.namedItem("upload-result").value = "Erfolg!";
             if ("Prefix" in json[0]) {
+              document.getElementById("dropzone").style.pointerEvents = "auto";
+              document.getElementById("ha-lds-ellipsis").style.display = "none";
               window.location.replace("/Admin/Upload/" + json[0].Prefix);
             }
           }
         })
-        .catch ((e) => console.log('Error:', e))
+        .catch ((e) => { 
+          document.getElementById("dropzone").style.pointerEvents = "auto";
+          document.getElementById("ha-lds-ellipsis").style.display = "none";
+          document.getElementById("ha-uploadmessage").style.opacity = "1";
+          oFormElement.elements.namedItem("upload-result").value = "Keine Antwort. Bitte Seite neu laden!";
+        })
     }
 
     function getCookie(name) {

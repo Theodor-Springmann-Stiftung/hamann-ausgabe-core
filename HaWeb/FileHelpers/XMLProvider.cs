@@ -10,17 +10,21 @@ public class XMLProvider : IXMLProvider {
     private Dictionary<string, FileList?>? _Files;
     private Dictionary<string, IXMLRoot>? _Roots;
     private List<IFileInfo>? _HamannFiles;
+    private IFileInfo? _InProduction;
 
     public XMLProvider(IFileProvider provider, IXMLService xmlservice) {
         _fileProvider = provider;
         _Roots = xmlservice.GetRootsDictionary();
         _Files = _ScanFiles();
+        _HamannFiles = _ScanHamannFiles();
 
         if (_Files != null)
             foreach(var category in _Files) 
                 if (category.Value != null)
                     xmlservice.AutoUse(category.Value);
     }
+
+    public List<IFileInfo>? GetHamannFiles() => this._HamannFiles;
 
     public FileList? GetFiles(string prefix)
         => _Files != null && _Files.ContainsKey(prefix) ? _Files[prefix] : null;
@@ -80,7 +84,7 @@ public class XMLProvider : IXMLProvider {
 
         if (_HamannFiles == null) _HamannFiles = new List<IFileInfo>();
         _HamannFiles.Add(info);
-
+        _InProduction = info;
         return info;
     }
 
@@ -109,5 +113,13 @@ public class XMLProvider : IXMLProvider {
             res.Add(new XMLRootDocument(_Roots[prefix], file));
         }
         return res;
+    }
+
+    private List<IFileInfo>? _ScanHamannFiles() {
+        var dir = _fileProvider.GetDirectoryContents(string.Empty).Where(x => x.IsDirectory && x.Name == "hamann");
+        if (dir == null || !dir.Any()) return null;
+        var files = _fileProvider.GetDirectoryContents(dir.First().Name).Where(x => !x.IsDirectory && x.Name.StartsWith("hamann") && x.Name.EndsWith(".xml"));
+        if (files == null || !files.Any()) return null;
+        return files.ToList();
     }
 }

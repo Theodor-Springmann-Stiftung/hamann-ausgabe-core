@@ -900,7 +900,7 @@ body {
 .ha-letterheader .ha-lettermetalinks {
   border-bottom-width: 2px;
   --tw-border-opacity: 1;
-  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+  border-color: rgb(203 213 225 / var(--tw-border-opacity));
 }
 
 .ha-letterheader .ha-lettermetalinks a {
@@ -1943,6 +1943,11 @@ body {
   padding-top: 0.5rem;
 }
 
+.ha-adminuploadfields .ha-uploadform .ha-uploadfilelabel:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
 .ha-adminuploadfields .ha-uploadform .ha-uploadmessage {
   border-radius: 0.125rem;
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
@@ -1978,6 +1983,15 @@ body {
   padding-right: 0.5rem;
   padding-bottom: 0.25rem;
   padding-top: 0.5rem;
+}
+
+.ha-adminuploadfields .ha-publishform .ha-publishfilelabel:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.ha-adminuploadfields .ha-publishform .ha-publishtext {
+  text-align: center;
 }
 
 .ha-adminuploadfields .ha-publishform .ha-publishmessage {
@@ -2674,8 +2688,8 @@ body {
 
 .ha-added, .ha-added *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
   border-radius: 0.125rem;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
 }
 
 .ha-note, .ha-note *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {

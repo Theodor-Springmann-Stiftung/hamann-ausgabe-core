@@ -20,6 +20,19 @@ public class FileList {
         if (!_Files.Contains(document)) _Files.Add(document);
     }
 
+    public bool Contains(XMLRootDocument doc) {
+        if (_Files == null) return false;
+        return _Files.Contains(doc);
+    }
+
     public List<XMLRootDocument>? GetFileList()
         => this._Files != null ? this._Files.ToList() : null;
+
+    public FileList Clone() {
+        var ret = new FileList(this.XMLRoot);
+        foreach (var file in _Files) {
+            ret.Add(file);
+        }
+        return ret;
+    }
 }

@@ -10,6 +10,7 @@ using HaWeb.Filters;
 using HaWeb.XMLParser;
 using HaWeb.Models;
 using HaWeb.FileHelpers;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class UploadController : Controller {
     // DI
@@ -43,28 +44,56 @@ public class UploadController : Controller {
     [FeatureGate(Features.AdminService)]
     [GenerateAntiforgeryTokenCookie]
     public IActionResult Index(string? id) {
+        var roots = _xmlService.GetRootsList();
+        if (roots == null) return error404();
+
+        var hF = _xmlProvider.GetHamannFiles();
+        List<(string, DateTime)>? hamannFiles = null;
+        if (hF != null)
+            hamannFiles = hF
+                .OrderByDescending(x => x.LastModified)
+                .Select(x => (x.Name, x.LastModified.LocalDateTime))
+                .ToList();
+        
+        var uF = _xmlService.GetUsedDictionary();
+        var pF = _xmlService.GetInProduction();
+
+        Dictionary<string, List<FileModel>?>? usedFiles = null;
+        if (uF != null)  {
+            usedFiles = new Dictionary<string, List<FileModel>?>();
+            foreach (var kv in uF) {
+                if (kv.Value == null) continue;
+                usedFiles.Add(kv.Key, XMLFileHelpers.ToFileModel(kv.Value, pF, uF));
+            }
+        }
+
+        Dictionary<string, List<FileModel>?>? productionFiles = null;
+        if (pF != null)  {
+            productionFiles = new Dictionary<string, List<FileModel>?>();
+            foreach (var kv in pF) {
+                if (kv.Value == null) continue;
+                productionFiles.Add(kv.Key, XMLFileHelpers.ToFileModel(kv.Value, pF, uF));
+            }
+        }
+
         if (id != null) {
             id = id.ToLower();
 
             var root = _xmlService.GetRoot(id);
             if (root == null) return error404();
-
-            var roots = _xmlService.GetRootsList();
-            if (roots == null) return error404();
-
-            var usedFiles = _xmlService.GetUsedDictionary();
-            var availableFiles = _xmlProvider.GetFiles(id);
-
-            var model = new UploadViewModel(root.Type, id, roots, availableFiles, usedFiles);
+            
+            var model = new UploadViewModel(root.Type, id, roots, usedFiles);
+            model.ProductionFiles = productionFiles;
+            model.HamannFiles = hamannFiles;
+            model.AvailableFiles = XMLFileHelpers.ToFileModel(_xmlProvider.GetFiles(id), pF, uF);
+            
             return View("../Admin/Upload/Index", model);
         }
         else {
-            var roots = _xmlService.GetRootsList();
-            if (roots == null) return error404();
+            var model = new UploadViewModel("Upload", id, roots, usedFiles);
+            model.ProductionFiles = productionFiles;
+            model.HamannFiles = hamannFiles;
 
-            var usedFiles = _xmlService.GetUsedDictionary();
-
-            var model = new UploadViewModel("Upload", id, roots, null, usedFiles);
             return View("../Admin/Upload/Index", model);
         }
     }

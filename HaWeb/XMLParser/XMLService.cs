@@ -7,6 +7,8 @@ public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
     private Dictionary<string, IXMLRoot>? _Roots;
 
+    private Dictionary<string, FileList?>? _InProduction;
+
     public XMLService() {
         // Getting all classes which implement IXMLRoot for possible document endpoints
         var types = _GetAllTypesThatImplementInterface<IXMLRoot>().ToList();
@@ -29,6 +31,8 @@ public class XMLService : IXMLService {
     public List<IXMLRoot>? GetRootsList() => this._Roots == null ? null : this._Roots.Values.ToList();
 
     public Dictionary<string, IXMLRoot>? GetRootsDictionary() => this._Roots == null ? null : this._Roots;
+
+    public Dictionary<string, FileList?>? GetInProduction() => this._InProduction;
 
     public List<XMLRootDocument>? ProbeHamannFile(XDocument document, ModelStateDictionary ModelState) {
         if (document.Root!.Name != "opus") {
@@ -93,17 +97,20 @@ public class XMLService : IXMLService {
         }
 
         var opus = new XElement("opus");
+        var inProduction = new Dictionary<string, FileList?>();
         foreach (var category in _Used) {
             if (category.Value == null || category.Value.GetFileList() == null || !category.Value.GetFileList()!.Any()) {
                 ModelState.AddModelError("Error", _Roots![category.Key].Type + " nicht vorhanden.");
                 return null;
             }
-
+            inProduction.Add(category.Key, category.Value);
             var documents = category.Value.GetFileList();
             foreach (var document in documents!) {
                 document.XMLRoot.MergeIntoFile(opus, document);
             }
         }
+
+        _InProduction = inProduction;
         return opus;
     }
 

@@ -13,4 +13,5 @@ public interface IXMLService {
     public void Use(XMLRootDocument doc);
     public void AutoUse(string prefix);
     public void AutoUse(FileList filelist);
+    public Dictionary<string, FileList?>? GetInProduction();
 }

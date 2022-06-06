@@ -169,6 +169,25 @@ public class APIController : Controller {
         _ = _lib.SetLibrary(savedfile.PhysicalPath, ModelState);
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
+        return Created("/", _xmlProvider.GetHamannFiles());
+    }
+
+    [HttpPost]
+    [Route("API/SetUsed/{id}")]
+    [DisableFormValueModelBinding]
+    [ValidateAntiForgeryToken]
+    [FeatureGate(Features.UploadService, Features.AdminService)]
+    public async Task<IActionResult> SetUsed(string id) {
+        return Ok();
+    }
+
+
+    [HttpPost]
+    [Route("API/SetUsedHamann")]
+    [DisableFormValueModelBinding]
+    [ValidateAntiForgeryToken]
+    [FeatureGate(Features.UploadService, Features.AdminService)]
+    public async Task<IActionResult> SetUsedHamann() {
         return Ok();
     }
 }

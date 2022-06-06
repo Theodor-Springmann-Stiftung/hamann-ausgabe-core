@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
+using HaWeb.Models;
 
 public static class XMLFileHelpers {
     //  File Signatures Database (https://www.filesignatures.net/)
@@ -138,6 +139,34 @@ public static class XMLFileHelpers {
 
     //     return Array.Empty<byte>();
     // }
+
+    public static List<FileModel>? ToFileModel(FileList? fileList, Dictionary<string, FileList?>? productionFiles = null, Dictionary<string, FileList?>? usedFiles = null) {
+        if (fileList == null) return null;
+        var fL = fileList.GetFileList();
+        if (fL == null) return null;
+        var ret = new List<FileModel>();
+        foreach (var f in fL) {
+            if (f.File == null) continue;
+            ret.Add(ToFileModel(f, productionFiles, usedFiles));
+        };
+        return ret.OrderBy(x => x.LastModified).ToList();
+    }
+
+    public static FileModel ToFileModel(XMLRootDocument document, Dictionary<string, FileList?>? productionFiles = null, Dictionary<string, FileList?>? usedFiles = null) {
+        string id = document.Prefix;
+
+        bool inProduction = false;
+        if (productionFiles != null && productionFiles.ContainsKey(id)) {
+            inProduction = productionFiles[id]!.Contains(document);
+        }
+
+        bool isUsed = false;
+        if (usedFiles != null && usedFiles.ContainsKey(id)) {
+            isUsed = usedFiles[id]!.Contains(document);
+        }
+
+        return new FileModel(document.FileName, document.Prefix, document.File.LastModified.LocalDateTime, isUsed, inProduction) { Fields = document.Fields };
+    }
 
     public static async Task<byte[]?> ProcessStreamedFile(
         MultipartSection section, ContentDispositionHeaderValue contentDisposition,
