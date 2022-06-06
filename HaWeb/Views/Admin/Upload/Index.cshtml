@@ -23,6 +23,7 @@
         }
       </a>
   }
+
   <div class="ha-uploadpublishforms">
     <form class="ha-uploadform" id="uploadForm" asp-controller="API" asp-action="Upload" method="post" enctype="multipart/form-data">
         <label class="ha-uploadfilelabel" id="dropzone">
@@ -49,9 +50,9 @@
   </div>
 </div>
 
-
 <div class="ha-uploadheader">
   <h1 class="ha-uploadtitle">@Model.ActiveTitle</h1>
+
   @if (Model.Prefix != null) {
   <div class="ha-usedfilesheader">
     <div class="ha-usedfilesheaderlist">
@@ -71,9 +72,11 @@
   </div>
   </div>
   }
+
 </div>
 
 <div class="ha-uploadcontainer">
+
 @if (Model.UsedFiles != null && Model.Prefix != null && Model.UsedFiles.ContainsKey(Model.Prefix)) {
   <div class="ha-errorswarnings">
     <div class="ha-criticalerrors">
@@ -88,15 +91,16 @@
     
   </div>
 }
+
 else {
   <form class="ha-selecthamannfilesform" id="selecthamannfilesform" asp-controller="API" asp-action="SetUsedHamann" method="post" enctype="multipart/form-data">
     
   </form>
 }
+
 </div>
 
 @section Scripts {
-
   <script>
     "use strict";
     const dropHandler = function (formelement, ev, dropzone) {
