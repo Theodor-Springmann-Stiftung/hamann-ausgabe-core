@@ -35,8 +35,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = filepath, AvailableYearRange = (_startYear, _endYear) });
         }
         catch (Exception ex) {
-            if (ModelState != null) ModelState.AddModelError("Error:", "Das Dokument konnte nicht geparst werden: " + ex.Message);
-            Console.WriteLine(ex.Message);
+            if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
         return Library;

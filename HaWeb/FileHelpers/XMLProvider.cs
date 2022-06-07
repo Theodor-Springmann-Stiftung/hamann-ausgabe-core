@@ -10,7 +10,7 @@ public class XMLProvider : IXMLProvider {
     private Dictionary<string, FileList?>? _Files;
     private Dictionary<string, IXMLRoot>? _Roots;
     private List<IFileInfo>? _HamannFiles;
-    private IFileInfo? _InProduction;
+    private Stack<IFileInfo>? _InProduction;
 
     public XMLProvider(IFileProvider provider, IXMLService xmlservice) {
         _fileProvider = provider;
@@ -26,9 +26,24 @@ public class XMLProvider : IXMLProvider {
 
     public List<IFileInfo>? GetHamannFiles() => this._HamannFiles;
 
-    public IFileInfo? GetInProduction() => this._InProduction;
+    public IFileInfo? GetInProduction()  {
+        if (_InProduction == null || !_InProduction.Any()) return null;
+        return this._InProduction.Peek();
+    }
 
-    public void SetInProduction(IFileInfo info) => _InProduction = info;
+    public void DeleteHamannFile(string filename) {
+        if (_HamannFiles == null) return;
+        var files = _HamannFiles.Where(x => x.Name == filename);
+        foreach (var file in files) {
+            File.Delete(file.PhysicalPath);
+        }
+        _HamannFiles.RemoveAll(x => x.Name == filename);
+    }
+
+    public void SetInProduction(IFileInfo info) {
+        if (_InProduction == null) _InProduction = new Stack<IFileInfo>();
+        _InProduction.Push(info);
+    } 
 
     public FileList? GetFiles(string prefix)
         => _Files != null && _Files.ContainsKey(prefix) ? _Files[prefix] : null;
@@ -89,7 +104,6 @@ public class XMLProvider : IXMLProvider {
         if (_HamannFiles == null) _HamannFiles = new List<IFileInfo>();
         _HamannFiles.RemoveAll(x => x.Name == info.Name);
         _HamannFiles.Add(info);
-        _InProduction = info;
         return info;
     }
 

@@ -16,4 +16,5 @@ public interface IXMLService {
     public Dictionary<string, FileList?>? GetInProduction();
     public void UnUse(string prefix);
     public void UnUseProduction();
+    public void SetInProduction();
 }
