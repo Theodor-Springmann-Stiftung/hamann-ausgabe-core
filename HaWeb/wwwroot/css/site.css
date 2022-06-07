@@ -755,11 +755,11 @@
   }
 
   .ha-uploadcontainer .ha-publishfilelist .ha-publishfilelabel {
-    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-700 hover:bg-blue-300 cursor-pointer float-right;
+    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-600 hover:border-2 hover:shadow active:shadow-inner hover:border-blue-800 cursor-pointer float-right;
   }
 
   .ha-uploadcontainer .ha-availablefiles {
-    @apply px-16 border border-slate-200 hover:border-slate-800 py-2 cursor-pointer
+    @apply px-16 border border-slate-200 hover:border-slate-800 py-2 cursor-pointer select-none
   }
 
   .ha-uploadcontainer .ha-availablefiles .ha-availablefilestitle {
@@ -817,7 +817,11 @@
   }
 
   .ha-selectfilesform .ha-filelistfile {
-    @apply flex flex-row gap-x-4
+    @apply flex flex-row gap-x-4 px-1 items-center
+  }
+
+  .ha-selectfilesform .ha-filelistfile:nth-child(even) {
+    @apply bg-slate-100
   }
 
   .ha-selectfilesform .ha-filelistlist {
@@ -829,7 +833,7 @@
   }
 
   .ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction {
-    @apply text-sm self-start
+    @apply text-sm
   }
 
   .ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction .ha-filelistproduction {
@@ -849,7 +853,7 @@
   }
 
   .ha-selectfilesform .ha-filelistbutton {
-    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-700 hover:bg-blue-300 cursor-pointer float-right;
+    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-600 hover:border-2 hover:shadow active:shadow-inner hover:border-blue-800 cursor-pointer float-right;
   }
 
   /* Classes for Letter View */
