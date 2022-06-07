@@ -679,7 +679,7 @@
   }
 
   .ha-adminuploadfields .ha-uploadfield.active {
-    @apply !text-black brightness-110
+    @apply !text-black brightness-110 shadow-inner
   }
 
   .ha-adminuploadfields .ha-uploadfield .ha-uploadfieldname {
@@ -711,30 +711,22 @@
   }
 
   .ha-adminuploadfields .ha-uploadform .ha-uploadfilelabel {
-    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full hover:bg-slate-100
+    @apply inline-block px-4 py-1 pt-2 cursor-pointer w-full h-full hover:bg-slate-100
   }
 
   .ha-adminuploadfields .ha-uploadform .ha-uploadmessage {
     @apply text-sm bg-slate-700 bg-opacity-30 px-1 rounded-sm
   }
 
-  .ha-adminuploadfields .ha-publishform {
-    @apply bg-slate-50 rounded shadow grow relative
+  .ha-adminuploadfields .ha-publishbutton  {
+    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full bg-slate-50 shadow shrink hover:bg-slate-100
   }
 
-  .ha-adminuploadfields .ha-publishform .ha-lds-ellipsis {
-    @apply left-1/2 -ml-[20px]
-  }
-
-  .ha-adminuploadfields .ha-publishform .ha-publishfilelabel {
-    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full hover:bg-slate-100
-  }
-
-  .ha-adminuploadfields .ha-publishform .ha-publishtext {
+  .ha-adminuploadfields .ha-publishbutton .ha-publishtext {
     @apply text-center
   }
 
-  .ha-adminuploadfields .ha-publishform .ha-publishmessage {
+  .ha-adminuploadfields .ha-publishbutton .ha-publishmessage {
     @apply text-sm bg-slate-700 bg-opacity-30 px-1 rounded-sm
   }
 
@@ -748,6 +740,22 @@
 
   .ha-uploadcontainer {
     @apply w-full bg-slate-50 flex flex-col gap-y-2 h-full
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist {
+    @apply px-16 mb-8
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist .ha-publishfilelisttitle {
+    @apply text-xl mb-2
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist td {
+    @apply align-text-top pr-6
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist .ha-publishfilelabel {
+    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-700 hover:bg-blue-300 cursor-pointer float-right;
   }
 
   .ha-uploadcontainer .ha-availablefiles {
@@ -836,8 +844,12 @@
     @apply grow text-right
   }
 
+  .ha-selectfilesform .ha-filelistoutput {
+    @apply mt-4 ml-6 
+  }
+
   .ha-selectfilesform .ha-filelistbutton {
-    @apply mt-2 ml-6 rounded-md px-3 border-2 border-blue-700 hover:bg-blue-300 cursor-pointer float-right;
+    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-700 hover:bg-blue-300 cursor-pointer float-right;
   }
 
   /* Classes for Letter View */

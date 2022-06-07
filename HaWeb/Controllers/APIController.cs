@@ -300,9 +300,6 @@ public class APIController : Controller {
                 continue;
             }
 
-            filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             if (hasContentDispositionHeader && contentDisposition != null) {
                 if (!MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition)) {
                     ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");
@@ -310,7 +307,7 @@ public class APIController : Controller {
                 }
 
                 filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
-                
+                if (!ModelState.IsValid) return BadRequest(ModelState);
             }
 
             try {
@@ -343,6 +340,6 @@ public class APIController : Controller {
         _xmlProvider.SetInProduction(newFile.First());
         _xmlService.UnUseProduction();
 
-        return Created("/", null);
+        return Created("/", newFile.First());
     }
 }

@@ -37,16 +37,9 @@
         </div>
     </form>
 
-    <form class="ha-publishform" id="ha-publishform" asp-controller="API" asp-action="LocalPublish" method="post" enctype="multipart/form-data">
-        <label class="ha-publishfilelabel" id="ha-publishfilelabel">
-          <div class="ha-publishtext">Veröffentlichen</div>
-          <div class="ha-lds-ellipsis" id="ha-lds-ellipsis-publish"><div></div><div></div><div></div><div></div></div>
-        </label>
-        <div class="ha-publishmessage" id="ha-publishmessage">
-          @* Fehler!<br/> *@
-          <output form="uploadForm" name="publish-result" id="publish-result"></output>
-        </div>
-    </form>
+    <a class="ha-publishbutton" asp-controller="Upload" asp-action="Index" asp-route-id="@string.Empty">
+      <div class="ha-publishtext">Veröffentlichen</div>
+    </a>
   </div>
 </div>
 
@@ -82,6 +75,10 @@
 
 @* Start Page File List *@
 else {
+  <div class="ha-publishfilelist">
+    @await Html.PartialAsync("/Views/Shared/_PublishForm.cshtml", Model)
+  </div>
+
   <div class="ha-hamannfilechooser">
     @await Html.PartialAsync("/Views/Shared/_FileList.cshtml", (Model.HamannFiles, "Verfügbare Hamann-Dateien", "API", "SetUsedHamann", string.Empty, "/Download/XML/", false))
   </div>
@@ -110,7 +107,6 @@ else {
     "use strict";
     const hideshowfiles = function() {
       let elem = document.getElementById("ha-availablefileslist");
-      console.log("hello!");
       if (elem.classList.contains('hidden')) {
         
         elem.classList.remove('hidden');
@@ -145,39 +141,6 @@ else {
 
     const dragEnterHandler = function (ev, dropzone) {
       ev.preventDefault();
-    }
-
-    const LOCALPUBLISHSubmit = async function (oFormElement) {
-      var fd = new FormData();
-      document.getElementById("ha-publishfilelabel").style.pointerEvents = "none";
-      document.getElementById("ha-lds-ellipsis-publish").style.display = "inline-block";
-      document.getElementById("ha-publishmessage").style.opacity = "0";
-      await fetch(oFormElement.action, {
-          method: 'POST',
-          headers: {
-            'RequestVerificationToken': getCookie('RequestVerificationToken')
-          }
-        })
-        .then(response => response.json())
-        .then(json => {
-          if ("Error" in json) {
-            document.getElementById("ha-publishfilelabel").style.pointerEvents = "auto";
-            document.getElementById("ha-lds-ellipsis-publish").style.display = "none";
-            document.getElementById("ha-publishmessage").style.opacity = "1";
-            document.getElementById("publish-result").value = json.Error;
-          } else {
-            document.getElementById("ha-publishfilelabel").style.pointerEvents = "auto";
-            document.getElementById("ha-lds-ellipsis-publish").style.display = "none";
-            document.getElementById("ha-publishmessage").style.opacity = "1";
-            document.getElementById("publish-result").value = "Erfolg!";
-            window.location.replace("/Admin/Upload/");
-          }
-        })
-        .catch ((e) => {
-          document.getElementById("ha-publishfilelabel").style.pointerEvents = "auto";
-          document.getElementById("ha-lds-ellipsis-publish").style.display = "none";
-          document.getElementById("publish-result").value = "Keine Antwort. Bitte Seite neu laden!";
-      })
     }
 
     const UPLOADSubmit = async function (oFormElement, file = null) {
@@ -230,12 +193,11 @@ else {
       var submitelement = document.getElementById("file");
       var formelement = document.getElementById("uploadForm");
       var dropzone = document.getElementById("dropzone");
-      var publishelement = document.getElementById("ha-publishform");
-      var publishbutton = document.getElementById("ha-publishfilelabel");
+      
       var filesbutton = document.getElementById("ha-availablefiles");
       if (filesbutton !== null)
         filesbutton.addEventListener("click", () => hideshowfiles());
-      publishbutton.addEventListener("click", () => LOCALPUBLISHSubmit(publishelement));
+      
       submitelement.addEventListener("change", () => UPLOADSubmit(formelement));
       dropzone.addEventListener("drop", (ev) => dropHandler(formelement, ev, dropzone));
       dropzone.addEventListener("dragover", (ev) => dragOverHandler(ev, dropzone));

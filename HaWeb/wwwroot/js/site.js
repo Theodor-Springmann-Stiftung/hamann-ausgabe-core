@@ -37,7 +37,7 @@ const markactive_exact = function (element) {
     full_path = location.href.split("#")[0].toLowerCase(); //Ignore hashes
 
   for (; i < len; i++) {
-    if (full_path == all_links[i].href.toLowerCase()) {
+    if (full_path == all_links[i].href.toLowerCase() || full_path == all_links[i].href.toLowerCase() + "/") {
       all_links[i].className += " active";
     }
   }
@@ -260,7 +260,7 @@ window.addEventListener("load", function () {
   if (document.getElementById("ha-register-nav") != null)
     markactive_exact(document.getElementById("ha-register-nav"));
   if (this.document.getElementById("ha-adminuploadfields") != null)
-    markactive_startswith(document.getElementById("ha-adminuploadfields"));
+    markactive_exact(document.getElementById("ha-adminuploadfields"));
 
   // Letter / Register View: Collapse all unfit boxes + resize observer
   collapseboxes();

@@ -37,11 +37,11 @@
             </div>
         }
         </div>
-        <input class="btn ha-filelistbutton" type="submit" value="Laden" />
+        <output id ="ha-filelistoutput"></output><input class="btn ha-filelistbutton" type="submit" value="Laden" />
         </form>
     }
     else {
-        <div>Keine Hamann-Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
+        <div>Keine Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
     }
 </fieldset>
 
@@ -58,14 +58,16 @@
         .then(response => response.json())
         .then(json => {
           if ("Error" in json) {
-            
+            document.getElementById("ha-filelistoutput").textContent = json.Error;
           } 
           else {
             location.reload();
           }
         })
         .catch ((e) => { 
-            location.reload();
+            document.getElementById("ha-filelistoutput").textContent = e;
         })
     }
+
+    
 </script>

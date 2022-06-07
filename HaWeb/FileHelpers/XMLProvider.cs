@@ -65,7 +65,7 @@ public class XMLProvider : IXMLProvider {
 
     public async Task<IFileInfo?> SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary ModelState) {
         var date = DateTime.Now;
-        var filename = "hamann_" + date.Year + "-" + date.Month + "-" + date.Day + ".xml";
+        var filename = "hamann_" + date.Year + "-" + date.Month + "-" + date.Day + "." + Path.GetRandomFileName() + ".xml";
         var directory = Path.Combine(basefilepath, "hamann");
         var path = Path.Combine(directory, filename);
 
