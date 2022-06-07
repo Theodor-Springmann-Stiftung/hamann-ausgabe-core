@@ -8,10 +8,10 @@ public class FileModel {
     public bool InProduction { get; private set; }
     public List<(string, string?)>? Fields { get; set; }
 
-    public FileModel(string name, string prefix, DateTime lastModified, bool isUSed, bool inProduction) {
+    public FileModel(string name, string prefix, DateTime lastModified, bool isUsed, bool inProduction) {
         FileName = name;
-        IsUsed = IsUsed;
+        IsUsed = isUsed;
         LastModified = lastModified;
-        InProduction = InProduction;
+        InProduction = inProduction;
     }
 }

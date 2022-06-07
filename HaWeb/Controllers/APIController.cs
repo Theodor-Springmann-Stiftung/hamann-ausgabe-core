@@ -16,6 +16,7 @@ using HaXMLReader.Interfaces;
 using Microsoft.FeatureManagement.Mvc;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Http.Features;
+using System.Text;
 
 // Controlling all the API-Endpoints
 public class APIController : Controller {
@@ -78,6 +79,7 @@ public class APIController : Controller {
             section = await reader.ReadNextSectionAsync();
         } catch (Exception ex) {
             ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+            return BadRequest(ModelState);
         }
 
         while (section != null) {
@@ -178,7 +180,82 @@ public class APIController : Controller {
     [ValidateAntiForgeryToken]
     [FeatureGate(Features.UploadService, Features.AdminService)]
     public async Task<IActionResult> SetUsed(string id) {
-        return Ok();
+        var f = _xmlProvider.GetFiles(id);
+        if (f == null) {
+            ModelState.AddModelError("Error", "Wrong Endpoint");
+            return BadRequest(ModelState);
+        }
+
+        var files = f.GetFileList();
+        if (files == null) {
+            ModelState.AddModelError("Error", "Wrong Endpoint");
+            return BadRequest(ModelState);
+        }
+
+        List<XMLRootDocument>? newUsed = null;
+
+        if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType)) {
+            ModelState.AddModelError("Error", $"Wrong / No Content Type on the Request");
+            return BadRequest(ModelState);
+        }
+
+        // Same as above, check Upload()
+        var boundary = MultipartRequestHelper.GetBoundary(MediaTypeHeaderValue.Parse(Request.ContentType), _defaultFormOptions.MultipartBoundaryLengthLimit);
+        var reader = new MultipartReader(boundary, HttpContext.Request.Body);
+        MultipartSection? section = null;
+        try {
+            section = await reader.ReadNextSectionAsync();
+        } catch (Exception ex) {
+            ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+            return BadRequest(ModelState);
+        }
+
+        while (section != null) {
+            var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var contentDisposition);
+
+            if (contentDisposition != null && contentDisposition.Name == "__RequestVerificationToken") {
+                try {
+                    section = await reader.ReadNextSectionAsync();
+                } catch (Exception ex) {
+                    ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+                }
+                continue;
+            }
+
+            var filename = "";
+            if (hasContentDispositionHeader && contentDisposition != null) {
+                if (!MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition)) {
+                    ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");
+                    return BadRequest(ModelState);
+                }
+
+                filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+
+                var isFile = files.Where(x => x.FileName == filename);
+                if (isFile == null || !isFile.Any()) {
+                    ModelState.AddModelError("Error", "Tried to add a file that does not exist.");
+                    return BadRequest(ModelState);
+                }
+
+                if (newUsed == null) newUsed = new List<XMLRootDocument>();
+                newUsed.Add(isFile.First());
+            }
+
+            try {
+                section = await reader.ReadNextSectionAsync();
+            } catch (Exception ex) {
+                ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+                return BadRequest(ModelState);
+            }
+        }
+
+        if (newUsed != null && newUsed.Any()) {
+            _xmlService.UnUse(id);
+            newUsed.ForEach(x => _xmlService.Use(x));
+        }
+
+        return Created("/", newUsed);
     }
 
 
@@ -188,6 +265,84 @@ public class APIController : Controller {
     [ValidateAntiForgeryToken]
     [FeatureGate(Features.UploadService, Features.AdminService)]
     public async Task<IActionResult> SetUsedHamann() {
-        return Ok();
+        var hF = _xmlProvider.GetHamannFiles();
+        if (hF == null) {
+            ModelState.AddModelError("Error", "There are no Hamman.xml files available.");
+            return BadRequest(ModelState);
+        }
+
+        if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType)) {
+            ModelState.AddModelError("Error", $"Wrong / No Content Type on the Request");
+            return BadRequest(ModelState);
+        }
+
+        // Same as above, check Upload()
+        string? filename = null;
+        var boundary = MultipartRequestHelper.GetBoundary(MediaTypeHeaderValue.Parse(Request.ContentType), _defaultFormOptions.MultipartBoundaryLengthLimit);
+        var reader = new MultipartReader(boundary, HttpContext.Request.Body);
+        MultipartSection? section = null;
+        try {
+            section = await reader.ReadNextSectionAsync();
+        } catch (Exception ex) {
+            ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+            return BadRequest(ModelState);
+        }
+
+        while (section != null) {
+            var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var contentDisposition);
+
+            if (contentDisposition != null && contentDisposition.Name == "__RequestVerificationToken") {
+                try {
+                    section = await reader.ReadNextSectionAsync();
+                } catch (Exception ex) {
+                    ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+                }
+                continue;
+            }
+
+            filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (hasContentDispositionHeader && contentDisposition != null) {
+                if (!MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition)) {
+                    ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");
+                    return BadRequest(ModelState);
+                }
+
+                filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
+                
+            }
+
+            try {
+                section = await reader.ReadNextSectionAsync();
+            } catch (Exception ex) {
+                ModelState.AddModelError("Error", "The Request is bad: " + ex.Message);
+                return BadRequest(ModelState);
+            }
+        }
+
+        if (filename == null) {
+            ModelState.AddModelError("Error", "No filename given");
+            return BadRequest(ModelState);
+        }
+
+        var newFile =  hF.Where(x => x.Name == filename);
+        if (newFile == null || !newFile.Any()) {
+            ModelState.AddModelError("Error", "Trying to set a unavailable file.");
+            return BadRequest(ModelState);
+        }
+
+        try {
+            _ = _lib.SetLibrary(newFile.First().PhysicalPath, ModelState);
+        }
+        catch (Exception ex) {
+            ModelState.AddModelError("Error", "Error parsing the file: " + ex.Message);
+            return BadRequest(ModelState);
+        }
+
+        _xmlProvider.SetInProduction(newFile.First());
+        _xmlService.UnUseProduction();
+
+        return Created("/", null);
     }
 }

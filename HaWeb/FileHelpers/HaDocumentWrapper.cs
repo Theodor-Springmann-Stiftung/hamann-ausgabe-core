@@ -15,15 +15,13 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
 
         _startYear = configuration.GetValue<int>("AvailableStartYear");
         _endYear = configuration.GetValue<int>("AvailableEndYear");
-
         var filelist = xmlProvider.GetHamannFiles();
-        if (filelist != null && filelist.Any())
+        if (filelist != null && filelist.Any()) {
             _AutoLoad(filelist);
-
+        }
         // Use Fallback library
-        if (Library == null)
+        if (Library == null) 
             Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { AvailableYearRange = (_startYear, _endYear) });
-
     }
 
     public ILibrary ResetLibrary() {
@@ -38,6 +36,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
         }
         catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error:", "Das Dokument konnte nicht geparst werden: " + ex.Message);
+            Console.WriteLine(ex.Message);
             return null;
         }
         return Library;
@@ -50,7 +49,10 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
     private void _AutoLoad(List<IFileInfo> files) {
         var orderdlist = files.OrderByDescending(x => x.LastModified);
         foreach(var item in orderdlist) {
-            if (SetLibrary(item.PhysicalPath) != null) return;
+            if (SetLibrary(item.PhysicalPath) != null) {
+                _xmlProvider.SetInProduction(item);
+                return;
+            }
         }
     }
 }

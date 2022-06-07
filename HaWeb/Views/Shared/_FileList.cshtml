@@ -1,0 +1,71 @@
+@model (List<FileModel>? files, string title, string aspcontrolller, string aspaction, string id, string downloadprefix, bool multipleallowed);
+
+<fieldset class="ha-filelistfieldset">
+    <legend class="ha-filelistlegend">@Model.title</legend>
+    @if(Model.files != null && Model.files.Any()) {
+        <form class="ha-selectfilesform" id="selecthamannfilesform" asp-controller="@Model.aspcontrolller" asp-action="@Model.aspaction" asp-route-id="@Model.id" method="post" onsubmit="USESubmit(this);return false;" enctype="multipart/form-data">
+        <div class="ha-filelistlist">
+        @foreach (var file in Model.files.OrderByDescending(x => x.LastModified)) {
+            <div class="ha-filelistfile">
+            @if (Model.multipleallowed) {
+                <input type="checkbox" id="@file.FileName" name="file" value="@file.FileName" @(file.IsUsed ? "checked='checked'" : "")>
+            }
+            else {
+                <input type="radio" id="@file.FileName" name="file" value="@file.FileName" @(file.InProduction ? "checked='checked'" : "")>
+            }
+            <div class="ha-filelistname">@file.FileName</div>
+            @if (file.InProduction || file.IsUsed) {
+                <div class="ha-filelistusedproduction">
+                @if (file.InProduction) {
+                    <div class="ha-filelistproduction">in Verwendung</div>
+                }
+                @if (file.IsUsed) {
+                    <div class="ha-filelistused">geladen</div>
+                }
+                </div>
+            }
+            @if (file.Fields != null && file.Fields.Any()) {
+                <div class="ha-filelistfields">
+                    @foreach (var field in file.Fields) {
+                        @if (field.Item2 != null) {
+                            <div class="ha-filelistfield">field.Item2</div>
+                        }
+                    }
+                </div>
+            }
+            <div class="ha-filelistmodified">@file.LastModified</div>
+            </div>
+        }
+        </div>
+        <input class="btn ha-filelistbutton" type="submit" value="Laden" />
+        </form>
+    }
+    else {
+        <div>Keine Hamann-Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
+    }
+</fieldset>
+
+<script>
+    const USESubmit = async function (oFormElement, file = null) {
+      let fd = new FormData(oFormElement);
+      await fetch(oFormElement.action, {
+          method: 'POST',
+          headers: {
+            'RequestVerificationToken': getCookie('RequestVerificationToken')
+          },
+          body: fd
+        })
+        .then(response => response.json())
+        .then(json => {
+          if ("Error" in json) {
+            
+          } 
+          else {
+            location.reload();
+          }
+        })
+        .catch ((e) => { 
+            location.reload();
+        })
+    }
+</script>

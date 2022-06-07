@@ -34,6 +34,8 @@ public class XMLService : IXMLService {
 
     public Dictionary<string, FileList?>? GetInProduction() => this._InProduction;
 
+    public void UnUseProduction() => this._InProduction = null;
+
     public List<XMLRootDocument>? ProbeHamannFile(XDocument document, ModelStateDictionary ModelState) {
         if (document.Root!.Name != "opus") {
             ModelState.AddModelError("Error", "A valid Hamann-Docuemnt must begin with <opus>");
@@ -64,6 +66,11 @@ public class XMLService : IXMLService {
         if (_Used == null) _Used = new Dictionary<string, FileList?>();
         if (!_Used.ContainsKey(doc.Prefix)) _Used.Add(doc.Prefix, new FileList(doc.XMLRoot));
         _Used[doc.Prefix]!.Add(doc);
+    }
+
+    public void UnUse(string prefix) {
+        if (_Used != null && _Used.ContainsKey(prefix)) _Used.Remove(prefix);
+        return;
     }
 
     // Performs detection of using on the specified document type

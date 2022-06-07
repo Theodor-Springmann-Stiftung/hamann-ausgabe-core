@@ -11,7 +11,7 @@ public class UploadViewModel {
     public Dictionary<string, List<FileModel>?>? UsedFiles { get; private set; }
     public Dictionary<string, List<FileModel>?>? ProductionFiles { get; set; }
 
-    public List<(string, DateTime)>? HamannFiles { get; set; }
+    public List<FileModel>? HamannFiles { get; set; }
 
     public UploadViewModel(string title, string? prefix, List<IXMLRoot>? roots, Dictionary<string, List<FileModel>?>? usedFiles) {
         Prefix = prefix;

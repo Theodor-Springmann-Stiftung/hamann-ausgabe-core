@@ -19,6 +19,7 @@ module.exports = {
       sans: ['Biolinum', 'sans-serif'],
       serif: ['Libertine', 'serif'],
       classy: ['Playfair', 'serif'],
+      mono: ['ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', 'mono']
     },
     screens: {
       'sm': '700px',

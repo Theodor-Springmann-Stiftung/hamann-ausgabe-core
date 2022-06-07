@@ -30,10 +30,10 @@ if (filepath == null) {
 var physicalProvider = new PhysicalFileProvider(filepath);
 
 builder.Services.AddSingleton<IFileProvider>(physicalProvider);
-builder.Services.AddSingleton<HaWeb.FileHelpers.IHaDocumentWrappper, HaWeb.FileHelpers.HaDocumentWrapper>();
 builder.Services.AddTransient<IReaderService, ReaderService>();
 builder.Services.AddSingleton<IXMLProvider, XMLProvider>();
 builder.Services.AddSingleton<IXMLService, XMLService>();
+builder.Services.AddSingleton<HaWeb.FileHelpers.IHaDocumentWrappper, HaWeb.FileHelpers.HaDocumentWrapper>();
 builder.Services.AddFeatureManagement();
 
 var app = builder.Build();

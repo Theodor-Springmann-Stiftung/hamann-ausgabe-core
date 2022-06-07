@@ -17,7 +17,7 @@ public class XMLProvider : IXMLProvider {
         _Roots = xmlservice.GetRootsDictionary();
         _Files = _ScanFiles();
         _HamannFiles = _ScanHamannFiles();
-
+        
         if (_Files != null)
             foreach(var category in _Files) 
                 if (category.Value != null)
@@ -25,6 +25,10 @@ public class XMLProvider : IXMLProvider {
     }
 
     public List<IFileInfo>? GetHamannFiles() => this._HamannFiles;
+
+    public IFileInfo? GetInProduction() => this._InProduction;
+
+    public void SetInProduction(IFileInfo info) => _InProduction = info;
 
     public FileList? GetFiles(string prefix)
         => _Files != null && _Files.ContainsKey(prefix) ? _Files[prefix] : null;
@@ -83,6 +87,7 @@ public class XMLProvider : IXMLProvider {
         }
 
         if (_HamannFiles == null) _HamannFiles = new List<IFileInfo>();
+        _HamannFiles.RemoveAll(x => x.Name == info.Name);
         _HamannFiles.Add(info);
         _InProduction = info;
         return info;

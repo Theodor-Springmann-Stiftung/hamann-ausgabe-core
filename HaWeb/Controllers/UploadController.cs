@@ -48,18 +48,18 @@ public class UploadController : Controller {
         if (roots == null) return error404();
 
         var hF = _xmlProvider.GetHamannFiles();
-        List<(string, DateTime)>? hamannFiles = null;
+        List<FileModel>? hamannFiles = null;
         if (hF != null)
             hamannFiles = hF
                 .OrderByDescending(x => x.LastModified)
-                .Select(x => (x.Name, x.LastModified.LocalDateTime))
+                .Select(x => new FileModel(x.Name, string.Empty, x.LastModified.LocalDateTime, false, x == _xmlProvider.GetInProduction()))
                 .ToList();
-        
+
         var uF = _xmlService.GetUsedDictionary();
         var pF = _xmlService.GetInProduction();
 
         Dictionary<string, List<FileModel>?>? usedFiles = null;
-        if (uF != null)  {
+        if (uF != null) {
             usedFiles = new Dictionary<string, List<FileModel>?>();
             foreach (var kv in uF) {
                 if (kv.Value == null) continue;
@@ -68,7 +68,7 @@ public class UploadController : Controller {
         }
 
         Dictionary<string, List<FileModel>?>? productionFiles = null;
-        if (pF != null)  {
+        if (pF != null) {
             productionFiles = new Dictionary<string, List<FileModel>?>();
             foreach (var kv in pF) {
                 if (kv.Value == null) continue;
@@ -81,16 +81,15 @@ public class UploadController : Controller {
 
             var root = _xmlService.GetRoot(id);
             if (root == null) return error404();
-            
+
             var model = new UploadViewModel(root.Type, id, roots, usedFiles);
             model.ProductionFiles = productionFiles;
             model.HamannFiles = hamannFiles;
             model.AvailableFiles = XMLFileHelpers.ToFileModel(_xmlProvider.GetFiles(id), pF, uF);
-            
+
             return View("../Admin/Upload/Index", model);
-        }
-        else {
-            var model = new UploadViewModel("Upload", id, roots, usedFiles);
+        } else {
+            var model = new UploadViewModel("Upload & Veröffentlichen", id, roots, usedFiles);
             model.ProductionFiles = productionFiles;
             model.HamannFiles = hamannFiles;
 

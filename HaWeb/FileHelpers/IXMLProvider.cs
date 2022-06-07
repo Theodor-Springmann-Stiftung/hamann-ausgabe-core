@@ -10,4 +10,6 @@ public interface IXMLProvider {
         public Task Save(XMLRootDocument doc, string basefilepath, ModelStateDictionary ModelState);
         public Task<IFileInfo?> SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary ModelState);
         public List<IFileInfo>? GetHamannFiles();
+        public IFileInfo? GetInProduction();
+        public void SetInProduction(IFileInfo info);
 }

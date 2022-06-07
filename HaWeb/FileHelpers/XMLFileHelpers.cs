@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 using HaWeb.Models;
+using System.Text;
 
 public static class XMLFileHelpers {
     //  File Signatures Database (https://www.filesignatures.net/)
@@ -198,6 +199,20 @@ public static class XMLFileHelpers {
 
         return null;
     }
+
+    public static string? StreamToString(System.IO.Stream stream, ModelStateDictionary modelState) {
+        string? ret = null;
+        try {
+            using (var rd = new StreamReader(stream, Encoding.UTF8)) {
+                ret = rd.ReadToEnd();
+                return ret;
+            }
+        }
+        catch (Exception ex) {
+            modelState.AddModelError("Error", "Reading of the message failed with " + ex.Message);
+            return null;
+        }
+    } 
 
     private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, string[] permittedExtensions) {
         if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0)

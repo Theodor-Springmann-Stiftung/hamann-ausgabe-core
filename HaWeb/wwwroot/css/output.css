@@ -123,7 +123,7 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, mono;
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -477,6 +477,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */
+
+/* TODO: Copy color classes for all thing upload to colors on top */
 
 /* Everything related to theme color */
 
@@ -1868,8 +1870,8 @@ body {
 .ha-adminuploadfields .ha-uploadfield.active {
   --tw-text-opacity: 1 !important;
   color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
-  --tw-shadow-color: #fee2e2;
-  --tw-shadow: var(--tw-shadow-colored);
+  --tw-brightness: brightness(1.1);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .ha-adminuploadfields .ha-uploadfield .ha-uploadfieldname {
@@ -2022,46 +2024,6 @@ body {
   line-height: 1;
 }
 
-.ha-uploadheader .ha-usedfilesheader {
-  display: flex;
-}
-
-.ha-uploadheader .ha-usedfilesheaderlist {
-  margin-left: 1.5rem;
-  margin-bottom: 0.25rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-end;
-  -moz-column-gap: 0.5rem;
-       column-gap: 0.5rem;
-  row-gap: 0.25rem;
-  align-self: flex-end;
-}
-
-.ha-uploadheader .ha-usedfilesheaderlist .ha-usedfilesheaderfile {
-  border-radius: 0.25rem;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
-  --tw-bg-opacity: 0.3;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.ha-uploadheader .ha-usedfilesheaderlist .ha-availablefilechooser {
-  border-radius: 0.25rem;
-  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
-  --tw-bg-opacity: 0.5;
-  padding-right: 0.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.ha-uploadheader .ha-usedfilesheaderlist .ha-availablefilechooser .ha-loadotherfilesbtn {
-  display: inline-block;
-}
-
 .ha-uploadcontainer {
   display: flex;
   height: 100%;
@@ -2070,6 +2032,40 @@ body {
   row-gap: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
+}
+
+.ha-uploadcontainer .ha-availablefiles {
+  cursor: pointer;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(226 232 240 / var(--tw-border-opacity));
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.ha-uploadcontainer .ha-availablefiles:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(30 41 59 / var(--tw-border-opacity));
+}
+
+.ha-uploadcontainer .ha-availablefiles .ha-availablefilestitle {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.ha-uploadcontainer .ha-availablefiles .ha-usedfilelist {
+}
+
+.ha-filesheader {
+  margin-bottom: 2rem;
+}
+
+.ha-availablefileslist {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 1rem;
 }
 
 .ha-uploadcontainer .ha-errorswarnings {
@@ -2107,6 +2103,98 @@ body {
   flex-grow: 1;
   --tw-bg-opacity: 1;
   background-color: rgb(165 243 252 / var(--tw-bg-opacity));
+}
+
+.ha-uploadcontainer .ha-hamannfilechooser {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Classes for FileList Component */
+
+.ha-filelistfieldset {
+}
+
+.ha-filelistfieldset .ha-filelistlegend {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.ha-selectfilesform {
+}
+
+.ha-selectfilesform .ha-filelistfile {
+  display: flex;
+  flex-direction: row;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+
+.ha-selectfilesform .ha-filelistlist {
+  height: 24rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-right: 1rem;
+}
+
+.ha-selectfilesform .ha-filelistfile .ha-filelistname {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, mono;
+}
+
+.ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction {
+  align-self: flex-start;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction .ha-filelistproduction {
+  margin-right: 0.5rem;
+  display: inline-block;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(13 148 136 / var(--tw-border-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  --tw-text-opacity: 1;
+  color: rgb(13 148 136 / var(--tw-text-opacity));
+}
+
+.ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction .ha-filelistused {
+  display: inline-block;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(79 70 229 / var(--tw-border-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  --tw-text-opacity: 1;
+  color: rgb(79 70 229 / var(--tw-text-opacity));
+}
+
+.ha-selectfilesform .ha-filelistfile .ha-filelistmodified {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.ha-selectfilesform .ha-filelistbutton {
+  float: right;
+  margin-top: 0.5rem;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(29 78 216 / var(--tw-border-opacity));
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.ha-selectfilesform .ha-filelistbutton:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
 }
 
 /* Classes for Letter View */
@@ -3053,6 +3141,10 @@ body {
 
 .\!mr-0 {
   margin-right: 0px !important;
+}
+
+.block {
+  display: block;
 }
 
 .inline-block {
