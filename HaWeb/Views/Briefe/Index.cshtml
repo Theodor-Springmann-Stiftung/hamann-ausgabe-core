@@ -51,20 +51,11 @@
 
 <div class="ha-letterbody " id="ha-letterbody">
     <div class="ha-lettertext @minwidth" id="ha-lettertext">
+        @if (Model.MetaData.ParsedZHString != null) {
         <div class="ha-linecount ha-firstline">
-            @if (Model.MetaData.ParsedZHString != null)
-            {
-                <span>@Html.Raw(Model.MetaData.ParsedZHString)</span>
-            }
-            else
-            {
-                <div class="ha-tooltip">
-                    <div class="ha-pill">
-                        <span>Neu</span>
-                    </div>
-                </div>
-            }
+            <span>@Html.Raw(Model.MetaData.ParsedZHString)</span>
         </div>
+        }
         @Html.Raw(@Model.ParsedText)
         @* It's not beautiful but it's a hack to keep the last comment within parent element boundaries: *@
         <br>

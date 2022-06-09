@@ -31,7 +31,16 @@ module.exports = {
     extend: {
       colors: {
         'hamannHighlight': '#d80000',
-        'hamannLightHighlight': '#cc7878'
+        'hamannLightHighlight': '#cc7878',
+        'hamannSlate': {
+          50: '#6A829E',
+          100: '#416C9E',
+          200: '#3F8FEB',
+          300: '#3270B8',
+          500: '#2B619E',
+          700: '#1E4570',
+          900: '#173557'
+        }
       }
     },
   },

@@ -28,6 +28,14 @@
     <div class="@commentClass">
         <div class="ha-register-head">
             <h1>@Model.Title</h1>
+            @if (Model.AllowSendIn) {
+            <div class="ha-register-add">
+                <a href="mailto:post@hamann-ausgabe.de?subject=Publikation%28en%29%20beitragen">
+                    <div class="ha-register-add-plusbutton">+</div>
+                    <div class="ha-register-add-text">Publikation(en) beitragen</div>
+                </a>
+            </div>
+            }
             <div class="ha-register-nav" id="ha-register-nav">
                 <div class="ha-register-left-nav">
                     @if (Model.AvailableCategories != null) {
@@ -60,15 +68,3 @@
         </div>
     </div>
 </div>
-
-    <script type="text/javascript">
-    (function() {
-        var ga = document.createElement('script');
-        ga.src = 'https://www.bibleserver.com/api/parser.js?key=262ea61e694b0d300608a52ef3f4585a10b47ff4&lang=de';
-        ga.setAttribute('async', 'true');
-        document.documentElement.firstChild.appendChild(ga);
-    })();
- 
-    var bsQuery = '.ha-lemma'; // CSS-Selektor für Wrapper der Suche (optional)
-    var bsTrl   = 'LUT';      // Verlinkte Übersetzung (optional)
-    </script>

@@ -24,10 +24,9 @@
         <form class="ha-publishform" id="ha-publishform" asp-controller="API" asp-action="LocalPublish" method="post" enctype="multipart/form-data">
           <label class="ha-publishfilelabel" id="ha-publishfilelabel">
             <div class="ha-publishtext">Dateien Veröffentlichen</div>
-            <div class="ha-lds-ellipsis" id="ha-lds-ellipsis-publish"><div></div><div></div><div></div><div></div></div>
+            <div class="ha-lds-ellipsis-publish" id="ha-lds-ellipsis-publish"><div></div><div></div><div></div><div></div></div>
           </label>
           <div class="ha-publishmessage" id="ha-publishmessage">
-            @* Fehler!<br/> *@
             <output form="uploadForm" name="publish-result" id="publish-result"></output>
           </div>
       </form>
