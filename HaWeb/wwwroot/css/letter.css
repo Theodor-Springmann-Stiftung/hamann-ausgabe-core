@@ -1,0 +1,377 @@
+@layer components {
+/* COLORS */
+  .ha-letterhead .ha-metadata .ha-tooltiptext {
+    @apply shadow-sm bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 border dark:border-none dark:shadow dark:bg-slate-800
+  }
+
+  .ha-tooltip .ha-tooltiptext::after {
+    @apply border-t-slate-600 dark:border-t-slate-800 border-l-transparent border-r-transparent border-b-transparent
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
+    @apply rounded-lg border shadow-inner border-hamannSlate-900 text-hamannSlate-900 dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill.ha-newpill {
+    @apply dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
+    @apply border-b-2 border-hamannSlate-900 dark:border-gray-200
+  }
+
+  .ha-letterheader {
+    @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-slate-300 dark:border-slate-50 border-b-2 dark:shadow-xl
+  }
+
+  .ha-letterheader .ha-lettertabs a {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-200
+  }
+
+  .ha-letterheader .ha-lettertabs a.active {
+    @apply border-b-[3px] border-slate-300 dark:border-slate-50 text-hamannHighlight dark:!text-gray-200 dark:font-bold
+  }
+
+  .ha-letterheader .ha-lettermetalinks {
+    @apply border-b-2 border-slate-300
+  }
+
+  .ha-letterheader .ha-lettermetalinks a {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-200
+  }
+
+  .ha-letterbody {
+    @apply bg-slate-50 dark:bg-slate-900 dark:shadow-xl
+  }
+
+  .ha-lettertext {
+    @apply bg-slate-50 dark:bg-slate-900 border-slate-200 sm:border-l-2  sm:dark:border-none
+  }
+
+  .ha-marginals {
+    @apply bg-slate-50 dark:bg-slate-900
+  }
+
+  .ha-additions {
+    @apply hidden bg-slate-50 dark:bg-slate-900
+  }
+
+  .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
+    @apply bg-slate-100 dark:bg-slate-900
+  }
+
+  .ha-linecount.ha-firstline {
+    @apply rounded-lg sm:border sm:bg-slate-50 sm:shadow-inner sm:border-slate-600 text-slate-800 dark:text-white sm:dark:bg-slate-800 sm:dark:shadow-md sm:dark:border-slate-400
+  }
+
+  .ha-linecount .ha-zhpage,
+  .ha-linecount .ha-zhline {
+    @apply sm:bg-slate-50 sm:dark:bg-slate-900
+  }
+
+  .ha-tradzhtext .ha-marginal::before,
+  .ha-lettertext .ha-marginal:before {
+    @apply bg-hamannSlate-500 dark:bg-slate-500
+  } 
+
+  .ha-tradzhtext .ha-marginalbox,
+  .ha-lettertext .ha-marginalbox {
+    @apply bg-slate-50 dark:bg-slate-900
+  }
+
+  .ha-tradzhtext .ha-marginalbox.ha-expanded-box .ha-marginallist,
+  .ha-lettertext .ha-marginalbox.ha-expanded-box .ha-marginallist {
+    @apply shadow-md dark:shadow-lg pb-1 bg-slate-100 dark:bg-slate-600
+  }
+
+  .ha-tradzhtext .ha-btn-collapsed-box,
+  .ha-lettertext .ha-btn-collapsed-box {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-200
+  }
+
+/* STYLES */
+  .ha-letterheader {
+    @apply rounded-t-sm pt-8 md:pt-12 px-6 md:px-16
+  }
+
+  .ha-letterheader .ha-letterheadernav {
+    @apply mt-9 flex grow
+  }
+
+  .ha-letterheader .ha-lettertabs {
+    @apply flex grow
+  }
+
+  .ha-letterheader .ha-lettertabs a {
+    @apply inline-block px-1 mr-1 md:mr-3 cursor-pointer
+  }
+
+  .ha-letterheader .ha-lettertabs .ha-marginalsbtn {
+    @apply md:hidden;
+  }
+
+  .ha-letterheader .ha-lettertabs a.active {
+    @apply pointer-events-none 
+  }
+
+  .ha-letterheader .ha-lettertabs a:first {
+    @apply pl-0
+  }
+
+  .ha-letterheader .ha-lettermetalinks {
+    @apply self-end 
+  }
+
+  .ha-letterheader .ha-lettermetalinks a {
+    @apply self-end caps-petite
+  }
+
+  .ha-letterheader .ha-lettermetalinks .ha-hkb {
+    @apply inline-block caps-allpetite
+  }
+
+  .ha-letterbody {
+    @apply flex flex-row flex-nowrap rounded-b-sm
+  }
+
+  .ha-lettertext {
+    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative flow-root font-serif leading-[1.48]  numeric-mediaeval
+  }
+
+  .ha-marginals {
+    @apply hidden max-w-3xl ml-4 md:ml-12 px-4 py-4 relative leading-[1.48] numeric-mediaeval
+  }
+
+  .ha-marginals table td {
+    @apply align-text-top
+  }
+
+  .ha-marginals .ha-marginalfromto {
+    @apply whitespace-nowrap text-sm font-semibold pr-4
+  }
+
+  .ha-marginals .ha-marginaltext .ha-bzg {
+    @apply inline
+  }
+
+  .ha-marginals .ha-marginaltext a {
+    @apply underline decoration-dotted hover:decoration-solid
+  }
+
+  .ha-additions .ha-tradition div {
+    @apply inline
+  }
+
+  .ha-additions .ha-tradition {
+    @apply max-w-4xl
+  }
+
+  .ha-additions {
+    @apply ml-4 md:ml-12 px-4 pt-4 pb-4 relative font-serif leading-[1.48] numeric-mediaeval
+  }
+
+  .ha-additions .ha-app {
+    @apply !block font-bold pt-6
+  }
+
+  .ha-additions .ha-app + br {
+    @apply hidden
+  }
+
+  .ha-additions .ha-tradition .ha-app:first-child {
+    @apply pt-0
+  }
+
+  .ha-additions .ha-tradition {
+    @apply hyphenate
+  }
+
+  .ha-additions .ha-tradition .ha-tradzhtext {
+    @apply !flow-root font-serif relative w-fit -ml-4 pl-4 unhyphenate
+  }
+
+  .ha-additions .ha-tradition a {
+    @apply !underline decoration-dotted hover:decoration-solid 
+  }
+
+  .ha-additions .ha-hands {
+    @apply pt-6
+  }
+
+  .ha-additions .ha-hands .ha-handstitle {
+    @apply font-bold
+  }
+
+  .ha-additions .ha-hands .ha-handentries .ha-handfrom,
+  .ha-additions .ha-hands .ha-handentries .ha-handto {
+    @apply inline text-sm font-semibold whitespace-nowrap
+  }
+
+  .ha-additions .ha-hands .ha-handentries .ha-handperson {
+    @apply inline pl-4 whitespace-nowrap
+  }
+
+  .ha-additions .ha-edits .ha-editstitle {
+    @apply font-bold
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editfromto {
+    @apply whitespace-nowrap
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editfrom,
+  .ha-additions .ha-edits .ha-editentries .ha-editto {
+    @apply inline text-sm font-semibold whitespace-nowrap
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference {
+    @apply whitespace-nowrap
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference div {
+    @apply inline
+  }
+
+  .ha-additions .ha-edits {
+    @apply pt-6 max-w-4xl
+  }
+
+  .ha-additions .ha-edits .ha-editstitle {
+    @apply font-bold
+  }
+
+  .ha-additions .ha-edits .ha-editsinfo {
+    @apply pb-4 hyphenate
+  }
+
+  .ha-additions .ha-edits .ha-editentries tr td {
+    @apply align-text-top
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreas div {
+    @apply inline font-sans
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editfromto {
+    @apply pr-1 pl-1
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference {
+    @apply border-r-2 pl-1 pr-3 text-sm
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreference br {
+    @apply hidden
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreas {
+    @apply pl-3 w-full
+  }
+
+  .ha-additions .ha-edits .ha-editentries .ha-editreas .ha-zh * {
+    @apply !font-serif
+  }
+
+  .ha-lettertext div {
+    @apply inline
+  }
+
+  .ha-linecount.ha-firstline {
+    @apply hidden sm:inline-block rounded px-1.5 sm:py-0.5 sm:pb-1 sm:leading-none caps-allpetite normal-nums whitespace-nowrap
+  }
+
+  .ha-linecount {
+    @apply sm:absolute sm:right-full sm:mr-2 sm:text-right text-xs sm:mt-1 font-sans select-none
+  }
+
+  .ha-linecount .ha-zhline {
+    @apply hidden sm:inline
+  }
+
+  .ha-linecount .ha-zhpage {
+    @apply inline-block sm:inline;
+  }
+
+  .ha-linecount .ha-zhpage,
+  .ha-linecount .ha-zhline {
+    @apply px-1 sm:pb-1 caps-allpetite normal-nums
+  }
+
+  .ha-linecount .ha-hiddenlinecount {
+    @apply !hidden
+  }
+
+  .ha-tradzhtext .ha-marginal::before,
+  .ha-lettertext .ha-marginal::before {
+    @apply absolute top-[0.2rem] bottom-[0.1rem] left-0 w-0.5 content-['']
+  } 
+
+  .ha-tradzhtext .ha-marginalbox,
+  .ha-lettertext .ha-marginalbox {
+    @apply hidden select-none hover:select-auto hyphenate pl-2 md:block absolute left-full ml-2 desktop:ml-10 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
+  }
+
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist,
+  .ha-lettertext .ha-marginalbox .ha-marginallist {
+    @apply text-sm leading-tight flex flex-wrap gap-x-6 pr-1
+  }
+
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal {
+    @apply pl-2 inline relative
+  }
+
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal a,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal a {
+    @apply !underline decoration-dotted hover:decoration-solid 
+  }
+
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal,
+  .ha-tradzhtext .ha-marginalbox .ha-marginallist .ha-marginal *,
+  .ha-lettertext .ha-marginalbox .ha-marginallist .ha-marginal * {
+    @apply min-h-0 min-w-0 overflow-ellipsis overflow-hidden
+  }
+
+  .ha-tradzhtext .ha-btn-collapsed-box,
+  .ha-lettertext .ha-btn-collapsed-box {
+    @apply absolute left-full desktop:ml-7 hidden md:block cursor-pointer leading-none mt-0.5
+  }
+
+  .ha-minwidth .ha-tradzhtext,
+  .ha-lettertext.ha-minwidth {
+    @apply min-w-[38rem] desktop:min-w-[55rem]
+  }
+
+  .ha-minwidth .ha-tradzhtext .ha-alignright,
+  .ha-lettertext.ha-minwidth .ha-alignright {
+    @apply float-right mr-[20%]
+  }
+
+  .ha-lettertext.ha-minwidth .ha-aligncenter {
+    @apply absolute left-1/3 whitespace-nowrap -translate-x-1/2
+  }
+}
+
+.ha-lettertext .ha-marginalbox:before {
+    content: "";
+  }
+  
+  .ha-lettertext .ha-marginalbox .ha-marginal::after {
+    content: "";
+  }
+  
+  .ha-lettertext .ha-marginalbox .ha-marginal:last-of-type::after {
+    content: "";
+  }
+
+  
+.ha-tradzhtext .ha-marginalbox.ha-collapsed-box .ha-marginallist .ha-marginal,
+.ha-lettertext .ha-marginalbox.ha-collapsed-box .ha-marginallist .ha-marginal {
+    display: -webkit-inline-box;
+    -webkit-box-orient: vertical;
+}
+
+.ha-additions .ha-edits .ha-editentries tr td:nth-of-type(2)::after {
+    content: "";
+}

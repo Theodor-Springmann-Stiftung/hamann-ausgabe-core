@@ -1,0 +1,13 @@
+@layer components {
+/* COLORS */
+
+
+/* STYLES */
+  .ha-scrollbutton {
+    @apply opacity-0 transition-opacity duration-500 cursor-pointer fixed left-[85%] text-center bottom-0 pb-3 pt-2 bg-slate-50 dark:bg-slate-700 dark:text-white px-2 shadow-md rounded-t-xl hover:shadow-lg text-hamannSlate-700 hover:text-hamannSlate-500
+  }
+
+  .ha-scrollbuttonarrow {
+    @apply h-8 w-8
+  }
+}

@@ -8,8 +8,8 @@
   </PropertyGroup>
 
 <ItemGroup>
-    <Content Remove="wwwroot\css\site.css" />
-    <Content Include="wwwroot\css\site.css" Watch="false" />
+    <!-- <Content Remove="wwwroot\css\site.css" />
+    <Content Include="wwwroot\css\site.css" Watch="false" /> -->
 </ItemGroup>
   
   <Target Name="Tailwind" BeforeTargets="Build">

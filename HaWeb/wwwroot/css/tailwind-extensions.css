@@ -1,0 +1,32 @@
+.hyphenate {
+    hyphens: auto;
+  }
+  
+  .unhyphenate {
+    hyphens: none;
+  }
+  
+  .numeric-mediaeval {
+    font-variant-numeric: oldstyle-nums;
+  }
+  
+  .numeric-normal {
+    font-variant-numeric: normal;
+  }
+  
+  .caps-allpetite {
+    font-variant-caps: all-petite-caps;
+  }
+  
+  .caps-petite {
+    font-variant-caps: petite-caps;
+  }
+  
+  .caps-normal {
+    font-variant-caps: normal;
+  }
+  
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
+  

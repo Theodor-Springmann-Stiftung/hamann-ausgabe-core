@@ -1,0 +1,71 @@
+@layer components {
+/* COLORS */
+  .ha-static {
+    @apply bg-slate-50 dark:bg-gray-900
+  }
+
+  .ha-static h3 {
+    @apply text-hamannHighlight dark:text-white dark:font-bold
+  }
+
+  .ha-static table th {
+    @apply text-hamannHighlight dark:text-white dark:font-bold
+  }
+
+  .ha-static table tr:nth-child(even) {
+    @apply bg-slate-200 dark:bg-slate-700
+  }
+
+/* STYLES */
+  .ha-static {
+    @apply w-full py-12 px-12 md:px-16 hyphenate font-serif
+  }
+
+  .ha-static h1 {
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
+  }
+
+  .ha-static h2 {
+    @apply my-3 mt-4 text-lg desktop:text-2xl
+  }
+
+  .ha-static h3 {
+    @apply mt-4 mb-2
+  }
+
+  .ha-static table {
+    @apply my-3 w-full;
+  }
+
+  .ha-static table th {
+    @apply pl-2 pr-2 desktop:pr-4 text-left font-normal
+  }
+
+  .ha-static table tr td {
+    @apply pl-2 pr-2 desktop:pr-4 align-top desktop:whitespace-nowrap;
+  }
+
+  .ha-static table tr td:last-child {
+    @apply desktop:whitespace-normal
+  }
+
+  .ha-static p {
+    @apply my-4
+  }
+
+  .ha-static a {
+    @apply underline decoration-dotted
+  }
+
+  .ha-static a:hover {
+    @apply underline decoration-solid
+  }
+
+  .ha-static .ha-footnote {
+    @apply relative text-sm desktop:text-base
+  }
+
+  .ha-static .ha-footnote .ha-footnote-ref {
+    @apply inline-block absolute text-right w-8 -left-10
+  }
+}

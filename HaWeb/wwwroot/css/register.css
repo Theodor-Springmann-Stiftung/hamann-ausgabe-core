@@ -1,0 +1,241 @@
+@layer components {
+/* COLORS */
+  .ha-register .ha-register-head,
+  .ha-register .ha-register-body {
+    @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 dark:shadow-xl
+  }
+
+  .ha-register .ha-register-head {
+    @apply border-b-2 border-slate-200
+  }
+
+  .ha-register .ha-register-head .ha-register-add a {
+    @apply rounded border border-hamannSlate-50 hover:shadow-md hover:border-hamannSlate-300
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-plusbutton {
+    @apply rounded-l bg-slate-200 border-r border-hamannSlate-50
+  }
+
+  .ha-register .ha-register-head .ha-register-add a:hover .ha-register-add-plusbutton {
+    @apply border-hamannSlate-300 text-hamannSlate-700
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-text {
+
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a {
+    @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-300
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a.active {
+    @apply border-b-2 border-slate-200 dark:!text-gray-200 dark:font-bold
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
+  .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
+    @apply desktop:bg-slate-50 dark:bg-slate-900 dark:text-slate-50
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks::before,
+  .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks::before {
+    @apply bg-hamannSlate-500 dark:bg-slate-500
+  }
+
+  .ha-register .ha-register-body .ha-commenthead .ha-letlinks.ha-expanded-box {
+    @apply shadow-md dark:shadow-lg
+  }
+
+  .ha-register .ha-btn-collapsed-box {
+    @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer mt-0.5
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks .ha-hkb {
+    @apply text-slate-900 dark:text-white
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
+    @apply hover:text-hamannSlate-900 dark:hover:text-gray-200 no-underline hover:underline
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+    @apply text-slate-700 dark:text-white
+  }
+
+
+/* STYLES */
+  .ha-register {
+    @apply w-full font-serif numeric-mediaeval
+  }
+
+  .ha-register .ha-register-head,
+  .ha-register .ha-register-body {
+    @apply pt-9 md:pt-12 px-9 md:px-16
+  }
+
+  .ha-register .ha-register-head {
+    @apply rounded-t-sm
+  }
+
+  .ha-register .ha-register-head h1 {
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6 inline-block
+  }
+
+  .ha-register .ha-register-head .ha-register-add {
+    @apply inline-block relative bottom-[0.33rem] ml-2
+  }
+
+  .ha-register .ha-register-head .ha-register-add a {
+    @apply -mt-4 mb-6 flex flex-row w-fit text-sm font-sans
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-plusbutton {
+    @apply px-2 leading-none text-xl font-bold pb-0.5
+  }
+
+  .ha-register .ha-register-head .ha-register-add a:hover .ha-register-add-plusbutton {
+    
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-text {
+    @apply pl-1 pr-2 leading-none pt-1
+  }
+
+  .ha-register .ha-register-head .ha-register-nav {
+    @apply font-sans
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a {
+    @apply inline-block px-1 mr-1 md:mr-3
+  }
+
+  .ha-register .ha-register-head .ha-register-nav a:first {
+    @apply pl-0
+  }
+
+  .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
+    @apply inline-block
+  }
+
+  .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
+    @apply inline-block
+  }
+
+  .ha-register .ha-register-body {
+    @apply md:pr-96 pb-9 md:pb-12 rounded-b-sm
+  }
+
+  .ha-register .ha-register-body .ha-comment {
+    @apply block mb-9 md:mb-12
+  }
+
+  .ha-register .ha-register-body .ha-comment a {
+    @apply underline decoration-dotted hover:decoration-solid
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-headcomment {
+    @apply desktop:relative block
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-subcomment {
+    @apply desktop:relative block ml-8 mt-2
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead {
+    @apply block
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-lemma {
+    @apply inline font-bold
+  }
+
+  .ha-register
+    .ha-forschung
+    .ha-register-body
+    .ha-comment
+    .ha-commenthead
+    .ha-lemma {
+    @apply inline font-normal;
+  }
+
+  .ha-register .ha-forschung .ha-register-body .ha-comment {
+    @apply mb-4 md:mb-6 -indent-4 pl-4
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
+    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2 mt-1
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks::before {
+    @apply absolute mt-1 top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
+  }
+
+  .ha-register
+    .ha-register-body
+    .ha-comment
+    .ha-commenthead
+    .ha-letlinks
+    .ha-hkb {
+    @apply inline
+  }
+
+  .ha-register
+    .ha-neuzeit
+    .ha-register-body
+    .ha-headcomment
+    .ha-commenthead
+    .ha-letlinks,
+  .ha-register
+    .ha-forschung
+    .ha-register-body
+    .ha-headcomment
+    .ha-commenthead
+    .ha-letlinks {
+    @apply desktop:left-[48rem]
+  }
+
+  .ha-register
+    .ha-neuzeit
+    .ha-register-body
+    .ha-subcomment
+    .ha-commenthead
+    .ha-letlinks,
+  .ha-register
+    .ha-forschung
+    .ha-register-body
+    .ha-subcomment
+    .ha-commenthead
+    .ha-letlinks {
+    @apply desktop:left-[46rem]
+  }
+
+  .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma a {
+    @apply pl-2
+  }
+
+  .ha-register .ha-bibel .ha-register-body .ha-commenthead .ha-lemma svg {
+    @apply inline
+  }
+
+  .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks,
+  .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks {
+    @apply desktop:indent-0 desktop:top-0 desktop:w-80 desktop:block desktop:absolute pl-2
+  }
+
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
+    @apply hover:text-slate-900
+  }
+
+  .ha-register .ha-headcomment .ha-btn-collapsed-box {
+    @apply left-[47.6rem]
+  }
+
+  .ha-register .ha-subcomment .ha-btn-collapsed-box {
+    @apply left-[45.6rem]
+  }
+
+  .ha-register .ha-btn-collapsed-box {
+    @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer
+  }
+}

@@ -1,0 +1,96 @@
+@layer components {
+/* COLORS */
+  .ha-topnav-dropdown .ha-topnav-dropdown-content {
+    @apply bg-slate-50 shadow-md border-slate-400 border-b
+  }
+
+  .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
+    @apply bg-slate-100
+  }
+
+  .ha-topnav a {
+    @apply text-slate-700 hover:text-slate-900 
+  }
+
+  .ha-topnav a.active {
+    @apply desktop:border-b-4 desktop:border-slate-200 dark:border-slate-700 dark:font-bold
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown
+    .ha-topnav-dropdown-content {
+    @apply shadow-none desktop:shadow-md desktop:border-b
+  }
+
+  .ha-menusymbol svg {
+    @apply text-black stroke-black
+  }
+
+/* STYLES */
+  .ha-topnav {
+    @apply flex desktop:grow-0 desktop:shrink-0 md:text-lg 2xl:text-xl desktop:place-self-end xl:mb-1;
+  }
+
+  .ha-topnav a {
+    @apply hidden desktop:inline-block mr-6 2xl:mr-7
+  }
+
+  .ha-topnav a:last-child {
+    @apply mr-0;
+  }
+
+  .ha-topnav-dropdown {
+    @apply hidden desktop:relative desktop:inline-block;
+  }
+
+  .ha-topnav-dropdown:hover .ha-topnav-dropdown-content {
+    @apply desktop:block;
+  }
+
+  .ha-topnav-dropdown .ha-topnav-dropdown-content {
+    @apply hidden mr-6 pt-1 right-0 desktop:absolute min-w-[130px] z-50;
+  }
+
+  .ha-topnav-dropdown .ha-topnav-dropdown-content a {
+    @apply pl-2 pr-3 py-2 block mr-0;
+  }
+
+  .ha-topnav-dropdown .ha-topnav-dropdown-content .active {
+    @apply border-none
+  }
+
+  .ha-topnav a.active {
+    @apply underline underline-offset-2 desktop:no-underline
+  }
+
+  .ha-topnav.ha-topnav-collapsed {
+    @apply block w-full h-full mt-4 text-base desktop:flex desktop:w-fit desktop:mt-0 md:text-lg 2xl:text-xl
+  }
+
+  .ha-topnav.ha-topnav-collapsed a {
+    @apply block py-1 w-full text-left clear-both desktop:inline-block desktop:py-0 desktop:w-fit
+  }
+
+  .ha-topnav.ha-topnav-collapsed .ha-topnav-dropdown {
+    @apply block desktop:inline-block
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown:hover
+    .ha-topnav-dropdown-content {
+    @apply desktop:block
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown
+    .ha-topnav-dropdown-content {
+    @apply block shadow-none border-none pt-0 desktop:hidden desktop:pt-2
+  }
+
+  .ha-topnav.ha-topnav-collapsed
+    .ha-topnav-dropdown
+    .ha-topnav-dropdown-content
+    a {
+    @apply py-1 desktop:py-2
+  }
+}

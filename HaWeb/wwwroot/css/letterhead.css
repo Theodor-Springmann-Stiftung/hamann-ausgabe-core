@@ -1,0 +1,70 @@
+@layer components {
+/* COLORS */
+
+
+/* STYLES */
+  .ha-letterhead {
+    @apply flex flex-row
+  }
+
+  .ha-letterhead .ha-letternumber {
+    @apply flex text-5xl desktop:font-normal desktop:text-6xl mr-4 desktop:mr-6
+  }
+
+  .ha-letterhead .ha-letternumber .ha-letternumberinline {
+    @apply inline align-middle leading-none
+  }
+
+  .ha-letterhead .ha-metadata {
+    @apply flex self-end grow shrink-0
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadatarows {
+    @apply flex flex-col
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow {
+    @apply flex flex-row leading-snug
+  }
+
+  .strikethrough {
+    @apply line-through
+  }
+
+  .ha-letterhead
+    .ha-metadata
+    .ha-metadatarows
+    .ha-metadataupperrow
+    .ha-metadatadate {
+    @apply flex caps-petite numeric-mediaeval
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltip {
+    @apply self-center cursor-default inline-block relative 
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltiptext {
+    @apply rounded text-sm px-1 py-0.5 absolute z-10 text-center
+  }
+
+  .ha-letterhead .ha-metadata .ha-tooltiptext::after {
+    @apply absolute top-full left-1/2
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
+    @apply text-sm rounded px-1.5 ml-2 py-0.5 leading-none caps-allpetite tracking-wide
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
+    @apply relative inline-block
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before,
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
+    @apply w-full h-0 absolute right-0 top-1/2
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
+    @apply flex leading-snug
+  }
+}

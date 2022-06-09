@@ -1,0 +1,201 @@
+/* Symbols, Icons, Drawings, Tooltips */
+.ha-menu-arrowsymbol::after {
+    display: inline-block;
+    margin-left: 0.2em;
+    vertical-align: 0.2em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+  }
+  
+  .ha-menusymbol {
+    border-radius: 4px;
+  }
+  
+  .ha-menusymbol svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: miter;
+    fill: none;
+  }
+  
+  .ha-tooltip .ha-tooltiptext {
+    white-space: nowrap;
+    visibility: hidden;
+    min-width: 160px;
+    bottom: 155%;
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .ha-tooltip .ha-tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    /* border-color: rgb(226 232 240 / var(--tw-bg-opacity)) transparent transparent
+      transparent; */
+  }
+  
+  .ha-tooltip:hover .ha-tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .ha-open-btn-collapsed-box::before {
+    content: "\200E+";
+    font-weight: 900;
+  }
+  
+  .ha-close-btn-collapsed-box::before {
+    content: "\200E\00D7";
+    font-weight: 900;
+  }
+  
+  .ha-uploadheader .ha-usedfilesheaderlist .ha-plussign {
+    content: "\200E+ ";
+    font-weight: bold;
+    display: inline-block;
+    background-color: lightslategray;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+  
+  /* Tooltip text */
+  .ha-uploadform .ha-uploadmessage {
+    visibility: visible;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  
+    margin-top: 0.5rem;
+    width: 360px;
+    top: 100%;
+    left: 50%;
+    margin-left: -180px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  
+  .ha-uploadform .ha-uploadmessage::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent grey transparent;
+  
+  }
+  
+  
+  .ha-lds-ellipsis {
+    display: none;
+    position: absolute;
+    bottom: 20px;
+  }
+  
+  .ha-lds-ellipsis-load {
+    display: none;
+    position: relative;
+    width: 38px;
+    bottom: 8px;
+  }
+  
+  .ha-lds-ellipsis-publish {
+    display: none;
+    position: absolute;
+    left: -50px;
+    bottom: 16px;
+  }
+  
+  .ha-lds-ellipsis div,
+  .ha-lds-ellipsis-load div,
+  .ha-lds-ellipsis-publish div {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #000;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  
+  .ha-lds-ellipsis div:nth-child(1),
+  .ha-lds-ellipsis-load div:nth-child(1),
+  .ha-lds-ellipsis-publish div:nth-child(1) {
+    left: 6px;
+    animation: ha-lds-ellipsis1 0.6s infinite;
+  }
+  
+  .ha-lds-ellipsis div:nth-child(2),
+  .ha-lds-ellipsis-load div:nth-child(2),
+  .ha-lds-ellipsis-publish div:nth-child(2) {
+    left: 4px;
+    animation: ha-lds-ellipsis2 0.6s infinite;
+  }
+  
+  .ha-lds-ellipsis div:nth-child(3),
+  .ha-lds-ellipsis-load div:nth-child(3),
+  .ha-lds-ellipsis-publish div:nth-child(3) {
+    left: 16px;
+    animation: ha-lds-ellipsis2 0.6s infinite;
+  }
+  
+  .ha-lds-ellipsis div:nth-child(4),
+  .ha-lds-ellipsis-load div:nth-child(4),
+  .ha-lds-ellipsis-publish div:nth-child(4) {
+    left: 30px;
+    animation: ha-lds-ellipsis3 0.6s infinite;
+  }
+  
+  @keyframes ha-lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes ha-lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  
+  @keyframes ha-lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(16px, 0);
+    }
+  }
+  
+  .ha-cross::before,
+  .ha-cross::after {
+    content: "";
+  }
+  
+  .ha-cross::before {
+    -webkit-transform: skewY(-27deg);
+    transform: skewY(-27deg);
+  }

@@ -1,0 +1,76 @@
+/* Regular woff-files for regular font variants curerently
+   Instead we can use the Graphite versions of the font   
+
+@font-face {
+    font-family: 'Biolinum';
+    src: url('/fonts/LinBiolinum_R_G.ttf') format('truetype');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Libertine';
+    src: url('/fonts/LinLibertine_R_G.ttf') format('truetype');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+*/
+
+@font-face {
+    font-family: "Biolinum";
+    src: url("../fonts/LinBiolinum_R.woff") format("woff");
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Libertine";
+    src: url("../fonts/LinLibertine_R.woff") format("woff");
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Biolinum";
+    src: url("../fonts/LinBiolinum_RI.woff") format("woff");
+    font-display: swap;
+    font-weight: normal;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: "Biolinum";
+    src: url("../fonts/LinBiolinum_RB.woff") format("woff");
+    font-display: swap;
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Libertine";
+    src: url("../fonts/LinLibertine_RI.woff") format("woff");
+    font-display: swap;
+    font-weight: normal;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: "Libertine";
+    src: url("../fonts/LinLibertine_RB.woff") format("woff");
+    font-display: swap;
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Playfair";
+    src: url("../fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+  }

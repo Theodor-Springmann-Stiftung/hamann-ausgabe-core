@@ -1,3 +1,4 @@
+namespace HaWeb.Controllers;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HaWeb.Models;
@@ -9,8 +10,18 @@ using HaXMLReader.EvArgs;
 using HaDocument.Models;
 using System.Collections.Concurrent;
 using HaWeb.FileHelpers;
-
-namespace HaWeb.Controllers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Net.Http.Headers;
+using HaWeb.Filters;
+using HaWeb.XMLParser;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Microsoft.FeatureManagement.Mvc;
+using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Http.Features;
 
 [Route("Register/[action]/{id?}")]
 public class RegisterController : Controller {
@@ -26,6 +37,7 @@ public class RegisterController : Controller {
         _readerService = readerService;
     }
 
+    [HttpGet]
     public IActionResult Register(string? id) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
@@ -47,21 +59,10 @@ public class RegisterController : Controller {
         if (comments == null) return error404();
 
         // Parsing
-        var res = new List<CommentModel>();
-        foreach (var comm in comments) {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
-            List<string>? parsedSubComments = null;
-            if (comm.Kommentare != null) {
-                parsedSubComments = new List<string>();
-                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
-                }
-            }
-            res.Add(new CommentModel(parsedComment, parsedSubComments));
-        }
+        var res = _createCommentModelForschungRegister(category, comments); 
 
         // Model instantiation
-        var model = new RegisterViewModel(category, id, res, title, false) {
+        var model = new RegisterViewModel(category, id, res, title, false, true) {
             AvailableCategories = availableCategories,
         };
 
@@ -69,6 +70,7 @@ public class RegisterController : Controller {
         return View("Index", model);
     }
 
+    [HttpGet]
     public IActionResult Bibelstellen(string? id) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
@@ -90,21 +92,10 @@ public class RegisterController : Controller {
         if (comments == null) return error404();
 
         // Parsing
-        var res = new List<CommentModel>();
-        foreach (var comm in comments) {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
-            List<string>? parsedSubComments = null;
-            if (comm.Kommentare != null) {
-                parsedSubComments = new List<string>();
-                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma)) {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
-                }
-            }
-            res.Add(new CommentModel(parsedComment, parsedSubComments));
-        }
+        var res = _createCommentModelBibel(category, comments);
 
         // Model instantiation
-        var model = new RegisterViewModel(category, id, res, title, false) {
+        var model = new RegisterViewModel(category, id, res, title, false, false) {
             AvailableCategories = availableCategories,
         };
 
@@ -112,6 +103,7 @@ public class RegisterController : Controller {
         return View("Index", model);
     }
 
+    [HttpGet]
     public IActionResult Forschung(string? id) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
@@ -140,27 +132,26 @@ public class RegisterController : Controller {
         if (comments == null) return error404();
 
         // Parsing
-        var res = new List<CommentModel>();
-        foreach (var comm in comments) {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
-            List<string>? parsedSubComments = null;
-            if (comm.Kommentare != null) {
-                parsedSubComments = new List<string>();
-                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
-                }
-            }
-            res.Add(new CommentModel(parsedComment, parsedSubComments));
-        }
+        var res = _createCommentModelForschungRegister(category, comments);
 
         // Model instantiation
-        var model = new RegisterViewModel(category, id, res, title, true) {
+        var model = new RegisterViewModel(category, id, res, title, true, true) {
             AvailableCategories = availableCategories,
             AvailableSideCategories = AvailableSideCategories
         };
 
         // Return
         return View("Index", model);
+    }
+
+    [HttpPost]
+    [DisableFormValueModelBinding]
+    [ValidateAntiForgeryToken]
+    [Route("/Register/Forschung/{id}")]
+    [Route("/Register/Register/{id}")]
+    [Route("/Register/Bibelstellen/{id}")]
+    public IActionResult Search(string? id) {
+        return Ok();
     }
 
     private string? normalizeID(string? id, string defaultid) {
@@ -179,6 +170,40 @@ public class RegisterController : Controller {
     private IActionResult error404() {
         Response.StatusCode = 404;
         return Redirect("/Error404");
+    }
+
+    private List<CommentModel> _createCommentModelForschungRegister(string category, IOrderedEnumerable<Comment>? comments) {
+        var lib = _lib.GetLibrary();
+        var res = new List<CommentModel>();
+        foreach (var comm in comments) {
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
+            List<string>? parsedSubComments = null;
+            if (comm.Kommentare != null) {
+                parsedSubComments = new List<string>();
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
+                }
+            }
+            res.Add(new CommentModel(parsedComment, parsedSubComments));
+        }
+        return res;
+    }
+
+    private List<CommentModel> _createCommentModelBibel(string category, IOrderedEnumerable<Comment>? comments) {
+        var lib = _lib.GetLibrary();
+        var res = new List<CommentModel>();
+        foreach (var comm in comments) {
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
+            List<string>? parsedSubComments = null;
+            if (comm.Kommentare != null) {
+                parsedSubComments = new List<string>();
+                foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Lemma.Length).ThenBy(x => x.Value.Lemma)) {
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
+                }
+            }
+            res.Add(new CommentModel(parsedComment, parsedSubComments));
+        }
+        return res;
     }
 
     // private IEnumerable<Comment> Search(IEnumerable<Comment> all) {
