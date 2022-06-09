@@ -61,7 +61,7 @@ public class RegisterController : Controller {
         }
 
         // Model instantiation
-        var model = new RegisterViewModel(category, id, res, title) {
+        var model = new RegisterViewModel(category, id, res, title, false) {
             AvailableCategories = availableCategories,
         };
 
@@ -104,7 +104,7 @@ public class RegisterController : Controller {
         }
 
         // Model instantiation
-        var model = new RegisterViewModel(category, id, res, title) {
+        var model = new RegisterViewModel(category, id, res, title, false) {
             AvailableCategories = availableCategories,
         };
 
@@ -154,7 +154,7 @@ public class RegisterController : Controller {
         }
 
         // Model instantiation
-        var model = new RegisterViewModel(category, id, res, title) {
+        var model = new RegisterViewModel(category, id, res, title, true) {
             AvailableCategories = availableCategories,
             AvailableSideCategories = AvailableSideCategories
         };

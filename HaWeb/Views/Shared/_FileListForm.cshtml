@@ -37,17 +37,23 @@
             </div>
         }
         </div>
-        <input class="btn ha-filelistbutton" type="submit" value="Laden" />
+        <output id ="ha-filelistoutput"></output>
+        <button type="submit" class="ha-filelistbutton" id="ha-filelistbutton" >
+            Laden
+            <div class="ha-lds-ellipsis-load" id="ha-lds-ellipsis-load"><div></div><div></div><div></div><div></div></div>
+        </button>
         </form>
     }
     else {
-        <div>Keine Hamann-Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
+        <div>Keine Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
     }
 </fieldset>
 
 <script>
     const USESubmit = async function (oFormElement, file = null) {
       let fd = new FormData(oFormElement);
+      document.getElementById("ha-filelistbutton").style.pointerEvents = "none";
+      document.getElementById("ha-lds-ellipsis-load").style.display = "inline-block";
       await fetch(oFormElement.action, {
           method: 'POST',
           headers: {
@@ -58,14 +64,20 @@
         .then(response => response.json())
         .then(json => {
           if ("Error" in json) {
-            
+              document.getElementById("ha-filelistbutton").style.pointerEvents = "auto";
+              document.getElementById("ha-lds-ellipsis-load").style.display = "none";
+            document.getElementById("ha-filelistoutput").textContent = json.Error;
           } 
           else {
-            location.reload();
+              document.getElementById("ha-filelistbutton").style.pointerEvents = "auto";
+              document.getElementById("ha-lds-ellipsis-load").style.display = "none";
+            location.reload(); 
           }
         })
-        .catch ((e) => { 
-            location.reload();
+        .catch ((e) => {
+            document.getElementById("ha-filelistbutton").style.pointerEvents = "auto";
+            document.getElementById("ha-lds-ellipsis-load").style.display = "none";
+            document.getElementById("ha-filelistoutput").textContent = e;
         })
     }
 </script>

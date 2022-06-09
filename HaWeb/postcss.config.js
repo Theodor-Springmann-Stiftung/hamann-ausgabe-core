@@ -1,6 +1,9 @@
 module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+  plugins: [
+    require('tailwindcss'),
+
+    // Production:
+    require('autoprefixer'),
+    require('cssnano')({ preset: 'default' })
+  ],
 }

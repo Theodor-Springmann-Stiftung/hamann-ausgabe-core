@@ -12,4 +12,5 @@ public interface IXMLProvider {
         public List<IFileInfo>? GetHamannFiles();
         public IFileInfo? GetInProduction();
         public void SetInProduction(IFileInfo info);
+        public void DeleteHamannFile(string filename);
 }

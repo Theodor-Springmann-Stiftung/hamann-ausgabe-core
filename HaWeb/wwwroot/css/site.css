@@ -158,6 +158,22 @@
     @apply border-b-2 border-slate-200
   }
 
+  .ha-register .ha-register-head .ha-register-add a {
+    @apply rounded border border-black hover:shadow-md hover:border-hamannHighlight
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-plusbutton {
+    @apply rounded-l bg-slate-200
+  }
+
+  .ha-register .ha-register-head .ha-register-add a:hover .ha-register-add-plusbutton {
+    
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-text {
+
+  }
+
   .ha-register .ha-register-head .ha-register-nav a {
     @apply text-slate-700 hover:text-slate-900 dark:text-white dark:hover:text-gray-300
   }
@@ -173,7 +189,7 @@
 
   .ha-register .ha-neuzeit .ha-register-body .ha-commenthead .ha-letlinks::before,
   .ha-register .ha-forschung .ha-register-body .ha-commenthead .ha-letlinks::before {
-    @apply bg-slate-400 dark:bg-slate-500
+    @apply bg-hamannSlate-500 dark:bg-slate-500
   }
 
   .ha-register .ha-register-body .ha-commenthead .ha-letlinks.ha-expanded-box {
@@ -181,40 +197,39 @@
   }
 
   .ha-register .ha-btn-collapsed-box {
-    @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer
+    @apply hidden desktop:block absolute -top-[0.15rem] cursor-pointer mt-0.5
   }
 
-  .ha-register
-    .ha-register-body
-    .ha-comment
-    .ha-commenthead
-    .ha-letlinks
-    .ha-hkb {
+  .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks .ha-hkb {
     @apply text-slate-900 dark:text-white
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks a {
-    @apply hover:text-slate-900 dark:hover:text-gray-200 no-underline hover:underline
+    @apply hover:text-hamannSlate-900 dark:hover:text-gray-200 no-underline hover:underline
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
-    @apply text-slate-600 dark:text-white
+    @apply text-slate-700 dark:text-white
   }
 
   .ha-letterhead .ha-metadata .ha-tooltiptext {
-    @apply bg-slate-100 shadow
+    @apply shadow-sm bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 border dark:border-none dark:shadow dark:bg-slate-800
   }
 
   .ha-tooltip .ha-tooltiptext::after {
-    @apply border-t-slate-600 border-l-transparent border-r-transparent border-b-transparent
+    @apply border-t-slate-600 dark:border-t-slate-800 border-l-transparent border-r-transparent border-b-transparent
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply bg-slate-100 shadow dark:bg-gray-700
+    @apply rounded-lg border shadow-inner border-hamannSlate-900 text-hamannSlate-900 dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
+  }
+
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill.ha-newpill {
+    @apply dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
-    @apply border-b-2 border-gray-600 dark:border-gray-200
+    @apply border-b-2 border-hamannSlate-900 dark:border-gray-200
   }
 
   .ha-letterheader {
@@ -258,7 +273,7 @@
   }
 
   .ha-linecount.ha-firstline {
-    @apply sm:bg-slate-100 sm:dark:bg-gray-700 shadow 
+    @apply rounded-lg sm:border sm:bg-slate-50 sm:shadow-inner sm:border-slate-600 text-slate-800 dark:text-white sm:dark:bg-slate-800 sm:dark:shadow-md sm:dark:border-slate-400
   }
 
   .ha-linecount .ha-zhpage,
@@ -268,7 +283,7 @@
 
   .ha-tradzhtext .ha-marginal::before,
   .ha-lettertext .ha-marginal:before {
-    @apply bg-slate-400 dark:bg-slate-500
+    @apply bg-hamannSlate-500 dark:bg-slate-500
   } 
 
   .ha-tradzhtext .ha-marginalbox,
@@ -359,6 +374,14 @@
     @apply border-none
   }
 
+  .ha-scrollbutton {
+    @apply opacity-0 transition-opacity duration-500 cursor-pointer fixed left-[85%] text-center bottom-0 pb-3 pt-2 bg-slate-50 dark:bg-slate-700 dark:text-white px-2 shadow-md rounded-t-xl hover:shadow-lg text-hamannSlate-700 hover:text-hamannSlate-500
+  }
+
+  .ha-scrollbuttonarrow {
+    @apply h-8 w-8
+  }
+
   /* Classes for the footer */
   .ha-footer {
     @apply font-serif;
@@ -435,7 +458,7 @@
   }
 
   .ha-static p {
-    @apply my-3
+    @apply my-4
   }
 
   .ha-static a {
@@ -471,6 +494,22 @@
 
   .ha-register .ha-register-head h1 {
     @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
+  }
+
+  .ha-register .ha-register-head .ha-register-add a {
+    @apply -mt-4 mb-6 flex flex-row w-fit text-sm font-sans
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-plusbutton {
+    @apply px-2 leading-none text-xl font-bold pb-0.5
+  }
+
+  .ha-register .ha-register-head .ha-register-add a:hover .ha-register-add-plusbutton {
+    
+  }
+
+  .ha-register .ha-register-head .ha-register-add a .ha-register-add-text {
+    @apply pl-1 pr-2 leading-none pt-1
   }
 
   .ha-register .ha-register-head .ha-register-nav {
@@ -535,11 +574,11 @@
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
-    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2
+    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2 mt-1
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks::before {
-    @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
+    @apply absolute mt-1 top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
   }
 
   .ha-register
@@ -637,7 +676,7 @@
   }
 
   .ha-letterhead .ha-metadata .ha-tooltip {
-    @apply self-center cursor-default inline-block relative
+    @apply self-center cursor-default inline-block relative 
   }
 
   .ha-letterhead .ha-metadata .ha-tooltiptext {
@@ -649,7 +688,7 @@
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply text-xs rounded px-2 ml-2 py-[0.1rem]
+    @apply text-sm rounded px-1.5 ml-2 py-0.5 leading-none caps-allpetite tracking-wide
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
@@ -679,7 +718,7 @@
   }
 
   .ha-adminuploadfields .ha-uploadfield.active {
-    @apply !text-black brightness-110
+    @apply !text-black brightness-110 shadow-inner
   }
 
   .ha-adminuploadfields .ha-uploadfield .ha-uploadfieldname {
@@ -711,30 +750,22 @@
   }
 
   .ha-adminuploadfields .ha-uploadform .ha-uploadfilelabel {
-    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full hover:bg-slate-100
+    @apply inline-block px-4 py-1 pt-2 cursor-pointer w-full h-full hover:bg-slate-100
   }
 
   .ha-adminuploadfields .ha-uploadform .ha-uploadmessage {
     @apply text-sm bg-slate-700 bg-opacity-30 px-1 rounded-sm
   }
 
-  .ha-adminuploadfields .ha-publishform {
-    @apply bg-slate-50 rounded shadow grow relative
+  .ha-adminuploadfields .ha-publishbutton  {
+    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full bg-slate-50 shadow shrink hover:bg-slate-100
   }
 
-  .ha-adminuploadfields .ha-publishform .ha-lds-ellipsis {
-    @apply left-1/2 -ml-[20px]
-  }
-
-  .ha-adminuploadfields .ha-publishform .ha-publishfilelabel {
-    @apply inline-block px-2 py-1 pt-2 cursor-pointer w-full h-full hover:bg-slate-100
-  }
-
-  .ha-adminuploadfields .ha-publishform .ha-publishtext {
+  .ha-adminuploadfields .ha-publishbutton .ha-publishtext {
     @apply text-center
   }
 
-  .ha-adminuploadfields .ha-publishform .ha-publishmessage {
+  .ha-adminuploadfields .ha-publishbutton .ha-publishmessage {
     @apply text-sm bg-slate-700 bg-opacity-30 px-1 rounded-sm
   }
 
@@ -750,8 +781,24 @@
     @apply w-full bg-slate-50 flex flex-col gap-y-2 h-full
   }
 
+  .ha-uploadcontainer .ha-publishfilelist {
+    @apply px-16 mb-8
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist .ha-publishfilelisttitle {
+    @apply text-xl mb-2
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist td {
+    @apply align-text-top pr-6
+  }
+
+  .ha-uploadcontainer .ha-publishfilelist .ha-publishfilelabel {
+    @apply relative mt-4 ml-6 rounded-md px-3 border-2 border-blue-600 hover:border-2 hover:shadow active:shadow-inner hover:border-blue-800 cursor-pointer float-right;
+  }
+
   .ha-uploadcontainer .ha-availablefiles {
-    @apply px-16 border border-slate-200 hover:border-slate-800 py-2 cursor-pointer
+    @apply px-16 border border-slate-200 hover:border-slate-800 py-2 cursor-pointer select-none
   }
 
   .ha-uploadcontainer .ha-availablefiles .ha-availablefilestitle {
@@ -809,7 +856,11 @@
   }
 
   .ha-selectfilesform .ha-filelistfile {
-    @apply flex flex-row gap-x-4
+    @apply flex flex-row gap-x-4 px-1 items-center
+  }
+
+  .ha-selectfilesform .ha-filelistfile:nth-child(even) {
+    @apply bg-slate-100
   }
 
   .ha-selectfilesform .ha-filelistlist {
@@ -821,7 +872,7 @@
   }
 
   .ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction {
-    @apply text-sm self-start
+    @apply text-sm
   }
 
   .ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction .ha-filelistproduction {
@@ -836,8 +887,12 @@
     @apply grow text-right
   }
 
+  .ha-selectfilesform .ha-filelistoutput {
+    @apply mt-4 ml-6 
+  }
+
   .ha-selectfilesform .ha-filelistbutton {
-    @apply mt-2 ml-6 rounded-md px-3 border-2 border-blue-700 hover:bg-blue-300 cursor-pointer float-right;
+    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-600 hover:border-2 hover:shadow active:shadow-inner hover:border-blue-800 cursor-pointer float-right;
   }
 
   /* Classes for Letter View */
@@ -1033,7 +1088,7 @@
   }
 
   .ha-linecount.ha-firstline {
-    @apply hidden sm:inline-block rounded px-1 sm:pb-1 caps-allpetite normal-nums whitespace-nowrap
+    @apply hidden sm:inline-block rounded px-1.5 sm:py-0.5 sm:pb-1 sm:leading-none caps-allpetite normal-nums whitespace-nowrap
   }
 
   .ha-linecount {
@@ -1059,12 +1114,12 @@
 
   .ha-tradzhtext .ha-marginal::before,
   .ha-lettertext .ha-marginal::before {
-    @apply absolute top-[0.1rem] bottom-[0.1rem] left-0 w-0.5 content-['']
+    @apply absolute top-[0.2rem] bottom-[0.1rem] left-0 w-0.5 content-['']
   } 
 
   .ha-tradzhtext .ha-marginalbox,
   .ha-lettertext .ha-marginalbox {
-    @apply hidden pl-2 md:block absolute left-full ml-6 mt-1 w-[16rem] desktop:w-[24rem] text-sm leading-tight rounded-sm font-sans 
+    @apply hidden select-none hover:select-auto hyphenate pl-2 md:block absolute left-full ml-2 desktop:ml-10 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
   }
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist,
@@ -1091,7 +1146,7 @@
 
   .ha-tradzhtext .ha-btn-collapsed-box,
   .ha-lettertext .ha-btn-collapsed-box {
-    @apply absolute left-full ml-4 hidden md:block cursor-pointer leading-none mt-0.5
+    @apply absolute left-full desktop:ml-7 hidden md:block cursor-pointer leading-none mt-0.5
   }
 
   .ha-minwidth .ha-tradzhtext,
@@ -1360,6 +1415,7 @@
 
 /* Not implemented in tailwindcss */
 * {
+  scroll-behavior: smooth;
   text-decoration-skip-ink: all;
 }
 
@@ -1424,6 +1480,9 @@ body {
   -webkit-text-decoration-skip-ink: auto;
 }
 
+
+/* Missiung Tailwind classes */
+
 .hyphenate {
   hyphens: auto;
 }
@@ -1451,6 +1510,7 @@ body {
 .caps-normal {
   font-variant-caps: normal;
 }
+
 
 .break-inside-avoid {
   break-inside: avoid;
@@ -1568,7 +1628,23 @@ body {
   bottom: 20px;
 }
 
-.ha-lds-ellipsis div {
+.ha-lds-ellipsis-load {
+  display: none;
+  position: relative;
+  width: 38px;
+  bottom: 8px;
+}
+
+.ha-lds-ellipsis-publish {
+  display: none;
+  position: absolute;
+  left: -50px;
+  bottom: 16px;
+}
+
+.ha-lds-ellipsis div,
+.ha-lds-ellipsis-load div,
+.ha-lds-ellipsis-publish div {
   position: absolute;
   width: 7px;
   height: 7px;
@@ -1577,22 +1653,30 @@ body {
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
-.ha-lds-ellipsis div:nth-child(1) {
+.ha-lds-ellipsis div:nth-child(1),
+.ha-lds-ellipsis-load div:nth-child(1),
+.ha-lds-ellipsis-publish div:nth-child(1) {
   left: 6px;
   animation: ha-lds-ellipsis1 0.6s infinite;
 }
 
-.ha-lds-ellipsis div:nth-child(2) {
+.ha-lds-ellipsis div:nth-child(2),
+.ha-lds-ellipsis-load div:nth-child(2),
+.ha-lds-ellipsis-publish div:nth-child(2) {
   left: 4px;
   animation: ha-lds-ellipsis2 0.6s infinite;
 }
 
-.ha-lds-ellipsis div:nth-child(3) {
+.ha-lds-ellipsis div:nth-child(3),
+.ha-lds-ellipsis-load div:nth-child(3),
+.ha-lds-ellipsis-publish div:nth-child(3) {
   left: 16px;
   animation: ha-lds-ellipsis2 0.6s infinite;
 }
 
-.ha-lds-ellipsis div:nth-child(4) {
+.ha-lds-ellipsis div:nth-child(4),
+.ha-lds-ellipsis-load div:nth-child(4),
+.ha-lds-ellipsis-publish div:nth-child(4) {
   left: 30px;
   animation: ha-lds-ellipsis3 0.6s infinite;
 }

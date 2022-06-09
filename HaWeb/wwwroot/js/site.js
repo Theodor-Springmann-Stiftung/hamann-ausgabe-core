@@ -1,3 +1,4 @@
+// Functions for opening and closing the menu on mobile devices
 const openmenu = function () {
   var x = document.getElementById("ha-topnav");
   if (x !== null) x.className += " ha-topnav-collapsed";
@@ -31,18 +32,20 @@ const markactive_startswith = function (element) {
 };
 
 const markactive_exact = function (element) {
+  // Marks links active which target URL is exact the same as the current URL
   var all_links = element.getElementsByTagName("a"),
     i = 0,
     len = all_links.length,
     full_path = location.href.split("#")[0].toLowerCase(); //Ignore hashes
 
   for (; i < len; i++) {
-    if (full_path == all_links[i].href.toLowerCase()) {
+    if (full_path == all_links[i].href.toLowerCase() || full_path == all_links[i].href.toLowerCase() + "/") {
       all_links[i].className += " active";
     }
   }
 };
 
+// Functions for collapsing marginals, and adding a button next to those
 const getLineHeight = function (element) {
   var temp = document.createElement(element.nodeName),
     ret;
@@ -122,7 +125,6 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
   element.parentNode.insertBefore(btn, element);
 };
 
-/* TODO: need a resize watcher to undo and reapply the effect on breakpoint */
 const overlappingcollapsebox = function (selector, hoverfunction) {
   let boxes = document.querySelectorAll(selector);
   let lineheight = 1;
@@ -172,6 +174,22 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
   }
 };
 
+const marginalboxwidthset = function() {
+  let lt = document.getElementById("ha-letterbody");
+  if (lt !== null) {
+    let mg = lt.querySelectorAll(".ha-lettertext .ha-marginalbox");
+    if (mg.length > 0) {
+      let ltbcr = lt.getBoundingClientRect();
+      let mgbcr = mg[0].getBoundingClientRect();
+      let nw = ltbcr.right - mgbcr.left - 18;      
+
+      for (let element of mg) {
+        element.style.width = nw + "px";
+      }
+    }
+  }
+}
+
 /* Button to hide / show traditions, marginals and the text of the letter */
 const showhidebutton = function (
   buttonid,
@@ -215,6 +233,11 @@ const showhidebutton = function (
   }
 };
 
+const collapseboxes = function () {
+  overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
+  overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
+  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
+};
 // Functions for switching theme
 const go_to_dark = function () {
   localStorage.setItem("theme", "ha-toggledark");
@@ -233,14 +256,26 @@ const get_theme_settings = function (standard) {
   let toggleSwitch = document.getElementById(theme).click();
 };
 
-const collapseboxes = function () {
-  overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
-  overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
-  overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
-};
+// Functions for scrolling
+const scrollFunction = function () {
+  button = document.getElementById("ha-scrollbutton");
+  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    button.style.opacity = "1";
+  } else {
+    button.style.opacity = "0";
+  }
+}
 
 //////////////////////////////// ONLOAD ////////////////////////////////////
 window.addEventListener("load", function () {
+  // Scroll button
+  let scrollbutton = this.document.getElementById("ha-scrollbutton");
+  scrollbutton.addEventListener("click", () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  })
+  this.window.addEventListener("scroll", scrollFunction);
+
   // Menu: Show / Hide Buttons for mobile View
   if (
     document.getElementById("openmenubutton") !== null &&
@@ -260,14 +295,16 @@ window.addEventListener("load", function () {
   if (document.getElementById("ha-register-nav") != null)
     markactive_exact(document.getElementById("ha-register-nav"));
   if (this.document.getElementById("ha-adminuploadfields") != null)
-    markactive_startswith(document.getElementById("ha-adminuploadfields"));
+    markactive_exact(document.getElementById("ha-adminuploadfields"));
 
   // Letter / Register View: Collapse all unfit boxes + resize observer
+  marginalboxwidthset();
   collapseboxes();
   var doit;
   this.window.addEventListener("resize", function () {
     this.clearTimeout(doit);
-    this.setTimeout(collapseboxes, 250);
+    marginalboxwidthset();
+    doit = this.setTimeout(collapseboxes, 250);
   });
 
   // Letter View: Show / Hide Tabs

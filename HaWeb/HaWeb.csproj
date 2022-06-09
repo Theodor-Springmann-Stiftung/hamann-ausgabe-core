@@ -6,24 +6,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-  <ItemGroup>
-     <!-- exclude all Content items from being watched -->
-    <Content Update="wwwroot/css/site.css" Watch="false" />
+
+<ItemGroup>
+    <Content Remove="wwwroot\css\site.css" />
+    <Content Include="wwwroot\css\site.css" Watch="false" />
 </ItemGroup>
-  <ItemGroup>
-    <Watch Include="**\*.js" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
-    <Watch Include="**\*.css" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
-    <Watch Include="**\*.cs" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
-    <Watch Include="**\*.cshtml" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
-    <Watch Include="**\*.csproj" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
-    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-  </ItemGroup>
+  
   <Target Name="Tailwind" BeforeTargets="Build">
-    <Exec Command="npm run css:build" />
+    <Exec Command="npm run css_build" />
   </Target>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
   </ItemGroup>
@@ -32,6 +24,4 @@
     <ProjectReference Include="..\HaXMLReaderV6\HaXMLReaderV6.csproj" />
     <ProjectReference Include="..\HaDocumentV6\HaDocumentV6.csproj" />
   </ItemGroup>
-
-
 </Project>

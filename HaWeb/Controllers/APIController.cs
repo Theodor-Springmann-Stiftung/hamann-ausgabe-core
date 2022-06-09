@@ -166,11 +166,18 @@ public class APIController : Controller {
         if (!ModelState.IsValid || element == null)
             return BadRequest(ModelState);
         var savedfile = await _xmlProvider.SaveHamannFile(element, _targetFilePath, ModelState);
-        if (!ModelState.IsValid || savedfile == null)
+        if (!ModelState.IsValid || savedfile == null) {
+            if (savedfile != null)
+                _xmlProvider.DeleteHamannFile(savedfile.Name);
             return BadRequest(ModelState);
+        }
         _ = _lib.SetLibrary(savedfile.PhysicalPath, ModelState);
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid) {
+            _xmlProvider.DeleteHamannFile(savedfile.Name);
             return BadRequest(ModelState);
+        }
+        _xmlProvider.SetInProduction(savedfile);
+        _xmlService.SetInProduction();
         return Created("/", _xmlProvider.GetHamannFiles());
     }
 
@@ -300,9 +307,6 @@ public class APIController : Controller {
                 continue;
             }
 
-            filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
             if (hasContentDispositionHeader && contentDisposition != null) {
                 if (!MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition)) {
                     ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");
@@ -310,7 +314,7 @@ public class APIController : Controller {
                 }
 
                 filename = XMLFileHelpers.StreamToString(section.Body, ModelState);
-                
+                if (!ModelState.IsValid) return BadRequest(ModelState);
             }
 
             try {
@@ -332,17 +336,12 @@ public class APIController : Controller {
             return BadRequest(ModelState);
         }
 
-        try {
-            _ = _lib.SetLibrary(newFile.First().PhysicalPath, ModelState);
-        }
-        catch (Exception ex) {
-            ModelState.AddModelError("Error", "Error parsing the file: " + ex.Message);
-            return BadRequest(ModelState);
-        }
+        _ = _lib.SetLibrary(newFile.First().PhysicalPath, ModelState);
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         _xmlProvider.SetInProduction(newFile.First());
         _xmlService.UnUseProduction();
 
-        return Created("/", null);
+        return Created("/", newFile.First());
     }
 }

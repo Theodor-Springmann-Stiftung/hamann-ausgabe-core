@@ -7,7 +7,7 @@ public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
     private Dictionary<string, IXMLRoot>? _Roots;
 
-    private Dictionary<string, FileList?>? _InProduction;
+    private Stack<Dictionary<string, FileList?>>? _InProduction;
 
     public XMLService() {
         // Getting all classes which implement IXMLRoot for possible document endpoints
@@ -32,7 +32,23 @@ public class XMLService : IXMLService {
 
     public Dictionary<string, IXMLRoot>? GetRootsDictionary() => this._Roots == null ? null : this._Roots;
 
-    public Dictionary<string, FileList?>? GetInProduction() => this._InProduction;
+    public Dictionary<string, FileList?>? GetInProduction() { 
+        if (_InProduction == null) return null;
+        return this._InProduction.Peek();
+    }
+
+    public void SetInProduction() {
+        if (_Used == null) return;
+        var inProduction = new Dictionary<string, FileList?>();
+        foreach (var category in _Used) {
+            if (category.Value == null || category.Value.GetFileList() == null || !category.Value.GetFileList()!.Any()) 
+                return;
+            inProduction.Add(category.Key, category.Value);
+        }
+
+        if(_InProduction == null) _InProduction = new Stack<Dictionary<string, FileList?>>();
+        _InProduction.Push(inProduction);
+    }
 
     public void UnUseProduction() => this._InProduction = null;
 
@@ -104,20 +120,19 @@ public class XMLService : IXMLService {
         }
 
         var opus = new XElement("opus");
-        var inProduction = new Dictionary<string, FileList?>();
-        foreach (var category in _Used) {
+        // TODO: Workaround for bug in HaDocument: roots have to be added in a specific order
+        var used = _Used.OrderByDescending(x => x.Key);
+        foreach (var category in used) {
             if (category.Value == null || category.Value.GetFileList() == null || !category.Value.GetFileList()!.Any()) {
                 ModelState.AddModelError("Error", _Roots![category.Key].Type + " nicht vorhanden.");
                 return null;
             }
-            inProduction.Add(category.Key, category.Value);
             var documents = category.Value.GetFileList();
             foreach (var document in documents!) {
                 document.XMLRoot.MergeIntoFile(opus, document);
             }
         }
 
-        _InProduction = inProduction;
         return opus;
     }
 

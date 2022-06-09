@@ -33,8 +33,6 @@ Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die
 
 Briefe beim Namen
 
-- GND Normdaten der Namen
-
 TODO 1127 zu breit
 TODO tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
 TODO 659 align center und align-right ueberschneidugn
@@ -44,5 +42,3 @@ TODO Evtl alignment von center / right an der letzten oder nächsten zeile
 TODO Abhärten des Konstruktors von XMLRootDokument für von außerhalb platzierte Dokumente
 TODO XML-Check im Client
 TODO Lock für die Liste, Bzw ConcurretBag
-TODO Up-Button
-TODO Neue Forschungsliteratur einsenden
