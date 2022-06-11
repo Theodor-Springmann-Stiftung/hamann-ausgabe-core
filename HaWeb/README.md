@@ -25,24 +25,27 @@ Run
 `dotnet watch --project Tailwind.csproj build -- Tailwind.csproj` and
 `dotnet watch --project HaWeb.csproj -- run --project HaWeb.csproj`
 
-in two terminal windows to watych for specific file changes in .css / .js / .cshtml / .json / .cs files and to rebuild the css-Files and the app automatically on change.
+in two terminal windows to watch for specific file changes in .css / .js / .cshtml / .json / .cs files and to rebuild the css-Files and the app automatically on change.
 Recommended vscode plugins include the XML Tools, Prettier, c#, Nuget Gallery, Tailwind CSS IntelliSense & TODO Tree.
 
-## Redesign der Hamann-Vebseite, drittes Upadte
+## Redesign der Hamann-Vebseite, drittes Update
 Veränderungenen in der Funktionalität für den Benutzer
 - Behutsames Redesign der Webseite:
     - Schrift wird minimal größer auf großen Bildschirmen
     - Redesign der Marginalspalte, sodass keine Überschneidungen vorkommen, gut für screenreader
     - Leichtes Redesign der Zusatzinformationen für einen Brief (Tradition, Edits) an etwas prominenterer Stelle
     - Anpassung der Webseite an Mobilgeräte und Tablets
-
 - Suche im Brieftext wird gefixt
 - Seite wird zugänglich für Menschen mit eingeschränktem Sehvermögen / Screenreadern
 - Bibellinks in Bibelkommentaren
+- Verbesserte Ladezeiten
+- Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die Ausgaben
+- Anzeige Briefe beim Namen (?)
+- GeoCities und Personen-Verweise (?)
 
 Veränderungen in der Funktionalität für die Forscher
 - Online-Syntaxcheck für XML-Dateien
-- Online-Cross-Dateien-Check (bsp. verweist jede Marginalie auf eine existierende Zeile)?
+- Online-Cross-Dateien-Check (bsp. verweist jede Marginalie auf eine existierende Zeile)
 - Erstellung einer HAMANN.xml-Datei
 - Hochladen der HAMANN.xml-Datei auf die Plattform
 
@@ -50,18 +53,10 @@ Veränderungen im Code
 - Anpassung des Codes an .NET 6 (Kopieren / Einfügen)
 - Umzug nach CSS Framework Tailwind 
 - Code wird aufgeräumt und sortiert
-- Leichtere Anpassungen an zukünftige Bedütfnisse (Wartungszeiten minimieren)
+- Leichtere Anpassungen an zukünftige Bedürfnisse (Wartungszeiten minimieren)
 - Auslagerungen einzelner Einstellungen in Einstellungsdateien
 - Code open source zugänglich machen?
 
-Für diese Anpassungen sind in etwa 3-4 Monate eingeplant.
-- Ladezeiten (???)
-- PDF-Parser
-
-hamann-werke.de
-Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die Ausgaben...
-
-Briefe beim Namen
 
 TODO 1127 zu breit
 TODO tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
