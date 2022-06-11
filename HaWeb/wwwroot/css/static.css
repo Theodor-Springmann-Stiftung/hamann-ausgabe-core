@@ -22,7 +22,7 @@
   }
 
   .ha-static h1 {
-    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6
+    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-9
   }
 
   .ha-static h2 {

@@ -7,32 +7,36 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
     private ILibrary Library;
     private IXMLProvider _xmlProvider;
 
-    private int _startYear;
-    private int _endYear;
+    public int StartYear { get; private set; }
+    public int EndYear { get; private set; }
 
     public HaDocumentWrapper(IXMLProvider xmlProvider, IConfiguration configuration) {
         _xmlProvider = xmlProvider;
-
-        _startYear = configuration.GetValue<int>("AvailableStartYear");
-        _endYear = configuration.GetValue<int>("AvailableEndYear");
+        StartYear = configuration.GetValue<int>("AvailableStartYear");
+        EndYear = configuration.GetValue<int>("AvailableEndYear");
         var filelist = xmlProvider.GetHamannFiles();
         if (filelist != null && filelist.Any()) {
             _AutoLoad(filelist);
         }
+
         // Use Fallback library
-        if (Library == null) 
-            Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { AvailableYearRange = (_startYear, _endYear) });
+        if (Library == null) {
+            var options = new HaWeb.Settings.HaDocumentOptions();
+            if (SetLibrary(options.HamannXMLFilePath) == null) {
+                throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
+            }
+        }
     }
 
     public ILibrary ResetLibrary() {
-        Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { AvailableYearRange = (_startYear, _endYear) });
+        Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { AvailableYearRange = (StartYear, EndYear) });
         return Library;
     }
 
     public ILibrary? SetLibrary(string filepath, ModelStateDictionary? ModelState = null) {
         try 
         {
-            Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = filepath, AvailableYearRange = (_startYear, _endYear) });
+            Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = filepath, AvailableYearRange = (StartYear, EndYear) });
         }
         catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);

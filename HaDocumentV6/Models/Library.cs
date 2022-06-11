@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using HaDocument.Models;
 using HaDocument.Comparers;
 using System.Linq;
-
+using System.Collections.Specialized;
 namespace HaDocument.Models
 {
     public class Library : ILibrary
@@ -40,7 +40,7 @@ namespace HaDocument.Models
         // Auswählen von Briefen nach autoptischer Numemr und in zeitlich sortierter Reihenfolge.
         public ImmutableSortedSet<Meta> MetasByDate { get; }
         // Auswählen von Briefen nach dem Jahr, sortiert nach Datum
-        public ILookup<string, Meta> MetasByYear { get; }
+        public ILookup<int, Meta> MetasByYear { get; }
 
 
         public Library(
@@ -91,7 +91,7 @@ namespace HaDocument.Models
             MarginalsByLetter = (Lookup<string, Marginal>)Marginals.Values.ToLookup(x => x.Letter);
             EditreasonsByLetter = (Lookup<string, Editreason>)Editreasons.Values.ToLookup(x => x.Letter);
             MetasByDate = Metas.Values.ToImmutableSortedSet<Meta>(new DefaultComparer());
-            MetasByYear = Metas.Values.ToLookup(x => x.Sort.Year.ToString());
+            MetasByYear = Metas.Values.ToLookup(x => x.Sort.Year);
 
             var tempbuilder = ImmutableDictionary.CreateBuilder<string, Comment>();
             foreach (var comm in Comments)

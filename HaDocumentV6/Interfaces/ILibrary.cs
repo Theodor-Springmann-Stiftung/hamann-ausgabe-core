@@ -25,7 +25,7 @@ namespace HaDocument.Interfaces {
         Lookup<string, Marginal> MarginalsByLetter { get; }
         Lookup<string, Editreason> EditreasonsByLetter { get; }
         ImmutableSortedSet<Meta> MetasByDate { get; }
-        ILookup<string, Meta> MetasByYear { get; }
+        ILookup<int, Meta> MetasByYear { get; }
         ImmutableDictionary<string, Comment> SubCommentsByID { get; }
     }
 }

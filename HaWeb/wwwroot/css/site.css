@@ -12,6 +12,7 @@
 @import "./letterhead.css";
 @import "./letter.css";
 @import "./upload.css";
+@import "./search.css";
 
 @layer components {
   /* TODO: check what can be inlined (eg. used once in the code, has no double paths etc...) */  

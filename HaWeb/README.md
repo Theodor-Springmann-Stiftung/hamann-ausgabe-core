@@ -22,8 +22,8 @@ Don't forget to place a valid `Hamann.xml`-File in the root of the build to prov
 
 Run
 
-`dotnet watch --project Tailwind.csproj build -- Tailwind.csproj` and
-`dotnet watch --project HaWeb.csproj -- run --project HaWeb.csproj`
+`dotnet watch --verbose --project Tailwind.csproj build -- Tailwind.csproj` and
+`dotnet watch --verbose --project HaWeb.csproj -- run --project HaWeb.csproj`
 
 in two terminal windows to watch for specific file changes in .css / .js / .cshtml / .json / .cs files and to rebuild the css-Files and the app automatically on change.
 Recommended vscode plugins include the XML Tools, Prettier, c#, Nuget Gallery, Tailwind CSS IntelliSense & TODO Tree.

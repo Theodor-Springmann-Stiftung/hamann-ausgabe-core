@@ -22,7 +22,7 @@
   }
 
   .ha-register .ha-register-head .ha-register-add a .ha-register-add-text {
-
+    @apply ml-1
   }
 
   .ha-register .ha-register-head .ha-register-nav a {

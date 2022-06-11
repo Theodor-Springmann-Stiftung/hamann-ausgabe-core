@@ -1,4 +1,9 @@
 @model UploadViewModel;
+@{
+    ViewData["Title"] = "Upload & Veröffentlichen";
+    ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe, Hg. v. Leonard Keidel und Janina Reibold. Durchsuchbare Online-Ausgabe der Briefe von und an Johann Georg Hamann.";
+    ViewData["showCredits"] = "false";
+}
 
 <div class="ha-adminuploadfields" id="ha-adminuploadfields">
   @foreach (var item in Model.AvailableRoots!.OrderBy(x => x.Type)) {
