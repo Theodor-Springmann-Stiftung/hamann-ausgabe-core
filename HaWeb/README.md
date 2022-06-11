@@ -1,3 +1,34 @@
+# Building and preparation
+
+## Prep
+Install nodejs > 16.5 LTS. Install npm > 8.10.0. After that, do an `npm install` in the home directory to install the neccessary dependencies.
+Nodejs is used for css scaffolding, this project uses `postcss`, with the `tailwindcss` CSS framework as a postcss plugin to only include used and neccessary classes. Also, the `postcss-import` postcss-plugin is used to allow for compartmntalization of css files and the import statement to merge those files together (be careful of the order of commands in postcss.config.js!). `autoprefixer` and `css-nano` plugins are important at least for production build since they provide cross-browser-compatibility and minification of file size for css files.
+
+Dotnet 6.0.300 is currently used. To build the project, do a `dotnet restore` and collect the `Microsoft.FeatureManagement.AspNetCore` nuget-package which is used to enable feauture-flags in `appsettings.json`. Some routes, such as the admin area of the project will only be mapped if certain flags are set to true.
+
+## Building the project 
+
+`dotnet build Tailwind.csproj` or `npm run css_build`
+
+to build the neccessary `output.css`-File.
+
+`dotnet build HaWeb.csproj`
+
+to build the App. Please do consider the order of these commands.
+
+## Development tools
+
+Run
+
+`dotnet watch --project Tailwind.csproj build -- Tailwind.csproj` and
+`dotnet watch --project HaWeb.csproj -- run --project HaWeb.csproj`
+
+in two terminal windows to watych for specific file changes in .css / .js / .cshtml / .json / .cs files and to rebuild the css-Files and the app automatically on change.
+Recommended vscode plugins include the XML Tools, Prettier, c#, Nuget Gallery, Tailwind CSS IntelliSense & TODO Tree.
+
+
+
+
 # Redesign der Hamann-Vebseite, drittes Major Upadte
 Veränderungenen in der Funktionalität für den Benutzer
 - Behutsames Redesign der Webseite:
