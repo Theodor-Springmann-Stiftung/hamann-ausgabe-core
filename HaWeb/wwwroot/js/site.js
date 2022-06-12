@@ -260,8 +260,12 @@ const get_theme_settings = function (standard) {
 const scrollFunction = function () {
   button = document.getElementById("ha-scrollbutton");
   if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+    // button.style.display = "block";
+    button.style.pointerEvents = "auto";
     button.style.opacity = "1";
   } else {
+    // button.style.display = "none";
+    button.style.pointerEvents = "none";
     button.style.opacity = "0";
   }
 }
@@ -269,6 +273,7 @@ const scrollFunction = function () {
 //////////////////////////////// ONLOAD ////////////////////////////////////
 window.addEventListener("load", function () {
   // Scroll button
+  scrollFunction();
   let scrollbutton = this.document.getElementById("ha-scrollbutton");
   scrollbutton.addEventListener("click", () => {
     document.body.scrollTop = 0; // For Safari

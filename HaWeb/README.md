@@ -1,10 +1,11 @@
 # Building and preparation
 
 ## Prep
-Install nodejs > 16.5 LTS. Install npm > 8.10.0. After that, do an `npm install` in the home directory to install the necessary dependencies. Nodejs is used for css scaffolding, this project uses `postcss`, with the `tailwindcss` CSS framework as a postcss plugin to only include used classes. Also, the `postcss-import` postcss-plugin is used to allow for compartmentalization of css files and the import statement to merge those files together (be careful of the order of commands in `postcss.config.js`!). `autoprefixer` and `css-nano` plugins are important at least for production builds since they provide cross-browser-compatibility and minification of file size for css files.
+To build the project install nodejs > 16.5 LTS. Install npm > 8.10.0. After that, do an `npm install` in the project directory to install the necessary dependencies. Nodejs is used for css scaffolding, this project uses `postcss`, with the `tailwindcss` CSS framework as a postcss plugin to only include used classes. Also, the `postcss-import` postcss-plugin is used to allow for compartmentalization of css files and the import statement to merge those files together (be careful of the order of commands in `postcss.config.js`!). `autoprefixer` and `css-nano` plugins are recommended at least for production builds since they provide cross-browser-compatibility and minification of file size for css files.
 
-Dotnet 6.0.300 is currently used. To build the project, do a `dotnet restore` and collect the `Microsoft.FeatureManagement.AspNetCore` nuget-package which is used to enable feauture-flags in `appsettings.json`. Some routes, such 
-as the admin area of the project will only be mapped if certain flags are set to true. Also, this project requires two other projects `HaDocumentV6` (for reading in the file into convenient to use models) and `HaXMLReader` (for forward parsing elements such as letters, comments, traditions and marginals in an HTML transform) to be present. They have no dependencies (apart from each other and `.NET 6`) and are build at build time automatically.
+Dotnet 6.0.300 is currently used. To build the project, do a `dotnet restore` and collect the `Microsoft.FeatureManagement.AspNetCore` nuget-package which is used to enable feauture-flags in `appsettings.json`. Some routes, such as the admin area of the project will only be mapped if certain flags are present and set to true. 
+
+Also, this project requires two other projects `HaDocumentV6` (for reading in the file into convenient to use models) and `HaXMLReader` (for forward parsing elements such as letters, comments, traditions and marginals in an HTML transform). They have no dependencies (apart from each other and `.NET 6`) and are build at build time automatically.
 
 ## Building the project 
 
@@ -18,14 +19,18 @@ to build the App. Please do consider the order of these commands.
 
 Don't forget to place a valid `Hamann.xml`-File in the root of the build to provide a starting and fallback XML-file.
 
+Note that nodejs is used only as a build tool for css (and possibly in the future javascript) processing. To host the website there is no node needed.
+
 ## Development tools
 
 Run
 
 `dotnet watch --verbose --project Tailwind.csproj build -- Tailwind.csproj` and
+
 `dotnet watch --verbose --project HaWeb.csproj -- run --project HaWeb.csproj`
 
-in two terminal windows to watch for specific file changes in .css / .js / .cshtml / .json / .cs files and to rebuild the css-Files and the app automatically on change.
+in seperate terminals to watch for specific file changes in .css / .js / .cshtml / .json or .cs files and to rebuild the css-Files and the app automatically on change.
+
 Recommended vscode plugins include the XML Tools, Prettier, c#, Nuget Gallery, Tailwind CSS IntelliSense & TODO Tree.
 
 ## Redesign der Hamann-Vebseite, drittes Update
@@ -67,3 +72,4 @@ TODO Evtl alignment von center / right an der letzten oder nächsten zeile
 TODO Abhärten des Konstruktors von XMLRootDokument für von außerhalb platzierte Dokumente
 TODO XML-Check im Client
 TODO Lock für die Liste, Bzw ConcurretBag
+TODO 516A david friedlaender in den traditions
