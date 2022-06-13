@@ -1,16 +1,19 @@
-namespace HaDocument.Models {
-    public class Letter : HaModel {
-        public string Index { get; } = "";
-        public string Element { get; } = "";
-        public string Value { get; } = "";
+namespace HaDocument.Models;
+using System.Xml.Linq;
+using System.Xml;
 
-        public Letter(
-            string index,
-            string element,
-            string value
-        ) {
-            Index = index;
-            Element = element;
-        }
+public class Letter {
+    public string Index { get; }
+    public XElement Element { get; }
+    public string Value { get; }
+
+    public Letter(
+        string index,
+        XElement element,
+        string value
+    ) {
+        Index = index;
+        Element = element;
+        Value = value;
     }
 }

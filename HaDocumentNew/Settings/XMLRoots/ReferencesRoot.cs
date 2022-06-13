@@ -2,7 +2,7 @@ namespace HaDocument.Settings.XMLRoots;
 using System.Xml.Linq;
 
 
-public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
+public class ReferencesRoot : HaDocument.Interfaces.IXMLRoot {
     public string Type { get; } = "Personen / Orte";
     public string Prefix { get; } = "personenorte";
     public string[] XPathContainer { get; } = { ".//data/definitions", ".//definitions" };
@@ -17,17 +17,17 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
         return elem.Name.ToString();
     };
 
-    public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
-        return null;
-    }
+    // public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
+    //     return null;
+    // }
 
     public (string?, string?) GenerateIdentificationString(XElement element) {
         return (null, null);
     }
 
-    public bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2) {
-        return true;
-    }
+    // public bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2) {
+    //     return true;
+    // }
 
     public XElement CreateHamannDocument(XElement element) {
         var opus = new XElement("opus");
@@ -35,14 +35,14 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
         return opus;
     }
 
-    public void MergeIntoFile(XElement file, XMLRootDocument document) {
-        if (file.Element("definitions") == null)
-            file.AddFirst(new XElement("definitions"));
-        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
-        var root = file.Element("definitions");
-        foreach (var element in elements) {
-            root!.Add(element);
-        }
-    }
+    // public void MergeIntoFile(XElement file, XMLRootDocument document) {
+    //     if (file.Element("definitions") == null)
+    //         file.AddFirst(new XElement("definitions"));
+    //     var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+    //     var root = file.Element("definitions");
+    //     foreach (var element in elements) {
+    //         root!.Add(element);
+    //     }
+    // }
 
 }

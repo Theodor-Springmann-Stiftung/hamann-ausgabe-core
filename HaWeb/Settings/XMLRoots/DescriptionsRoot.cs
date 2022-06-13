@@ -41,7 +41,7 @@ public class DescriptionsRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("descriptions") == null)
             file.AddFirst(new XElement("descriptions"));
-        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+        var elements = document.GetElement().Elements().Where(x => IsCollectedObject(x));
         var root = file.Element("descriptions");
         foreach (var element in elements) {
             root!.Add(element);

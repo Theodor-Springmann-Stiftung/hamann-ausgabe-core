@@ -1,5 +1,4 @@
 ﻿namespace HaDocument;
-public class Document
-{
+public class Document {
 
 }

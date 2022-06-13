@@ -42,7 +42,7 @@ public class DocumentRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("document") == null)
             file.AddFirst(new XElement("document"));
-        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+        var elements = document.GetElement().Elements().Where(x => IsCollectedObject(x));
         var root = file.Element("document");
         foreach (var element in elements) {
             root!.Add(element);

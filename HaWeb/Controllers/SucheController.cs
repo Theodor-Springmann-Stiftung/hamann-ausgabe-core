@@ -17,42 +17,116 @@ public class SucheController : Controller {
         _lettersForPage = config.GetValue<int>("LettersOnPage");
     }
 
-    [Route("Suche")]
-    // Filter, Order By Year, Paginate, Order By Date and by Order, Parse
-    public IActionResult Index() {
+    [Route("Suche/{letterno}")]
+    public IActionResult GoTo(string letterno) {
         var lib = _lib.GetLibrary();
-        return View();
+        var letter = lib.Metas.Where(x => x.Value.Autopsic == letterno);
+        if (letter != null)
+            return RedirectToAction("Index", "Briefe", new { id = letterno });
+        return _error404();
     }
 
-    private BriefeMetaViewModel generateMetaViewModel(ILibrary lib, Meta meta) {
+    [Route("Suche/{zhvolume}/{zhpage}")]
+    public IActionResult GoToZH(string zhvolume, string zhpage) {
+        // TODO: Bug in letter parsing: dictionary is WRONG!
+        var lib = _lib.GetLibrary();
+        var pages = lib.Structure.ContainsKey(zhvolume) ? lib.Structure[zhvolume] : null;
+        if (pages == null) return _error404();
+        var lines = pages.ContainsKey(zhpage) ? pages[zhpage] : null;
+        if (lines == null) return _error404();
+        var letters = lines.Aggregate(new HashSet<string>(), (x, y) => { x.Add(y.Value); return x; });
+        if (letters != null && letters.Any() && letters.Count == 1) return RedirectToAction("Index", "Briefe", new { id = letters.First() });
+        if (letters != null && letters.Any()) {
+            var metas = lib.Metas.Where(x => letters.Contains(x.Key)).Select(x => x.Value);
+            if (metas == null) return _error404();
+            var metasbyyear = metas.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
+            return _paginateSend(lib, 0, metasbyyear);
+        }
+        return _error404();
+    }
+
+    [Route("Suche")]
+    // Order of actions:
+    // Filter, sort by year, paginate, sort by Meta.Sort & .Order, parse
+    public IActionResult Index(string? person, int page = 0) {
+        var lib = _lib.GetLibrary();
+        List<IGrouping<int, Meta>>? metasbyyear = null;
+        if (person != null) {
+            var letters = lib.Metas
+                .Where(x => x.Value.Senders.Contains(person) || x.Value.Receivers.Contains(person))
+                .Select(x => x.Value);
+            if (letters == null) return _error404();
+            metasbyyear = letters.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
+        } else {
+            metasbyyear = lib.MetasByYear.OrderBy(x => x.Key).ToList();
+        }
+        return _paginateSend(lib, page, metasbyyear, person);
+    }
+
+    private List<(string Key, string Person)> _getAvailablePersons(ILibrary lib) {
+        return lib.Persons
+            .OrderBy(x => x.Value.Surname)
+            .ThenBy(x =>  x.Value.Prename)
+            .Select(x => (x.Key, x.Value.Name))
+            .ToList();
+    }
+
+    private BriefeMetaViewModel _generateMetaViewModel(ILibrary lib, Meta meta) {
         var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
         var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
-        return new BriefeMetaViewModel(meta, hasMarginals, false) {
+        return new BriefeMetaViewModel(meta, hasMarginals) {
             ParsedZHString = zhstring,
             ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
         };
     }
     
-    private List<(int StartYear, int EndYear)>? Paginate(ILookup<int, List<Meta>>? letters) {
+    private List<(int StartYear, int EndYear)>? _paginate(List<IGrouping<int, Meta>>? letters) {
         if (letters == null || !letters.Any()) return null;
-        var orderedl = letters.OrderBy(x => x.Key);
         List<(int StartYear, int EndYear)>? res = null;
         int startyear = 0;
         int count = 0;
-        foreach (var letterlist in orderedl) {
-            count += letterlist.Count();
+        foreach (var letterlist in letters) {
             if (count == 0) {
                 startyear = letterlist.Key;
             }
+            count += letterlist.Count();
             if (count >= _lettersForPage) {
                 if (res == null) res = new List<(int StartYear, int EndYear)>();
                 res.Add((startyear, letterlist.Key));
                 count = 0;
             }
+            if (letterlist == letters.Last()) {
+                if (res == null) res = new List<(int StartYear, int EndYear)>();
+                res.Add((startyear, letterlist.Key));
+            }
         }
         return res;
+    }
+
+    private IActionResult _paginateSend(ILibrary lib, int page, List<IGrouping<int, Meta>>? metasbyyear, string? person = null) {
+        var pages = _paginate(metasbyyear);
+        if (pages != null && page >= pages.Count) return _error404();
+        if (pages == null && page > 0) return _error404();
+        List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters = null;
+        if (pages != null)
+            letters = metasbyyear
+                .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
+                .Select(x => (x.Key, x
+                    .Select(y => _generateMetaViewModel(lib, y))
+                    .OrderBy(x => x.Meta.Sort)
+                    .ThenBy(x => x.Meta.Order)
+                    .ToList()))
+                .ToList();
+        var model = new SucheViewModel(letters, page, pages, _getAvailablePersons(lib));
+        if (person != null) model.ActivePerson = person;
+        return View("Index", model);
+    }
+
+    private IActionResult _error404() {
+        Response.StatusCode = 404;
+        return Redirect("/Error404");
     }
 }

@@ -1,4 +1,4 @@
-namespace HaDocument.Interfaces; 
+namespace HaDocument.Interfaces;
 using System;
 using System.Collections.Immutable;
 using HaDocument.Models;
@@ -18,7 +18,7 @@ public interface ILibrary {
     ImmutableDictionary<string, ImmutableList<Backlink>> Backlinks { get; }
     ImmutableDictionary<string, ImmutableList<Hand>> Hands { get; }
     ImmutableDictionary<string, ImmutableDictionary<string, ImmutableDictionary<string, string>>> Structure { get; }
-    
+
     ImmutableDictionary<string, Lookup<string, Comment>> CommentsByCategoryLetter { get; }
     Lookup<string, Comment> CommentsByCategory { get; }
     Lookup<string, Marginal> MarginalsByLetter { get; }

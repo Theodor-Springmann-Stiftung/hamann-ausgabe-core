@@ -1,3 +1,9 @@
 @layer components {
-    
+    .ha-search {
+        @apply pt-9 md:pt-12 px-9 md:px-16 bg-slate-50
+    }
+
+    .ha-search .ha-letterlist {
+
+    }
 }

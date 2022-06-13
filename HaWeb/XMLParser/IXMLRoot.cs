@@ -47,7 +47,7 @@ public interface IXMLRoot {
 
     // public Dictionary<string, XElement>? GetCollectedObjects(XMLRootDocument document) {
     //     Dictionary<string, XElement>? ret = null;
-    //     var root = document.Root;
+    //     var root = document.GetElement();
     //     root.Elements().Where(x => this.IsCollectedObject(x)).ToList().ForEach(x => {
     //         var id = this.GetKey(x);
     //         if (id != null) {

@@ -140,10 +140,17 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
       let nextrect = boxes[i + 1].getBoundingClientRect();
       let overlap = thisrect.bottom - nextrect.top;
       if (
-        overlap >= 0 &&
+        // -1 for caching lines that perfectly close up on each other
+        overlap >= -1 &&
         !(window.getComputedStyle(element).display === "none")
       ) {
-        let newlength = thisrect.height - overlap;
+        let newlength = 0;
+        if (overlap >= 0)
+          newlength = thisrect.height - overlap;
+        else
+          newlength = thisrect.height - lineheight;
+        if (newlength % (lineheight * 3) <= 2)
+          newlength -= lineheight;
         let remainder = newlength % lineheight;
         newlength = newlength - remainder - 1;
 

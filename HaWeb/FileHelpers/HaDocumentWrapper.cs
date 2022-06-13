@@ -42,6 +42,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
+        
         return Library;
     }
 

@@ -6,5 +6,45 @@
 }
 
 <div class="ha-search">
-    
+    @if (Model.Letters != null) {
+        <div class="ha-letterlisthead">
+            <h1>Briefauswahl</h1>
+            <div class="ha-letterlistnav">
+            @if (Model.AvailableYears != null && Model.AvailableYears.Any()) {
+                @for(var i = 0; i < Model.AvailableYears.Count; i++) {
+                    <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-controller="Suche" asp-action="Index" asp-route-page="@i">
+                        @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {
+                            <span>
+                                @Model.AvailableYears[i].StartYear-@Model.AvailableYears[i].EndYear
+                            </span>
+                        }
+                        else {
+                            <span>
+                                @Model.AvailableYears[i].StartYear
+                            </span>
+                        }
+                    </a>
+                }
+            }
+            </div>
+        </div>
+        <div class="ha-personlist">
+            @if(Model.AvailablePersons != null) {
+                @foreach (var person in Model.AvailablePersons) {
+                    <a class="@(Model.ActivePerson == person.Key ? "active" : "")" asp-controller="Suche" asp-action="Index" asp-route-person="@person.Key" asp-route-page="@null">
+                        @person.Name
+                    </a>
+                }
+            }
+        </div>
+        <div class="ha-letterlist">
+        @foreach (var year in Model.Letters) {
+            foreach (var letter in year.LetterList) {
+                <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
+                    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true))
+                </a>
+            }
+        }
+        </div>
+    }
 </div>

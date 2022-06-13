@@ -28,6 +28,7 @@ namespace HaDocument
             _createReactors();
             _reader.Read();
             _library = _createLibrary();
+            _reader.Dispose();
             return GetLibrary();
         }
 

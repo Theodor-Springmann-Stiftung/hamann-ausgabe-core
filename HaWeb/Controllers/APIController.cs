@@ -132,6 +132,9 @@ public class APIController : Controller {
                     if (docs == null) docs = new List<XMLRootDocument>();
                     docs.Add(doc);
                 }
+                xdocument = null;
+                retdocs = null;
+                streamedFileContent = null;
             }
 
             try {

@@ -148,7 +148,7 @@
   }
 
   .up {
-    @apply relative -top[0.5em]
+    @apply relative -top-[0.5em]
   }
 
   .ha-alignright {

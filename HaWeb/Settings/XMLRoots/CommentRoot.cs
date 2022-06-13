@@ -46,7 +46,7 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("kommentare") == null)
             file.AddFirst(new XElement("kommentare"));
-        file.Element("kommentare")!.AddFirst(document.Root);
+        file.Element("kommentare")!.AddFirst(document.GetElement());
     }
 
 }

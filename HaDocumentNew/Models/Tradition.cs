@@ -1,14 +1,18 @@
-namespace HaDocument.Models {
-    public class Tradition {
-        public string Index { get; } = "";
-        public string Element { get; } = "";
+namespace HaDocument.Models;
+using System.Xml.Linq;
 
-        public Tradition(
-            string index,
-            string element
-        ) {
-            Index = index;
-            Element = element;
-        }
+public class Tradition {
+    public string Index { get; }
+    public XElement Element { get; }
+    public string Value;
+
+    public Tradition(
+        string index,
+        XElement element,
+        string value
+    ) {
+        Index = index;
+        Element = element;
+        Value = value;
     }
 }

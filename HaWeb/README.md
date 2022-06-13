@@ -5,7 +5,7 @@ To build the project install nodejs > 16.5 LTS. Install npm > 8.10.0. After that
 
 Dotnet 6.0.300 is currently used. To build the project, do a `dotnet restore` and collect the `Microsoft.FeatureManagement.AspNetCore` nuget-package which is used to enable feauture-flags in `appsettings.json`. Some routes, such as the admin area of the project will only be mapped if certain flags are present and set to true. 
 
-Also, this project requires two other projects `HaDocumentV6` (for reading in the file into convenient to use models) and `HaXMLReader` (for forward parsing elements such as letters, comments, traditions and marginals in an HTML transform). They have no dependencies (apart from each other and `.NET 6`) and are build at build time automatically.
+Also, this project requires two other projects `HaDocumentV6` (for reading in the file into convenient to use models) and `HaXMLReader` (for forward parsing elements such as letters, comments, traditions and marginals in an HTML transform). They have no dependencies (apart from each other and `.NET 6`) and are  build and linked at build time automatically.
 
 ## Building the project 
 
@@ -15,7 +15,7 @@ to build the necessary `output.css`-File.
 
 `dotnet build HaWeb.csproj`
 
-to build the App. Please do consider the order of these commands.
+to build the Website. Please do consider the order of these commands.
 
 Don't forget to place a valid `Hamann.xml`-File in the root of the build to provide a starting and fallback XML-file.
 
@@ -73,3 +73,4 @@ TODO Abhärten des Konstruktors von XMLRootDokument für von außerhalb platzier
 TODO XML-Check im Client
 TODO Lock für die Liste, Bzw ConcurretBag
 TODO 516A david friedlaender in den traditions
+TODO 3 Zeilen marginal schließt perfekt an 2 zeilen text an

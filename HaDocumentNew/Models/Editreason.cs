@@ -1,32 +1,21 @@
-namespace HaDocument.Models {
-    public class Editreason {
-        public string Index { get; } = "";
-        public string Element { get; } = "";
-        public string Letter { get; } = "";
-        public string StartPage { get; } = "";
-        public string StartLine { get; } = "";
-        public string EndPage { get; } = "";
-        public string EndLine { get; } = "";
-        public string Reference { get; } = "";
-        
-        public Editreason(
-            string index,
-            string element,
-            string letter = "",
-            string startpage = "",
-            string startline = "",
-            string endpage = "",
-            string endline = "",
-            string reference = ""
-        ) {
-            Index = index;
-            Element = element;
-            Letter = letter;
-            StartPage = startpage;
-            StartLine = startline;
-            EndPage = endpage;
-            EndLine = endline;
-            Reference = reference;
-        }
+namespace HaDocument.Models;
+using System.Xml.Linq;
+
+public class Editreason {
+    public string Index { get; }
+    public XElement Element { get; }
+    public string Value { get; }
+    public string Letter { get; }
+    
+    public Editreason(
+        string index,
+        XElement element,
+        string value,
+        string letter
+    ) {
+        Index = index;
+        Value = value;
+        Element = element;
+        Letter = letter;
     }
 }

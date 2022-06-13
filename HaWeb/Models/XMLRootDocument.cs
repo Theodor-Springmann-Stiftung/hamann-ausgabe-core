@@ -8,19 +8,10 @@ using HaWeb.XMLParser;
 public class XMLRootDocument {
     private XElement? _Element;
     private string? _filename;
+    private IFileInfo? _file;
 
     [JsonIgnore]
     public IXMLRoot XMLRoot { get; private set; }
-
-    [JsonIgnore]
-    public XElement Root {
-        get {
-            if (_Element == null) {
-                _Element = _GetElement();
-            }
-            return _Element;
-        }
-    }
 
     public string FileName {
         get {
@@ -31,7 +22,17 @@ public class XMLRootDocument {
     }
 
     [JsonIgnore]
-    public IFileInfo? File { get; set; }
+    public IFileInfo? File { 
+        get {
+            return _file;
+        } 
+        set {
+            _file = value;
+            // After saving, we don't need to save the ELement anymore, it can get read in if it's used.
+            // We do this to prevent memory hogging. TODO: MAKE IT MORE EFFICIENT, EG ALL USED FILES HAVE SET ELEMENTS OR SO
+            // TODO Also make the file directory more efficient by reading in the directories as they are requested.
+            if (value != null) _Element = null;
+        } }
     public string Prefix { get; private set; }
     public DateTime Date { get; private set; }
 
@@ -89,7 +90,7 @@ public class XMLRootDocument {
         }
     }
 
-    private XElement _GetElement() {
+    public XElement GetElement() {
         if (File == null || String.IsNullOrWhiteSpace(File.PhysicalPath) || !File.Exists)
             throw new Exception("Es ist kein Pfad für die XML-Datei vorhanden.");
 
@@ -120,6 +121,15 @@ public class XMLRootDocument {
             state.AddModelError("Error", "No corresponding Root Element found.");
             return;
         }
-        await root.CreateHamannDocument(Root).SaveAsync(stream, SaveOptions.DisableFormatting, new CancellationToken());
+
+        if (_Element == null) {
+            if (File == null)  {
+                state.AddModelError("Error", "There is neither a file nor a saved element for this Document aborting the save.");
+                return;
+            }
+            _Element = GetElement();
+        }
+        
+        await root.CreateHamannDocument(_Element).SaveAsync(stream, SaveOptions.DisableFormatting, new CancellationToken());
     }
 }

@@ -2,7 +2,7 @@ namespace HaDocument.Settings.XMLRoots;
 using System.Xml.Linq;
 
 
-public class EditsRoot : HaWeb.XMLParser.IXMLRoot {
+public class EditsRoot : HaDocument.Interfaces.IXMLRoot {
     public string Type { get; } = "Texteingriffe";
     public string Prefix { get; } = "texteingriffe";
     public string[] XPathContainer { get; } = { ".//data/edits", ".//edits" };
@@ -19,17 +19,17 @@ public class EditsRoot : HaWeb.XMLParser.IXMLRoot {
         else return null;
     };
 
-    public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
-        return null;
-    }
+    // public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
+    //     return null;
+    // }
 
     public (string?, string?) GenerateIdentificationString(XElement element) {
         return (null, null);
     }
 
-    public bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2) {
-        return true;
-    }
+    // public bool Replaces(XMLRootDocument doc1, XMLRootDocument doc2) {
+    //     return true;
+    // }
 
     public XElement CreateHamannDocument(XElement element) {
         var opus = new XElement("opus");
@@ -37,14 +37,14 @@ public class EditsRoot : HaWeb.XMLParser.IXMLRoot {
         return opus;
     }
 
-    public void MergeIntoFile(XElement file, XMLRootDocument document) {
-        if (file.Element("edits") == null)
-            file.AddFirst(new XElement("edits"));
-        var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
-        var root = file.Element("edits");
-        foreach (var element in elements) {
-            root!.Add(element);
-        }
-    }
+    // public void MergeIntoFile(XElement file, XMLRootDocument document) {
+    //     if (file.Element("edits") == null)
+    //         file.AddFirst(new XElement("edits"));
+    //     var elements = document.Root.Elements().Where(x => IsCollectedObject(x));
+    //     var root = file.Element("edits");
+    //     foreach (var element in elements) {
+    //         root!.Add(element);
+    //     }
+    // }
 
 }

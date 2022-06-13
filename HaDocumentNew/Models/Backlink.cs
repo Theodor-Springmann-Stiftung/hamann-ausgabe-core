@@ -1,24 +1,20 @@
-namespace HaDocument.Models {
-    public class Backlink {
-        public string Index { get; } = "";
+namespace HaDocument.Models;
 
-        public string Letter { get; } = "";
-        public string Page { get; } = "";
-        public string Line { get; } = "";
-        public string MarginalIndex { get; } = "";
+public class Backlink {
+    public string Letter { get; }
+    public string? Page { get; }
+    public string? Line { get; }
+    public string MarginalIndex { get; }
 
-        public Backlink(
-            string index,
-            string letter,
-            string page,
-            string line,
-            string marginalindex
-        ) {
-            Index = index;
-            Letter = letter;
-            Page = page;
-            Line = line;
-            MarginalIndex = marginalindex;
-        }
+    public Backlink(
+        string letter,
+        string? page,
+        string? line,
+        string marginalindex
+    ) {
+        Letter = letter;
+        Page = page;
+        Line = line;
+        MarginalIndex = marginalindex;
     }
 }

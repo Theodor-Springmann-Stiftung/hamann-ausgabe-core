@@ -87,7 +87,7 @@ public class Briefecontroller : Controller {
         var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
-        return new BriefeMetaViewModel(meta, hasMarginals, false) {
+        return new BriefeMetaViewModel(meta, hasMarginals) {
             ParsedZHString = zhstring,
             ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)

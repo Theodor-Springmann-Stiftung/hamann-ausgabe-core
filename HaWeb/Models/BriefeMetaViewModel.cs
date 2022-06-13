@@ -4,7 +4,6 @@ using System.Web;
 public class BriefeMetaViewModel {
     public Meta Meta { get; private set; }
     public bool HasMarginals { get; private set; }
-    public bool ShowZHData { get; private set; }
     public bool HasText { get; set; } = true;
 
     private string? _ParsedSenders;
@@ -47,9 +46,8 @@ public class BriefeMetaViewModel {
     public (BriefeMetaViewModel, string)? Prev { get; set; }
 
 
-    public BriefeMetaViewModel(Meta meta, bool hasMarginals, bool showZHData) {
+    public BriefeMetaViewModel(Meta meta, bool hasMarginals) {
         Meta = meta;
         HasMarginals = hasMarginals;
-        ShowZHData = showZHData;
     }
 }
