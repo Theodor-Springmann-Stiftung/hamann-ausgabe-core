@@ -340,7 +340,7 @@
 
   .ha-minwidth .ha-tradzhtext,
   .ha-lettertext.ha-minwidth {
-    @apply min-w-[38rem] desktop:min-w-[55rem]
+    @apply min-w-[44rem] desktop:min-w-[58rem]
   }
 
   .ha-minwidth .ha-tradzhtext .ha-alignright,
