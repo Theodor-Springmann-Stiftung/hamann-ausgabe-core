@@ -16,27 +16,15 @@
   }
 
   .ha-letterhead .ha-metadata {
-    @apply flex self-end grow shrink-0
-  }
-
-  .ha-letterhead .ha-metadata .ha-metadatarows {
-    @apply flex flex-col
+    @apply flex self-end grow flex-col
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow {
     @apply flex flex-row leading-snug
   }
 
-  .strikethrough {
-    @apply line-through
-  }
-
-  .ha-letterhead
-    .ha-metadata
-    .ha-metadatarows
-    .ha-metadataupperrow
-    .ha-metadatadate {
-    @apply flex caps-petite numeric-mediaeval
+  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-metadatadate {
+    @apply flex caps-petite numeric-mediaeval whitespace-nowrap
   }
 
   .ha-letterhead .ha-metadata .ha-tooltip {
@@ -52,7 +40,7 @@
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply text-sm rounded px-1.5 ml-2 py-0.5 leading-none caps-allpetite tracking-wide
+    @apply text-sm rounded px-1.5 ml-2 py-0.5 leading-none caps-allpetite tracking-wide whitespace-nowrap
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {

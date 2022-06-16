@@ -7,8 +7,20 @@ public class SucheViewModel {
     public List<(int StartYear, int EndYear)>? AvailableYears { get; private set; }
     public string? ActivePerson {get; set; }
     public List<(string Key, string Name)>? AvailablePersons { get; private set; }
+    public List<(string Volume, List<string> Pages)>? AvailablePages { get; private set; }
+    public string? ActiveVolume { get; private set; }
+    public string? ActivePage { get; private set; }
+    public string? ActiveSearch { get; private set; }
 
-    public SucheViewModel(List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters, int activeYear, List<(int StartYear, int EndYear)>? availableYears, List<(string Key, string Name)>? availablePersons) {
+    public SucheViewModel(
+        List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters, 
+        int activeYear, 
+        List<(int StartYear, int EndYear)>? availableYears, 
+        List<(string Key, string Name)>? availablePersons, 
+        List<(string Volume, List<string> Pages)>? availablePages,
+        string? activeVolume,
+        string? activePage
+    ) {
         Letters = letters;
         if (letters != null)
             Count = letters.Select(x => x.LetterList.Count).Aggregate(0, (x, y) => { x += y; return x; });
@@ -17,5 +29,8 @@ public class SucheViewModel {
         ActiveYear = activeYear;
         AvailableYears = availableYears;
         AvailablePersons = availablePersons;
+        AvailablePages = availablePages;
+        ActiveVolume = activeVolume;
+        ActivePage = activePage;
     }
 }

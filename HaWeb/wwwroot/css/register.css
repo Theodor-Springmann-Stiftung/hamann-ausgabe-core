@@ -79,7 +79,7 @@
   }
 
   .ha-register .ha-register-head h1 {
-    @apply font-bold text-xl desktop:font-normal desktop:text-4xl mb-6 inline-block
+    @apply font-bold text-2xl desktop:font-normal desktop:text-5xl mb-6 inline-block
   }
 
   .ha-register .ha-register-head .ha-register-add {

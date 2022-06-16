@@ -34,15 +34,13 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
     }
 
     public ILibrary? SetLibrary(string filepath, ModelStateDictionary? ModelState = null) {
-        try 
-        {
+        try {
             Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = filepath, AvailableYearRange = (StartYear, EndYear) });
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
-        
+
         return Library;
     }
 
@@ -52,7 +50,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
 
     private void _AutoLoad(List<IFileInfo> files) {
         var orderdlist = files.OrderByDescending(x => x.LastModified);
-        foreach(var item in orderdlist) {
+        foreach (var item in orderdlist) {
             if (SetLibrary(item.PhysicalPath) != null) {
                 _xmlProvider.SetInProduction(item);
                 return;

@@ -40,7 +40,7 @@ public class SucheController : Controller {
             var metas = lib.Metas.Where(x => letters.Contains(x.Key)).Select(x => x.Value);
             if (metas == null) return _error404();
             var metasbyyear = metas.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
-            return _paginateSend(lib, 0, metasbyyear);
+            return _paginateSend(lib, 0, metasbyyear, null, zhvolume, zhpage);
         }
         return _error404();
     }
@@ -106,7 +106,7 @@ public class SucheController : Controller {
         return res;
     }
 
-    private IActionResult _paginateSend(ILibrary lib, int page, List<IGrouping<int, Meta>>? metasbyyear, string? person = null) {
+    private IActionResult _paginateSend(ILibrary lib, int page, List<IGrouping<int, Meta>>? metasbyyear, string? person = null, string? zhvolume = null, string? zhpage = null) {
         var pages = _paginate(metasbyyear);
         if (pages != null && page >= pages.Count) return _error404();
         if (pages == null && page > 0) return _error404();
@@ -120,7 +120,10 @@ public class SucheController : Controller {
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))
                 .ToList();
-        var model = new SucheViewModel(letters, page, pages, _getAvailablePersons(lib));
+        List<(string Volume, List<string> Pages)>? availablePages = null;
+        availablePages = lib.Structure.Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
+        zhvolume = zhvolume == null ? "1" : zhvolume;
+        var model = new SucheViewModel(letters, page, pages, _getAvailablePersons(lib), availablePages.OrderBy(x => x.Volume).ToList(), zhvolume, zhpage);
         if (person != null) model.ActivePerson = person;
         return View("Index", model);
     }

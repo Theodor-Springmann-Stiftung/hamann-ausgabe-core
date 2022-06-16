@@ -45,6 +45,10 @@
     @apply transition-colors duration-100
   }
 
+  .strikethrough {
+    @apply line-through
+  }
+
   body {
     @apply text-base desktop:text-lg w-full h-full;
   }

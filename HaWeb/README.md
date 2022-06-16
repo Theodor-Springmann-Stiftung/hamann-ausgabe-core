@@ -48,16 +48,16 @@ Veränderungenen in der Funktionalität für den Benutzer
 - Anzeige Briefe beim Namen (?)
 - GeoCities und Personen-Verweise (?)
 
-Veränderungen in der Funktionalität für die Forscher
+Veränderungen in der Funktionalität für die Redakteure
 - Online-Syntaxcheck für XML-Dateien
 - Online-Cross-Dateien-Check (bsp. verweist jede Marginalie auf eine existierende Zeile)
 - Erstellung einer HAMANN.xml-Datei
 - Hochladen der HAMANN.xml-Datei auf die Plattform
 
 Veränderungen im Code
-- Anpassung des Codes an .NET 6 (Kopieren / Einfügen)
+- Anpassung des Codes an .NET 6
 - Umzug nach CSS Framework Tailwind 
-- Code wird aufgeräumt und sortiert
+- Code ist aufgeräumt und sortiert
 - Leichtere Anpassungen an zukünftige Bedürfnisse (Wartungszeiten minimieren)
 - Auslagerungen einzelner Einstellungen in Einstellungsdateien
 - Code open source zugänglich machen?

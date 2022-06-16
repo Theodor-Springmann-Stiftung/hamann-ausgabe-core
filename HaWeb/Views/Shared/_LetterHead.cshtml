@@ -7,7 +7,6 @@
         </div>
     </div>
     <div class="ha-metadata">
-        <div class="ha-metadatarows">
             <div class="ha-metadataupperrow">
                 <div class="ha-metadatadate">
                     @Model.Letter.Meta.Date
@@ -93,24 +92,22 @@
                 }
                 }
             </div>
-                <div class="ha-metadatapersons">
-                    @if (!String.IsNullOrWhiteSpace(Model.Letter.ParsedReceivers)) {
-                    @if (Model.Letter.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
-                        <span>@Html.Raw(Model.Letter.ParsedSenders)</span>
-                        <div class="ha-tooltip">
-                                ↛
-                            <div class="ha-tooltiptext" style="bottom: 100%;">
-                                Entwurf
-                            </div>
+            <div class="ha-metadatapersons">
+                @if (!String.IsNullOrWhiteSpace(Model.Letter.ParsedReceivers)) {
+                @if (Model.Letter.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
+                    <span>@Html.Raw(Model.Letter.ParsedSenders)</span>
+                    <div class="ha-tooltip">
+                            ↛
+                        <div class="ha-tooltiptext" style="bottom: 100%;">
+                            Entwurf
                         </div>
-                        <span>@Html.Raw(Model.Letter.ParsedReceivers)</span>
-                    }
-                    else {
-                        <span>@Html.Raw(Model.Letter.ParsedSenders) → @Html.Raw(Model.Letter.ParsedReceivers)</span>
-                    }
-                    }
-                </div>
-
-        </div>
+                    </div>
+                    <span>@Html.Raw(Model.Letter.ParsedReceivers)</span>
+                }
+                else {
+                    <span>@Html.Raw(Model.Letter.ParsedSenders) → @Html.Raw(Model.Letter.ParsedReceivers)</span>
+                }
+                }
+            </div>
     </div>
 </div>
