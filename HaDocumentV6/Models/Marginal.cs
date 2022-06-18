@@ -1,5 +1,5 @@
 namespace HaDocument.Models {
-    public class Marginal {
+    public class Marginal : HaDocument.Interfaces.ISearchable {
         public string Index { get; } = "";
         public string Letter { get; } = "";
         public string Page { get; } = "";

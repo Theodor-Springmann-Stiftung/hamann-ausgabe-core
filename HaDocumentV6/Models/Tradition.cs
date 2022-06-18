@@ -1,5 +1,5 @@
 namespace HaDocument.Models {
-    public class Tradition {
+    public class Tradition : HaDocument.Interfaces.ISearchable {
         public string Index { get; } = "";
         public string Element { get; } = "";
 

@@ -74,3 +74,5 @@ TODO XML-Check im Client
 TODO Lock für die Liste, Bzw ConcurretBag
 TODO 516A david friedlaender in den traditions
 TODO 3 Zeilen marginal schließt perfekt an 2 zeilen text an
+
+TODO Einfügungszeichen zerstört suchergebnisse

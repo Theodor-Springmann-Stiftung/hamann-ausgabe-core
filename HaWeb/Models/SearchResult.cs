@@ -4,31 +4,17 @@ using HaDocument.Comparers;
 using HaDocument.Interfaces;
 using System.Collections.Generic;
 
-public class DocumentSearchResult {
-    public Meta MetaData { get; }
-    public List<DocumentResult> Results { get; }
+public class SearchResult  {
+    public string Search { get; private set; }
+    public string Index { get; private set; }
+    public string? Page { get; set; }
+    public string? Line { get; set; }
+    public string? Preview { get; set; }
+    // TODO:
+    public string? ParsedPreview { get; set; }
 
-    public DocumentSearchResult(Meta meta) {
-        MetaData = meta;
-        Results = new List<DocumentResult>(4);
-    }
-}
-
-public class DocumentResult {
-    public string PreviewString { get; }
-    public string Page { get; }
-    public string Line { get; }
-
-    public DocumentResult(string previewstring, string page, string line) {
-        PreviewString = previewstring;
-        Page = page;
-        Line = line;
-    }
-}
-
-public class LetterComparer : IComparer<DocumentSearchResult> {
-    public int Compare(DocumentSearchResult first, DocumentSearchResult second) {
-        var cmp = new DefaultComparer();
-        return cmp.Compare(first.MetaData, second.MetaData);
+    public SearchResult(string search, string index) {
+        Search = search;
+        Index = index;
     }
 }

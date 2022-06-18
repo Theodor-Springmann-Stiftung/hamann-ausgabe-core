@@ -14,7 +14,7 @@
             <div class="ha-searchnav">
             @if (Model.AvailableYears != null && Model.AvailableYears.Any()) {
                 @for(var i = 0; i < Model.AvailableYears.Count; i++) {
-                    <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-controller="Suche" asp-action="Index" asp-route-page="@i">
+                    <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i">
                         @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {
                             <span>
                                 @Model.AvailableYears[i].StartYear-@Model.AvailableYears[i].EndYear
@@ -41,6 +41,12 @@
                     <a class="ha-letterlistentry" asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
                         @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true))
                     </a>
+                    @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
+                        @foreach (var item in Model.SearchResults[letter.Meta.Index])
+                        {
+                            <p>@item.Page / @item.Line: @item.Preview</p>
+                        }
+                    }
                 }
             }
             </div>
@@ -148,7 +154,7 @@
                         }
                     </div>
                      <form class="ha-searchform" id="ha-searchform">
-                        <input id="ha-searchformtext" type="text" placeholder="Suchbegriff"/>
+                        <input id="ha-searchformtext" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
                         <button id="ha-searchformsubmit" type="submit">Suchen</button>
                      </form>
                 </div>
@@ -164,7 +170,7 @@
 
                     const SUBMITSEARCH = function(filter) {
                         let f = filter.value;
-                        window.location.href = "/Suche/" + f;
+                        window.location.href = "/Suche?search=" + f;
                     }
 
                     window.addEventListener("load", () => {
@@ -192,7 +198,7 @@
                     <div class="ha-personlist">
                         <a class="ha-personlistperson @(Model.ActivePerson == null ? "active" : "")" asp-controller="Suche" asp-action="Index">Alle</a>
                         @foreach (var person in Model.AvailablePersons) {
-                            <a class="ha-personlistperson @(Model.ActivePerson == person.Key ? "active" : "")" asp-controller="Suche" asp-action="Index" asp-route-person="@person.Key" asp-route-page="@null">
+                            <a class="ha-personlistperson @(Model.ActivePerson == person.Key ? "active" : "")" asp-controller="Suche" asp-action="Person" asp-route-person="@person.Key" asp-route-page="@null">
                                 @person.Name
                             </a>
                         }

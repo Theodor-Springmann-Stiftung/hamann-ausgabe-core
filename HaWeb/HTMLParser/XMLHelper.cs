@@ -7,15 +7,13 @@ using System;
 
 public class XMLHelper<T> where T : IState
 {
-    private IReader _in;
-    private StringBuilder _target;
-    private List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? _OTag_Funcs;
-    private List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? _STag_Funcs;
-    private List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? _CTag_Funcs;
-    private List<(Func<Text, XMLHelper<T>, bool>, Action<StringBuilder, Text, XMLHelper<T>>)>? _Text_Funcs;
-    private List<(Func<Whitespace, XMLHelper<T>, bool>, Action<StringBuilder, Whitespace, XMLHelper<T>>)>? _WS_Funcs;
-    private bool _deleteLeadingWS;
-    private bool _deleteTrailingWS;
+    protected IReader _in;
+    protected StringBuilder _target;
+    protected List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? _OTag_Funcs;
+    protected List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? _STag_Funcs;
+    protected List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? _CTag_Funcs;
+    protected List<(Func<Text, XMLHelper<T>, bool>, Action<StringBuilder, Text, XMLHelper<T>>)>? _Text_Funcs;
+    protected List<(Func<Whitespace, XMLHelper<T>, bool>, Action<StringBuilder, Whitespace, XMLHelper<T>>)>? _WS_Funcs;
 
     public T State;
     public Stack<Tag> OpenTags;
@@ -30,9 +28,7 @@ public class XMLHelper<T> where T : IState
         List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? STag_Funcs = null,
         List<(Func<Tag, XMLHelper<T>, bool>, Action<StringBuilder, Tag, XMLHelper<T>>)>? CTag_Funcs = null,
         List<(Func<Text, XMLHelper<T>, bool>, Action<StringBuilder, Text, XMLHelper<T>>)>? Text_Funcs = null,
-        List<(Func<Whitespace, XMLHelper<T>, bool>, Action<StringBuilder, Whitespace, XMLHelper<T>>)>? WS_Funcs = null,
-        bool deleteLeadingWS = false,
-        bool deleteTrailingWS = false
+        List<(Func<Whitespace, XMLHelper<T>, bool>, Action<StringBuilder, Whitespace, XMLHelper<T>>)>? WS_Funcs = null
     )
     {
         if (input == null || target == null || state == null) throw new ArgumentNullException();
@@ -40,8 +36,6 @@ public class XMLHelper<T> where T : IState
         State = state;
         _in = input;
         _target = target;
-        _deleteLeadingWS = deleteLeadingWS;
-        _deleteTrailingWS = deleteTrailingWS;
 
         _OTag_Funcs = OTag_Funcs;
         _STag_Funcs = STag_Funcs;
@@ -65,7 +59,7 @@ public class XMLHelper<T> where T : IState
             _in.Whitespace += OnWS;
     }
 
-    void OnOTag(object _, Tag tag)
+    protected virtual void OnOTag(object? _, Tag tag)
     {
         OpenTags.Push(tag);
         if (_OTag_Funcs != null)
@@ -73,17 +67,15 @@ public class XMLHelper<T> where T : IState
                 if (entry.Item1(tag, this)) entry.Item2(_target, tag, this);
     }
 
-    void OnText(object _, Text text)
+    protected virtual void OnText(object? _, Text text)
     {
-        if (_deleteLeadingWS) text.Value = text.Value.TrimStart();
-        if (_deleteTrailingWS) text.Value = text.Value.TrimEnd();
         LastText.Append(text.Value);
         if (_Text_Funcs != null)
             foreach (var entry in _Text_Funcs)
                 if (entry.Item1(text, this)) entry.Item2(_target, text, this);
     }
 
-    void OnSTag(object _, Tag tag)
+    protected virtual void OnSTag(object? _, Tag tag)
     {
         if (!LastSingleTags.ContainsKey(tag.Name))
             LastSingleTags.Add(tag.Name, new List<Tag>());
@@ -93,7 +85,7 @@ public class XMLHelper<T> where T : IState
                 if (entry.Item1(tag, this)) entry.Item2(_target, tag, this);
     }
 
-    void OnCTag(object _, Tag tag)
+    protected virtual void OnCTag(object? _, Tag tag)
     {
         OpenTags.Pop();
         if(_CTag_Funcs != null)
@@ -101,7 +93,7 @@ public class XMLHelper<T> where T : IState
                 if (entry.Item1(tag, this)) entry.Item2(_target, tag, this);
     }
 
-    void OnWS(object _, Whitespace ws)
+    protected virtual void OnWS(object? _, Whitespace ws)
     {
         LastText.Append(ws.Value);
         if (_WS_Funcs != null)
@@ -111,9 +103,9 @@ public class XMLHelper<T> where T : IState
 
     internal void Dispose()
     {
-        OpenTags = null;
-        LastSingleTags = null;
-        LastText = null;
+        OpenTags.Clear();
+        LastSingleTags.Clear();
+        LastText.Clear();
         if (_in != null)
         {
             if (_OTag_Funcs != null)

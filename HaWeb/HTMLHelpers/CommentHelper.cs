@@ -53,7 +53,7 @@ public static class CommentHelpers {
             sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
         }
         sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-        rd = readerService.RequestStringReader(comment.Entry);
+        rd = readerService.RequestStringReader(comment.Element);
         new HTMLParser.XMLHelper<CommentState>(commentState, rd, sb, CommentRules.OTagRules, CommentRules.STagRules, CommentRules.CTagRules, CommentRules.TextRules, CommentRules.WhitespaceRules);
         new HTMLHelpers.LinkHelper(lib, rd, sb);
         rd.Read();

@@ -2,6 +2,11 @@ namespace HaWeb.FileHelpers;
 using HaDocument.Interfaces;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.FileProviders;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using HaXMLReader.Interfaces;
+using HaWeb.SearchHelpers;
+using System.Text;
 
 public class HaDocumentWrapper : IHaDocumentWrappper {
     private ILibrary Library;
@@ -9,6 +14,8 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
 
     public int StartYear { get; private set; }
     public int EndYear { get; private set; }
+
+    public List<SearchHelpers.SeachableItem>? SearchableLetters { get; private set; }
 
     public HaDocumentWrapper(IXMLProvider xmlProvider, IConfiguration configuration) {
         _xmlProvider = xmlProvider;
@@ -41,7 +48,43 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             return null;
         }
 
+        var searchableletters = new ConcurrentBag<SearchHelpers.SeachableItem>();
+        var letters = Library.Letters.Values;
+
+        Parallel.ForEach(letters, letter => {
+            var o = new SearchHelpers.SeachableItem(letter.Index, _prepareSearch(letter));
+            searchableletters.Add(o);
+        });
+
+        this.SearchableLetters = searchableletters.ToList();
+
         return Library;
+    }
+
+    public List<(string Index, List<(string Page, string Line, string Preview)> Results)>? SearchLetters(string searchword, IReaderService reader) {
+        if (SearchableLetters == null) return null;
+        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview)> Results)>();
+        var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
+        Parallel.ForEach(SearchableLetters, (letter) => {
+            var state = new SearchState(sw);
+            var rd = reader.RequestStringReader(letter.SearchText);
+            var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), null, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
+            rd.Read();
+            if (state.Results != null)
+                res.Add((
+                    letter.Index, 
+                    state.Results.Select(x => (
+                        x.Page, 
+                        x.Line, 
+                        parser.Lines != null ? 
+                            parser.Lines
+                            .Where(y => y.Page == x.Page && y.Line == x.Line)
+                            .Select(x => x.Text)
+                            .FirstOrDefault(string.Empty)
+                            : ""
+                    )).ToList()));
+        });
+        return res.ToList();
     }
 
     public ILibrary GetLibrary() {
@@ -56,5 +99,9 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
                 return;
             }
         }
+    }
+
+    private string _prepareSearch(HaDocument.Interfaces.ISearchable objecttoseach) {
+        return SearchHelpers.StringHelpers.NormalizeWhiteSpace(objecttoseach.Element, ' ', false);
     }
 }

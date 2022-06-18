@@ -1,4 +1,5 @@
 namespace HaWeb.Models;
+using HaDocument.Models;
 
 public class SucheViewModel {
     public List<(int Year, List<BriefeMetaViewModel> LetterList)>? Letters { get; private set; }
@@ -11,6 +12,7 @@ public class SucheViewModel {
     public string? ActiveVolume { get; private set; }
     public string? ActivePage { get; private set; }
     public string? ActiveSearch { get; private set; }
+    public Dictionary<string, List<SearchResult>>? SearchResults { get; private set; }
 
     public SucheViewModel(
         List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters, 
@@ -19,7 +21,9 @@ public class SucheViewModel {
         List<(string Key, string Name)>? availablePersons, 
         List<(string Volume, List<string> Pages)>? availablePages,
         string? activeVolume,
-        string? activePage
+        string? activePage,
+        string? activeSearch,
+        Dictionary<string, List<SearchResult>>? searchResults
     ) {
         Letters = letters;
         if (letters != null)
@@ -32,5 +36,7 @@ public class SucheViewModel {
         AvailablePages = availablePages;
         ActiveVolume = activeVolume;
         ActivePage = activePage;
+        ActiveSearch = activeSearch;
+        SearchResults = searchResults;
     }
 }

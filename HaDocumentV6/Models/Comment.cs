@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace HaDocument.Models {
-    public class Comment{
-        public string Entry { get; } = "";
+namespace HaDocument.Models{
+    public class Comment : HaDocument.Interfaces.ISearchable {
+        public string Element { get; } = "";
         public string Index { get; } = "";
         public string Type { get; } = "";
         public string Lemma { get; } = "";
@@ -21,7 +21,7 @@ namespace HaDocument.Models {
             SortedDictionary<string, Comment> subComments,
             string parent=""
         ) {
-            Entry = entry;
+            Element = entry;
             Index = index;
             Type = type;
             Lemma = lemma;

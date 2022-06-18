@@ -1,5 +1,5 @@
 namespace HaDocument.Models {
-    public class Editreason {
+    public class Editreason : HaDocument.Interfaces.ISearchable {
         public string Index { get; } = "";
         public string Element { get; } = "";
         public string Letter { get; } = "";
