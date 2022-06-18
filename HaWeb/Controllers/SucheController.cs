@@ -22,6 +22,8 @@ public class SucheController : Controller {
 
     [Route("Suche/{letterno}")]
     public IActionResult GoTo(string letterno) {
+        if (String.IsNullOrWhiteSpace(letterno)) return _error404();
+        letterno = letterno.Trim();
         var lib = _lib.GetLibrary();
         var letter = lib.Metas.Where(x => x.Value.Autopsic == letterno);
         if (letter != null)
@@ -32,6 +34,9 @@ public class SucheController : Controller {
     [Route("Suche/{zhvolume}/{zhpage}")]
     public IActionResult GoToZH(string zhvolume, string zhpage) {
         // TODO: Bug in letter parsing: dictionary is WRONG!
+        if (String.IsNullOrWhiteSpace(zhvolume) || String.IsNullOrWhiteSpace(zhpage)) return _error404();
+        zhvolume = zhvolume.Trim();
+        zhpage = zhpage.Trim();
         var lib = _lib.GetLibrary();
         var pages = lib.Structure.ContainsKey(zhvolume) ? lib.Structure[zhvolume] : null;
         if (pages == null) return _error404();
@@ -62,6 +67,7 @@ public class SucheController : Controller {
         var lib = _lib.GetLibrary();
         List<IGrouping<int, Meta>>? metasbyyear = null;
         if (search != null) {
+            search = search.Trim();
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
             var res = _lib.SearchLetters(search, _readerService);
@@ -86,6 +92,7 @@ public class SucheController : Controller {
     [Route("Suche/Person/{person}")]
     public IActionResult Person(string person, int page = 0) {
         if (String.IsNullOrWhiteSpace(person)) return _error404();
+        person = person.Trim();
         var lib = _lib.GetLibrary();
         List<IGrouping<int, Meta>>? metasbyyear = null;
         var letters = lib.Metas

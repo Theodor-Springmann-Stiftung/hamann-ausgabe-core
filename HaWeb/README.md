@@ -69,10 +69,8 @@ TODO 659 align center und align-right ueberschneidugn
 TODO Word-wrap before align, tabs
 TODO pills are not mobile friendly (hover / click)
 TODO Evtl alignment von center / right an der letzten oder nächsten zeile
-TODO Abhärten des Konstruktors von XMLRootDokument für von außerhalb platzierte Dokumente
 TODO XML-Check im Client
-TODO Lock für die Liste, Bzw ConcurretBag
 TODO 516A david friedlaender in den traditions
-TODO 3 Zeilen marginal schließt perfekt an 2 zeilen text an
 
 TODO Einfügungszeichen zerstört suchergebnisse
+TODO Fußnoten in static pages funktionieren nicht
