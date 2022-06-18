@@ -40,7 +40,7 @@
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply text-sm rounded px-1.5 ml-2 py-0.5 leading-none caps-allpetite tracking-wide whitespace-nowrap
+    @apply text-xs rounded px-1.5 ml-2 py-0.5 leading-none tracking-wide whitespace-nowrap
   }
 
   .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {

@@ -38,7 +38,14 @@ public class SucheController : Controller {
         var lines = pages.ContainsKey(zhpage) ? pages[zhpage] : null;
         if (lines == null) return _error404();
         var letters = lines.Aggregate(new HashSet<string>(), (x, y) => { x.Add(y.Value); return x; });
-        if (letters != null && letters.Any() && letters.Count == 1) return RedirectToAction("Index", "Briefe", new { id = letters.First() });
+        if (letters != null && letters.Any() && letters.Count == 1) {
+            string? autopsic = null;
+            if (lib.Metas.ContainsKey(letters.First())) {
+                autopsic = lib.Metas[letters.First()].Autopsic;
+            }
+            if (autopsic == null) return _error404();
+            return RedirectToAction("Index", "Briefe", new { id = autopsic });
+        }
         if (letters != null && letters.Any()) {
             var metas = lib.Metas.Where(x => letters.Contains(x.Key)).Select(x => x.Value);
             if (metas == null) return _error404();
