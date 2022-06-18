@@ -72,11 +72,11 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             rd.Read();
             if (state.Results != null)
                 res.Add((
-                    letter.Index, 
+                    letter.Index,
                     state.Results.Select(x => (
-                        x.Page, 
-                        x.Line, 
-                        parser.Lines != null ? 
+                        x.Page,
+                        x.Line,
+                        parser.Lines != null ?
                             parser.Lines
                             .Where(y => y.Page == x.Page && y.Line == x.Line)
                             .Select(x => x.Text)

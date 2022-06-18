@@ -11,13 +11,13 @@ public class SearchRules {
     public static readonly TextFuncList TextRules = new TextFuncList() {
         ( (x, _) => true, (sb, text, reader) => {
             var t = text.Value;
-            if (reader.State.Normalize) 
-                t = HaWeb.SearchHelpers.StringHelpers.NormalizeWhiteSpace(t); 
+            if (reader.State.Normalize)
+                t = HaWeb.SearchHelpers.StringHelpers.NormalizeWhiteSpace(t);
             sb.Append(t);
             var sw = reader.State.SearchWord;
             if (sb.Length >= sw.Length) {
                 if (sb.ToString().ToLower().Contains(sw)) {
-                    if (reader.State.Results == null) 
+                    if (reader.State.Results == null)
                         reader.State.Results = new List<(string Page, string Line)>();
                     reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine));
                 }
@@ -26,16 +26,16 @@ public class SearchRules {
         })
     };
 
-    public static readonly WhitespaceFuncList WhitespaceRules= new WhitespaceFuncList() {
+    public static readonly WhitespaceFuncList WhitespaceRules = new WhitespaceFuncList() {
         ( (x, _) => true, (sb, text, reader) => {
             var t = text.Value;
-            if (reader.State.Normalize) 
-                t = HaWeb.SearchHelpers.StringHelpers.NormalizeWhiteSpace(t); 
+            if (reader.State.Normalize)
+                t = HaWeb.SearchHelpers.StringHelpers.NormalizeWhiteSpace(t);
             sb.Append(t);
             var sw = reader.State.SearchWord;
             if (sb.Length >= sw.Length) {
                 if (sb.ToString().Contains(sw)) {
-                    if (reader.State.Results == null) 
+                    if (reader.State.Results == null)
                         reader.State.Results = new List<(string Page, string Line)>();
                     reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine));
                 }

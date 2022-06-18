@@ -68,8 +68,6 @@ public class SucheController : Controller {
         List<IGrouping<int, Meta>>? metasbyyear = null;
         if (search != null) {
             search = search.Trim();
-            var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
             var res = _lib.SearchLetters(search, _readerService);
             if (res == null || !res.Any()) return _error404();
             var ret = res.ToDictionary(
@@ -80,8 +78,6 @@ public class SucheController : Controller {
                 );
             var keys = res.Select(x => x.Index).Where(x => lib.Metas.ContainsKey(x)).Select(x => lib.Metas[x]);
             var letters = keys.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
-            sw.Stop();
-            Console.WriteLine(sw.ElapsedMilliseconds);
             return _paginateSend(lib, page, letters, null, null, null, search, ret);
 
         }

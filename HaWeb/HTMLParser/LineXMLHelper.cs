@@ -55,7 +55,7 @@ public class LineXMLHelper<T> {
         _CTag_Funcs = CTag_Funcs;
         _Text_Funcs = Text_Funcs;
         _WS_Funcs = WS_Funcs;
-        
+
         OpenTags = new Stack<Tag>();
         LastSingleTags = new Dictionary<string, List<Tag>>();
         LastText = new StringBuilder();

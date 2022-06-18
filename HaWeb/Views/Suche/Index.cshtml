@@ -12,7 +12,7 @@
         <div class="ha-searchhead">
             <h1>Briefauswahl</h1>
             <div class="ha-searchnav">
-            @if (Model.AvailableYears != null && Model.AvailableYears.Any()) {
+            @if (Model.AvailableYears != null && Model.AvailableYears.Any() && Model.AvailableYears.Count > 1) {
                 @for(var i = 0; i < Model.AvailableYears.Count; i++) {
                     <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i">
                         @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {

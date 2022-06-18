@@ -13,5 +13,6 @@ public class FileModel {
         IsUsed = isUsed;
         LastModified = lastModified;
         InProduction = inProduction;
+        Prefix = prefix;
     }
 }

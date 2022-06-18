@@ -49,9 +49,10 @@ public class RegisterController : Controller {
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Personen-, Sach- und Ortsregister.";
 
         // Normalisation and validation
-        if (id == null) return Redirect(url + defaultLetter);
+        if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);
         id = normalizeID(id, defaultLetter);
-        if (!lib.CommentsByCategoryLetter[category].Contains(id)) return error404();
+        if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);
+        if (!lib.CommentsByCategoryLetter[category].Contains(id!)) return error404();
 
         // Data aquisition and validation
         var comments = lib.CommentsByCategoryLetter[category][id].OrderBy(x => x.Index);
@@ -115,8 +116,9 @@ public class RegisterController : Controller {
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Forschungsbibliographie.";
 
         // Normalisation and Validation
-        if (id == null) return Redirect(url + defaultLetter);
+        if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);
         id = normalizeID(id, defaultLetter);
+        if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);
         if (id != "EDITIONEN" && !lib.CommentsByCategoryLetter[category].Contains(id)) return error404();
         if (id == "EDITIONEN" && !lib.CommentsByCategoryLetter.Keys.Contains(id.ToLower())) return error404();
 
@@ -175,6 +177,7 @@ public class RegisterController : Controller {
     private List<CommentModel> _createCommentModelForschungRegister(string category, IOrderedEnumerable<Comment>? comments) {
         var lib = _lib.GetLibrary();
         var res = new List<CommentModel>();
+        if (comments == null) return res;
         foreach (var comm in comments) {
             var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;
@@ -192,6 +195,7 @@ public class RegisterController : Controller {
     private List<CommentModel> _createCommentModelBibel(string category, IOrderedEnumerable<Comment>? comments) {
         var lib = _lib.GetLibrary();
         var res = new List<CommentModel>();
+        if (comments == null) return res;
         foreach (var comm in comments) {
             var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
             List<string>? parsedSubComments = null;

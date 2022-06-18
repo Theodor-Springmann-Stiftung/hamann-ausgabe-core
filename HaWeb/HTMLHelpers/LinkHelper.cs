@@ -33,7 +33,7 @@ public class LinkHelper {
         reader.Tag += OnTag;
     }
 
-    private void OnTag(object _, Tag tag) {
+    private void OnTag(object? _, Tag tag) {
         if (tag.Name == "wwwlink" || tag.Name == "intlink" || tag.Name == "link") {
             if (tag.EndTag && _followlinksinthis) {
                 _sb.Append(HTMLHelpers.TagHelpers.CreateEndElement("a"));
@@ -68,7 +68,7 @@ public class LinkHelper {
                     }
                 }
                 if (tag.Name == "link" && tag.Values != null) {
-                    Comment comment = null;
+                    Comment? comment = null;
                     if (tag.Values.ContainsKey("subref") && _lib.SubCommentsByID.ContainsKey(tag["subref"]))
                         comment = _lib.SubCommentsByID[tag["subref"]];
                     else if (tag.Values.ContainsKey("ref"))

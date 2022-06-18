@@ -52,7 +52,7 @@ public class APIController : Controller {
     [DisableFormValueModelBinding]
     [ValidateAntiForgeryToken]
     [FeatureGate(Features.UploadService, Features.AdminService)]
-    public async Task<IActionResult> SyntaxCheck(string id) {
+    public IActionResult SyntaxCheck(string id) {
         return Ok();
     }
 
