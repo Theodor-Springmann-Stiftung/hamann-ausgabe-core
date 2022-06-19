@@ -7,6 +7,14 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Personen / Orte";
     public string Prefix { get; } = "personenorte";
     public string[] XPathContainer { get; } = { ".//data/definitions", ".//definitions" };
+    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = {
+        ("person-definitions", "/opus/data/definitions/personDefs/personDef", GetKey, false),
+        ("person-definitions", "/opus/definitions/personDefs/personDef", GetKey, false),
+        ("hand-definitions", "/opus/data/definitions/handDefs/handDef", GetKey, false),
+        ("hand-definitions", "/opus/definitions/handDefs/handDef", GetKey, false),
+        ("location-definitions", "/opus/data/definitions/locationDefs/locationDef", GetKey, false),
+        ("location-definitions", "/opus/definitions/locationDefs/locationDef", GetKey, false)
+    };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "personDefs" || elem.Name == "structureDefs" || elem.Name == "handDefs" || elem.Name == "locationDefs")
@@ -14,8 +22,8 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
         return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => {
-        return elem.Name.ToString();
+    public static Func<XElement, string?> GetKey { get; } = (elem) => {
+        return elem.Attribute("index") != null ? elem.Attribute("index")!.Value : null;
     };
 
     public List<(string, string?)>? GenerateFields(XMLRootDocument document) {

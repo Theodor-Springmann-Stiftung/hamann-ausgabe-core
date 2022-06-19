@@ -116,7 +116,7 @@ public class APIController : Controller {
                     return UnprocessableEntity(ModelState);
 
                 //// 4. Stage: Is it a Hamann-Document? What kind?
-                var retdocs = _xmlService.ProbeHamannFile(xdocument, ModelState);
+                var retdocs = _xmlService.ProbeFile(xdocument, ModelState);
                 if (!ModelState.IsValid || retdocs == null || !retdocs.Any())
                     return UnprocessableEntity(ModelState);
 

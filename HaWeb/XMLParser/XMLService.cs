@@ -1,13 +1,22 @@
 namespace HaWeb.XMLParser;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
+using HaWeb.SearchHelpers;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using System.Text;
+using HaXMLReader.Interfaces;
 
 public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
     private Dictionary<string, IXMLRoot>? _Roots;
 
     private Stack<Dictionary<string, FileList?>>? _InProduction;
+
+    private Dictionary<string, Dictionary<string, CollectedItem>> _collectedProduction;
+    private Dictionary<string, Dictionary<string, CollectedItem>> _collectedUsed;
 
     public XMLService() {
         // Getting all classes which implement IXMLRoot for possible document endpoints
@@ -50,9 +59,63 @@ public class XMLService : IXMLService {
         _InProduction.Push(inProduction);
     }
 
+    public void SetInProduction(XDocument document) {
+        if (document == null || _Roots == null) return;
+        var ret = new ConcurrentDictionary<string, ConcurrentDictionary<string, CollectedItem>>();
+        Parallel.ForEach(_Roots, (root) => {
+            if (root.Value.XPathCollection != null)
+                foreach (var coll in root.Value.XPathCollection) {
+                    var elem = document.XPathSelectElements(coll.xPath);
+                    if (elem != null && elem.Any()) {
+                        if (!ret.ContainsKey(coll.Key))
+                            ret[coll.Key] = new ConcurrentDictionary<string, CollectedItem>();
+                        foreach(var e in elem) {
+                            var k = coll.KeyFunc(e);
+                            if (k != null) {
+                                var searchtext = coll.Searchable ? 
+                                    StringHelpers.NormalizeWhiteSpace(e.ToString(), ' ', false) : 
+                                    null;
+                                ret[coll.Key][k] = new CollectedItem(k, e, root.Value, coll.Key, searchtext);
+                            }
+                        }
+                    }
+                }
+        });       
+        _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value.ToDictionary(z => z.Key, f => f.Value, null), null);
+    }
+
+     public List<(string Index, List<(string Page, string Line, string Preview)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader) {
+        if (!_collectedProduction.ContainsKey(collection)) return null;
+        var searchableObjects = _collectedProduction[collection];
+        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview)> Results)>();
+        var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
+        Parallel.ForEach(searchableObjects, (obj) => {
+            if (obj.Value.SearchText != null) {
+                var state = new SearchState(sw);
+                var rd = reader.RequestStringReader(obj.Value.SearchText);
+                var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), null, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
+                rd.Read();
+                if (state.Results != null)
+                    res.Add((
+                        obj.Value.Index,
+                        state.Results.Select(x => (
+                            x.Page,
+                            x.Line,
+                            parser.Lines != null ?
+                                parser.Lines
+                                .Where(y => y.Page == x.Page && y.Line == x.Line)
+                                .Select(x => x.Text)
+                                .FirstOrDefault(string.Empty)
+                                : ""
+                        )).ToList()));
+            }
+        });
+        return res.ToList();
+    }
+
     public void UnUseProduction() => this._InProduction = null;
 
-    public List<XMLRootDocument>? ProbeHamannFile(XDocument document, ModelStateDictionary ModelState) {
+    public List<XMLRootDocument>? ProbeFile(XDocument document, ModelStateDictionary ModelState) {
         if (document.Root!.Name != "opus") {
             ModelState.AddModelError("Error", "A valid Hamann-Docuemnt must begin with <opus>");
             return null;

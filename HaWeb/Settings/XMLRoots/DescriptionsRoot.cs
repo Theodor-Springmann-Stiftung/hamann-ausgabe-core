@@ -7,18 +7,22 @@ public class DescriptionsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Metadaten";
     public string Prefix { get; } = "metadaten";
     public string[] XPathContainer { get; } = { ".//data/descriptions", ".//descriptions" };
-
+    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = {
+        ("metas", "/opus/descriptions/letterDesc", GetKey, false),
+        ("metas", "/opus/data/descriptions/letterDesc", GetKey, false)
+    };
+    
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "letterDesc") return true;
         return false;
     };
 
-    // public Func<XElement, string?> GetKey { get; } = (elem) => {
-    //     var index = elem.Attribute("ref");
-    //     if (index != null && !String.IsNullOrWhiteSpace(index.Value))
-    //         return index.Value;
-    //     else return null;
-    // };
+    public static Func<XElement, string?> GetKey { get; } = (elem) => {
+        var index = elem.Attribute("ref");
+        if (index != null && !String.IsNullOrWhiteSpace(index.Value))
+            return index.Value;
+        return null;
+    };
 
     public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
         return null;

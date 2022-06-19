@@ -6,19 +6,22 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using HaXMLReader.Interfaces;
 using HaWeb.SearchHelpers;
+using HaWeb.XMLParser;
 using System.Text;
 
 public class HaDocumentWrapper : IHaDocumentWrappper {
     private ILibrary Library;
     private IXMLProvider _xmlProvider;
+    private IXMLService _xmlService;
 
     public int StartYear { get; private set; }
     public int EndYear { get; private set; }
 
-    public List<SearchHelpers.SeachableItem>? SearchableLetters { get; private set; }
+    // public List<SearchHelpers.CollectedItem>? SearchableLetters { get; private set; }
 
-    public HaDocumentWrapper(IXMLProvider xmlProvider, IConfiguration configuration) {
+    public HaDocumentWrapper(IXMLProvider xmlProvider, IXMLService service, IConfiguration configuration) {
         _xmlProvider = xmlProvider;
+        _xmlService = service;
         StartYear = configuration.GetValue<int>("AvailableStartYear");
         EndYear = configuration.GetValue<int>("AvailableEndYear");
         var filelist = xmlProvider.GetHamannFiles();
@@ -41,50 +44,24 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
     }
 
     public ILibrary? SetLibrary(string filepath, ModelStateDictionary? ModelState = null) {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
         try {
             Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = filepath, AvailableYearRange = (StartYear, EndYear) });
         } catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
+        sw.Stop();
+        Console.WriteLine("ILIB: " + sw.ElapsedMilliseconds);
+        sw.Restart();
 
-        var searchableletters = new ConcurrentBag<SearchHelpers.SeachableItem>();
-        var letters = Library.Letters.Values;
-
-        Parallel.ForEach(letters, letter => {
-            var o = new SearchHelpers.SeachableItem(letter.Index, _prepareSearch(letter));
-            searchableletters.Add(o);
-        });
-
-        this.SearchableLetters = searchableletters.ToList();
+        if (_xmlService != null) 
+            _xmlService.SetInProduction(System.Xml.Linq.XDocument.Load(filepath, System.Xml.Linq.LoadOptions.PreserveWhitespace));
+        sw.Stop();
+        Console.WriteLine("COLLECTIONS: " + sw.ElapsedMilliseconds);
 
         return Library;
-    }
-
-    public List<(string Index, List<(string Page, string Line, string Preview)> Results)>? SearchLetters(string searchword, IReaderService reader) {
-        if (SearchableLetters == null) return null;
-        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview)> Results)>();
-        var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
-        Parallel.ForEach(SearchableLetters, (letter) => {
-            var state = new SearchState(sw);
-            var rd = reader.RequestStringReader(letter.SearchText);
-            var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), null, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
-            rd.Read();
-            if (state.Results != null)
-                res.Add((
-                    letter.Index,
-                    state.Results.Select(x => (
-                        x.Page,
-                        x.Line,
-                        parser.Lines != null ?
-                            parser.Lines
-                            .Where(y => y.Page == x.Page && y.Line == x.Line)
-                            .Select(x => x.Text)
-                            .FirstOrDefault(string.Empty)
-                            : ""
-                    )).ToList()));
-        });
-        return res.ToList();
     }
 
     public ILibrary GetLibrary() {

@@ -32,9 +32,10 @@ public class FileList {
 
     public FileList Clone() {
         var ret = new FileList(this.XMLRoot);
-        foreach (var file in _Files) {
-            ret.Add(file);
-        }
+        if (_Files != null)
+            foreach (var file in _Files) {
+                ret.Add(file);
+            }
         return ret;
     }
 }

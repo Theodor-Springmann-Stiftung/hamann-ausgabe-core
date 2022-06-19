@@ -7,13 +7,23 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Register";
     public string Prefix { get; } = "register";
     public string[] XPathContainer { get; } = { ".//data//kommentare/kommcat", ".//kommentare/kommcat" };
+    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = { 
+        ("comments-register", "/opus/data/kommentare/kommcat[@value='neuzeit']/kommentar", GetKey, true),
+        ("comments-register", "/opus/kommentare/kommcat[@value='neuzeit']/kommentar", GetKey, true),
+        ("comments-edition", "/opus/data/kommentare/kommcat[@value='editionen']/kommentar", GetKey, true),
+        ("comments-edition", "/opus/kommentare/kommcat[@value='editionen']/kommentar", GetKey, true),
+        ("comments-forschung", "/opus/data/kommentare/kommcat[@value='forschung']/kommentar", GetKey, true),
+        ("comments-forschung", "/opus/kommentare/kommcat[@value='forschung']/kommentar", GetKey, true),
+        ("comments-bibel", "/opus/data/kommentare/kommcat[@value='bibel']/kommentar", GetKey, false),
+        ("comments-bibel", "/opus/kommentare/kommcat[@value='bibel']/kommentar", GetKey, false),
+    };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "kommentar") return true;
         else return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => {
+    public static Func<XElement, string?> GetKey { get; } = (elem) => {
         var index = elem.Attribute("id");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;

@@ -7,13 +7,17 @@ public class EditsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Texteingriffe";
     public string Prefix { get; } = "texteingriffe";
     public string[] XPathContainer { get; } = { ".//data/edits", ".//edits" };
-
+    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = { 
+        ("edits", "/data/edits/editreason", GetKey, true),
+        ("edits", "/edits/editreason", GetKey, true)
+    };
+    
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "editreason") return true;
         else return false;
     };
 
-    public Func<XElement, string?> GetKey { get; } = (elem) => {
+    public static Func<XElement, string?> GetKey { get; } = (elem) => {
         var index = elem.Attribute("index");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;

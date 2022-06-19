@@ -6,17 +6,20 @@ using HaDocument.Interfaces;
 using HaDocument.Models;
 using HaXMLReader.Interfaces;
 using System.Collections.Specialized;
+using HaWeb.XMLParser;
 
 namespace HaWeb.Controllers;
 
 public class SucheController : Controller {
     private IHaDocumentWrappper _lib;
     private IReaderService _readerService;
+    private IXMLService _xmlService;
     private int _lettersForPage;
 
-    public SucheController(IHaDocumentWrappper lib, IReaderService readerService, IConfiguration config) {
+    public SucheController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService service, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
+        _xmlService = service;
         _lettersForPage = config.GetValue<int>("LettersOnPage");
     }
 
@@ -33,7 +36,6 @@ public class SucheController : Controller {
 
     [Route("Suche/{zhvolume}/{zhpage}")]
     public IActionResult GoToZH(string zhvolume, string zhpage) {
-        // TODO: Bug in letter parsing: dictionary is WRONG!
         if (String.IsNullOrWhiteSpace(zhvolume) || String.IsNullOrWhiteSpace(zhpage)) return _error404();
         zhvolume = zhvolume.Trim();
         zhpage = zhpage.Trim();
@@ -68,7 +70,7 @@ public class SucheController : Controller {
         List<IGrouping<int, Meta>>? metasbyyear = null;
         if (search != null) {
             search = search.Trim();
-            var res = _lib.SearchLetters(search, _readerService);
+            var res = _xmlService.SearchCollection("letters", search, _readerService);
             if (res == null || !res.Any()) return _error404();
             var ret = res.ToDictionary(
                 x => x.Index, 

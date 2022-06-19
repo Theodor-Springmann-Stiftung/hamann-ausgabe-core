@@ -13,7 +13,15 @@ public interface IXMLRoot {
     // XPaths to determine if container is present
     public abstract string[] XPathContainer { get; }
 
-    // Tag Name of child objects to be collected 
+    // Collections of Elements to be created from this Root
+    // Key: the key under which the element(s) will be files
+    // xPath: the (absolute) XPath to the element(s)
+    // KeyFunc: How to extrect an identifier for the single element in the collection
+    // Searchable: Will the element be indexed for full-text-search?
+    public abstract (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; }
+
+    // Determines child objects to be collected 
+    // (deprecated see collections above; only used internally)
     public abstract Predicate<XElement> IsCollectedObject { get; }
 
     // Gets the Key of a collected object
