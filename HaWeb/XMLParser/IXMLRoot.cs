@@ -17,8 +17,15 @@ public interface IXMLRoot {
     // Key: the key under which the element(s) will be files
     // xPath: the (absolute) XPath to the element(s)
     // KeyFunc: How to extrect an identifier for the single element in the collection
+    // LookupsFunc: Function to generate metadata fields for the object, which will then in turn be a possibility to seach and filter without parsing
     // Searchable: Will the element be indexed for full-text-search?
-    public abstract (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; }
+    public abstract (
+        string Key, 
+        string xPath,
+        Func<XElement, string?> KeyFunc, 
+        // Func<XElement, Dictionary<string, string[]>> LookupsFunc,
+        bool Searchable
+    )[]? XPathCollection { get; }
 
     // Determines child objects to be collected 
     // (deprecated see collections above; only used internally)

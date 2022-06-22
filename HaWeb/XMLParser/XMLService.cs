@@ -61,15 +61,22 @@ public class XMLService : IXMLService {
 
     public void SetInProduction(XDocument document) {
         if (document == null || _Roots == null) return;
-        var ret = new ConcurrentDictionary<string, ConcurrentDictionary<string, CollectedItem>>();
-        Parallel.ForEach(_Roots, (root) => {
+        int numProcs = Environment.ProcessorCount;
+        int concurrencyLevel = numProcs * 2;
+        int startingSize = 2909;
+        int startingSizeAllCollections = 23;
+        var ret = new ConcurrentDictionary<string, ConcurrentDictionary<string, CollectedItem>>(concurrencyLevel, startingSizeAllCollections);
+        // Note Parallelization brings almost nothing to the table (on a laptop) here and below.
+        // Parallel.ForEach(_Roots, (root) => {
+        foreach (var root in _Roots) {
             if (root.Value.XPathCollection != null)
                 foreach (var coll in root.Value.XPathCollection) {
                     var elem = document.XPathSelectElements(coll.xPath);
                     if (elem != null && elem.Any()) {
                         if (!ret.ContainsKey(coll.Key))
-                            ret[coll.Key] = new ConcurrentDictionary<string, CollectedItem>();
-                        foreach(var e in elem) {
+                            ret[coll.Key] = new ConcurrentDictionary<string, CollectedItem>(concurrencyLevel, startingSize);
+                        Parallel.ForEach(elem, (e) => {
+                        // foreach(var e in elem) {
                             var k = coll.KeyFunc(e);
                             if (k != null) {
                                 var searchtext = coll.Searchable ? 
@@ -77,10 +84,12 @@ public class XMLService : IXMLService {
                                     null;
                                 ret[coll.Key][k] = new CollectedItem(k, e, root.Value, coll.Key, searchtext);
                             }
-                        }
+                        // }
+                        });
                     }
                 }
-        });       
+        }
+        // });       
         _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value.ToDictionary(z => z.Key, f => f.Value, null), null);
     }
 

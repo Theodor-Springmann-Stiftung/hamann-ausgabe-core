@@ -69,19 +69,22 @@ public class SucheController : Controller {
         var lib = _lib.GetLibrary();
         List<IGrouping<int, Meta>>? metasbyyear = null;
         if (search != null) {
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
             search = search.Trim();
             var res = _xmlService.SearchCollection("letters", search, _readerService);
             if (res == null || !res.Any()) return _error404();
             var ret = res.ToDictionary(
-                x => x.Index, 
+                x => x.Index,
                 x => x.Results
-                    .Select(y => new SearchResult(search, x.Index) { Page = y.Page, Line = y.Line, Preview = y.Preview})
+                    .Select(y => new SearchResult(search, x.Index) { Page = y.Page, Line = y.Line, Preview = y.Preview })
                     .ToList()
                 );
             var keys = res.Select(x => x.Index).Where(x => lib.Metas.ContainsKey(x)).Select(x => lib.Metas[x]);
             var letters = keys.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
+            stopwatch.Stop();
+            Console.WriteLine("SEARCH: " + stopwatch.ElapsedMilliseconds);
             return _paginateSend(lib, page, letters, null, null, null, search, ret);
-
         }
         metasbyyear = lib.MetasByYear.OrderBy(x => x.Key).ToList();
         return _paginateSend(lib, page, metasbyyear);
@@ -105,7 +108,7 @@ public class SucheController : Controller {
     private List<(string Key, string Person)> _getAvailablePersons(ILibrary lib) {
         return lib.Persons
             .OrderBy(x => x.Value.Surname)
-            .ThenBy(x =>  x.Value.Prename)
+            .ThenBy(x => x.Value.Prename)
             .Select(x => (x.Key, x.Value.Name))
             .ToList();
     }
@@ -121,7 +124,7 @@ public class SucheController : Controller {
             ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
         };
     }
-    
+
     private List<(int StartYear, int EndYear)>? _paginate(List<IGrouping<int, Meta>>? letters) {
         if (letters == null || !letters.Any()) return null;
         List<(int StartYear, int EndYear)>? res = null;
