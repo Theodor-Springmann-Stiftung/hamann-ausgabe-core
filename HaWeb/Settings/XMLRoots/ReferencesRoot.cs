@@ -7,13 +7,21 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Personen / Orte";
     public string Prefix { get; } = "personenorte";
     public string[] XPathContainer { get; } = { ".//data/definitions", ".//definitions" };
-    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = {
-        ("person-definitions", "/opus/data/definitions/personDefs/personDef", GetKey, false),
-        ("person-definitions", "/opus/definitions/personDefs/personDef", GetKey, false),
-        ("hand-definitions", "/opus/data/definitions/handDefs/handDef", GetKey, false),
-        ("hand-definitions", "/opus/definitions/handDefs/handDef", GetKey, false),
-        ("location-definitions", "/opus/data/definitions/locationDefs/locationDef", GetKey, false),
-        ("location-definitions", "/opus/definitions/locationDefs/locationDef", GetKey, false)
+    public (
+        string Key, 
+        string xPath,
+        Func<XElement, string?> GenerateKey,
+        Func<XElement, Dictionary<string, string[]>?>? GenerateDataFields,
+        Func<List<CollectedItem>, Dictionary<string, Lookup<string, CollectedItem>>?>? GroupingsGeneration,
+        Func<List<CollectedItem>, Dictionary<string, List<CollectedItem>>?>? SortingsGeneration,
+        bool Searchable
+    )[]? Collections { get; } = {
+        ("person-definitions", "/opus/data/definitions/personDefs/personDef", GetKey, null, null, null, false),
+        ("person-definitions", "/opus/definitions/personDefs/personDef", GetKey, null, null, null, false),
+        ("hand-definitions", "/opus/data/definitions/handDefs/handDef", GetKey, null, null, null, false),
+        ("hand-definitions", "/opus/definitions/handDefs/handDef", GetKey, null, null, null, false),
+        ("location-definitions", "/opus/data/definitions/locationDefs/locationDef", GetKey, null, null, null, false),
+        ("location-definitions", "/opus/definitions/locationDefs/locationDef", GetKey, null, null, null, false)
     };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {

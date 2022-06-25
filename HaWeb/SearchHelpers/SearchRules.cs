@@ -16,7 +16,7 @@ public class SearchRules {
             sb.Append(t);
             var sw = reader.State.SearchWord;
             if (sb.Length >= sw.Length) {
-                if (sb.ToString().ToLower().Contains(sw)) {
+                if (sb.ToString().ToUpperInvariant().Contains(sw)) {
                     if (reader.State.Results == null)
                         reader.State.Results = new List<(string Page, string Line)>();
                     reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine));

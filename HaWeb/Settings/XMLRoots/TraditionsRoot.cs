@@ -7,9 +7,17 @@ public class TraditionsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Überlieferung";
     public string Prefix { get; } = "ueberlieferung";
     public string[] XPathContainer { get; } = { ".//data/traditions", ".//traditions" };
-    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = { 
-        ("tradition", "/opus/data/traditions/letterTradition", GetKey, true),
-        ("tradition", "/opus/traditions/letterTradition", GetKey, true)
+    public (
+        string Key, 
+        string xPath,
+        Func<XElement, string?> GenerateKey,
+        Func<XElement, Dictionary<string, string[]>?>? GenerateDataFields,
+        Func<List<CollectedItem>, Dictionary<string, Lookup<string, CollectedItem>>?>? GroupingsGeneration,
+        Func<List<CollectedItem>, Dictionary<string, List<CollectedItem>>?>? SortingsGeneration,
+        bool Searchable
+    )[]? Collections { get; } = { 
+        ("tradition", "/opus/data/traditions/letterTradition", GetKey, null, null, null, true),
+        ("tradition", "/opus/traditions/letterTradition", GetKey, null, null, null, true)
     };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {

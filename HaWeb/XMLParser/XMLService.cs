@@ -15,8 +15,8 @@ public class XMLService : IXMLService {
 
     private Stack<Dictionary<string, FileList?>>? _InProduction;
 
-    private Dictionary<string, Dictionary<string, CollectedItem>> _collectedProduction;
-    private Dictionary<string, Dictionary<string, CollectedItem>> _collectedUsed;
+    private Dictionary<string, ItemsCollection> _collectedProduction;
+    private Dictionary<string, ItemsCollection> _collectedUsed;
 
     public XMLService() {
         // Getting all classes which implement IXMLRoot for possible document endpoints
@@ -65,37 +65,47 @@ public class XMLService : IXMLService {
         int concurrencyLevel = numProcs * 2;
         int startingSize = 2909;
         int startingSizeAllCollections = 23;
-        var ret = new ConcurrentDictionary<string, ConcurrentDictionary<string, CollectedItem>>(concurrencyLevel, startingSizeAllCollections);
-        // Note Parallelization brings almost nothing to the table (on a laptop) here and below.
-        // Parallel.ForEach(_Roots, (root) => {
+        var ret = new ConcurrentDictionary<string, ItemsCollection>(concurrencyLevel, startingSizeAllCollections);
         foreach (var root in _Roots) {
-            if (root.Value.XPathCollection != null)
-                foreach (var coll in root.Value.XPathCollection) {
+            if (root.Value.Collections != null)
+                foreach (var coll in root.Value.Collections) {
                     var elem = document.XPathSelectElements(coll.xPath);
                     if (elem != null && elem.Any()) {
-                        if (!ret.ContainsKey(coll.Key))
-                            ret[coll.Key] = new ConcurrentDictionary<string, CollectedItem>(concurrencyLevel, startingSize);
+                        var items = new ConcurrentDictionary<string, CollectedItem>(concurrencyLevel, startingSize);
                         Parallel.ForEach(elem, (e) => {
-                        // foreach(var e in elem) {
-                            var k = coll.KeyFunc(e);
+                            var k = coll.GenerateKey(e);
                             if (k != null) {
                                 var searchtext = coll.Searchable ? 
                                     StringHelpers.NormalizeWhiteSpace(e.ToString(), ' ', false) : 
                                     null;
-                                ret[coll.Key][k] = new CollectedItem(k, e, root.Value, coll.Key, searchtext);
+                                var datafileds = coll.GenerateDataFields != null ? 
+                                    coll.GenerateDataFields(e) :
+                                    null;
+                                items[k] = new CollectedItem(k, e, root.Value, coll.Key, datafileds, searchtext);
                             }
-                        // }
                         });
+                        if (items.Any()) {
+                            if (!ret.ContainsKey(coll.Key)) 
+                                ret[coll.Key] = new ItemsCollection(coll.Key, coll.Searchable, root.Value, coll.GroupingsGeneration, coll.SortingsGeneration);
+                            foreach (var item in items) 
+                                ret[coll.Key].Items.Add(item.Key, item.Value);
+                        }
                     }
                 }
         }
-        // });       
-        _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value.ToDictionary(z => z.Key, f => f.Value, null), null);
+
+        if (ret.Any()) {
+            Parallel.ForEach(ret, (collection) => {
+                collection.Value.GenerateGroupings();
+                collection.Value.GenerateSortings();
+            });
+        }
+        _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value);
     }
 
      public List<(string Index, List<(string Page, string Line, string Preview)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader) {
         if (!_collectedProduction.ContainsKey(collection)) return null;
-        var searchableObjects = _collectedProduction[collection];
+        var searchableObjects = _collectedProduction[collection].Items;
         var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview)> Results)>();
         var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
         Parallel.ForEach(searchableObjects, (obj) => {

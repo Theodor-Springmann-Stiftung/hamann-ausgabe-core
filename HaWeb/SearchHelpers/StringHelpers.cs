@@ -29,7 +29,7 @@ public static class StringHelpers {
                 }
             } else {
                 skipped = false;
-                if (toLower) output.Append(char.ToLower(c));
+                if (toLower) output.Append(char.ToUpperInvariant(c));
                 else output.Append(c);
             }
         }

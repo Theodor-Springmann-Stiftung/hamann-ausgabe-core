@@ -7,9 +7,17 @@ public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Stellenkommentar";
     public string Prefix { get; } = "stellenkommentar";
     public string[] XPathContainer { get; } = { ".//data/marginalien", ".//marginalien" };
-    public (string Key, string xPath, Func<XElement, string?> KeyFunc, bool Searchable)[]? XPathCollection { get; } = { 
-        ("marginals", "/data/marginalien/marginal", GetKey, true),
-        ("marginals", "/marginalien/marginal", GetKey, true)
+    public (
+        string Key, 
+        string xPath,
+        Func<XElement, string?> GenerateKey,
+        Func<XElement, Dictionary<string, string[]>?>? GenerateDataFields,
+        Func<List<CollectedItem>, Dictionary<string, Lookup<string, CollectedItem>>?>? GroupingsGeneration,
+        Func<List<CollectedItem>, Dictionary<string, List<CollectedItem>>?>? SortingsGeneration,
+        bool Searchable
+    )[]? Collections { get; } = { 
+        ("marginals", "/data/marginalien/marginal", GetKey, null, null, null, true),
+        ("marginals", "/marginalien/marginal", GetKey, null, null, null, true)
     };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {

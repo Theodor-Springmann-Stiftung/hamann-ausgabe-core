@@ -16,16 +16,20 @@ public interface IXMLRoot {
     // Collections of Elements to be created from this Root
     // Key: the key under which the element(s) will be files
     // xPath: the (absolute) XPath to the element(s)
-    // KeyFunc: How to extrect an identifier for the single element in the collection
-    // LookupsFunc: Function to generate metadata fields for the object, which will then in turn be a possibility to seach and filter without parsing
     // Searchable: Will the element be indexed for full-text-search?
+    // GenerateKey: How to extrect an identifier for the single element in the collection
+    // GenerateDataFields: Generate a dict of data associated with each of the collected Elements input: XElement output: Dictonary<string>
+    // GroupingsGeneration: datafields by which dictorary-like groups should be held in memory input: List<CollectedItem> output: Dictonary<string, Lookup<string, CollectedItem[]>>
+    // SortingsGeneration: datafields by which a sorting should be held in memory input: List<CollectedItem> output: ordered List<CollectedItem>
     public abstract (
         string Key, 
         string xPath,
-        Func<XElement, string?> KeyFunc, 
-        // Func<XElement, Dictionary<string, string[]>> LookupsFunc,
+        Func<XElement, string?> GenerateKey,
+        Func<XElement, Dictionary<string, string[]>?>? GenerateDataFields,
+        Func<List<CollectedItem>, Dictionary<string, Lookup<string, CollectedItem>>?>? GroupingsGeneration,
+        Func<List<CollectedItem>, Dictionary<string, List<CollectedItem>>?>? SortingsGeneration,
         bool Searchable
-    )[]? XPathCollection { get; }
+    )[]? Collections { get; }
 
     // Determines child objects to be collected 
     // (deprecated see collections above; only used internally)
