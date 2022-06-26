@@ -70,7 +70,7 @@ public class Briefecontroller : Controller {
             else model.ParsedMarginals = parsedLetter.ParsedMarginals;
             if (parsedLetter.Startline != "-1" && parsedLetter.Startline != "1" && model.MetaData.ParsedZHString != null)
                 model.MetaData.ParsedZHString += " / " + parsedLetter.Startline;
-            if (model.ParsedText == null || String.IsNullOrWhiteSpace(model.ParsedText))
+            if (String.IsNullOrWhiteSpace(model.ParsedText))
                 model.MetaData.HasText = false;
         }
 

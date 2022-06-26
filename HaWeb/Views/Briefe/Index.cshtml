@@ -16,7 +16,7 @@
     @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, false))
     <div class="ha-letterheadernav">
         <div class="ha-lettertabs">
-            @if (Model.ParsedText != null && !String.IsNullOrWhiteSpace(Model.ParsedText))
+            @if (!String.IsNullOrWhiteSpace(Model.ParsedText))
             {
                 <a class="" id="ha-lettertextbtn">Brieftext</a>
                 @if (Model.ParsedMarginals != null)

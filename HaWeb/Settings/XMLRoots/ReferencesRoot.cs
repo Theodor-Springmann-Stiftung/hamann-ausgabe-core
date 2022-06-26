@@ -7,31 +7,11 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Personen / Orte";
     public string Prefix { get; } = "personenorte";
     public string[] XPathContainer { get; } = { ".//data/definitions", ".//definitions" };
-    public (
-        string Key, 
-        string xPath,
-        Func<XElement, string?> GenerateKey,
-        Func<XElement, Dictionary<string, string[]>?>? GenerateDataFields,
-        Func<List<CollectedItem>, Dictionary<string, Lookup<string, CollectedItem>>?>? GroupingsGeneration,
-        Func<List<CollectedItem>, Dictionary<string, List<CollectedItem>>?>? SortingsGeneration,
-        bool Searchable
-    )[]? Collections { get; } = {
-        ("person-definitions", "/opus/data/definitions/personDefs/personDef", GetKey, null, null, null, false),
-        ("person-definitions", "/opus/definitions/personDefs/personDef", GetKey, null, null, null, false),
-        ("hand-definitions", "/opus/data/definitions/handDefs/handDef", GetKey, null, null, null, false),
-        ("hand-definitions", "/opus/definitions/handDefs/handDef", GetKey, null, null, null, false),
-        ("location-definitions", "/opus/data/definitions/locationDefs/locationDef", GetKey, null, null, null, false),
-        ("location-definitions", "/opus/definitions/locationDefs/locationDef", GetKey, null, null, null, false)
-    };
-
+    
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "personDefs" || elem.Name == "structureDefs" || elem.Name == "handDefs" || elem.Name == "locationDefs")
             return true;
         return false;
-    };
-
-    public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        return elem.Attribute("index") != null ? elem.Attribute("index")!.Value : null;
     };
 
     public List<(string, string?)>? GenerateFields(XMLRootDocument document) {

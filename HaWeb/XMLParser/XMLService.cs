@@ -12,6 +12,7 @@ using HaXMLReader.Interfaces;
 public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
     private Dictionary<string, IXMLRoot>? _Roots;
+    private Dictionary<string, IXMLCollection>? _Collections;
 
     private Stack<Dictionary<string, FileList?>>? _InProduction;
 
@@ -20,15 +21,25 @@ public class XMLService : IXMLService {
 
     public XMLService() {
         // Getting all classes which implement IXMLRoot for possible document endpoints
-        var types = _GetAllTypesThatImplementInterface<IXMLRoot>().ToList();
-        types.ForEach( x => {
+        var roottypes = _GetAllTypesThatImplementInterface<IXMLRoot>().ToList();
+        roottypes.ForEach( x => {
             if (this._Roots == null) this._Roots = new Dictionary<string, IXMLRoot>();
             var instance = (IXMLRoot)Activator.CreateInstance(x)!;
             if (instance != null) this._Roots.Add(instance.Prefix, instance);
         });
 
+        var collectiontypes = _GetAllTypesThatImplementInterface<IXMLCollection>().ToList();
+        collectiontypes.ForEach( x => {
+            if (this._Collections == null) this._Collections = new Dictionary<string, IXMLCollection>();
+            var instance = (IXMLCollection)Activator.CreateInstance(x)!;
+            if (instance != null) this._Collections.Add(instance.Key, instance);
+        });
+
         if (_Roots == null || !_Roots.Any())
             throw new Exception("No classes for upload endpoints were found!");
+
+        if (_Collections == null || !_Collections.Any())
+            throw new Exception("No classes for object collection were found!");
     }
 
     public IXMLRoot? GetRoot(string name) {
@@ -66,33 +77,32 @@ public class XMLService : IXMLService {
         int startingSize = 2909;
         int startingSizeAllCollections = 23;
         var ret = new ConcurrentDictionary<string, ItemsCollection>(concurrencyLevel, startingSizeAllCollections);
-        foreach (var root in _Roots) {
-            if (root.Value.Collections != null)
-                foreach (var coll in root.Value.Collections) {
-                    var elem = document.XPathSelectElements(coll.xPath);
-                    if (elem != null && elem.Any()) {
-                        var items = new ConcurrentDictionary<string, CollectedItem>(concurrencyLevel, startingSize);
-                        Parallel.ForEach(elem, (e) => {
-                            var k = coll.GenerateKey(e);
-                            if (k != null) {
-                                var searchtext = coll.Searchable ? 
-                                    StringHelpers.NormalizeWhiteSpace(e.ToString(), ' ', false) : 
-                                    null;
-                                var datafileds = coll.GenerateDataFields != null ? 
-                                    coll.GenerateDataFields(e) :
-                                    null;
-                                items[k] = new CollectedItem(k, e, root.Value, coll.Key, datafileds, searchtext);
-                            }
-                        });
-                        if (items.Any()) {
-                            if (!ret.ContainsKey(coll.Key)) 
-                                ret[coll.Key] = new ItemsCollection(coll.Key, coll.Searchable, root.Value, coll.GroupingsGeneration, coll.SortingsGeneration);
-                            foreach (var item in items) 
-                                ret[coll.Key].Items.Add(item.Key, item.Value);
+
+        if (_Collections != null)
+            foreach (var coll in _Collections) {
+                var elem = coll.Value.xPath.Aggregate(new List<XElement>(), (x, y) =>  { x.AddRange(document.XPathSelectElements(y).ToList()); return x; } );
+                if (elem != null && elem.Any()) {
+                    var items = new ConcurrentDictionary<string, CollectedItem>(concurrencyLevel, startingSize);
+                    Parallel.ForEach(elem, (e) => {
+                        var k = coll.Value.GenerateKey(e);
+                        if (k != null) {
+                            var searchtext = coll.Value.Searchable ? 
+                                StringHelpers.NormalizeWhiteSpace(e.ToString(), ' ', false) : 
+                                null;
+                            var datafileds = coll.Value.GenerateDataFields != null ? 
+                                coll.Value.GenerateDataFields(e) :
+                                null;
+                            items[k] = new CollectedItem(k, e, coll.Value, datafileds, searchtext);
                         }
+                    });
+                    if (items.Any()) {
+                        if (!ret.ContainsKey(coll.Key)) 
+                            ret[coll.Key] = new ItemsCollection(coll.Key, coll.Value);
+                        foreach (var item in items) 
+                            ret[coll.Key].Items.Add(item.Key, item.Value);
                     }
                 }
-        }
+            }
 
         if (ret.Any()) {
             Parallel.ForEach(ret, (collection) => {

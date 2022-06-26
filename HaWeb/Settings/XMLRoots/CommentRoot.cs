@@ -7,39 +7,10 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Register";
     public string Prefix { get; } = "register";
     public string[] XPathContainer { get; } = { ".//data//kommentare/kommcat", ".//kommentare/kommcat" };
-    public (
-        string Key, 
-        string xPath,
-        Func<XElement, string?> GenerateKey,
-        Func<XElement, Dictionary<string, string[]>?>? GenerateDataFields,
-        Func<List<CollectedItem>, Dictionary<string, Lookup<string, CollectedItem>>?>? GroupingsGeneration,
-        Func<List<CollectedItem>, Dictionary<string, List<CollectedItem>>?>? SortingsGeneration,
-        bool Searchable
-    )[]? Collections { get; } = { 
-        ("comments-register", "/opus/data/kommentare/kommcat[@value='neuzeit']/kommentar", GetKey, null, null, null, true),
-        ("comments-register", "/opus/kommentare/kommcat[@value='neuzeit']/kommentar", GetKey, null, null, null, true),
-        ("subcomments-register", "/opus/data/kommentare/kommcat[@value='neuzeit']/kommentar/subsection", GetKey, null, null, null, true),
-        ("subcomments-register", "/opus/kommentare/kommcat[@value='neuzeit']/kommentar/subsection", GetKey, null, null, null, true),
-        ("comments-edition", "/opus/data/kommentare/kommcat[@value='editionen']/kommentar", GetKey, null, null, null, true),
-        ("comments-edition", "/opus/kommentare/kommcat[@value='editionen']/kommentar", GetKey, null, null, null, true),
-        ("comments-forschung", "/opus/data/kommentare/kommcat[@value='forschung']/kommentar", GetKey, null, null, null, true),
-        ("comments-forschung", "/opus/kommentare/kommcat[@value='forschung']/kommentar", GetKey, null, null, null, true),
-        ("comments-bibel", "/opus/data/kommentare/kommcat[@value='bibel']/kommentar", GetKey, null, null, null, false),
-        ("comments-bibel", "/opus/kommentare/kommcat[@value='bibel']/kommentar", GetKey, null, null, null, false),
-        ("subcomments-bibel", "/opus/data/kommentare/kommcat[@value='bibel']/kommentar/subsection", GetKey, null, null, null, false),
-        ("subcomments-bibel", "/opus/kommentare/kommcat[@value='bibel']/kommentar/subsection", GetKey, null, null, null, false),
-    };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "kommentar") return true;
         else return false;
-    };
-
-    public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        var index = elem.Attribute("id");
-        if (index != null && !String.IsNullOrWhiteSpace(index.Value))
-            return index.Value;
-        else return null;
     };
 
     public List<(string, string?)>? GenerateFields(XMLRootDocument document) {
