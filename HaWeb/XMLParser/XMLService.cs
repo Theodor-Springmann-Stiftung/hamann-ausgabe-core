@@ -32,7 +32,7 @@ public class XMLService : IXMLService {
         collectiontypes.ForEach( x => {
             if (this._Collections == null) this._Collections = new Dictionary<string, IXMLCollection>();
             var instance = (IXMLCollection)Activator.CreateInstance(x)!;
-            if (instance != null) this._Collections.Add(instance.Key, instance);
+            if (instance != null && instance.IsGlobal()) this._Collections.Add(instance.Key, instance);
         });
 
         if (_Roots == null || !_Roots.Any())

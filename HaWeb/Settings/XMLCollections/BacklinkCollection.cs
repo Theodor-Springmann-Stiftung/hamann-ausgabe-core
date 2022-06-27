@@ -5,10 +5,10 @@ using System.Xml.Linq;
 public class BackLinkCollection : HaWeb.XMLParser.IXMLCollection {
     private static readonly Random _random = new Random();
     public string Key { get; } = "backlinks";
-    public string[] xPath { get; } = new string[] { "/opus/data/marginalien/marginal/link",  "/opus/marginalien/marginal/link" };
+    public string[] xPath { get; } = new string[] { "/opus/data/marginalien/marginal/link", "/opus/marginalien/marginal/link" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = GetDataFields;
-    public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = null;
+    public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = GetLookups;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, IEnumerable<CollectedItem>>?>? SortingsGeneration { get; } = null;
     public HaWeb.XMLParser.IXMLCollection[]? SubCollections { get; } = null;
     public bool Searchable { get; } = true;
@@ -33,8 +33,8 @@ public class BackLinkCollection : HaWeb.XMLParser.IXMLCollection {
         else res.Add("ref", refere!);
         res.Add("index", index);
         res.Add("letter", letter);
-        if(page != null) res.Add("page", page);
-        if(line != null) res.Add("line", line);
+        if (page != null) res.Add("page", page);
+        if (line != null) res.Add("line", line);
         return res;
     }
 

@@ -11,6 +11,7 @@ public class CollectedItem : ISearchable {
     public IDictionary<string, string>? Fields { get; private set; }
     public XElement ELement { get; private set; }
     public IXMLCollection Collection { get; private set; }
+    public IDictionary<string, CollectedItem>? Items { get; set; }
 
     public CollectedItem(
         string index, 

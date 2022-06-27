@@ -39,4 +39,12 @@ public class ItemsCollection {
         if (Collection.SortingsGeneration != null && this.Items.Any())
             this.Sortings = Collection.SortingsGeneration(this.Items.Values.ToList());
     }
+
+    public CollectedItem? this[string v] {
+        get {
+            if (Items != null && Items.ContainsKey(v))
+                return Items[v];
+            return null;
+        }
+    }
 }

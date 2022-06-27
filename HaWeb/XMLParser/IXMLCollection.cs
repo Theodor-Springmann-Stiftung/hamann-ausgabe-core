@@ -19,6 +19,10 @@ public interface IXMLCollection {
     abstract Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; }
     abstract Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; }
     abstract Func<IEnumerable<CollectedItem>, IDictionary<string, IEnumerable<CollectedItem>>?>? SortingsGeneration { get; }
+    // TODO Not implemented yet
     abstract IXMLCollection[]? SubCollections { get; }
     abstract bool Searchable { get; }
+
+    // Override with false if collection should not be read in and available globally (useful for SubCollections)
+    bool IsGlobal() => true;
 }

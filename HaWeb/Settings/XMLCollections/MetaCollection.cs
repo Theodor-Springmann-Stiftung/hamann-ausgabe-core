@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 public class MetaCollection : HaWeb.XMLParser.IXMLCollection {
     public string Key { get; } = "metas";
-    public string[] xPath { get; } = new string[] { "/opus/descriptions/letterDesc",  "/opus/data/descriptions/letterDesc" };
+    public string[] xPath { get; } = new string[] { "/opus/descriptions/letterDesc", "/opus/data/descriptions/letterDesc" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = null;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = null;
@@ -18,4 +18,17 @@ public class MetaCollection : HaWeb.XMLParser.IXMLCollection {
             return index.Value;
         return null;
     };
+
+    public static IDictionary<string, string>? GetDataFields(XElement element) {
+        var res = new Dictionary<string, string>();
+        // TODO
+        return res;
+    }
+
+    public static IDictionary<string, ILookup<string, CollectedItem>>? GetLookups(IEnumerable<CollectedItem> items) {
+        var res = new Dictionary<string, ILookup<string, CollectedItem>>();
+        // TODO
+
+        return res;
+    }
 }

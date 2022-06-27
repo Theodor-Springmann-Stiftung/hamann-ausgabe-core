@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 public class HandPersonCollection : HaWeb.XMLParser.IXMLCollection {
     public string Key { get; } = "handpersons";
-    public string[] xPath { get; } = new string[] { "/opus/data/definitions/handDefs/handDef",  "/opus/definitions/handDefs/handDef" };
+    public string[] xPath { get; } = new string[] { "/opus/data/definitions/handDefs/handDef", "/opus/definitions/handDefs/handDef" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = null;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = null;
@@ -22,7 +22,7 @@ public class HandPersonCollection : HaWeb.XMLParser.IXMLCollection {
 
 public class PersonCollection : HaWeb.XMLParser.IXMLCollection {
     public string Key { get; } = "persons";
-    public string[] xPath { get; } = new string[] { "/opus/data/definitions/personDefs/personDef",  "/opus/definitions/personDefs/personDef" };
+    public string[] xPath { get; } = new string[] { "/opus/data/definitions/personDefs/personDef", "/opus/definitions/personDefs/personDef" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = null;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = null;
@@ -40,7 +40,7 @@ public class PersonCollection : HaWeb.XMLParser.IXMLCollection {
 
 public class LocationCollection : HaWeb.XMLParser.IXMLCollection {
     public string Key { get; } = "locations";
-    public string[] xPath { get; } = new string[] { "/opus/data/definitions/locationDefs/locationDef",  "/opus/definitions/locationDefs/locationDef" };
+    public string[] xPath { get; } = new string[] { "/opus/data/definitions/locationDefs/locationDef", "/opus/definitions/locationDefs/locationDef" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = null;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = null;

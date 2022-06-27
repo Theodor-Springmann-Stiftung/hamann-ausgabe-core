@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 public class EditCollection : HaWeb.XMLParser.IXMLCollection {
     public string Key { get; } = "edits";
-    public string[] xPath { get; } = new string[] { "/opus/edits/editreason",  "/opus/data/edits/editreason" };
+    public string[] xPath { get; } = new string[] { "/opus/edits/editreason", "/opus/data/edits/editreason" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = null;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = null;
