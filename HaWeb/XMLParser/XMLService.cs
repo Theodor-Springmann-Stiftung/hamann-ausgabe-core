@@ -79,11 +79,11 @@ public class XMLService : IXMLService {
         var ret = new ConcurrentDictionary<string, ItemsCollection>(concurrencyLevel, startingSizeAllCollections);
 
         if (_Collections != null)
-            foreach (var coll in _Collections) {
+            Parallel.ForEach(_Collections, (coll) => { 
                 var elem = coll.Value.xPath.Aggregate(new List<XElement>(), (x, y) =>  { x.AddRange(document.XPathSelectElements(y).ToList()); return x; } );
                 if (elem != null && elem.Any()) {
                     var items = new ConcurrentDictionary<string, CollectedItem>(concurrencyLevel, startingSize);
-                    Parallel.ForEach(elem, (e) => {
+                    foreach (var e in elem) {
                         var k = coll.Value.GenerateKey(e);
                         if (k != null) {
                             var searchtext = coll.Value.Searchable ? 
@@ -94,7 +94,7 @@ public class XMLService : IXMLService {
                                 null;
                             items[k] = new CollectedItem(k, e, coll.Value, datafileds, searchtext);
                         }
-                    });
+                    }
                     if (items.Any()) {
                         if (!ret.ContainsKey(coll.Key)) 
                             ret[coll.Key] = new ItemsCollection(coll.Key, coll.Value);
@@ -102,12 +102,11 @@ public class XMLService : IXMLService {
                             ret[coll.Key].Items.Add(item.Key, item.Value);
                     }
                 }
-            }
+            });
 
         if (ret.Any()) {
             Parallel.ForEach(ret, (collection) => {
                 collection.Value.GenerateGroupings();
-                collection.Value.GenerateSortings();
             });
         }
         _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value);

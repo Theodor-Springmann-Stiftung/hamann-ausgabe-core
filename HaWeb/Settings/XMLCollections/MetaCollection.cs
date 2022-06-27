@@ -21,14 +21,24 @@ public class MetaCollection : HaWeb.XMLParser.IXMLCollection {
 
     public static IDictionary<string, string>? GetDataFields(XElement element) {
         var res = new Dictionary<string, string>();
-        // TODO
+        var sort = element.Descendants("sort");
+        if (sort == null || !sort.Any()) return null;
+        var date = (string?)sort.First().Attribute("value");
+        var order = (string?)sort.First().Attribute("order");
+        if (String.IsNullOrWhiteSpace(date) || !DateTime.TryParse(date, out var dt)) return null;
+        res.Add("day", dt.Day.ToString());
+        res.Add("month", dt.Month.ToString());
+        res.Add("year", dt.Year.ToString());
+        if (!String.IsNullOrWhiteSpace(order)) res.Add("order", order);
+        else res.Add("order", "0");
         return res;
     }
 
     public static IDictionary<string, ILookup<string, CollectedItem>>? GetLookups(IEnumerable<CollectedItem> items) {
         var res = new Dictionary<string, ILookup<string, CollectedItem>>();
-        // TODO
-
+        var years = items.Where(x => x["year"] != null);
+        if (years == null || !years.Any()) return null;
+        res.Add("year", years.ToLookup(x => x["year"])!);
         return res;
     }
 }
