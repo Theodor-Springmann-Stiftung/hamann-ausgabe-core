@@ -45,6 +45,8 @@ public static class CSSClasses {
     public const string TULCLASS = "ha-tul"; // XML:
     public const string HEADERCLASS = "ha-textheader"; // XML:
     public const string HANDCLASS = "ha-hand";
+    public const string INSERTIONCLASS = "ha-insertion";
+    
     public const string TABLECLASS = "ha-table";
     public const string TABCLASS = "ha-hatab-"; // TODO: GEN 
     public const string CROSSEDDASHCLASS = "ha-diagdel";

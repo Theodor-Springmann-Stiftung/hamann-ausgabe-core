@@ -1,95 +1,20 @@
-@model (BriefeMetaViewModel Letter, bool ShowZHData)
+@model (BriefeMetaViewModel Letter, bool ShowZHData, bool Compact)
 
 <div class="ha-letterhead">
+    @if (!Model.Compact) {
     <div class="ha-letternumber">
         <div class="ha-letternumberinline">
             @Model.Letter.Meta.Autopsic
         </div>
     </div>
+    }
     <div class="ha-metadata">
             <div class="ha-metadataupperrow">
                 <div class="ha-metadatadate">
                     @Model.Letter.Meta.Date
                 </div>
-                @if (Model.Letter.HasText) {
-                @if (Model.Letter.ParsedZHString != null && Model.ShowZHData) {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            <span>@Html.Raw(Model.Letter.ParsedZHString)</span>
-                        </div>
-                    </div>
-                }
-                else if (Model.Letter.ParsedZHString == null) {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill ha-newpill">
-                            <span>Neu</span>
-                        </div>
-                    </div>
-                }
-
-                @if (Model.Letter.Meta.hasOriginal != HaDocument.Models.OptionalBool.True) {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            <span class="ha-cross">Orig</span>
-                        </div>
-                        <div class="ha-tooltiptext">
-                            Original verschollen
-                        </div>
-                    </div>
-                }
-                else {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            Orig
-                        </div>
-                        <div class="ha-tooltiptext">
-                            Original vorhanden
-                        </div>
-                    </div>
-                }
-
-                @if (Model.Letter.Meta.isProofread != HaDocument.Models.OptionalBool.True) {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            <span class="ha-cross">geprüft</span>
-                        </div>
-                        <div class="ha-tooltiptext whitespace-nowrap">
-                            Noch nicht textkritisch geprüft
-                        </div>
-                    </div>
-                }
-                else {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            geprüft
-                        </div>
-                        <div class="ha-tooltiptext whitespace-nowrap">
-                            Textkritisch geprüft
-                        </div>
-                    </div>
-                }
-
-                @if (Model.Letter.Meta.ZH != null && Model.Letter.Meta.ZH.dateChanged) {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            neu datiert
-                        </div>
-                        <div class="ha-tooltiptext whitespace-nowrap" style="margin-left: -165px;">
-                            Der Brief wurde gegenüber der Ausgabe ZH neu datiert
-                        </div>
-                    </div>
-                }
-
-                @if (Model.Letter.HasMarginals) {
-                    <div class="ha-tooltip">
-                        <div class="ha-pill">
-                            Komm
-                        </div>
-                        <div class="ha-tooltiptext whitespace-nowrap">
-                            Mit Stellenkommentar
-                        </div>
-                    </div>
-                }
+                @if (!Model.Compact) {
+                    @await Html.PartialAsync("/Views/Shared/_Pills.cshtml", (Model.Letter, Model.ShowZHData))
                 }
             </div>
             <div class="ha-metadatapersons">

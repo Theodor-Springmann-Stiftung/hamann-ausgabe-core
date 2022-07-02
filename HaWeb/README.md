@@ -62,15 +62,18 @@ Veränderungen im Code
 - Auslagerungen einzelner Einstellungen in Einstellungsdateien
 - Code open source zugänglich machen?
 
-
-TODO 1127 zu breit
-TODO tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
-TODO 659 align center und align-right ueberschneidugn
-TODO Word-wrap before align, tabs
-TODO pills are not mobile friendly (hover / click)
 TODO Evtl alignment von center / right an der letzten oder nächsten zeile
+TODO tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
 TODO XML-Check im Client
-TODO 516A david friedlaender in den traditions
+TODO Move ILibrary -> neuer Parser
+TODO Word-wrap before align, tabs
+TODO Hochstellungen nach mediaevalziffern
+TODO Startseite Ästhetik ~Geht so~
+TODO 1127 zu breit Hm -> Stiftung
+TODO 659 align center und align-right ueberschneidugn -> Stiftung
 
-TODO Einfügungszeichen zerstört suchergebnisse
-TODO Fußnoten in static pages funktionieren nicht
+Vor dem internen release:
+TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
+TODO Dark mode Strartseite Upload
+TODO Suche Register
+TODO Syntax-Check

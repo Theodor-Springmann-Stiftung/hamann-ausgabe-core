@@ -1,25 +1,5 @@
 @layer components {
 /* COLORS */
-  .ha-letterhead .ha-metadata .ha-tooltiptext {
-    @apply shadow-sm bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 border dark:border-none dark:shadow dark:bg-slate-800
-  }
-
-  .ha-tooltip .ha-tooltiptext::after {
-    @apply border-t-slate-600 dark:border-t-slate-800 border-l-transparent border-r-transparent border-b-transparent
-  }
-
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply rounded-lg border shadow-inner border-hamannSlate-900 text-hamannSlate-900 dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
-  }
-
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill.ha-newpill {
-    @apply dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
-  }
-
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before {
-    @apply border-b-2 border-hamannSlate-900 dark:border-gray-200
-  }
-
   .ha-letterheader {
     @apply bg-slate-50 dark:bg-slate-900 dark:text-slate-50 border-slate-300 dark:border-slate-50 border-b-2 dark:shadow-xl
   }
@@ -135,7 +115,7 @@
   }
 
   .ha-lettertext {
-    @apply max-w-[38rem] desktop:max-w-[45rem] sm:shrink-0 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative flow-root font-serif leading-[1.48]  numeric-mediaeval
+    @apply max-w-[38rem] desktop:max-w-[52rem] sm:shrink-0 ml-4 sm:ml-12 px-4 pt-4 pb-8 relative flow-root font-serif leading-[1.48]  numeric-mediaeval
   }
 
   .ha-marginals {

@@ -102,6 +102,18 @@
     @apply pl-1 pr-2 leading-none pt-1
   }
 
+  .ha-register .ha-register-head form {
+    @apply -mt-1 mb-6 font-sans
+  }
+
+  .ha-register .ha-register-head form input {
+    @apply px-1 border
+  }
+
+  .ha-register .ha-register-head form button {
+    @apply px-1 border
+  }
+
   .ha-register .ha-register-head .ha-register-nav {
     @apply font-sans
   }

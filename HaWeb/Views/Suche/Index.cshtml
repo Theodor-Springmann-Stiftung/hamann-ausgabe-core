@@ -34,19 +34,36 @@
 
         <div class="ha-searchbody">
             <div class="ha-letterlist">
-
             @* Letter Loop *@
             @foreach (var year in Model.Letters) {
                 foreach (var letter in year.LetterList) {
-                    <a class="ha-letterlistentry" asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
-                        @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true))
-                    </a>
-                    @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
-                        @foreach (var item in Model.SearchResults[letter.Meta.Index])
+                    <div class="ha-letterlistentry">
+                        <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
+                            <div class="ha-letterlistentryheader">
+                                <div class="ha-letterlistautopsic">@letter.Meta.Autopsic</div> 
+                                <div class="ha-letterlistpills">@await Html.PartialAsync("/Views/Shared/_Pills.cshtml", (letter, true))</div>
+                            </div>
+                            <div class="ha-letterlistletterdata">
+                                @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, true))
+                            </div>
+                        </a>
+                        
+                        @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
+                        <div class="ha-letterlistsearchresults">
+                        @foreach (var sr in Model.SearchResults[letter.Meta.Index])
                         {
-                            <p>@item.Page / @item.Line: @item.Preview</p>
+                            <div class="ha-letterlistsearchresult"> 
+                                <div class="ha-searchresultlocation">
+                                    @sr.Page/@sr.Line
+                                </div>
+                                <div class="ha-searchresultpreview">
+                                    @sr.Preview
+                                </div>
+                            </div>
                         }
-                    }
+                        </div>
+                        }
+                    </div>
                 }
             }
             </div>
@@ -153,8 +170,8 @@
                             <a class="ha-reversefilter" asp-controller="Suche" asp-action="index">← Auswahl aufheben</a>
                         }
                     </div>
-                     <form class="ha-searchform" id="ha-searchform">
-                        <input id="ha-searchformtext" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
+                     <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
+                        <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
                         <button id="ha-searchformsubmit" type="submit">Suchen</button>
                      </form>
                 </div>
@@ -168,21 +185,12 @@
                         button.disabled = false;
                     }
 
-                    const SUBMITSEARCH = function(filter) {
-                        let f = filter.value;
-                        window.location.href = "/Suche?search=" + f;
-                    }
-
                     window.addEventListener("load", () => {
                         let searchfilter = document.getElementById("ha-searchformtext");
                         let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
                         let searchform = document.getElementById("ha-searchform");
                         ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
                         searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
-                        searchform.addEventListener("submit", (ev) => { 
-                            ev.preventDefault();
-                            SUBMITSEARCH(searchfilter);
-                        });
                     });
                 </script>
 

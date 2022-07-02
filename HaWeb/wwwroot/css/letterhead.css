@@ -1,6 +1,24 @@
 @layer components {
 /* COLORS */
+  .ha-tooltiptext {
+    @apply shadow-sm bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 border dark:border-none dark:shadow dark:bg-slate-800
+  }
 
+  .ha-tooltip .ha-tooltiptext::after {
+    @apply border-t-slate-600 dark:border-t-slate-800 border-l-transparent border-r-transparent border-b-transparent
+  }
+
+  .ha-pill {
+    @apply rounded-lg border shadow-inner bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
+  }
+
+  .ha-pill.ha-newpill {
+    @apply dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
+  }
+
+  .ha-pill .ha-cross::before {
+    @apply border-b-2 border-hamannSlate-900 dark:border-gray-200
+  }
 
 /* STYLES */
   .ha-letterhead {
@@ -27,28 +45,28 @@
     @apply flex caps-petite numeric-mediaeval whitespace-nowrap
   }
 
-  .ha-letterhead .ha-metadata .ha-tooltip {
+ .ha-tooltip {
     @apply self-center cursor-default inline-block relative 
   }
 
-  .ha-letterhead .ha-metadata .ha-tooltiptext {
+  .ha-tooltiptext {
     @apply rounded text-sm px-1 py-0.5 absolute z-10 text-center
   }
 
-  .ha-letterhead .ha-metadata .ha-tooltiptext::after {
+  .ha-tooltiptext::after {
     @apply absolute top-full left-1/2
   }
 
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill {
-    @apply text-xs rounded px-1.5 ml-2 py-0.5 leading-none tracking-wide whitespace-nowrap
+  .ha-pill {
+    @apply text-xs rounded px-1.5 ml-1.5 py-0.5 leading-none tracking-wide whitespace-nowrap
   }
 
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross {
+  .ha-pill .ha-cross {
     @apply relative inline-block
   }
 
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::before,
-  .ha-letterhead .ha-metadata .ha-metadataupperrow .ha-pill .ha-cross::after {
+  .ha-pill .ha-cross::before,
+  .ha-pill .ha-cross::after {
     @apply w-full h-0 absolute right-0 top-1/2
   }
 

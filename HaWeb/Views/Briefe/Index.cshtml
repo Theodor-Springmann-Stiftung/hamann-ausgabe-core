@@ -13,7 +13,7 @@
 </noscript>
 
 <div class="ha-letterheader">
-    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, false))
+    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, false, false))
     <div class="ha-letterheadernav">
         <div class="ha-lettertabs">
             @if (!String.IsNullOrWhiteSpace(Model.ParsedText))
@@ -107,7 +107,7 @@
                                 class="ha-handto">–@hand.Item2</div>
                                     }
                                 </td>
-                                <td class="ha-handperson">@hand.Item3</td>
+                                <td class="ha-handperson">@Html.Raw(@hand.Item3)</td>
                             </tr>
                         }
                     </table>

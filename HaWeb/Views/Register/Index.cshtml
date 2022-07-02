@@ -37,10 +37,9 @@
             </div>
             }
             @if (Model.AllowSearch) {
-            <form class="ha-registersearchform" asp-controller="Register" asp-action="Search" asp-route-id="@string.Empty" method="post" >
-                <input class="ha-registersearchtext" type="text" name="search" placeholder="Suchbegriff..." />
-                <input type="hidden" name="category" value="@Model.Category" />
-                <button class="ha-registersearchbutton" type="submit">Suchen</button>
+            <form asp-controller="Register" asp-action="Search" asp-route-id="@string.Empty" method="GET" >
+                <input type="text" name="search" placeholder="Suchbegriff" />
+                <button type="submit">Suchen</button>
             </form>
             }
             <div class="ha-register-nav" id="ha-register-nav">

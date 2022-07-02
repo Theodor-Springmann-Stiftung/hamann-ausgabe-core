@@ -123,16 +123,19 @@
     @apply italic
   }
 
+  .ha-sup,
   .ha-sup *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply relative -top-[0.3em] text-[80%]
   }
 
   /* TODO: Something dooesnt work here */
-  .ha-super {
+  .ha-super,
+  .ha-super *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em]
   }
 
-  .ha-sub {
+  .ha-sub,
+  .ha-sub *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply relative text-xs leading-none align-baseline -bottom-[0.25em]
   }
 
@@ -160,7 +163,7 @@
   }
 
   .ha-aligncenter {
-    @apply absolute left-1/2 whitespace-nowrap -translate-x-1/2
+    @apply absolute left-[45%] whitespace-nowrap -translate-x-1/2
   }
 
   .ha-lineline {
@@ -169,6 +172,10 @@
 
   .ha-sal {
     @apply inline-block ml-6
+  }
+
+  .ha-letlink {
+    @apply caps-allpetite
   }
 
   /* Classes for indents */
@@ -209,6 +216,14 @@
     @apply pb-1 z-[1000] !h-auto !max-h-screen
   }
 }
+
+  .ha-insertion::before {
+    content: "\2E02";
+  }
+
+  .ha-insertion::after {
+    content: "\2E03";
+  }
 
   .ha-nr::before {
     content: " \200E\25E6";

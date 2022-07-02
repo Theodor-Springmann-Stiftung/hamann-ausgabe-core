@@ -38,7 +38,7 @@ public class RegisterController : Controller {
     }
 
     [HttpGet]
-    public IActionResult Register(string? id) {
+    public IActionResult Register(string? id, string? search) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
         var url = "/Register/Register/";
@@ -105,7 +105,7 @@ public class RegisterController : Controller {
     }
 
     [HttpGet]
-    public IActionResult Forschung(string? id) {
+    public IActionResult Forschung(string? id, string? search) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
         var url = "/Register/Forschung/";
