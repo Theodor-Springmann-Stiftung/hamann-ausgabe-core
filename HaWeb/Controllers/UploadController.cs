@@ -87,13 +87,13 @@ public class UploadController : Controller {
             model.HamannFiles = hamannFiles;
             model.AvailableFiles = XMLFileHelpers.ToFileModel(_xmlProvider.GetFiles(id), pF, uF);
 
-            return View("../Admin/Upload/Index", model);
+            return View("~/Views/Admin/Dynamic/Upload.cshtml", model);
         } else {
             var model = new UploadViewModel("Upload & Veröffentlichen", id, roots, usedFiles);
             model.ProductionFiles = productionFiles;
             model.HamannFiles = hamannFiles;
 
-            return View("../Admin/Upload/Index", model);
+            return View("~/Views/Admin/Dynamic/Upload.cshtml", model);
         }
     }
 

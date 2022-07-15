@@ -22,6 +22,7 @@ public static class StringHelpers {
         bool skipped = false;
 
         foreach (char c in input) {
+            // TODO: punctuation
             if (char.IsWhiteSpace(c)) {
                 if (!skipped) {
                     output.Append(normalizeTo);

@@ -1,0 +1,220 @@
+﻿@model SucheViewModel;
+@{
+    ViewData["Title"] = "Briefauswahl & Suche";
+    ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe, Hg. v. Leonard Keidel und Janina Reibold. Durchsuchbare Online-Ausgabe der Briefe von und an Johann Georg Hamann.";
+    ViewData["showCredits"] = "true";
+}
+
+<div class="ha-search">
+    @if (Model.Letters != null) {
+
+
+        <div class="ha-searchhead">
+            <h1>Briefauswahl</h1>
+            <div class="ha-searchnav">
+            @if (Model.AvailableYears != null && Model.AvailableYears.Any() && Model.AvailableYears.Count > 1) {
+                @for(var i = 0; i < Model.AvailableYears.Count; i++) {
+                    <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i">
+                        @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {
+                            <span>
+                                @Model.AvailableYears[i].StartYear-@Model.AvailableYears[i].EndYear
+                            </span>
+                        }
+                        else {
+                            <span>
+                                @Model.AvailableYears[i].StartYear
+                            </span>
+                        }
+                    </a>
+                }
+            }
+            </div>
+        </div>
+
+
+        <div class="ha-searchbody">
+            <div class="ha-letterlist">
+            @* Letter Loop *@
+            @foreach (var year in Model.Letters) {
+                foreach (var letter in year.LetterList) {
+                    <div class="ha-letterlistentry">
+                        <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
+                            <div class="ha-letterlistentryheader">
+                                <div class="ha-letterlistautopsic">@letter.Meta.Autopsic</div> 
+                                <div class="ha-letterlistpills">@await Html.PartialAsync("/Views/Shared/_Pills.cshtml", (letter, true))</div>
+                            </div>
+                            <div class="ha-letterlistletterdata">
+                                @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, true))
+                            </div>
+                        </a>
+                        
+                        @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
+                        <div class="ha-letterlistsearchresults">
+                        @foreach (var sr in Model.SearchResults[letter.Meta.Index])
+                        {
+                            <div class="ha-letterlistsearchresult"> 
+                                <div class="ha-searchresultlocation">
+                                    @sr.Page/@sr.Line
+                                </div>
+                                <div class="ha-searchresultpreview">
+                                    @sr.Preview
+                                </div>
+                            </div>
+                        }
+                        </div>
+                        }
+                    </div>
+                }
+            }
+            </div>
+
+            <div class="ha-filterlist">
+                @* Go To Letter *@
+                <div class="ha-gotofilter">
+                    <div class="ha-filtertitle">H&hairsp;K&hairsp;B</div>
+                    <form class="ha-gotoform" id="ha-gotoform">
+                        <div class="ha-gototext">
+                            Briefnummer
+                        </div>
+                        <input type="text" id="ha-gotoletternumber" class="ha-gotoletternumber" />
+                        <button type="submit" id="ha-gotoformsubmit">Nachschlagen</button>
+                    </form>
+                </div>
+                <script>
+                    const ACTIVATEGOTOFILTER = function(filter, button) {
+                        let f = filter.value;
+                        if (f === "") {
+                            button.disabled = true;
+                            return;
+                        }
+                        button.disabled = false;
+                    }
+
+                    const SUBMITGOTO = function(filter) {
+                        let f = filter.value;
+                        window.location.href = "/Suche/" + f;
+                    }
+
+                    window.addEventListener("load", () => {
+                        let gotofilter = document.getElementById("ha-gotoletternumber");
+                        let gotosubmitbtn = document.getElementById("ha-gotoformsubmit");
+                        let gotoform = document.getElementById("ha-gotoform");
+                        ACTIVATEGOTOFILTER(gotofilter, gotosubmitbtn);
+                        gotofilter.addEventListener("input", () => ACTIVATEGOTOFILTER(gotofilter, gotosubmitbtn));
+                        gotoform.addEventListener("submit", (ev) => { 
+                            ev.preventDefault();
+                            SUBMITGOTO(gotofilter);
+                        });
+                    });
+                </script>
+
+                @* ZH Loopkup *@
+                @if (Model.AvailablePages != null) {
+                <div class="ha-zhsearchfilter">
+                    <div class="ha-filtertitle">
+                        Suche in Z&hairsp;H
+                        @if (Model.ActivePage != null) {
+                            <a class="ha-reversefilter" asp-controller="Suche" asp-action="index">← Auswahl aufheben</a>
+                        }
+                    </div>
+                     <form class="ha-zhform" id="ha-zhform">
+                        <span>Z&hairsp;H Band</span>
+                        <select id="ha-zhformvolume">
+                            @foreach (var volume in Model.AvailablePages) {
+                                <option>@volume.Volume</option> 
+                            }
+                        </select>
+                        <span>, Seite</span>
+                        <input id="ha-zhformpage" type="text" value="@Model.ActivePage"/>
+                        <button id="ha-zhformsubmit" type="submit">Nachschlagen</button>
+                     </form>
+                </div>
+                <script>
+                    const ACTIVATEZHSEARCH = function(volume, page, button) {
+                        let vol = volume.options[volume.selectedIndex].value;
+                        let pg = page.value;
+                        if (pg === "") {
+                            button.disabled = true;
+                            return;
+                        }
+                        button.disabled = false;
+                    }
+
+                    const SUBMITZHSEARCH = function(volume, page) {
+                        let vol = volume.options[volume.selectedIndex].value;
+                        let pg = page.value;
+                        window.location.href = "/Suche/" + vol + "/" + pg;
+                    }
+
+                    window.addEventListener("load", () => {
+                        let vol = document.getElementById("ha-zhformvolume");
+                        let pg = document.getElementById("ha-zhformpage");
+                        let zhsubmitbtn = document.getElementById("ha-zhformsubmit");
+                        let zhsearchform = document.getElementById("ha-zhform");
+                        ACTIVATEZHSEARCH(vol, pg, zhsubmitbtn);
+                        vol.addEventListener("change", () => ACTIVATEZHSEARCH(vol, pg, zhsubmitbtn));
+                        pg.addEventListener("input", () => ACTIVATEZHSEARCH(vol, pg, zhsubmitbtn));
+                        zhsearchform.addEventListener("submit", (ev) => { 
+                            ev.preventDefault();
+                            SUBMITZHSEARCH(vol, pg);
+                        });
+                    });
+                </script>
+                }
+    
+                 @* Full-Text-Search *@
+                 <div class="ha-searchfilter">
+                    <div class="ha-filtertitle">
+                        Volltextsuche
+                        @if (Model.ActiveSearch != null) {
+                            <a class="ha-reversefilter" asp-controller="Suche" asp-action="index">← Auswahl aufheben</a>
+                        }
+                    </div>
+                     <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
+                        <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
+                        <button id="ha-searchformsubmit" type="submit">Suchen</button>
+                     </form>
+                </div>
+                <script>
+                    const ACTIVATESEARCHFILTER = function(filter, button) {
+                        let f = filter.value;
+                        if (f === "") {
+                            button.disabled = true;
+                            return;
+                        }
+                        button.disabled = false;
+                    }
+
+                    window.addEventListener("load", () => {
+                        let searchfilter = document.getElementById("ha-searchformtext");
+                        let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
+                        let searchform = document.getElementById("ha-searchform");
+                        ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
+                        searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
+                    });
+                </script>
+
+                @* Person Filter *@
+                @if(Model.AvailablePersons != null) {
+                <div class="ha-personfilter">
+                    <div class="ha-filtertitle">
+                        Korrespondenzpartner:innen 
+                        @if (Model.ActivePerson != null) {
+                            <a class="ha-reversefilter" asp-controller="Suche" asp-action="index">← Auswahl aufheben</a>
+                        }
+                    </div>
+                    <div class="ha-personlist">
+                        <a class="ha-personlistperson @(Model.ActivePerson == null ? "active" : "")" asp-controller="Suche" asp-action="Index">Alle</a>
+                        @foreach (var person in Model.AvailablePersons) {
+                            <a class="ha-personlistperson @(Model.ActivePerson == person.Key ? "active" : "")" asp-controller="Suche" asp-action="Person" asp-route-person="@person.Key" asp-route-page="@null">
+                                @person.Name
+                            </a>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+
+        </div>
+    }
+</div>

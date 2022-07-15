@@ -45,6 +45,7 @@ Veränderungenen in der Funktionalität für den Benutzer
 - Bibellinks in Bibelkommentaren
 - Verbesserte Ladezeiten
 - Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die Ausgaben
+- URL für die Register hat sich geändert, bleibt aber weiter unter `/Supplementa/` zugängig.
 - Anzeige Briefe beim Namen (?)
 - GeoCities und Personen-Verweise (?)
 

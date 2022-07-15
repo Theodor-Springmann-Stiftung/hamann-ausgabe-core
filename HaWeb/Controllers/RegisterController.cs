@@ -68,7 +68,7 @@ public class RegisterController : Controller {
         };
 
         // Return
-        return View("Index", model);
+        return View("~/Views/HKB/Dynamic/Register.cshtml", model);
     }
 
     [HttpGet]
@@ -101,7 +101,7 @@ public class RegisterController : Controller {
         };
 
         // Return
-        return View("Index", model);
+        return View("~/Views/HKB/Dynamic/Register.cshtml", model);
     }
 
     [HttpGet]
@@ -143,7 +143,7 @@ public class RegisterController : Controller {
         };
 
         // Return
-        return View("Index", model);
+        return View("~/Views/HKB/Dynamic/Register.cshtml", model);
     }
 
     [HttpPost]

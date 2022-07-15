@@ -175,7 +175,7 @@ public class SucheController : Controller {
         zhvolume = zhvolume == null ? "1" : zhvolume;
         var model = new SucheViewModel(letters, page, pages, _getAvailablePersons(lib), availablePages.OrderBy(x => x.Volume).ToList(), zhvolume, zhpage, activeSearch, searchResults);
         if (person != null) model.ActivePerson = person;
-        return View("Index", model);
+        return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
     }
 
     private IActionResult _error404() {

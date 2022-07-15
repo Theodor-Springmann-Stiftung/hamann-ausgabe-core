@@ -1,0 +1,157 @@
+@model BriefeViewModel;
+@{
+    var minwidth = "";
+    if (Model.MinWidth)
+        minwidth = "ha-minwidth";
+    var minwidthtrads = "";
+    if (Model.MinWidthTrad)
+        minwidthtrads = "ha-minwidth"; 
+}
+@* No JavaScript Settings *@
+<noscript>
+@* TODO *@
+</noscript>
+
+<div class="ha-letterheader">
+    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, false, false))
+    <div class="ha-letterheadernav">
+        <div class="ha-lettertabs">
+            @if (!String.IsNullOrWhiteSpace(Model.ParsedText))
+            {
+                <a class="" id="ha-lettertextbtn">Brieftext</a>
+                @if (Model.ParsedMarginals != null)
+                {
+                    <a class="ha-marginalsbtn " id="ha-marginalsbtn">Stellenkommentar</a>
+                }
+            }
+            <a class="" id="ha-additionsbtn">Überlieferung & Textkritik</a>
+            <a class="">PDF</a>
+        </div>
+
+        @if (Model.MetaData.Next != null || Model.MetaData.Prev != null)
+        {
+            <div class="ha-lettermetalinks">
+                @if (Model.MetaData.Prev != null)
+                {
+                    <a href="@Model.MetaData.Prev.Value.Item2">
+                        @Model.MetaData.Prev.Value.Item1.Meta.Autopsic ◀
+                    </a>
+                }
+
+                <div class="ha-hkb">
+                    HKB
+                </div>
+
+                @if (Model.MetaData.Next != null)
+                {
+                    <a href="@Model.MetaData.Next.Value.Item2">
+                        ▶ @Model.MetaData.Next.Value.Item1.Meta.Autopsic
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="ha-letterbody " id="ha-letterbody">
+    <div class="ha-lettertext @minwidth" id="ha-lettertext">
+        @if (Model.MetaData.ParsedZHString != null) {
+        <div class="ha-linecount ha-firstline">
+            <span>@Html.Raw(Model.MetaData.ParsedZHString)</span>
+        </div>
+        }
+        @Html.Raw(@Model.ParsedText)
+        @* It's not beautiful but it's a hack to keep the last comment within parent element boundaries: *@
+        <br>
+        <div class="ha-marginalbox"></div>
+    </div>
+
+    @if (Model.ParsedMarginals != null)
+    {
+        <div class="ha-marginals " id="ha-marginals">
+            <table>
+                @foreach (var marginal in Model.ParsedMarginals)
+                {
+                    <tr>
+                        <td class="ha-marginalfromto">@marginal.Item1/@marginal.Item2</td>
+                        <td class="ha-marginaltext">@Html.Raw(@marginal.Item3)</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+    <div class="ha-additions" id="ha-additions">
+        <div class="@minwidthtrads">
+        @if (Model.ParsedTradition != null)
+        {
+            @Html.Raw(Model.ParsedTradition)
+        }
+        </div>
+        
+        @if (Model.ParsedHands != null && Model.ParsedHands.Any())
+        {
+            <div class="ha-hands">
+                <div class="ha-handstitle">Zusätze fremder Hand</div>
+                <div class="ha-handentries">
+                    <table>
+                        @foreach (var hand in Model.ParsedHands)
+                        {
+                            <tr class="ha-handentry">
+                                <td>
+                                    @* Not beautiful, but here's whitespace in between otherwise *@
+                                    <div class="ha-handfrom">@hand.Item1</div>@if (!String.IsNullOrEmpty(hand.Item2))
+                                    {
+                                        <div
+                                class="ha-handto">–@hand.Item2</div>
+                                    }
+                                </td>
+                                <td class="ha-handperson">@Html.Raw(@hand.Item3)</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+
+        @if (Model.ParsedEdits != null)
+        {
+            <div class="ha-edits">
+                <div class="ha-editstitle">Textkritische Anmerkungen</div>
+                <div class="ha-editsinfo">Der Brieftext wurde anhand der überlieferten Quellen (vgl. Provenienz) kritisch
+                    geprüft. Notwendige Korrekturen gegenüber dem in ZH gedruckten Text wurden vorgenommen und sind
+                    vollständig annotiert. Die in den beiden Auflagen von ZH angehängten Korrekturvorschläge werden
+                    vollständig aufgelistet, werden aber nur dann im Text realisiert, sofern diese anhand überlieferter
+                    Quellen verifiziert werden konnten.</div>
+                <div class="ha-editentries">
+                    <table>
+                        @foreach (var edit in Model.ParsedEdits)
+                        {
+                            <tr>
+                                <td class="ha-editfromto">
+                                    <div class="ha-editfrom">@edit.Item1</div>@if (!String.IsNullOrEmpty(edit.Item2))
+                                    {
+                                        <div
+                                class="ha-editto">–@edit.Item2</div>
+                                    }
+                                </td>
+                                <td class="ha-editreference">
+                                    @if (!String.IsNullOrWhiteSpace(edit.Item3))
+                                    {
+                                        <span>
+                                            @Html.Raw(@edit.Item3)]
+                                        </span>
+                                    }
+                                </td>
+                                <td class="ha-editreas">
+                                    @Html.Raw(@edit.Item4)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>

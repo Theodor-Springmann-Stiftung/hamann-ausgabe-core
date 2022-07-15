@@ -75,7 +75,7 @@ public class Briefecontroller : Controller {
         }
 
         // Return
-        return View(model);
+        return View("~/Views/HKB/Dynamic/Briefe.cshtml", model);
     }
 
     private IActionResult error404() {

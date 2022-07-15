@@ -1,0 +1,76 @@
+@model RegisterViewModel;
+
+@* Generated classes by CommentHelper.cs: 
+    - .ha-letlink .ha-wwwlink .ha-reflink: Links to letters, the web, the reference
+    - .ha-lemma: The lemma
+    - .ha-title: Name of something
+    - .ha-reference: Automatically inserted linktext
+    - .ha-commenthead: Class containing the head of a comment, lemma and backlinks
+    - .ha-commentbody: Body of a comment, containing the comments text
+    - .ha-letlinks: Collection of references in the comment within the marginals
+    - .ha-hkb: HKB that is in front of those links
+    - .ha-insertedlemma: automatically generated and inserted lemma
+
+  Generated classes by JavaScript:
+  - .ha-collapsed-box, .ha-expanded-box: for an expanded or collapsed comment box
+  - .ha-open-btn-collapsed-box, ha-close-btn-collapsed-box: for open- & close buttons for the boxes
+  - .ha-btn-collapsed-box: for the button itself
+  - .ha-collapsed-box-manually-toggled: for a manually (not on mousehover) toggled button
+*@
+
+@{
+    var commentClass = Model.Category == "neuzeit" ? "ha-neuzeit" 
+        : Model.Category == "forschung" ? "ha-forschung" 
+        : "ha-bibel";
+}
+
+<div class="ha-register">
+    <div class="@commentClass">
+        <div class="ha-register-head">
+            <h1>@Model.Title</h1>
+            @if (Model.AllowSendIn) {
+            <div class="ha-register-add">
+                <a href="mailto:post@hamann-ausgabe.de?subject=Publikation%28en%29%20beitragen">
+                    <div class="ha-register-add-plusbutton">+</div>
+                    <div class="ha-register-add-text">Publikation(en) beitragen</div>
+                </a>
+            </div>
+            }
+            @if (Model.AllowSearch) {
+            <form asp-controller="Register" asp-action="Search" asp-route-id="@string.Empty" method="GET" >
+                <input type="text" name="search" placeholder="Suchbegriff" />
+                <button type="submit">Suchen</button>
+            </form>
+            }
+            <div class="ha-register-nav" id="ha-register-nav">
+                <div class="ha-register-left-nav">
+                    @if (Model.AvailableCategories != null) {
+                        @foreach (var l in Model.AvailableCategories) {
+                            <a href="@l.Item2">@l.Item1</a>
+                        }
+                    }
+                </div>
+                <div class="ha-register-right-nav">
+                    @if (Model.AvailableSideCategories != null) {
+                        foreach (var l in Model.AvailableSideCategories) {
+                            <a href="@l.Item2">@l.Item1</a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="ha-register-body">
+        @foreach (var k in Model.ParsedComments) {
+            <div class="ha-comment">
+                <div class="ha-headcomment">@Html.Raw(k.ParsedComment)</div>
+                @if (k.ParsedSubComments != null ) {
+                    @foreach (var sk in k.ParsedSubComments) {
+                        <div class="ha-subcomment">@Html.Raw(sk)</div>
+                    }
+                }
+            </div>
+        }
+        </div>
+    </div>
+</div>
