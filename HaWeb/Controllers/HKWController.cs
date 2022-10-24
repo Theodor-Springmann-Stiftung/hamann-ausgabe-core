@@ -10,17 +10,17 @@ public class HKWController : Controller {
         return View("~/Views/HKW/Static/Index.cshtml");
     }
 
-    [Route("Erschienen/FliegenderBrief")]
+    [Route("Baende/FliegenderBrief")]
     public IActionResult FliegenderBrief() {
         return View("~/Views/HKW/Static/FliegenderBrief.cshtml");
     }
 
-    [Route("Geplant/Kreuzzuege")]
+    [Route("Baende/Kreuzzuege")]
     public IActionResult Kreuzzuege() {
         return View("~/Views/HKW/Static/Kreuzzuege.cshtml");
     }
 
-    [Route("Erschienen/SokratischeDenkwuerdigkeiten")]
+    [Route("Baende/SokratischeDenkwuerdigkeiten")]
     public IActionResult SokratischeDenkwuerdigkeiten() {
         return View("~/Views/HKW/Static/SokratischeDenkwuerdigkeiten.cshtml");
     }
