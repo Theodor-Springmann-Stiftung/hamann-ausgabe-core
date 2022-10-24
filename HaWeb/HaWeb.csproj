@@ -7,12 +7,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Content Remove="wwwroot\css\*.css" />
     <Content Include="wwwroot\css\*.css" Watch="false" />
     <Content Remove="wwwroot\css\output.css" />
     <Content Include="wwwroot\css\output.css" Watch="true" />
-  </ItemGroup>
+  </ItemGroup> -->
 
   <Target Name="Tailwind" >
     <Exec Command="npm run css_build" />

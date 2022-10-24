@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de" id="top">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* TODO: Description für die Startseite *@
+    <meta name="description" content="">
+
+    <title>HKB: @ViewData["Title"]</title>
+
+    <!-- crossorigin is a workaround to prevent double downloading bugs in chrome -->
+    <!-- also, the graphite versions of the font are available for use:
+        <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
+        <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
+    -->
+    <link rel="preload" href="/css/output.css" as="style" asp-append-version="true"/>
+    <link rel="preload" href="/img/subtlenet2.png" as="image" />
+    <link rel="preload" href="/fonts/LinBiolinum_R.woff" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinLibertine_R.woff" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinLibertine_RI.woff" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinLibertine_RB.woff" as="font" crossorigin/>
+    
+
+    <link rel="stylesheet" href="/css/output.css" asp-append-version="true" />
+    <environment include="Development">
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+</head>
+
+<body class="w-full ">
+    <div class="relative min-h-screen">
+        <div class="pb-24">
+            Menu
+            @* Placeholder Menu *@
+            <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto h-full">
+                @* Placeholder Main *@
+                Hallo!
+            </main>
+        </div>
+        <div class="absolute bottom-0 w-full">
+            @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
+            </div>
+        </div>
+    </div>
+
+    <environment exclude="Development">
+        @await Html.PartialAsync("/Views/Shared/_Javascript.cshtml")
+    </environment>
+</body>
+
+</html>

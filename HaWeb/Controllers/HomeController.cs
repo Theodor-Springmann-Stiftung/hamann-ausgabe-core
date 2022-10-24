@@ -8,7 +8,7 @@ public class HomeController : Controller {
 
     [Route("")]
     public IActionResult Index() {
-        return Redirect("/Suche");
+        return View("~/Views/Index.cshtml");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

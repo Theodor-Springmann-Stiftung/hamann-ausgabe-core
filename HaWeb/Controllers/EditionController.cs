@@ -6,10 +6,6 @@ namespace HaWeb.Controllers;
 
 [Route("Edition/[action]")]
 public class EditionController : Controller {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error() {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
     public IActionResult Kontakt() {
         return View("~/Views/HKB/Static/Kontakt.cshtml");
     }
