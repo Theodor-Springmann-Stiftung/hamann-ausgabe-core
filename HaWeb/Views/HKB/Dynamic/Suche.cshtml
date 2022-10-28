@@ -8,7 +8,6 @@
 <div class="ha-search">
     @if (Model.Letters != null) {
 
-
         <div class="ha-searchhead">
             <h1>Briefauswahl</h1>
             <div class="ha-searchnav">
@@ -30,7 +29,6 @@
             }
             </div>
         </div>
-
 
         <div class="ha-searchbody">
             <div class="ha-letterlist">
@@ -92,7 +90,7 @@
 
                     const SUBMITGOTO = function(filter) {
                         let f = filter.value;
-                        window.location.href = "/Suche/" + f;
+                        window.location.href = "/HKB/Suche/" + f;
                     }
 
                     window.addEventListener("load", () => {
@@ -143,7 +141,7 @@
                     const SUBMITZHSEARCH = function(volume, page) {
                         let vol = volume.options[volume.selectedIndex].value;
                         let pg = page.value;
-                        window.location.href = "/Suche/" + vol + "/" + pg;
+                        window.location.href = "/HKB/Suche/" + vol + "/" + pg;
                     }
 
                     window.addEventListener("load", () => {

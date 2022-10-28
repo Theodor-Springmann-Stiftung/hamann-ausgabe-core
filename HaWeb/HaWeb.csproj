@@ -7,17 +7,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
-    <Content Remove="wwwroot\css\*.css" />
-    <Content Include="wwwroot\css\*.css" Watch="false" />
-    <Content Remove="wwwroot\css\output.css" />
-    <Content Include="wwwroot\css\output.css" Watch="true" />
-  </ItemGroup> -->
-
-  <Target Name="Tailwind" >
-    <Exec Command="npm run css_build" />
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
   </ItemGroup>

@@ -3,8 +3,8 @@
 }
 <header class="sticky w-100 font-serif mb-6">
     <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 dark:shadow-xl dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap">
-        <a href="/" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
-            <img src="/favicon.ico" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 p-1 border border-gray-900 border-t-gray-200 border-l-gray-200 " alt="HKB-Logo" loading="lazy" />
+        <a asp-controller="Suche" asp-action="RedirectIndex" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black">
+            <img src="/favicon.ico" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 border border-gray-300 shadow-sm" alt="HKB-Logo" loading="lazy" />
                 <span class="sm:hidden">Hamann: Komm. Briefausgabe</span> 
                 <span class="hidden sm:inline md:hidden">Johan Georg Hamann: Kommentierte Briefausgabe</span> 
                 <span class="hidden md:inline align-baseline">Johann Georg Hamann: Kommentierte Briefausgabe (&#x200A;H&#x200A;K&#x200A;B&#x200A;)</span>
@@ -30,32 +30,32 @@
             </button>
         </div>
         <div class="ha-topnav " id="ha-topnav">
-            <a href="/Suche">
+            <a asp-controller="Suche" asp-action="Index">
                 Suche & Briefauswahl
             </a>
-            <a href="/Briefe">
+            <a asp-controller="Briefe" asp-action="Index">
                 Briefansicht
             </a>
             <div class="ha-topnav-dropdown">
-                <a href="/Register" class="cursor-default ha-menu-arrowsymbol pointer-events-none">
+                <a href="/HKB/Register" class="cursor-default ha-menu-arrowsymbol pointer-events-none">
                     Register
                 </a>
                 <div class="ha-topnav-dropdown-content" >
-                    <a href="/Register/Register" class="">Register</a>
-                    <a href="/Register/Bibelstellen" class="">Bibelstellenregister</a>
-                    <a href="/Register/Forschung" class="">Forschungsbibliographie</a>
+                    <a asp-controller="Register" asp-action="Allgemein">Register</a>
+                    <a asp-controller="Register" asp-action="Bibelstellen">Bibelstellenregister</a>
+                    <a asp-controller="Register" asp-action="Forschung">Forschungsbibliographie</a>
                 </div>
             </div>
              <div class="ha-topnav-dropdown">
-                <a href="/Edition" class="cursor-default ha-menu-arrowsymbol pointer-events-none !mr-0" >
+                <a href="/HKB/Edition" class="cursor-default ha-menu-arrowsymbol pointer-events-none !mr-0" >
                 Edition
                 </a>
                 <div class="ha-topnav-dropdown-content !mr-0">
-                    <a href="/Edition/Kontakt" class="">Kontakt</a>
-                    <a href="/Edition/Mitwirkende" class="">Mitwirkende</a>
-                    <a href="/Edition/Richtlinien" class="">Editionsrichtlinien</a>
-                    <a href="/Edition/Editionsgeschichte" class="">Editionsgeschichte</a>
-                    <a href="/Edition/Werkausgabe" class="">Werkausgabe</a>
+                    <a asp-controller="Home" asp-action="Kontakt">Kontakt</a>
+                    <a asp-controller="Edition" asp-action="Mitwirkende">Mitwirkende</a>
+                    <a asp-controller="Edition" asp-action="Richtlinien">Editionsrichtlinien</a>
+                    <a asp-controller="Edition" asp-action="Editionsgeschichte">Editionsgeschichte</a>
+                    <a asp-controller="HKW" asp-action="Index">Werkausgabe</a>
                 </div>
             </div>
         </div>

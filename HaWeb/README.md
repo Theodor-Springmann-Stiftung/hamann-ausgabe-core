@@ -25,13 +25,15 @@ Note that nodejs is used only as a build tool for css (and possibly in the futur
 
 Run
 
-`dotnet watch --verbose --project Tailwind.csproj build -- Tailwind.csproj` and
+`dotnet watch run` and
 
-`dotnet watch --verbose --project HaWeb.csproj -- run --project HaWeb.csproj`
+`npm run watch`
 
 in seperate terminals to watch for specific file changes in .css / .js / .cshtml / .json or .cs files and to rebuild the css-Files and the app automatically on change.
 
-Recommended vscode plugins include the XML Tools, Prettier, c#, Nuget Gallery, Tailwind CSS IntelliSense & TODO Tree.
+There is a chance you need to set the Environment Variable to 'Development' in Windows, do that with `$Env:ASPNETCORE_ENVIRONMENT = "Development"`.
+
+Recommended vscode plugins include the XML Tools, c#, Tailwind CSS IntelliSense & TODO Tree.
 
 ## Redesign der Hamann-Vebseite, drittes Update
 Veränderungenen in der Funktionalität für den Benutzer
@@ -74,6 +76,7 @@ TODO 1127 zu breit Hm -> Stiftung
 TODO 659 align center und align-right ueberschneidugn -> Stiftung
 
 Vor dem internen release:
+TODO HKW
 TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
 TODO Dark mode Strartseite Upload
 TODO Suche Register

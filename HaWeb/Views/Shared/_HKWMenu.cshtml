@@ -1,10 +1,10 @@
 <header class="sticky w-100 font-serif mb-6">
     <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 dark:shadow-xl dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap">
-        <a href="/HKW/Start" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
-            <img src="/img/HKW.png" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 p-1 border border-gray-900 border-t-gray-200 border-l-gray-200 " alt="HKW-Logo" loading="lazy" />
-                <span class="sm:hidden">Hamann: Komm. Werkedition</span> 
-                <span class="hidden sm:inline md:hidden">Johan Georg Hamann: Kommentierte Werkedition</span> 
-                <span class="hidden md:inline align-baseline">Johann Georg Hamann: Historisch-kritische und kommentierte Edition ausgewählter Werke (&#x200A;H&#x200A;K&#x200A;W&#x200A;)</span>
+        <a asp-controller="HKW" asp-action="Index" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
+            <img src="/img/HKW.png" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 border border-gray-300 shadow-sm" alt="HKW-Logo" loading="lazy" />
+            <span class="sm:hidden">Hamann: Komm. Werkedition</span> 
+            <span class="hidden sm:inline md:hidden">Johan Georg Hamann: Kommentierte Werkedition</span> 
+            <span class="hidden md:inline align-baseline">Johann Georg Hamann: Historisch-kritische und kommentierte Edition ausgewählter Werke (&#x200A;H&#x200A;K&#x200A;W&#x200A;)</span>
         </a>
         <div class="flex grow shrink">
 
@@ -32,18 +32,18 @@
                     Bände
                 </a>
                 <div class="ha-topnav-dropdown-content" >
-                    <a href="/HKW/Baende/FliegenderBrief" class="">Fliegender Brief</a>
-                    <a href="/HKW/Baende/SokratischeDenkwuerdigkeiten" class="">Sokratische Denkwürdigkeiten / Wolken</a>
-                    <a href="/HKW/Baende/Kreuzzuege" class="">Kreuzzüge des Philologen</a>
+                    <a asp-controller="HKW" asp-action="FliegenderBrief">Fliegender Brief</a>
+                    <a asp-controller="HKW" asp-action="SokratischeDenkwuerdigkeiten">Sokr. Denkwürdigkeiten. Wolken</a>
+                    <a asp-controller="HKW" asp-action="Kreuzzuege">Kreuzzüge des Philologen</a>
                 </div>
             </div>
 
 
-            <a href="/HKW/Uebersicht">
+            <a asp-controller="HKW" asp-action="Uebersicht">
                 Werkübersicht
             </a>
 
-            <a href="/Register/Forschung/Editionen">
+            <a asp-controller="Register" asp-action="Forschung" asp-route-id="EDITIONEN">
                 Bibliographie Hamann-Editionen
             </a>
         </div>

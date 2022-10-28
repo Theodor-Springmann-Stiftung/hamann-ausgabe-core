@@ -7,8 +7,19 @@ namespace HaWeb.Controllers;
 public class HomeController : Controller {
 
     [Route("")]
+    [Route("Index")]
     public IActionResult Index() {
-        return View("~/Views/Index.cshtml");
+        return View("~/Views/Home/Index.cshtml");
+    }
+
+    [Route("Kontakt")]
+    public IActionResult Kontakt() {
+        return View("~/Views/Home/Kontakt.cshtml");
+    }
+
+    [Route("Datenschutzerklaerung")]
+    public IActionResult Datenschutzerklaerung() {
+        return View("~/Views/Home/Datenschutzerklaerung.cshtml");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

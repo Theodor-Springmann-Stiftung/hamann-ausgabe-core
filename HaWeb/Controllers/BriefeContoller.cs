@@ -21,12 +21,12 @@ public class Briefecontroller : Controller {
         _readerService = readerService;
     }
 
-    [Route("Briefe")]
-    [Route("Briefe/{id?}")]
+    [Route("/HKB/Briefe")]
+    [Route("/HKB/Briefe/{id?}")]
     public IActionResult Index(string? id) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
-        var url = "/Briefe/";
+        var url = "/HKB/Briefe/";
         var defaultID = "1";
 
         // Normalisation and Validation, (some) data aquisition

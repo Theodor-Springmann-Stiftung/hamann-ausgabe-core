@@ -21,6 +21,10 @@
     @apply w-full py-12 px-12 md:px-16 hyphenate font-serif
   }
 
+  .ha-static .ha-static-right-margin {
+    @apply md:pr-60 desktop:pr-80
+  }
+
   .ha-static h1 {
     @apply font-bold text-2xl desktop:font-normal desktop:text-5xl mb-9 unhyphenate
   }

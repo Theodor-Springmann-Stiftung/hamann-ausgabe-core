@@ -23,7 +23,7 @@ public class SucheController : Controller {
         _lettersForPage = config.GetValue<int>("LettersOnPage");
     }
 
-    [Route("Suche/{letterno}")]
+    [Route("/HKB/Suche/{letterno}")]
     public IActionResult GoTo(string letterno) {
         if (String.IsNullOrWhiteSpace(letterno)) return _error404();
         letterno = letterno.Trim();
@@ -34,7 +34,7 @@ public class SucheController : Controller {
         return _error404();
     }
 
-    [Route("Suche/{zhvolume}/{zhpage}")]
+    [Route("/HKB/Suche/{zhvolume}/{zhpage}")]
     public IActionResult GoToZH(string zhvolume, string zhpage) {
         if (String.IsNullOrWhiteSpace(zhvolume) || String.IsNullOrWhiteSpace(zhpage)) return _error404();
         zhvolume = zhvolume.Trim();
@@ -62,7 +62,12 @@ public class SucheController : Controller {
         return _error404();
     }
 
-    [Route("Suche")]
+    [Route("/HKB/")]
+    public IActionResult RedirectIndex(string? search, int page = 0) {
+        return RedirectPermanent("/HKB/Suche");
+    }
+
+    [Route("/HKB/Suche")]
     // Order of actions:
     // Filter, sort by year, paginate, sort by Meta.Sort & .Order, parse
     public IActionResult Index(string? search, int page = 0) {
@@ -90,7 +95,7 @@ public class SucheController : Controller {
         return _paginateSend(lib, page, metasbyyear);
     }
 
-    [Route("Suche/Person/{person}")]
+    [Route("/HKB/Suche/Person/{person}")]
     public IActionResult Person(string person, int page = 0) {
         if (String.IsNullOrWhiteSpace(person)) return _error404();
         person = person.Trim();

@@ -5,7 +5,7 @@ using HaWeb.Models;
 
 [Route("HKW/")]
 public class HKWController : Controller {
-    [Route("Start")]
+    [Route("")]
     public IActionResult Index() {
         return View("~/Views/HKW/Static/Index.cshtml");
     }

@@ -46,7 +46,7 @@ public class LinkHelper {
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "rel", Value = "noopener noreferrer" }));
                 if (tag.Name == "intlink" && tag.Values.ContainsKey("letter") && _lib.Metas.ContainsKey(tag["letter"])) {
                     var letter = _lib.Metas[tag["letter"]];
-                    _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
+                    _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
                     if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
                         var linkstring = "";
                         var ZHstring = "";
@@ -80,11 +80,11 @@ public class LinkHelper {
                         var linkloc = String.IsNullOrWhiteSpace(comment.Parent) ? comment.Index : comment.Parent;
                         if (_followlinksinthis)
                             if (comment.Type == "neuzeit")
-                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Register/" + linkloc[0] + "#" + comment.Index));
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Allgemein/" + linkloc[0] + "#" + comment.Index));
                             else if (comment.Type == "bibel")
-                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));
                             else if (comment.Type == "forschung")
-                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/Register/Forschung/" + linkloc[0] + "#" + comment.Index));
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Forschung/" + linkloc[0] + "#" + comment.Index));
                         _sb.Append(GetLemmaString(tag, comment));
                     }
                 }

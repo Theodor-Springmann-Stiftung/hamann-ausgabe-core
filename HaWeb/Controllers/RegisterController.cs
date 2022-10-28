@@ -23,7 +23,7 @@ using Microsoft.FeatureManagement.Mvc;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Http.Features;
 
-[Route("Register/[action]/{id?}")]
+[Route("/HKB/Register/[action]/{id?}")]
 public class RegisterController : Controller {
     [BindProperty(SupportsGet = true)]
     public string? search { get; set; }
@@ -38,10 +38,10 @@ public class RegisterController : Controller {
     }
 
     [HttpGet]
-    public IActionResult Register(string? id, string? search) {
+    public IActionResult Allgemein(string? id, string? search) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
-        var url = "/Register/Register/";
+        var url = "/HKB/Register/Allgemein/";
         var category = "neuzeit";
         var defaultLetter = "A";
         var title = "Allgemeines Register";
@@ -75,7 +75,7 @@ public class RegisterController : Controller {
     public IActionResult Bibelstellen(string? id) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
-        var url = "/Register/Bibelstellen/";
+        var url = "/HKB/Register/Bibelstellen/";
         var category = "bibel";
         var defaultLetter = "AT";
         var title = "Bibelstellenregister";
@@ -108,7 +108,7 @@ public class RegisterController : Controller {
     public IActionResult Forschung(string? id, string? search) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
-        var url = "/Register/Forschung/";
+        var url = "/HKB/Register/Forschung/";
         var category = "forschung";
         var defaultLetter = "A";
         var title = "Forschungsbibliographie";
@@ -149,9 +149,9 @@ public class RegisterController : Controller {
     [HttpPost]
     [DisableFormValueModelBinding]
     [ValidateAntiForgeryToken]
-    [Route("/Register/Forschung/{id}")]
-    [Route("/Register/Register/{id}")]
-    [Route("/Register/Bibelstellen/{id}")]
+    [Route("/HKB/Register/Forschung/{id}")]
+    [Route("/HKB/Register/Register/{id}")]
+    [Route("/HKB/Register/Bibelstellen/{id}")]
     public IActionResult Search(string? id) {
         return Ok();
     }

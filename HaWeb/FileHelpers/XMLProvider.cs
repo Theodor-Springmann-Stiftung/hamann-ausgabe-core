@@ -17,16 +17,16 @@ public class XMLProvider : IXMLProvider {
         _Roots = xmlservice.GetRootsDictionary();
         _Files = _ScanFiles();
         _HamannFiles = _ScanHamannFiles();
-        
+
         if (_Files != null)
-            foreach(var category in _Files) 
+            foreach (var category in _Files)
                 if (category.Value != null)
                     xmlservice.AutoUse(category.Value);
     }
 
     public List<IFileInfo>? GetHamannFiles() => this._HamannFiles;
 
-    public IFileInfo? GetInProduction()  {
+    public IFileInfo? GetInProduction() {
         if (_InProduction == null || !_InProduction.Any()) return null;
         return this._InProduction.Peek();
     }
@@ -43,7 +43,7 @@ public class XMLProvider : IXMLProvider {
     public void SetInProduction(IFileInfo info) {
         if (_InProduction == null) _InProduction = new Stack<IFileInfo>();
         _InProduction.Push(info);
-    } 
+    }
 
     public FileList? GetFiles(string prefix)
         => _Files != null && _Files.ContainsKey(prefix) ? _Files[prefix] : null;
@@ -59,12 +59,11 @@ public class XMLProvider : IXMLProvider {
                 Directory.CreateDirectory(directory);
             using (var targetStream = System.IO.File.Create(path))
                 await doc.Save(targetStream, ModelState);
-        }
-        catch (Exception ex) {
-            ModelState.AddModelError("Error",  "Speichern der Datei fehlgeschlagen: " + ex.Message);
+        } catch (Exception ex) {
+            ModelState.AddModelError("Error", "Speichern der Datei fehlgeschlagen: " + ex.Message);
             return;
         }
-        
+
         var info = _fileProvider.GetFileInfo(Path.Combine(doc.Prefix, doc.FileName));
         if (info == null) {
             ModelState.AddModelError("Error", "Auf die neu erstellte Dtaei konnte nicht zugegriffen werden.");
@@ -89,8 +88,7 @@ public class XMLProvider : IXMLProvider {
                 Directory.CreateDirectory(directory);
             using (var targetStream = System.IO.File.Create(path))
                 await element.SaveAsync(targetStream, SaveOptions.DisableFormatting, new CancellationToken());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ModelState.AddModelError("Error", "Die Datei konnte nicht gespeichert werden: " + ex.Message);
             return null;
         }

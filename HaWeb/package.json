@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "css_build": "npx postcss wwwroot/css/site.css -o wwwroot/css/output.css",
-    "watch": "watch 'npm run css_build'"
+    "watch": "npx postcss wwwroot/css/site.css -o wwwroot/css/output.css -w --verbose"
   },
   "keywords": [],
   "author": "",

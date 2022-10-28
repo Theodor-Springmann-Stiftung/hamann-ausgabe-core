@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="de" id="top">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @* TODO: Description für die Startseite *@
     <meta name="description" content="">
 
-    <title>HKB: @ViewData["Title"]</title>
+    <title>@ViewData["Title"]</title>
 
     <!-- crossorigin is a workaround to prevent double downloading bugs in chrome -->
     <!-- also, the graphite versions of the font are available for use:
@@ -32,19 +31,35 @@
 <body class="w-full ">
     <div class="relative min-h-screen">
         <div class="pb-24">
-            Menu
-            @* Placeholder Menu *@
+            <header class="w-100 font-serif mb-10 pb-4 pt-4 flex flex-col justify-center bg-slate-50 border-t-[5px] border-gray-300 dark:border-gray-900">
+                <nav class="w-auto text-xl md:text-3xl text-black hover:text-black mx-auto">
+                    <a asp-controller="Home" asp-action="Index">
+                        <span class="sm:hidden">Johan Georg Hamann<br/>Kommentierte Edition der Briefe & Werke</span> 
+                        <span class="hidden sm:inline align-baseline">Johann Georg Hamann: Kommentierte Edition der Briefe und Werke</span>
+                    </a>
+                    <div class="w-auto mt-2 md:mt-4 overflow-hidden whitespace-nowrap text-ellipsis text-base md:text-lg">
+                        <a class="sm:hidden" href="/Edition/Mitwirkende">Hrsg. v. Leonard Keidel und Janina Reibold</a>
+                        <a class="hidden sm:inline" href="/Edition/Mitwirkende">Herausgegeben von Leonard Keidel und Janina Reibold</a>
+                    </div>
+                </nav>  
+            </header>
             <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto h-full">
                 @* Placeholder Main *@
-                Hallo!
+                @RenderBody()
             </main>
         </div>
-        <div class="absolute bottom-0 w-full">
-            @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
+            <div class="absolute bottom-0 w-full">
+                @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
             </div>
         </div>
+        <a class="ha-scrollbutton" id="ha-scrollbutton">
+            <svg class="ha-scrollbuttonarrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+            </svg>
+        </a>
     </div>
 
+    @RenderSection("Scripts", required: false)
     <environment exclude="Development">
         @await Html.PartialAsync("/Views/Shared/_Javascript.cshtml")
     </environment>

@@ -38,7 +38,7 @@ public static class CommentHelpers {
                         sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                         arrow = true;
                     }
-                    sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/Briefe/" + let.Autopsic + "#" + blk.Page + "-" + blk.Line));
+                    sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + let.Autopsic + "#" + blk.Page + "-" + blk.Line));
                     var linkstring = "";
                     var pglnstring = "";
                     linkstring += let.Autopsic;

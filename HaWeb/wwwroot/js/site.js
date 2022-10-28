@@ -266,27 +266,30 @@ const get_theme_settings = function (standard) {
 // Functions for scrolling
 const scrollFunction = function () {
   button = document.getElementById("ha-scrollbutton");
-  if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-    // button.style.display = "block";
-    button.style.pointerEvents = "auto";
-    button.style.opacity = "1";
-  } else {
-    // button.style.display = "none";
-    button.style.pointerEvents = "none";
-    button.style.opacity = "0";
+  if (button !== null) {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+      // button.style.display = "block";
+      button.style.pointerEvents = "auto";
+      button.style.opacity = "1";
+    } else {
+      // button.style.display = "none";
+      button.style.pointerEvents = "none";
+      button.style.opacity = "0";
+    }
   }
 }
 
 //////////////////////////////// ONLOAD ////////////////////////////////////
 window.addEventListener("load", function () {
   // Scroll button
-  scrollFunction();
-  let scrollbutton = this.document.getElementById("ha-scrollbutton");
-  scrollbutton.addEventListener("click", () => {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-  })
-  this.window.addEventListener("scroll", scrollFunction);
+  if(document.getElementById("ha-scrollbutton") !== null) {
+    scrollFunction();
+    document.getElementById("ha-scrollbutton").addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    })
+    window.addEventListener("scroll", scrollFunction);
+  }
 
   // Menu: Show / Hide Buttons for mobile View
   if (
@@ -302,11 +305,11 @@ window.addEventListener("load", function () {
   }
 
   // Menu / Register / Search View: Mark active link
-  if (document.getElementById("ha-topnav") != null)
+  if (document.getElementById("ha-topnav") !== null)
     markactive_startswith(document.getElementById("ha-topnav"));
-  if (document.getElementById("ha-register-nav") != null)
+  if (document.getElementById("ha-register-nav") !== null)
     markactive_exact(document.getElementById("ha-register-nav"));
-  if (this.document.getElementById("ha-adminuploadfields") != null)
+  if (this.document.getElementById("ha-adminuploadfields") !== null)
     markactive_exact(document.getElementById("ha-adminuploadfields"));
 
   // Letter / Register View: Collapse all unfit boxes + resize observer
