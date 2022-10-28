@@ -81,3 +81,5 @@ TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
 TODO Dark mode Strartseite Upload
 TODO Suche Register
 TODO Syntax-Check
+
+KEIN brief für Bassa
