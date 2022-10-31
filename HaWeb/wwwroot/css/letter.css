@@ -33,7 +33,7 @@
   }
 
   .ha-additions {
-    @apply hidden bg-slate-50 dark:bg-slate-900
+    @apply bg-slate-50 dark:bg-slate-900
   }
 
   .ha-additions .ha-edits .ha-editentries table tr:nth-child(even) {
@@ -288,7 +288,7 @@
 
   .ha-tradzhtext .ha-marginalbox,
   .ha-lettertext .ha-marginalbox {
-    @apply hidden select-none hover:select-auto hyphenate pl-2 md:block absolute left-full ml-2 desktop:ml-10 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
+    @apply hidden select-none hover:select-auto hyphenate pl-2 md:block absolute left-full ml-6 desktop:ml-16 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
   }
 
   .ha-tradzhtext .ha-marginalbox .ha-marginallist,
@@ -315,12 +315,12 @@
 
   .ha-tradzhtext .ha-btn-collapsed-box,
   .ha-lettertext .ha-btn-collapsed-box {
-    @apply absolute left-full desktop:ml-7 hidden md:block cursor-pointer leading-none mt-0.5
+    @apply absolute left-full ml-4 desktop:ml-[3.5rem] hidden md:block cursor-pointer leading-none mt-0.5
   }
 
   .ha-minwidth .ha-tradzhtext,
   .ha-lettertext.ha-minwidth {
-    @apply min-w-[44rem] desktop:min-w-[58rem]
+    @apply min-w-[44rem] desktop:min-w-[52rem]
   }
 
   .ha-minwidth .ha-tradzhtext .ha-alignright,

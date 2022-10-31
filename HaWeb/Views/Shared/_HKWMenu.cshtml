@@ -1,5 +1,5 @@
 <header class="sticky w-100 font-serif mb-6">
-    <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 dark:shadow-xl dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap">
+    <nav class="flex flex-row w-100 bg-slate-50 border-t-[5px] border-gray-300 dark:shadow-xl dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap gap-y-4">
         <a asp-controller="HKW" asp-action="Index" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
             <img src="/img/HKW.png" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 border border-gray-300 shadow-sm" alt="HKW-Logo" loading="lazy" />
             <span class="sm:hidden">Hamann: Komm. Werkedition</span> 
@@ -31,10 +31,18 @@
                 <a href="/HKW/Baende/" class="cursor-default ha-menu-arrowsymbol pointer-events-none">
                     Bände
                 </a>
-                <div class="ha-topnav-dropdown-content" >
-                    <a asp-controller="HKW" asp-action="FliegenderBrief">Fliegender Brief</a>
-                    <a asp-controller="HKW" asp-action="SokratischeDenkwuerdigkeiten">Sokr. Denkwürdigkeiten. Wolken</a>
-                    <a asp-controller="HKW" asp-action="Kreuzzuege">Kreuzzüge des Philologen</a>
+                <div class="ha-topnav-dropdown-content " >
+                    <table class="">
+                    <tr>
+                        <td class="text-right px-2 desktop:bg-hamannSlate-700 desktop:text-slate-50 caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-slate-50 font-sans">Erschienen</div></td>
+                        <td><a asp-controller="HKW" asp-action="FliegenderBrief">Fliegender Brief</a></td></tr>
+                    <tr>
+                        <td class="text-right px-2 desktop:bg-hamannSlate-700 desktop:text-slate-50 caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-slate-50 font-sans">Erschienen</div></td>
+                        <td><a asp-controller="HKW" asp-action="SokratischeDenkwuerdigkeiten">Sokr. Denkwürdigkeiten. Wolken</a></td></tr>
+                    <tr class="desktop:border-b desktop:border-slate-300">
+                        <td class="text-right px-2 desktop:bg-hamannSlate-900 desktop:text-slate-50 caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-slate-50 font-sans">Geplant</div></td>
+                        <td><a asp-controller="HKW" asp-action="Kreuzzuege">Kreuzzüge des Philologen</a></td></tr>
+                    </table>
                 </div>
             </div>
 

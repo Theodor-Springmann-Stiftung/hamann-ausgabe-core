@@ -17,8 +17,9 @@ const closemenu = function () {
   if (newbutton !== null) newbutton.setAttribute("class", "");
 };
 
+
+// Marks links as active which target URL starts with the current URL
 const markactive_startswith = function (element) {
-  // Marks links as active which target URL starts with the current URL
   var all_links = element.getElementsByTagName("a"),
     i = 0,
     len = all_links.length,
@@ -31,8 +32,8 @@ const markactive_startswith = function (element) {
   }
 };
 
+// Marks links active which target URL is exact the same as the current URL
 const markactive_exact = function (element) {
-  // Marks links active which target URL is exact the same as the current URL
   var all_links = element.getElementsByTagName("a"),
     i = 0,
     len = all_links.length,
@@ -245,6 +246,7 @@ const collapseboxes = function () {
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
   overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
 };
+
 // Functions for switching theme
 const go_to_dark = function () {
   localStorage.setItem("theme", "ha-toggledark");

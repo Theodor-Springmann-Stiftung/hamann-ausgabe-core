@@ -8,6 +8,7 @@
         </div>
     </div>
     }
+    @if (!String.IsNullOrWhiteSpace(Model.Letter.ParsedReceivers)) {
     <div class="ha-metadata">
             <div class="ha-metadataupperrow">
                 <div class="ha-metadatadate">
@@ -18,7 +19,7 @@
                 }
             </div>
             <div class="ha-metadatapersons">
-                @if (!String.IsNullOrWhiteSpace(Model.Letter.ParsedReceivers)) {
+
                 @if (Model.Letter.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
                     <span>@Html.Raw(Model.Letter.ParsedSenders)</span>
                     <div class="ha-tooltip">
@@ -32,7 +33,28 @@
                 else {
                     <span>@Html.Raw(Model.Letter.ParsedSenders) → @Html.Raw(Model.Letter.ParsedReceivers)</span>
                 }
-                }
             </div>
     </div>
+     }
+    else {
+        <div class="ha-metadatastrike">
+        <span>[Fälschlich in ZH aufgenommen]</span>
+        @if (!Model.Compact && Model.ShowZHData) {
+        @if (Model.Letter.ParsedZHString != null && Model.ShowZHData) {
+            <div class="ha-tooltip">
+                <div class="ha-pill">
+                    <span>@Html.Raw(Model.Letter.ParsedZHString)</span>
+                </div>
+            </div>
+        }
+        else if (Model.Letter.ParsedZHString == null) {
+            <div class="ha-tooltip">
+                <div class="ha-pill ha-newpill">
+                    <span>Neu</span>
+                </div>
+            </div>
+        }
+        }
+        </div>
+    }
 </div>

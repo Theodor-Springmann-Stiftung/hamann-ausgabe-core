@@ -37,6 +37,8 @@
                 foreach (var letter in year.LetterList) {
                     <div class="ha-letterlistentry">
                         <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
+                            @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, false))
+                            @*
                             <div class="ha-letterlistentryheader">
                                 <div class="ha-letterlistautopsic">@letter.Meta.Autopsic</div> 
                                 <div class="ha-letterlistpills">@await Html.PartialAsync("/Views/Shared/_Pills.cshtml", (letter, true))</div>
@@ -44,20 +46,18 @@
                             <div class="ha-letterlistletterdata">
                                 @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, true))
                             </div>
+                            *@
                         </a>
                         
                         @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
                         <div class="ha-letterlistsearchresults">
                         @foreach (var sr in Model.SearchResults[letter.Meta.Index])
                         {
-                            <div class="ha-letterlistsearchresult"> 
-                                <div class="ha-searchresultlocation">
-                                    @sr.Page/@sr.Line
+                            <a class="ha-letterlistsearchresult" asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-fragment="@sr.Page-@sr.Line">
+                                <div class="ha-searchresultlocation caps-allpetite">
+                                    HKB @sr.Page/@sr.Line</div><div class="ha-searchresultpreview">@sr.Preview
                                 </div>
-                                <div class="ha-searchresultpreview">
-                                    @sr.Preview
-                                </div>
-                            </div>
+                            </a>
                         }
                         </div>
                         }
@@ -122,8 +122,8 @@
                                 <option>@volume.Volume</option> 
                             }
                         </select>
-                        <span>, Seite</span>
-                        <input id="ha-zhformpage" type="text" value="@Model.ActivePage"/>
+                        <span>/ </span>
+                        <input id="ha-zhformpage" type="text" value="@Model.ActivePage" placeholder="Seite"/>
                         <button id="ha-zhformsubmit" type="submit">Nachschlagen</button>
                      </form>
                 </div>

@@ -48,14 +48,14 @@ Veränderungenen in der Funktionalität für den Benutzer
 - Verbesserte Ladezeiten
 - Startseite für die Briefausgebe / Werkausgabe. Unterschiedliche Menüs für die Ausgaben
 - URL für die Register hat sich geändert, bleibt aber weiter unter `/Supplementa/` zugängig.
+- Ebenso alle anderen URLs für die Briefausgabe
 - Anzeige Briefe beim Namen (?)
 - GeoCities und Personen-Verweise (?)
 
 Veränderungen in der Funktionalität für die Redakteure
-- Online-Syntaxcheck für XML-Dateien
-- Online-Cross-Dateien-Check (bsp. verweist jede Marginalie auf eine existierende Zeile)
-- Erstellung einer HAMANN.xml-Datei
-- Hochladen der HAMANN.xml-Datei auf die Plattform
+- Online-Syntaxcheck für XML-Dateien (Noch nicht implementiert)
+- Online-Cross-Dateien-Check (bsp. verweist jede Marginalie auf eine existierende Zeile) (Noch nicht implementiert)
+- Erstellung einer HAMANN.xml-Datei, hochladen der HAMANN.xml-Datei auf die Plattform
 
 Veränderungen im Code
 - Anpassung des Codes an .NET 6
@@ -63,23 +63,36 @@ Veränderungen im Code
 - Code ist aufgeräumt und sortiert
 - Leichtere Anpassungen an zukünftige Bedürfnisse (Wartungszeiten minimieren)
 - Auslagerungen einzelner Einstellungen in Einstellungsdateien
-- Code open source zugänglich machen?
+- Code wird open source zugänglich
 
-TODO Evtl alignment von center / right an der letzten oder nächsten zeile
-TODO tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
+Ästhetisch unzufriedenstellend, aber funktional:
+TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
+TODO High Contrast Mode manchmal komisch
+TODO Kein High Contrast Mode für den Upload
+TODO High Contrast Mode: Kursiv und ausgegraut (Herausgeberanmerkungen) schwer sichtbar
+TODO 400: Traditions nicht genug Abstand
+
+Technische Details:
 TODO XML-Check im Client
 TODO Move ILibrary -> neuer Parser
 TODO Word-wrap before align, tabs
 TODO Hochstellungen nach mediaevalziffern
-TODO Startseite Ästhetik ~Geht so~
-TODO 1127 zu breit Hm -> Stiftung
-TODO 659 align center und align-right ueberschneidugn -> Stiftung
+TODO Syntax-Check
+TODO Datum im Footer Edierdatum der Hamann-Datei
+TODO Fußnoten in Editionsgeschichte als Marginalkommentare
 
 Vor dem internen release:
-TODO HKW
-TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
-TODO Dark mode Strartseite Upload
 TODO Suche Register
-TODO Syntax-Check
+TODO Jahreszahlen auf der Startseite
 
+Vor dem Release:
+TODO Suchergebnisse beschränken
+TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
+TODO Fehlerseiten bei nicht gefundenen Seiten
+
+Liste für Janina/Luca:
 KEIN brief für Bassa
+Editionsgeschichte erste Fußnote 
+tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
+Fehlende Seiten auf HKW
+vmtl bei sendern und empfängern

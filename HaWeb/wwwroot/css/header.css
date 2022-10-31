@@ -28,7 +28,7 @@
 
 /* STYLES */
   .ha-topnav {
-    @apply flex desktop:grow-0 desktop:shrink-0 md:text-lg 2xl:text-xl desktop:place-self-end xl:mb-1;
+    @apply flex desktop:grow-0 desktop:shrink-0 md:text-lg 2xl:text-xl desktop:place-self-end xl:mb-1
   }
 
   .ha-topnav a {
@@ -36,15 +36,15 @@
   }
 
   .ha-topnav a:last-child {
-    @apply mr-0;
+    @apply mr-0
   }
 
   .ha-topnav-dropdown {
-    @apply hidden desktop:relative desktop:inline-block;
+    @apply hidden desktop:relative desktop:inline-block
   }
 
   .ha-topnav-dropdown:hover .ha-topnav-dropdown-content {
-    @apply desktop:block;
+    @apply desktop:block
   }
 
   .ha-topnav-dropdown .ha-topnav-dropdown-content {

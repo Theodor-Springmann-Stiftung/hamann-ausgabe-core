@@ -21,6 +21,11 @@
   .caps-petite {
     font-variant-caps: petite-caps;
   }
+
+  .caps {
+    font-variant-caps: normal;
+    text-transform: uppercase;
+  }
   
   .caps-normal {
     font-variant-caps: normal;

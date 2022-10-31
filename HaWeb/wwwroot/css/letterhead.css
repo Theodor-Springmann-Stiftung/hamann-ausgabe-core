@@ -9,8 +9,12 @@
   }
 
   .ha-pill {
-    @apply rounded-lg border shadow-inner bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
+    @apply rounded bg-gray-200 text-gray-600
   }
+
+  /* .ha-pill {
+    @apply border-hamannSlate-900 text-hamannSlate-900 dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400 caps-petite
+  } */
 
   .ha-pill.ha-newpill {
     @apply dark:text-white dark:bg-slate-800 dark:shadow-md dark:border-slate-400
@@ -37,6 +41,10 @@
     @apply flex self-end grow flex-col
   }
 
+  .ha-letterhead .ha-metadatastrike {
+    @apply flex self-center
+  }
+
   .ha-letterhead .ha-metadata .ha-metadataupperrow {
     @apply flex flex-row leading-snug
   }
@@ -58,7 +66,7 @@
   }
 
   .ha-pill {
-    @apply text-xs rounded px-1.5 ml-1.5 py-0.5 leading-none tracking-wide whitespace-nowrap
+    @apply text-xs px-1 ml-1.5 tracking-normal whitespace-nowrap
   }
 
   .ha-pill .ha-cross {

@@ -176,7 +176,7 @@ public class SucheController : Controller {
                     .ToList()))
                 .ToList();
         List<(string Volume, List<string> Pages)>? availablePages = null;
-        availablePages = lib.Structure.Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
+        availablePages = lib.Structure.Where(x => x.Key != "-1").Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
         zhvolume = zhvolume == null ? "1" : zhvolume;
         var model = new SucheViewModel(letters, page, pages, _getAvailablePersons(lib), availablePages.OrderBy(x => x.Volume).ToList(), zhvolume, zhpage, activeSearch, searchResults);
         if (person != null) model.ActivePerson = person;

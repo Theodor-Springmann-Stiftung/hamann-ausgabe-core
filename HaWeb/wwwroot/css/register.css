@@ -135,7 +135,7 @@
   }
 
   .ha-register .ha-register-body {
-    @apply md:pr-96 pb-9 md:pb-12 rounded-b-sm
+    @apply md:pr-[29rem] pb-9 md:pb-12 rounded-b-sm
   }
 
   .ha-register .ha-register-body .ha-comment {

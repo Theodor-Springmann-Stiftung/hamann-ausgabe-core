@@ -158,11 +158,11 @@
     @apply relative -top-[0.5em]
   }
 
-  .ha-alignright {
+  .ha-alignright:not(.reference *, .reference, .ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply float-right
   }
 
-  .ha-aligncenter {
+  .ha-aligncenter:not(.reference *, .reference, .ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal *, .ha-marginal, .ha-btn-collapsed-box) {
     @apply absolute left-[45%] whitespace-nowrap -translate-x-1/2
   }
 
@@ -260,6 +260,7 @@
   
   html {
     overflow-y: scroll;
+    font-size: 15.5px;
   }
 
   body {
