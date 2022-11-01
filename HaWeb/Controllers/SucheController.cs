@@ -61,12 +61,7 @@ public class SucheController : Controller {
         }
         return _error404();
     }
-
-    [Route("/HKB/")]
-    public IActionResult RedirectIndex(string? search, int page = 0) {
-        return RedirectPermanent("/HKB/Suche");
-    }
-
+    
     [Route("/HKB/Suche")]
     // Order of actions:
     // Filter, sort by year, paginate, sort by Meta.Sort & .Order, parse

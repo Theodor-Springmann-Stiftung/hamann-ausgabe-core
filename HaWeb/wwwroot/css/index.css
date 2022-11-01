@@ -1,0 +1,205 @@
+@layer components {
+    /* THEME OPTIONS */
+
+    .ha-index {
+        @apply bg-slate-50 dark:bg-slate-900
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult:nth-child(even) {
+        @apply bg-slate-100 dark:bg-slate-900
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult:nth-child(odd) {
+        @apply bg-slate-50 dark:bg-slate-900
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry {
+        @apply  bg-slate-100 dark:bg-slate-900 dark:border-none border-r border-b border-gray-200 
+    }
+
+    .ha-index .ha-indexhead .ha-indexnav a.active {
+        @apply dark:!text-white hover:dark:!text-white dark:font-bold
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry:hover {
+        @apply border-gray-300
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist a {
+        @apply hover:!bg-slate-200 dark:hover:!bg-slate-800
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist a.active {
+        @apply dark:!text-white dark:font-bold
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist a:nth-child(odd) {
+        @apply bg-slate-100 dark:bg-zinc-900
+    }
+
+    /* NON THEME RULES */
+    .ha-index .ha-indexhead {
+        @apply pt-9 md:pt-12 px-9 md:px-16 border-b-2 
+    }
+
+    .ha-index .ha-indexhead h1 {
+        @apply font-bold text-2xl desktop:font-normal desktop:text-5xl mb-6 inline-block font-serif
+    }
+
+    .ha-index .ha-indexhead .ha-indexnav {
+        @apply font-sans oldstyle-nums
+    }
+
+    .ha-index .ha-indexhead .ha-indexnav a {
+        @apply mr-3 inline-block
+    }
+
+    .ha-index .ha-indexhead .ha-indexnav a.active {
+        @apply border-b-4
+    }
+
+    .ha-index .ha-indexbody {
+        @apply pt-4 clear-both flex flex-row gap-x-4
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist {
+        @apply pb-4 basis-2/3 grow-0
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry:not(:first-child) {
+        @apply mt-4
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry {
+        @apply rounded-sm block pt-3  transition-all duration-100 
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry:hover {
+        @apply transition-all duration-100
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterhead {
+        @apply pb-3 px-3 pl-6
+    } 
+
+    input, select {
+        @apply dark:!bg-zinc-900 dark:border-none
+    }
+
+    button {
+        @apply dark:!bg-zinc-900 dark:!border-zinc-800
+    }
+    
+    /* Old stuff
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistentryheader {
+        @apply border-b flex flex-row py-1 px-2 bg-slate-100
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistentryheader .ha-letterlistautopsic {
+        @apply text-3xl font-bold grow
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistentryheader .ha-letterlistpills {
+        @apply grow-0 
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistletterdata {
+        @apply px-2 py-1
+    } */
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults {
+
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult {
+        @apply px-6 py-1 bg-slate-50 block
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-searchresultlocation {
+        @apply numeric-mediaeval font-semibold text-sm inline-block
+    }
+
+    .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-searchresultpreview {
+        @apply inline-block pl-4
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist {
+        @apply hidden md:flex flex-col gap-y-5 pb-4 float-right max-w-lg basis-1/3 min-w-0 shrink
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-filtertitle {
+        @apply text-2xl pr-4 pl-1 mb-1 pb-1 pt-3 font-serif leading-none border-b border-gray-400
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-reversefilter {
+        @apply inline-block text-sm ml-2
+    }
+
+    /* .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter {
+        @apply bg-slate-100
+    } */
+
+    /* .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter .ha-filtertitle {
+        @apply inline-block border-none
+    } */
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter form {
+        @apply font-sans py-1 pl-1 pr-2
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter form .ha-gototext {
+        @apply inline-block font-sans mr-2
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter form input {
+        @apply w-14 px-1 border 
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter form button {
+        @apply float-right inline-block px-2 border bg-slate-50 disabled:bg-gray-200 border-slate-200 hover:border-black disabled:hover:border-slate-200 disabled:text-gray-600
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-zhsearchfilter .ha-zhform {
+        @apply py-1 pl-1 pr-2
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-zhsearchfilter .ha-zhform > span {
+        @apply whitespace-nowrap
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-zhsearchfilter .ha-zhform input {
+        @apply w-14 px-1 border
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-zhsearchfilter .ha-zhform button {
+        @apply float-right px-2 border bg-slate-50 border-slate-200 disabled:bg-gray-200 hover:border-black disabled:hover:border-slate-200 disabled:text-gray-600
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-zhsearchfilter .ha-zhform select {
+        @apply  px-1
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-searchfilter .ha-searchform {
+        @apply py-1 pl-1 pr-2 flex flex-row gap-x-2
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-searchfilter .ha-searchform input {
+        @apply px-1 border grow min-w-0
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-searchfilter .ha-searchform button {
+        @apply float-right px-2 border border-slate-200 hover:border-black disabled:bg-gray-200 disabled:hover:border-slate-200 disabled:text-gray-600
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist {
+        @apply max-h-[23rem] overflow-y-auto overflow-x-hidden py-1 pl-1 mr-2
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist a {
+        @apply block px-3 !transition-none
+    }
+
+    .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist a:nth-child(odd) {
+        @apply block
+    }
+}

@@ -46,6 +46,27 @@ const markactive_exact = function (element) {
   }
 };
 
+// Marks links as active, single links mutch match exactly, dropdown only the beginning
+const markactive_menu = function (element) {
+  var all_links = element.getElementsByTagName("a"),
+    i = 0,
+    len = all_links.length,
+    full_path = location.href.split("#")[0].toLowerCase(); //Ignore hashes
+
+  for (; i < len; i++) {
+    if (all_links[i].parentNode.classList.contains("ha-topnav-dropdown")) {
+      if (full_path.startsWith(all_links[i].href.toLowerCase())) {
+        all_links[i].className += " active";
+      }
+    } else {
+      if (full_path == all_links[i].href.toLowerCase() || full_path == all_links[i].href.toLowerCase() + "/") {
+        all_links[i].className += " active";
+      }
+    }
+  }
+};
+
+
 // Functions for collapsing marginals, and adding a button next to those
 const getLineHeight = function (element) {
   var temp = document.createElement(element.nodeName),
@@ -308,7 +329,7 @@ window.addEventListener("load", function () {
 
   // Menu / Register / Search View: Mark active link
   if (document.getElementById("ha-topnav") !== null)
-    markactive_startswith(document.getElementById("ha-topnav"));
+    markactive_menu(document.getElementById("ha-topnav"));
   if (document.getElementById("ha-register-nav") !== null)
     markactive_exact(document.getElementById("ha-register-nav"));
   if (this.document.getElementById("ha-adminuploadfields") !== null)

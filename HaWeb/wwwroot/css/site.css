@@ -12,6 +12,7 @@
 @import "./letterhead.css";
 @import "./letter.css";
 @import "./upload.css";
+@import "./index.css";
 @import "./search.css";
 
 @layer components {
