@@ -11,8 +11,6 @@ public class IndexViewModel {
     public List<(string Volume, List<string> Pages)>? AvailablePages { get; private set; }
     public string? ActiveVolume { get; private set; }
     public string? ActivePage { get; private set; }
-    public string? ActiveSearch { get; private set; }
-    public Dictionary<string, List<SearchResult>>? SearchResults { get; private set; }
 
     public IndexViewModel(
         List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters,
@@ -21,9 +19,7 @@ public class IndexViewModel {
         List<(string Key, string Name)>? availablePersons,
         List<(string Volume, List<string> Pages)>? availablePages,
         string? activeVolume,
-        string? activePage,
-        string? activeSearch,
-        Dictionary<string, List<SearchResult>>? searchResults
+        string? activePage
     ) {
         Letters = letters;
         if (letters != null)
@@ -36,7 +32,5 @@ public class IndexViewModel {
         AvailablePages = availablePages;
         ActiveVolume = activeVolume;
         ActivePage = activePage;
-        ActiveSearch = activeSearch;
-        SearchResults = searchResults;
     }
 }

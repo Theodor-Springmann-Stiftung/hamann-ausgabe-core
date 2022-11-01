@@ -1,41 +1,48 @@
 namespace HaWeb.Models;
 using HaDocument.Models;
 
+public enum SearchType {
+    Letter,
+    Register,
+    Marginals
+}
+
+public enum SearchResultType {
+    Success,
+    OutOfBounds,
+    NotFound,
+    InvalidSearchTerm
+}
+
 public class SucheViewModel {
     public List<(int Year, List<BriefeMetaViewModel> LetterList)>? Letters { get; private set; }
     public int Count { get; private set; }
-    public int ActiveYear { get; private set; }
-    public List<(int StartYear, int EndYear)>? AvailableYears { get; private set; }
-    public string? ActivePerson { get; set; }
-    public List<(string Key, string Name)>? AvailablePersons { get; private set; }
-    public List<(string Volume, List<string> Pages)>? AvailablePages { get; private set; }
-    public string? ActiveVolume { get; private set; }
-    public string? ActivePage { get; private set; }
-    public string? ActiveSearch { get; private set; }
+    public int ActivePage { get; private set; }
+    public List<string>? AvailablePages { get; private set; }
+    public string ActiveSearch { get; private set; }
     public Dictionary<string, List<SearchResult>>? SearchResults { get; private set; }
+    public SearchResultType SearchResultType { get; private set; }
+    public SearchType SearchType { get; private set; }
 
     public SucheViewModel(
-        List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters,
-        int activeYear,
-        List<(int StartYear, int EndYear)>? availableYears,
-        List<(string Key, string Name)>? availablePersons,
-        List<(string Volume, List<string> Pages)>? availablePages,
-        string? activeVolume,
-        string? activePage,
-        string? activeSearch,
-        Dictionary<string, List<SearchResult>>? searchResults
+        SearchType searchType,
+        SearchResultType searchResultType,
+        int activePage,
+        List<string>? availablePages,
+        string activeSearch,
+        Dictionary<string, List<SearchResult>>? searchResults,
+        List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters
     ) {
         Letters = letters;
         if (letters != null)
             Count = letters.Select(x => x.LetterList.Count).Aggregate(0, (x, y) => { x += y; return x; });
         else
             Count = 0;
-        ActiveYear = activeYear;
-        AvailableYears = availableYears;
-        AvailablePersons = availablePersons;
-        AvailablePages = availablePages;
-        ActiveVolume = activeVolume;
+
+        SearchType = searchType;
+        SearchResultType = searchResultType;
         ActivePage = activePage;
+        AvailablePages = availablePages;
         ActiveSearch = activeSearch;
         SearchResults = searchResults;
     }

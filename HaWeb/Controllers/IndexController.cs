@@ -65,27 +65,9 @@ public class IndexController : Controller {
     [Route("/HKB/")]
     // Order of actions:
     // Filter, sort by year, paginate, sort by Meta.Sort & .Order, parse
-    public IActionResult Index(string? search, int page = 0) {
+    public IActionResult Index(int page = 0) {
         var lib = _lib.GetLibrary();
         List<IGrouping<int, Meta>>? metasbyyear = null;
-        if (search != null) {
-            var stopwatch = new System.Diagnostics.Stopwatch();
-            stopwatch.Start();
-            search = search.Trim();
-            var res = _xmlService.SearchCollection("letters", search, _readerService);
-            if (res == null || !res.Any()) return _error404();
-            var ret = res.ToDictionary(
-                x => x.Index,
-                x => x.Results
-                    .Select(y => new SearchResult(search, x.Index) { Page = y.Page, Line = y.Line, Preview = y.Preview })
-                    .ToList()
-                );
-            var keys = res.Select(x => x.Index).Where(x => lib.Metas.ContainsKey(x)).Select(x => lib.Metas[x]);
-            var letters = keys.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
-            stopwatch.Stop();
-            Console.WriteLine("SEARCH: " + stopwatch.ElapsedMilliseconds);
-            return _paginateSend(lib, page, letters, null, null, null, search, ret);
-        }
         metasbyyear = lib.MetasByYear.OrderBy(x => x.Key).ToList();
         return _paginateSend(lib, page, metasbyyear);
     }
@@ -125,7 +107,7 @@ public class IndexController : Controller {
         };
     }
 
-    private List<(int StartYear, int EndYear)>? _paginate(List<IGrouping<int, Meta>>? letters) {
+    internal static List<(int StartYear, int EndYear)>? Paginate(List<IGrouping<int, Meta>>? letters, int lettersForPage) {
         if (letters == null || !letters.Any()) return null;
         List<(int StartYear, int EndYear)>? res = null;
         int startyear = 0;
@@ -135,7 +117,7 @@ public class IndexController : Controller {
                 startyear = letterlist.Key;
             }
             count += letterlist.Count();
-            if (count >= _lettersForPage) {
+            if (count >= lettersForPage) {
                 if (res == null) res = new List<(int StartYear, int EndYear)>();
                 res.Add((startyear, letterlist.Key));
                 count = 0;
@@ -154,10 +136,8 @@ public class IndexController : Controller {
         List<IGrouping<int, Meta>> metasbyyear,
         string? person = null,
         string? zhvolume = null,
-        string? zhpage = null,
-        string? activeSearch = null,
-        Dictionary<string, List<SearchResult>>? searchResults = null) {
-        var pages = _paginate(metasbyyear);
+        string? zhpage = null) {
+        var pages = Paginate(metasbyyear, _lettersForPage);
         if (pages != null && page >= pages.Count) return _error404();
         if (pages == null && page > 0) return _error404();
         List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters = null;
@@ -173,7 +153,7 @@ public class IndexController : Controller {
         List<(string Volume, List<string> Pages)>? availablePages = null;
         availablePages = lib.Structure.Where(x => x.Key != "-1").Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
         zhvolume = zhvolume == null ? "1" : zhvolume;
-        var model = new IndexViewModel(letters, page, pages, _getAvailablePersons(lib), availablePages.OrderBy(x => x.Volume).ToList(), zhvolume, zhpage, activeSearch, searchResults);
+        var model = new IndexViewModel(letters, page, pages, _getAvailablePersons(lib), availablePages.OrderBy(x => x.Volume).ToList(), zhvolume, zhpage);
         if (person != null) model.ActivePerson = person;
         return View("~/Views/HKB/Dynamic/Index.cshtml", model);
     }

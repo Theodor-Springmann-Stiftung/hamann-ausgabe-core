@@ -13,7 +13,7 @@
             <div class="ha-indexnav">
             @if (Model.AvailableYears != null && Model.AvailableYears.Any() && Model.AvailableYears.Count > 1) {
                 @for(var i = 0; i < Model.AvailableYears.Count; i++) {
-                    <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-route-search="@Model.ActiveSearch" asp-controller="Index" asp-route-page="@i">
+                    <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-controller="Index" asp-route-page="@i">
                         @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {
                             <span>
                                 @Model.AvailableYears[i].StartYear-@Model.AvailableYears[i].EndYear
@@ -38,15 +38,6 @@
                     <div class="ha-letterlistentry">
                         <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
                             @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, false))
-                            @*
-                            <div class="ha-letterlistentryheader">
-                                <div class="ha-letterlistautopsic">@letter.Meta.Autopsic</div> 
-                                <div class="ha-letterlistpills">@await Html.PartialAsync("/Views/Shared/_Pills.cshtml", (letter, true))</div>
-                            </div>
-                            <div class="ha-letterlistletterdata">
-                                @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, true))
-                            </div>
-                            *@
                         </a>
                     </div>
                 }
@@ -152,12 +143,9 @@
                  <div class="ha-searchfilter">
                     <div class="ha-filtertitle">
                         Volltextsuche
-                        @if (Model.ActiveSearch != null) {
-                            <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Auswahl aufheben</a>
-                        }
                     </div>
                      <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
-                        <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
+                        <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
                         <button id="ha-searchformsubmit" type="submit">Suchen</button>
                      </form>
                 </div>
