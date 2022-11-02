@@ -5,6 +5,10 @@
         @apply bg-slate-50 dark:bg-slate-900
     }
 
+    .ha-search .ha-searchhead .ha-activefilterinfo {
+       @apply bg-slate-200 dark:bg-slate-800
+    }
+
     .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult:nth-child(even) {
         @apply bg-slate-100 dark:bg-slate-900
     }
@@ -107,7 +111,7 @@
     }
 
     .ha-search .ha-searchhead .ha-activefilterinfo {
-        @apply font-sans text-base bg-slate-200 px-1 rounded my-1
+        @apply font-sans text-base px-1 rounded my-1
     }
 
     .ha-search .ha-searchhead .ha-reversefilter {
