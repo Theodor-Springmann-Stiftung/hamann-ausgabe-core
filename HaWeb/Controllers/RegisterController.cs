@@ -105,7 +105,7 @@ public class RegisterController : Controller {
     }
 
     [HttpGet]
-    public IActionResult Forschung(string? id, string? search) {
+    public IActionResult Forschung(string? id) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
         var url = "/HKB/Register/Forschung/";
@@ -144,16 +144,6 @@ public class RegisterController : Controller {
 
         // Return
         return View("~/Views/HKB/Dynamic/Register.cshtml", model);
-    }
-
-    [HttpPost]
-    [DisableFormValueModelBinding]
-    [ValidateAntiForgeryToken]
-    [Route("/HKB/Register/Forschung/{id}")]
-    [Route("/HKB/Register/Register/{id}")]
-    [Route("/HKB/Register/Bibelstellen/{id}")]
-    public IActionResult Search(string? id) {
-        return Ok();
     }
 
     private string? normalizeID(string? id, string defaultid) {

@@ -2,63 +2,93 @@
 @{
     ViewData["Title"] = "Briefauswahl & Suche";
     ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe, Hg. v. Leonard Keidel und Janina Reibold. Durchsuchbare Online-Ausgabe der Briefe von und an Johann Georg Hamann.";
-    ViewData["showCredits"] = "true";
+    ViewData["showCredits"] = "false";
 }
 
 <div class="ha-search">
-    @if (Model.Letters != null) {
-
-        <div class="ha-searchhead">
-            <h1>Suche</h1>
-                
-                @* Full-Text-Search *@ 
-                <div class="ha-searchfilter">
-                <div class="ha-filtertitle">
-                    @if (Model.ActiveSearch != null) {
-                        
-                        <a class="ha-reversefilter" asp-controller="Suche" asp-action="index">← Auswahl aufheben</a>
-                    }
-                </div>
-                    <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
-                    <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
-                    <button id="ha-searchformsubmit" type="submit">Suchen</button>
-                    </form>
-            </div>
-            <script>
-                const ACTIVATESEARCHFILTER = function(filter, button) {
-                    let f = filter.value;
-                    if (f === "") {
-                        button.disabled = true;
-                        return;
-                    }
-                    button.disabled = false;
-                }
-
-                window.addEventListener("load", () => {
-                    let searchfilter = document.getElementById("ha-searchformtext");
-                    let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
-                    let searchform = document.getElementById("ha-searchform");
-                    ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
-                    searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
-                });
-            </script>
-
-            <div class="ha-searchnav">
-            @if (Model.AvailablePages != null && Model.AvailablePages.Any() && Model.AvailablePages.Count > 1) {
-                @for(var i = 0; i < Model.AvailablePages.Count; i++) {
-                    <a class="@(Model.ActivePage == i ? "active" : "")"  asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i">
-                        <span>
-                            @Model.AvailablePages[i]
-                        </span>
-                    </a>
-                }
-            }
-            </div>
+    <div class="ha-searchhead">
+        <h1>Volltextsuche</h1>
+        <div class="ha-searchfilter">
+        <div class="ha-searchfilterinfo"> 
+            Die Volltextsuche kann Brieftexte, Stellenkommentare, Forschungsbibliographie- und Registereinträge über Seiten- und Zeilengrenzen hinweg durchsuchen. Angezeigt werden dabei exakte Übereinstimmungen mit dem Suchbegriff. Von dieser Regel ausgenommen sind Abweichungen in der Groß- und Kleinschreibung.
         </div>
+        @if (Model.ActiveSearch != null) {
+        <div class="ha-activefilterinfo">
+            @if (Model.SearchType == "letters") {
+                <span>Biefe, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+            }
+            @if (Model.SearchType == "register") {
+                <span>Registereinträge, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Registerübersicht</a><span> / </span>
+            }
+            @if (Model.SearchType == "marginals") {
+                <span>Stellenkommentare, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+            }
+            <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Briefübersicht</a>
+        </div>
+        }
 
-        <div class="ha-searchbody">
+        <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
+            <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
+            <input type="hidden" name="category" type="text" value="@Model.SearchType"/>
+            <button id="ha-searchformsubmit" type="submit">Suchen</button>
+        </form>
+
+        <div class="ha-alternativesearches">
+            @if (Model.SearchType != "letters") {
+                <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="letters">
+                    Stattdessen Briefe nach »@Model.ActiveSearch« durchsuchen →
+                </a>
+            }
+            @if (Model.SearchType != "register") {
+                <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="register">
+                    Stattdessen Register & Bibliographie nach »@Model.ActiveSearch« durchsuchen →
+                </a>
+            }
+            @if (Model.SearchType != "marginals") {
+                <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="marginals">
+                    Stattdessen Stellenkommentare nach »@Model.ActiveSearch« durchsuchen →
+                </a>
+            }
+        </div>
+        </div>
+        <script>
+            const ACTIVATESEARCHFILTER = function(filter, button) {
+                let f = filter.value;
+                if (f === "") {
+                    button.disabled = true;
+                    return;
+                }
+                button.disabled = false;
+            }
+
+            window.addEventListener("load", () => {
+                let searchfilter = document.getElementById("ha-searchformtext");
+                let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
+                let searchform = document.getElementById("ha-searchform");
+                ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
+                searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
+            });
+        </script>
+
+        <div class="ha-searchnav">
+        @if (Model.AvailablePages != null && Model.AvailablePages.Any() && Model.AvailablePages.Count > 1) {
+            @for(var i = 0; i < Model.AvailablePages.Count; i++) {
+                <a class="@(Model.ActivePage == i ? "active" : "")"  asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i" asp-route-category="@Model.SearchType">
+                    <span>
+                        @Model.AvailablePages[i]
+                    </span>
+                </a>
+            }
+        }
+        </div>
+    </div>
+
+    <div class="ha-searchbody">
+        
+        @* Letter Search *@
+        @if (Model.Letters != null) {
             <div class="ha-letterlist">
-            @* Letter Loop *@
             @foreach (var year in Model.Letters) {
                 foreach (var letter in year.LetterList) {
                     <div class="ha-letterlistentry">
@@ -82,10 +112,23 @@
                 }
             }
             </div>
+        }
 
-            <div class="ha-filterlist">
-
+        @* Register Search *@
+        @if (Model.SearchType == "register" && Model.Comments != null && Model.Comments.Any()) {
+            <div class="ha-commentlist @(Model.ActivePage == 1 ? "ha-forschung" : "")">
+            @foreach (var k in Model.Comments) {
+                <div class="ha-comment">
+                    <div class="ha-headcomment">@Html.Raw(k.ParsedComment)</div>
+                    @if (k.ParsedSubComments != null ) {
+                        @foreach (var sk in k.ParsedSubComments) {
+                            <div class="ha-subcomment">@Html.Raw(sk)</div>
+                        }
+                    }
+                </div>
+            }
             </div>
-        </div>
-    }
+        }
+
+    </div>
 </div>

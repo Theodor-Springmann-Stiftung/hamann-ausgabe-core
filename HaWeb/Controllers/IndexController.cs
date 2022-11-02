@@ -87,7 +87,8 @@ public class IndexController : Controller {
     }
 
 
-    private List<(string Key, string Person)> _getAvailablePersons(ILibrary lib) {
+    private List<(string Key, string Person)>? _getAvailablePersons(ILibrary lib) {
+        if (!lib.Persons.Any()) return null;
         return lib.Persons
             .OrderBy(x => x.Value.Surname)
             .ThenBy(x => x.Value.Prename)
@@ -153,8 +154,16 @@ public class IndexController : Controller {
         List<(string Volume, List<string> Pages)>? availablePages = null;
         availablePages = lib.Structure.Where(x => x.Key != "-1").Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
         zhvolume = zhvolume == null ? "1" : zhvolume;
-        var model = new IndexViewModel(letters, page, pages, _getAvailablePersons(lib), availablePages.OrderBy(x => x.Volume).ToList(), zhvolume, zhpage);
-        if (person != null) model.ActivePerson = person;
+        var model = new IndexViewModel(
+            letters, 
+            page, 
+            pages, 
+            _getAvailablePersons(lib), 
+            availablePages.OrderBy(x => x.Volume).ToList(), 
+            zhvolume, 
+            zhpage, 
+            person
+        );
         return View("~/Views/HKB/Dynamic/Index.cshtml", model);
     }
 

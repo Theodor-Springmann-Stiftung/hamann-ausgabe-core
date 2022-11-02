@@ -91,7 +91,10 @@
                     <div class="ha-filtertitle">
                         Suche in Z&hairsp;H
                         @if (Model.ActivePage != null) {
-                            <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Auswahl aufheben</a>
+                             <div class="ha-activefilterinfo">
+                                Briefe auf ZH <span class="caps-allpeteite">@Model.ActiveVolume / @Model.ActivePage</span>&emsp;
+                                <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Auswahl aufheben</a>
+                             </div>
                         }
                     </div>
                      <form class="ha-zhform" id="ha-zhform">
@@ -172,9 +175,14 @@
                 @if(Model.AvailablePersons != null) {
                 <div class="ha-personfilter">
                     <div class="ha-filtertitle">
-                        Korrespondenzpartner:innen 
-                        @if (Model.ActivePerson != null) {
-                            <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Auswahl aufheben</a>
+                        <div>
+                        Korrespondenzpartner:innen
+                        </div>
+                        @if (Model.ActivePerson != null && Model.AvailablePersons.Where(x => x.Key == Model.ActivePerson).Any()) {
+                            <div class="ha-activefilterinfo">
+                                Briefe von und an @Model.AvailablePersons.Where(x => x.Key == Model.ActivePerson).First().Name.&emsp;
+                                <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">←&nbsp;Auswahl&nbsp;aufheben</a>
+                            </div>
                         }
                     </div>
                     <div class="ha-personlist">

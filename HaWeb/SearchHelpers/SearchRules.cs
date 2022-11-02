@@ -8,6 +8,10 @@ using WhitespaceFuncList = List<(Func<HaXMLReader.EvArgs.Whitespace, HaWeb.HTMLP
 
 
 public class SearchRules {
+    public static readonly TagFuncList OTagRules = new TagFuncList() {
+        ( (x, _) => x.Name.ToLower() == "kommentar" || x.Name.ToLower() == "subsection", (_, tag, reader) => reader.State.CurrentIdentifier = tag["id"]),
+    };
+
     public static readonly TextFuncList TextRules = new TextFuncList() {
         ( (x, _) => true, (sb, text, reader) => {
             var t = text.Value;
@@ -18,8 +22,8 @@ public class SearchRules {
             if (sb.Length >= sw.Length) {
                 if (sb.ToString().ToUpperInvariant().Contains(sw)) {
                     if (reader.State.Results == null)
-                        reader.State.Results = new List<(string Page, string Line)>();
-                    reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine));
+                        reader.State.Results = new List<(string Page, string Line, string Identifier)>();
+                    reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine, reader.State.CurrentIdentifier));
                 }
                 sb.Remove(0, sb.Length - sw.Length);
             }
@@ -36,8 +40,8 @@ public class SearchRules {
             if (sb.Length >= sw.Length) {
                 if (sb.ToString().Contains(sw)) {
                     if (reader.State.Results == null)
-                        reader.State.Results = new List<(string Page, string Line)>();
-                    reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine));
+                        reader.State.Results = new List<(string Page, string Line, string Identifier)>();
+                    reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine, reader.State.CurrentIdentifier));
                 }
                 sb.Remove(0, sb.Length - sw.Length);
             }

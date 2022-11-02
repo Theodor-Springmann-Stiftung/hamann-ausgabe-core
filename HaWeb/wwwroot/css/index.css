@@ -131,8 +131,12 @@
         @apply text-2xl pr-4 pl-1 mb-1 pb-1 pt-3 font-serif leading-none border-b border-gray-400
     }
 
+    .ha-index .ha-indexbody .ha-filterlist .ha-activefilterinfo {
+        @apply font-sans text-sm bg-slate-200 px-1 rounded mt-1
+    }
+
     .ha-index .ha-indexbody .ha-filterlist .ha-reversefilter {
-        @apply inline-block text-sm ml-2
+        @apply inline-block text-right decoration-dotted underline hover:decoration-solid
     }
 
     /* .ha-index .ha-indexbody .ha-filterlist .ha-gotofilter {

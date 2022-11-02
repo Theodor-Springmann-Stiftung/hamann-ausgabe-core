@@ -19,7 +19,8 @@ public class IndexViewModel {
         List<(string Key, string Name)>? availablePersons,
         List<(string Volume, List<string> Pages)>? availablePages,
         string? activeVolume,
-        string? activePage
+        string? activePage,
+        string? activePerson
     ) {
         Letters = letters;
         if (letters != null)
@@ -32,5 +33,6 @@ public class IndexViewModel {
         AvailablePages = availablePages;
         ActiveVolume = activeVolume;
         ActivePage = activePage;
+        ActivePerson = activePerson;
     }
 }

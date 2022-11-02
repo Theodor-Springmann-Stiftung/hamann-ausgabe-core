@@ -28,9 +28,6 @@ public class SucheController : Controller {
         if (search == null) return _error404();
         var lib = _lib.GetLibrary();
 
-        var stopwatch = new System.Diagnostics.Stopwatch();
-        stopwatch.Start();
-
         if (category == "letters") {
             if (String.IsNullOrWhiteSpace(search)) 
                 return _paginateSendLetters(lib, page, search, SearchResultType.InvalidSearchTerm, null, null);
@@ -46,13 +43,24 @@ public class SucheController : Controller {
                 );
             var keys = res.Select(x => x.Index).Where(x => lib.Metas.ContainsKey(x)).Select(x => lib.Metas[x]);
             var letters = keys.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
-            return _paginateSendLetters(lib, page, search, SearchResultType.Success, ret, letters);
-        } else if (category == " register") {
 
+            return _paginateSendLetters(lib, page, search, SearchResultType.Success, ret, letters);
+        } else if (category == "register") {
+            if (String.IsNullOrWhiteSpace(search)) 
+                return _paginateSendRegister(lib, page, search, SearchResultType.InvalidSearchTerm, null);
+            search = search.Trim();
+
+            List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
+            if (page == 0)
+                res = _xmlService.SearchCollection("register-comments", search, _readerService);
+            if (page == 1)
+                res = _xmlService.SearchCollection("forschung-comments", search, _readerService);
+            if (res == null || !res.Any()) 
+                return _paginateSendRegister(lib, page, search, SearchResultType.NotFound, null);
+            
+            return _paginateSendRegister(lib, page, search, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Index, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.Index).ToList()));
         }
 
-        stopwatch.Stop();
-        Console.WriteLine("SEARCH: " + stopwatch.ElapsedMilliseconds);
         return _error404();
     }
 
@@ -101,7 +109,7 @@ public class SucheController : Controller {
         if (pages != null && page >= pages.Count) return _error404();
         if (pages == null && page > 0) return _error404();
         List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters = null;
-        if (pages != null)
+        if (pages != null && metasbyyear != null)
             letters = metasbyyear
                 .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
                 .Select(x => (x.Key, x
@@ -110,8 +118,39 @@ public class SucheController : Controller {
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))
                 .ToList();
-        var model = new SucheViewModel(SearchType.Letter, SearchResultType.Success, page, _paginate(pages), activeSearch, searchResults, letters);
+        var model = new SucheViewModel("letters", SRT, page, _paginate(pages), activeSearch, searchResults, letters, null);
         return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
+    }
+
+    private IActionResult _paginateSendRegister(
+        ILibrary lib,
+        int page,
+        string activeSearch,
+        SearchResultType SRT,
+        List<CommentModel> comments) {
+            var model = new SucheViewModel("register", SRT, page, new List<string>() { "Allgmeines Register", "Forschungsbibliographie" }, activeSearch, null, null, comments);
+            return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
+    }
+
+
+    private List<CommentModel> _createComments(string category, List<(string, List<string>)>? comments) {
+        var lib = _lib.GetLibrary();
+        var res = new List<CommentModel>();
+        if (comments == null) return res;
+        foreach (var comm in comments) {
+            var commobj = lib.Comments[comm.Item1];
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, commobj, category, Settings.ParsingState.CommentType.Comment);
+            List<string>? parsedSubComments = new List<string>();
+            var distinctList = comm.Item2.Distinct().ToList();
+            foreach (var subcomm in distinctList) {
+                if (subcomm != comm.Item1) {
+                    var subcommobj = lib.SubCommentsByID[subcomm];
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcommobj, category, Settings.ParsingState.CommentType.Subcomment));
+                }
+            }
+            res.Add(new CommentModel(parsedComment, parsedSubComments));
+        }
+        return res;
     }
 
     private IActionResult _error404() {

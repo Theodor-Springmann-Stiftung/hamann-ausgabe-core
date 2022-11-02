@@ -112,16 +112,16 @@ public class XMLService : IXMLService {
         _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value);
     }
 
-     public List<(string Index, List<(string Page, string Line, string Preview)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader) {
+     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader) {
         if (!_collectedProduction.ContainsKey(collection)) return null;
         var searchableObjects = _collectedProduction[collection].Items;
-        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview)> Results)>();
+        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview, string identifier)> Results)>();
         var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
         Parallel.ForEach(searchableObjects, (obj) => {
             if (obj.Value.SearchText != null) {
                 var state = new SearchState(sw);
                 var rd = reader.RequestStringReader(obj.Value.SearchText);
-                var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), null, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
+                var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), SearchRules.OTagRules, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
                 rd.Read();
                 if (state.Results != null)
                     res.Add((
@@ -134,7 +134,8 @@ public class XMLService : IXMLService {
                                 .Where(y => y.Page == x.Page && y.Line == x.Line)
                                 .Select(x => x.Text)
                                 .FirstOrDefault(string.Empty)
-                                : ""
+                                : "",
+                            x.Identifier
                         )).ToList()));
             }
         });

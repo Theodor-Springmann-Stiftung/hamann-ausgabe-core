@@ -37,10 +37,36 @@
             </div>
             }
             @if (Model.AllowSearch) {
-            <form asp-controller="Register" asp-action="Search" asp-route-id="@string.Empty" method="GET" >
+            <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
+                <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
+                <input type="hidden" name="category" type="text" value="register"/>
+                <input type="hidden" name="page" type="text" value="@(Model.Category == "forschung" ? "1" : "0")"/>
+                <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
+            </form>
+
+            <script>
+                const ACTIVATESEARCHFILTER = function(filter, button) {
+                    let f = filter.value;
+                    if (f === "") {
+                        button.disabled = true;
+                        return;
+                    }
+                    button.disabled = false;
+                }
+
+                window.addEventListener("load", () => {
+                    let searchfilter = document.getElementById("ha-searchformtext");
+                    let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
+                    let searchform = document.getElementById("ha-searchform");
+                    ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
+                    searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
+                });
+            </script>
+
+            @* <form asp-controller="Suche" asp-action="Index" method="GET" >
                 <input type="text" name="search" placeholder="Suchbegriff" />
                 <button type="submit">Suchen</button>
-            </form>
+            </form> *@
             }
             <div class="ha-register-nav" id="ha-register-nav">
                 <div class="ha-register-left-nav">

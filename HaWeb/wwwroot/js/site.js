@@ -52,6 +52,7 @@ const markactive_menu = function (element) {
     i = 0,
     len = all_links.length,
     full_path = location.href.split("#")[0].toLowerCase(); //Ignore hashes
+    full_path = full_path.split("?")[0];
 
   for (; i < len; i++) {
     if (all_links[i].parentNode.classList.contains("ha-topnav-dropdown")) {
@@ -265,6 +266,7 @@ const showhidebutton = function (
 const collapseboxes = function () {
   overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
   overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
+  overlappingcollapsebox(".ha-commentlist .ha-letlinks", true);
   overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
 };
 

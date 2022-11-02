@@ -3,8 +3,9 @@ using System.Text;
 
 public class SearchState : HaWeb.HTMLParser.IState {
     internal string SearchWord;
+    internal string? CurrentIdentifier;
     internal bool Normalize;
-    internal List<(string Page, string Line)>? Results;
+    internal List<(string Page, string Line, string Identifier)>? Results;
 
     public SearchState(string searchword, bool normalize = false) {
         Normalize = normalize;
