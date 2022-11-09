@@ -8,10 +8,10 @@
 <div class="ha-search">
     <div class="ha-searchhead">
         <h1>Volltextsuche</h1>
-        <div class="ha-searchfilter">
-        <div class="ha-searchfilterinfo"> 
-            Die Volltextsuche kann Brieftexte, Stellenkommentare, Forschungsbibliographie- und Registereinträge über Seiten- und Zeilengrenzen hinweg durchsuchen. Angezeigt werden dabei exakte Übereinstimmungen mit dem Suchbegriff. Von dieser Regel ausgenommen sind Abweichungen in der Groß- und Kleinschreibung.
+        <div class="ha-searchfilterinfo hyphenate"> 
+            Die Volltextsuche kann Brieftexte, Stellenkommentare, Forschungsbibliographie und Registereinträge über Seiten- und Zeilengrenzen hinweg durchsuchen. Angezeigt werden dabei exakte Übereinstimmungen mit dem Suchbegriff. Von dieser Regel ausgenommen sind Abweichungen in der Groß- und Kleinschreibung.
         </div>
+        <div class="ha-searchfilter">
         @if (Model.ActiveSearch != null) {
         <div class="ha-activefilterinfo">
             @if (Model.SearchType == "letters") {
@@ -37,17 +37,17 @@
         <div class="ha-alternativesearches">
             @if (Model.SearchType != "letters") {
                 <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="letters">
-                    Stattdessen Briefe nach »@Model.ActiveSearch« durchsuchen →
+                    Stattdessen Briefe nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
             @if (Model.SearchType != "register") {
                 <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="register">
-                    Stattdessen Register & Bibliographie nach »@Model.ActiveSearch« durchsuchen →
+                    Stattdessen Register & Bibliographie nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
             @if (Model.SearchType != "marginals") {
                 <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="marginals">
-                    Stattdessen Stellenkommentare nach »@Model.ActiveSearch« durchsuchen →
+                    Stattdessen Stellenkommentare nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
         </div>

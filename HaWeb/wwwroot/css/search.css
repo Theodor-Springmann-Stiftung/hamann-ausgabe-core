@@ -91,15 +91,15 @@
     }
 
     .ha-search .ha-searchhead .ha-searchfilter {
-        @apply w-[34rem] mb-4 md:mb-7
+        @apply mb-4 md:mb-7
     }
 
-    .ha-search .ha-searchhead .ha-searchfilter .ha-searchfilterinfo {
-        @apply border p-2 mb-1.5 hyphenate text-sm
+    .ha-search .ha-searchhead .ha-searchfilterinfo {
+        @apply border p-2 mb-4 hyphenate text-base max-w-[46rem]
     }
 
     .ha-search .ha-searchhead .ha-searchfilter .ha-searchform {
-        @apply py-1 flex flex-row gap-x-2 
+        @apply py-1 flex flex-row gap-x-2 max-w-[34rem]
     }
 
     .ha-search .ha-searchhead .ha-searchfilter .ha-searchform input {
@@ -111,7 +111,7 @@
     }
 
     .ha-search .ha-searchhead .ha-activefilterinfo {
-        @apply font-sans text-base px-1 rounded my-1
+        @apply font-sans text-base px-1 rounded my-1 max-w-[34rem]
     }
 
     .ha-search .ha-searchhead .ha-reversefilter {
