@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System.Text;
 using HaXMLReader.Interfaces;
+using HaDocument.Interfaces;
 
 public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
@@ -112,16 +113,41 @@ public class XMLService : IXMLService {
         _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value);
     }
 
-     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader) {
+     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib = null) {
         if (!_collectedProduction.ContainsKey(collection)) return null;
         var searchableObjects = _collectedProduction[collection].Items;
         var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview, string identifier)> Results)>();
         var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
+
+        // Non Parallel:
+        // foreach (var obj in searchableObjects) {
+        //     if (obj.Value.SearchText != null) {
+        //         var state = new SearchState(sw, false, lib);
+        //         var rd = reader.RequestStringReader(obj.Value.SearchText);
+        //         var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), SearchRules.OTagRules, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
+        //         rd.Read();
+        //         if (state.Results != null)
+        //             res.Add((
+        //                 obj.Value.Index,
+        //                 state.Results.Select(x => (
+        //                     x.Page,
+        //                     x.Line,
+        //                     parser.Lines != null ?
+        //                         parser.Lines
+        //                         .Where(y => y.Page == x.Page && y.Line == x.Line)
+        //                         .Select(x => x.Text)
+        //                         .FirstOrDefault(string.Empty)
+        //                         : "",
+        //                     x.Identifier
+        //                 )).ToList()));
+        //     }
+        // }
+
         Parallel.ForEach(searchableObjects, (obj) => {
             if (obj.Value.SearchText != null) {
-                var state = new SearchState(sw);
+                var state = new SearchState(sw, false, lib);
                 var rd = reader.RequestStringReader(obj.Value.SearchText);
-                var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), SearchRules.OTagRules, null, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
+                var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), SearchRules.OTagRules, SearchRules.OTagRules, null, SearchRules.TextRules, SearchRules.WhitespaceRules);
                 rd.Read();
                 if (state.Results != null)
                     res.Add((

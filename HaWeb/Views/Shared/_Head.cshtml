@@ -1,0 +1,26 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="@ViewData["SEODescription"]">
+
+<title>@ViewData["Title"]</title>
+
+<!-- crossorigin is a workaround to prevent double downloading bugs in chrome -->
+<!-- also, the graphite versions of the font are available for use:
+    <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
+    <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
+-->
+<link rel="preload" href="/css/output.css" as="style" asp-append-version="true"/>
+<link rel="preload" href="/img/subtlenet2.png" as="image" />
+<link rel="preload" href="/fonts/LinBiolinum_Rah.ttf" as="font" crossorigin/>
+<link rel="preload" href="/fonts/LinLibertine_Rah.ttf" as="font" crossorigin/>
+<link rel="preload" href="/fonts/LinLibertine_RIah.ttf" as="font" crossorigin/>
+<link rel="preload" href="/fonts/LinLibertine_RBah.ttf" as="font" crossorigin/>
+
+
+<link rel="stylesheet" href="/css/output.css" asp-append-version="true" />
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+
+<environment exclude="Development">
+    @await Html.PartialAsync("/Views/Shared/_Javascript.cshtml")
+</environment>

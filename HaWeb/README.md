@@ -71,14 +71,15 @@ TODO High Contrast Mode manchmal komisch
 TODO Kein High Contrast Mode für den Upload
 TODO High Contrast Mode: Kursiv und ausgegraut (Herausgeberanmerkungen) schwer sichtbar
 TODO 400: Traditions nicht genug Abstand
+TODO Word-wrap before align, tabs
 
 Technische Details:
 TODO Move ILibrary -> neuer Parser
-TODO Word-wrap before align, tabs
 TODO Hochstellungen nach mediaevalziffern
 TODO Syntax-Check
 TODO Datum im Footer Edierdatum der Hamann-Datei
 TODO Fußnoten in Editionsgeschichte als Marginalkommentare
+TODO Navigation auf die Startseite / von Kontakt
 
 Vor dem internen release:
 TODO Jahreszahlen auf der Startseite
@@ -94,6 +95,8 @@ Editionsgeschichte erste Fußnote
 tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
 Fehlende Seiten auf HKW
 vmtl bei sendern und empfängern
+
+theophrast-abschilderungen: Link mit linktext
 
 
 

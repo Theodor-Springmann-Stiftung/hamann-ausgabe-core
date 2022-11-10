@@ -123,7 +123,7 @@
     }
 
     .ha-search .ha-searchbody {
-        @apply pt-4 md:pr-[29rem] pb-9 md:pb-12 rounded-b-sm
+        @apply pt-4 md:pr-[24rem] pb-9 md:pb-12 rounded-b-sm
     }
 
     .ha-search .ha-searchbody .ha-letterlist {

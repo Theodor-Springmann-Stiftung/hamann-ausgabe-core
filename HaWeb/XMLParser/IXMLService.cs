@@ -2,6 +2,7 @@ namespace HaWeb.XMLParser;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
+using HaDocument.Interfaces;
 using HaXMLReader.Interfaces;
 
 public interface IXMLService {
@@ -19,5 +20,5 @@ public interface IXMLService {
     public void UnUseProduction();
     public void SetInProduction();
     public void SetInProduction(XDocument document);
-    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader);
+    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);
 }

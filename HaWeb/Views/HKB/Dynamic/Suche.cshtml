@@ -15,14 +15,19 @@
         @if (Model.ActiveSearch != null) {
         <div class="ha-activefilterinfo">
             @if (Model.SearchType == "letters") {
-                <span>Biefe, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <span><span class="">Briefe</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
             }
             @if (Model.SearchType == "register") {
-                <span>Registereinträge, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
-                <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Registerübersicht</a><span> / </span>
+                @if (Model.ActivePage == 0) {
+                    <span><span class="">Registereinträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                    <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Registerübersicht</a><span> / </span>
+                } else {
+                    <span><span class="">Bibliografische Einträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                    <a class="ha-reversefilter" asp-controller="Register" asp-action="Forschung">← Forschungsbibliographie</a><span> / </span>
+                }
             }
             @if (Model.SearchType == "marginals") {
-                <span>Stellenkommentare, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <span><span class="">Stellenkommentare</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
             }
             <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Briefübersicht</a>
         </div>
@@ -130,5 +135,16 @@
             </div>
         }
 
+        @if (Model.SearchResultType == SearchResultType.NotFound) {
+             <div class="ha-commentlist">
+                Keine Treffer für »@Model.ActiveSearch«.
+             </div>
+        }
+
+         @if (Model.SearchResultType == SearchResultType.InvalidSearchTerm) {
+            <div class="ha-commentlist">
+                »@Model.ActiveSearch« ist ein ungültiger Suchbegriff. Die Suche darf nicht leer sein und nicht ausschließlich aus Spatien bestehen.
+             </div>
+         }
     </div>
 </div>

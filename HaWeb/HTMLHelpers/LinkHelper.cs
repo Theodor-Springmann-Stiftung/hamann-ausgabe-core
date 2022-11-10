@@ -85,7 +85,7 @@ public class LinkHelper {
                                 _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));
                             else if (comment.Type == "forschung")
                                 _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Forschung/" + linkloc[0] + "#" + comment.Index));
-                        _sb.Append(GetLemmaString(tag, comment));
+                        _sb.Append(GetLemmaString(tag, comment, _lib, _followlinksinchildren));
                     }
                 }
                 if (tag.IsEmpty && _followlinksinthis) _sb.Append(HTMLHelpers.TagHelpers.CreateEndElement("a"));
@@ -93,12 +93,12 @@ public class LinkHelper {
         }
     }
 
-    private string GetLemmaString(Tag tag, Comment comment) {
-        if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
+    public static string GetLemmaString(Tag tag, Comment comment, ILibrary lib, bool followlinksinchildren) {
+        if (!tag.Values.ContainsKey("linktext") || tag["linktext"] == "true") {
             var linkState = new LinkState();
             var sb = new StringBuilder();
             var subreader = new UTF8StringReader(comment.Lemma);
-            new LinkHelper(_lib, subreader, sb, _followlinksinchildren, _followlinksinchildren);
+            new LinkHelper(lib, subreader, sb, followlinksinchildren, followlinksinchildren);
             new HTMLParser.XMLHelper<LinkState>(linkState, subreader, sb, LinkRules.OTagRules, null, LinkRules.CTagRules, LinkRules.TextRules, null);
             subreader.Read();
             return sb.ToString();

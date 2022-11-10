@@ -53,10 +53,6 @@
     @apply text-base desktop:text-lg w-full h-full;
   }
 
-  .active {
-    @apply  pointer-events-none
-  }
-
   .hide {
     @apply !hidden
   }
@@ -123,19 +119,16 @@
     @apply italic
   }
 
-  .ha-sup,
-  .ha-sup *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
+  .ha-sup:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply relative -top-[0.3em] text-[80%]
   }
 
   /* TODO: Something dooesnt work here */
-  .ha-super,
-  .ha-super *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
-    @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em]
+  .ha-super:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
+    @apply numeric-normal relative text-xs leading-none align-baseline -top-[0.3em] inline-block
   }
 
-  .ha-sub,
-  .ha-sub *:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
+  .ha-sub:not(.ha-linecount *, .ha-linecount, .ha-marginalbox *, .ha-marginalbox, .ha-marginal, .ha-marginal *, .ha-btn-collapsed-box) {
     @apply relative text-xs leading-none align-baseline -bottom-[0.25em]
   }
 

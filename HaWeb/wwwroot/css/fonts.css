@@ -21,7 +21,7 @@
 
 @font-face {
     font-family: "Biolinum";
-    src: url("../fonts/LinBiolinum_R.woff") format("woff");
+    src: url("../fonts/LinBiolinum_Rah.ttf") format("truetype");
     font-display: swap;
     font-weight: normal;
     font-style: normal;
@@ -29,7 +29,7 @@
   
   @font-face {
     font-family: "Libertine";
-    src: url("../fonts/LinLibertine_R.woff") format("woff");
+    src: url("../fonts/LinLibertine_Rah.ttf") format("truetype");
     font-display: swap;
     font-weight: normal;
     font-style: normal;
@@ -37,7 +37,7 @@
   
   @font-face {
     font-family: "Biolinum";
-    src: url("../fonts/LinBiolinum_RI.woff") format("woff");
+    src: url("../fonts/LinBiolinum_RIah.ttf") format("truetype");
     font-display: swap;
     font-weight: normal;
     font-style: italic;
@@ -45,7 +45,7 @@
   
   @font-face {
     font-family: "Biolinum";
-    src: url("../fonts/LinBiolinum_RB.woff") format("woff");
+    src: url("../fonts/LinBiolinum_RBah.ttf") format("truetype");
     font-display: swap;
     font-weight: bold;
     font-style: normal;
@@ -53,7 +53,7 @@
   
   @font-face {
     font-family: "Libertine";
-    src: url("../fonts/LinLibertine_RI.woff") format("woff");
+    src: url("../fonts/LinLibertine_RIah.ttf") format("truetype");
     font-display: swap;
     font-weight: normal;
     font-style: italic;
@@ -61,7 +61,7 @@
   
   @font-face {
     font-family: "Libertine";
-    src: url("../fonts/LinLibertine_RB.woff") format("woff");
+    src: url("../fonts/LinLibertine_RZah.ttf") format("truetype");
     font-display: swap;
     font-weight: bold;
     font-style: normal;

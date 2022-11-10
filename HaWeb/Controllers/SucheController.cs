@@ -32,7 +32,7 @@ public class SucheController : Controller {
             if (String.IsNullOrWhiteSpace(search)) 
                 return _paginateSendLetters(lib, page, search, SearchResultType.InvalidSearchTerm, null, null);
             search = search.Trim();
-            var res = _xmlService.SearchCollection("letters", search, _readerService);
+            var res = _xmlService.SearchCollection("letters", search, _readerService, null);
             if (res == null || !res.Any()) 
                 return _paginateSendLetters(lib, page, search, SearchResultType.NotFound, null, null);
             var ret = res.ToDictionary(
@@ -52,9 +52,9 @@ public class SucheController : Controller {
 
             List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
             if (page == 0)
-                res = _xmlService.SearchCollection("register-comments", search, _readerService);
+                res = _xmlService.SearchCollection("register-comments", search, _readerService, lib);
             if (page == 1)
-                res = _xmlService.SearchCollection("forschung-comments", search, _readerService);
+                res = _xmlService.SearchCollection("forschung-comments", search, _readerService, lib);
             if (res == null || !res.Any()) 
                 return _paginateSendRegister(lib, page, search, SearchResultType.NotFound, null);
             
@@ -128,7 +128,7 @@ public class SucheController : Controller {
         string activeSearch,
         SearchResultType SRT,
         List<CommentModel> comments) {
-            var model = new SucheViewModel("register", SRT, page, new List<string>() { "Allgmeines Register", "Forschungsbibliographie" }, activeSearch, null, null, comments);
+            var model = new SucheViewModel("register", SRT, page, new List<string>() { "Allgemeines Register", "Forschungsbibliographie" }, activeSearch, null, null, comments);
             return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
     }
 
