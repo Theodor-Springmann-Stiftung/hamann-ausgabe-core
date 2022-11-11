@@ -58,7 +58,7 @@
   }
 
   .ha-found {
-    @apply !text-hamannHighlight
+    @apply !text-hamannSlate-300
   }
 
   .ha-location {
