@@ -97,13 +97,20 @@
     .ha-search .ha-searchhead .ha-searchfilterinfo {
         @apply border p-2 mb-4 hyphenate text-base max-w-[46rem]
     }
+    .ha-search .ha-searchhead .ha-searchfilter form {
+        @apply mb-2 max-w-[34rem]
+    }
 
     .ha-search .ha-searchhead .ha-searchfilter .ha-searchform {
-        @apply py-1 flex flex-row gap-x-2 max-w-[34rem]
+        @apply py-1 flex flex-row gap-x-2 
     }
 
     .ha-search .ha-searchhead .ha-searchfilter .ha-searchform input {
         @apply px-1 border grow min-w-0
+    }
+
+    .ha-search .ha-searchhead .ha-searchfilter .ha-includecomments {
+        @apply w-full !text-base 
     }
 
     .ha-search .ha-searchhead .ha-searchfilter .ha-searchform button {
@@ -159,16 +166,34 @@
     }
 
     .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult {
-        @apply px-6 py-1 bg-slate-50 block
+        @apply px-6 py-1 bg-slate-50 flex flex-row gap-x-4 items-baseline
     }
 
     .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-searchresultlocation {
-        @apply numeric-mediaeval font-semibold text-sm inline-block
+        @apply font-semibold text-sm inline-block shrink-0 flex-nowrap
     }
 
     .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-searchresultpreview {
-        @apply inline-block pl-4
+       
     }
+
+    .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-seachresultmarginal {
+        @apply text-sm max-w-[32rem] my-1
+    }
+
+    .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-seachresultmarginal .ha-searchresultcommentpill {
+        @apply text-xs px-1.5 rounded-xl text-white bg-hamannSlate-700 inline-block mr-2
+    }
+
+    .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-seachresultmarginal .ha-marginal a {
+        @apply underline decoration-dotted hover:decoration-solid
+    }
+
+    .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-seachresultmarginal .ha-marginal,
+    .ha-search .ha-searchbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult .ha-seachresultmarginal .ha-marginal * {
+        @apply !inline hyphenate
+    }
+
 
     .ha-search .ha-searchbody .ha-commentlist {
         @apply pt-2 md:pt-4 px-9 md:px-16 numeric-mediaeval font-serif

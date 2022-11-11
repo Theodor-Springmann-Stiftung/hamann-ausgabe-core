@@ -96,7 +96,7 @@ public class IndexController : Controller {
             .ToList();
     }
 
-    private BriefeMetaViewModel _generateMetaViewModel(ILibrary lib, Meta meta) {
+    internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta) {
         var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
         var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
@@ -146,7 +146,7 @@ public class IndexController : Controller {
             letters = metasbyyear
                 .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
                 .Select(x => (x.Key, x
-                    .Select(y => _generateMetaViewModel(lib, y))
+                    .Select(y => GenerateMetaViewModel(lib, y))
                     .OrderBy(x => x.Meta.Sort)
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))

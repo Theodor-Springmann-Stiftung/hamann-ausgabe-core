@@ -14,45 +14,48 @@
         <div class="ha-searchfilter">
         @if (Model.ActiveSearch != null) {
         <div class="ha-activefilterinfo">
-            @if (Model.SearchType == "letters") {
-                <span><span class="">Briefe</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+            @if (Model.SearchType == SearchType.Letters) {
+                <span><span class="">Briefe</span> @if(Model.IncludeComments == true) { <span> und Stellenkommentare</span> }, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
             }
-            @if (Model.SearchType == "register") {
-                @if (Model.ActivePage == 0) {
-                    <span><span class="">Registereinträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
-                    <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Registerübersicht</a><span> / </span>
-                } else {
-                    <span><span class="">Bibliografische Einträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
-                    <a class="ha-reversefilter" asp-controller="Register" asp-action="Forschung">← Forschungsbibliographie</a><span> / </span>
-                }
+            @if (Model.SearchType == SearchType.Register) {
+                <span><span class="">Registereinträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Registerübersicht</a><span> / </span>
             }
-            @if (Model.SearchType == "marginals") {
-                <span><span class="">Stellenkommentare</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+            @if (Model.SearchType == SearchType.Science) {
+                <span><span class="">Bibliografische Einträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <a class="ha-reversefilter" asp-controller="Register" asp-action="Forschung">← Forschungsbibliographie</a><span> / </span>            
             }
             <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Briefübersicht</a>
         </div>
         }
 
-        <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
+        <form  id="ha-searchform" method="get">
+            <div class="ha-searchform">
             <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff" value="@Model.ActiveSearch"/>
-            <input type="hidden" name="category" type="text" value="@Model.SearchType"/>
             <button id="ha-searchformsubmit" type="submit">Suchen</button>
+            </div>
+            @if (Model.SearchType == SearchType.Letters) {
+                <div class="ha-includecomments">
+                    <input type="checkbox" id="comments" name="comments" value="true" @(Model.IncludeComments == true ? "checked" : "")>
+                    <label for="comments">Stellenkommentare einbeziehen</label>
+                </div>
+            }
         </form>
 
         <div class="ha-alternativesearches">
-            @if (Model.SearchType != "letters") {
-                <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="letters">
-                    Stattdessen Briefe nach »@Model.ActiveSearch« durchsuchen&nbsp;→
+            @if (Model.SearchType != SearchType.Letters) {
+                <a asp-controller="Suche" asp-action="Briefe" asp-route-search="@Model.ActiveSearch" asp-route-comments="true" >
+                    Stattdessen Briefe / Stellenkommentare nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
-            @if (Model.SearchType != "register") {
-                <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="register">
-                    Stattdessen Register & Bibliographie nach »@Model.ActiveSearch« durchsuchen&nbsp;→
+            @if (Model.SearchType != SearchType.Register) {
+                <a asp-controller="Suche" asp-action="Register" asp-route-search="@Model.ActiveSearch" >
+                    Stattdessen Register nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
-            @if (Model.SearchType != "marginals") {
-                <a asp-controller="Suche" asp-action="index" asp-route-search="@Model.ActiveSearch" asp-route-category="marginals">
-                    Stattdessen Stellenkommentare nach »@Model.ActiveSearch« durchsuchen&nbsp;→
+            @if (Model.SearchType != SearchType.Science) {
+                <a asp-controller="Suche" asp-action="Science" asp-route-search="@Model.ActiveSearch" >
+                    Stattdessen Forschungsbibliographie nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
         </div>
@@ -79,7 +82,7 @@
         <div class="ha-searchnav">
         @if (Model.AvailablePages != null && Model.AvailablePages.Any() && Model.AvailablePages.Count > 1) {
             @for(var i = 0; i < Model.AvailablePages.Count; i++) {
-                <a class="@(Model.ActivePage == i ? "active" : "")"  asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i" asp-route-category="@Model.SearchType">
+                <a class="@(Model.ActivePage == i ? "active" : "")"  asp-route-search="@Model.ActiveSearch" asp-controller="Suche" asp-route-page="@i" asp-route-comments="@(Model.IncludeComments == true ? "true" : "")">
                     <span>
                         @Model.AvailablePages[i]
                     </span>
@@ -91,7 +94,7 @@
 
     <div class="ha-searchbody">
         
-        @* Letter Search *@
+        @* Letter & Marginal Search *@
         @if (Model.Letters != null) {
             <div class="ha-letterlist">
             @foreach (var year in Model.Letters) {
@@ -105,11 +108,30 @@
                         <div class="ha-letterlistsearchresults">
                         @foreach (var sr in Model.SearchResults[letter.Meta.Index])
                         {
-                            <a class="ha-letterlistsearchresult" asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-fragment="@sr.Page-@sr.Line">
-                                <div class="ha-searchresultlocation caps-allpetite">
-                                    HKB @sr.Page/@sr.Line</div><div class="ha-searchresultpreview">@sr.Preview
+                            <div class="ha-letterlistsearchresult">
+                                <div class="ha-searchresultlocation">
+                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-fragment="@sr.Page-@sr.Line">
+                                    HKB @sr.Page/@sr.Line
+                                    </a>
                                 </div>
-                            </a>
+                                <div class="ha-searchresultpreview">
+                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-fragment="@sr.Page-@sr.Line">
+                                    @sr.Preview
+                                    </a>
+                                    @if (Model.Marginals != null && Model.Marginals.Any()) {
+                                    @if (Model.Marginals.ContainsKey(letter.Meta.Index)) {
+                                        @foreach (var c in Model.Marginals[letter.Meta.Index]) {
+                                            @if (c.Item1.Page == sr.Page && c.Item1.Line == sr.Line) {
+                                                <div class="ha-seachresultmarginal">
+                                                    <div class="ha-searchresultcommentpill">Kommentar</div>
+                                                    @Html.Raw(c.Item2)
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                    }
+                                </div>
+                            </div>
                         }
                         </div>
                         }
@@ -120,8 +142,8 @@
         }
 
         @* Register Search *@
-        @if (Model.SearchType == "register" && Model.Comments != null && Model.Comments.Any()) {
-            <div class="ha-commentlist @(Model.ActivePage == 1 ? "ha-forschung" : "")">
+        @if (Model.Comments != null && Model.Comments.Any()) {
+            <div class="ha-commentlist @(Model.SearchType == SearchType.Science ? "ha-forschung" : "")">
             @foreach (var k in Model.Comments) {
                 <div class="ha-comment">
                     <div class="ha-headcomment">@Html.Raw(k.ParsedComment)</div>

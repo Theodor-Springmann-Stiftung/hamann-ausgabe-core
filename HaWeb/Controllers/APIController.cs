@@ -232,7 +232,7 @@ public class APIController : Controller {
                 continue;
             }
 
-            var filename = "";
+            var filename = string.Empty;
             if (hasContentDispositionHeader && contentDisposition != null) {
                 if (!MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition)) {
                     ModelState.AddModelError("Error", $"Wrong Content-Dispostion Headers in Multipart Document");

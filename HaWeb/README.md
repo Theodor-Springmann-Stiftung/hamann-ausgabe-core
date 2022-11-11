@@ -83,11 +83,10 @@ TODO Navigation auf die Startseite / von Kontakt
 
 Vor dem internen release:
 TODO Jahreszahlen auf der Startseite
-
-Vor dem Release:
 TODO Suchergebnisse beschränken
 TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
 TODO Fehlerseiten bei nicht gefundenen Seiten
+TODO Traditions durchsuchen
 
 Liste für Janina/Luca:
 KEIN brief für Bassa

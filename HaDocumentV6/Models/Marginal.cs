@@ -11,13 +11,13 @@ namespace HaDocument.Models {
             string letter,
             string page,
             string line,
-            string elemnt
+            string element
         ) {
             Index = index;
             Letter = letter;
             Page = page;
             Line = line;
-            Element = elemnt;
+            Element = element;
         }
     }
 }

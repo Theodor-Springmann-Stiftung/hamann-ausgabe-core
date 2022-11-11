@@ -37,12 +37,19 @@
             </div>
             }
             @if (Model.AllowSearch) {
-            <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Index" method="get">
-                <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
-                <input type="hidden" name="category" type="text" value="register"/>
-                <input type="hidden" name="page" type="text" value="@(Model.Category == "forschung" ? "1" : "0")"/>
-                <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
-            </form>
+                @if (Model.Category == "neuzeit") {
+                    <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Register" method="get">
+                        <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
+                        <input type="hidden" name="page" type="text" value="@(Model.Category == "forschung" ? "1" : "0")"/>
+                        <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
+                    </form>
+                } else {
+                    <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Science" method="get">
+                        <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
+                        <input type="hidden" name="page" type="text" value="@(Model.Category == "forschung" ? "1" : "0")"/>
+                        <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
+                    </form>
+                }
 
             <script>
                 const ACTIVATESEARCHFILTER = function(filter, button) {

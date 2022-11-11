@@ -36,8 +36,8 @@ public static class LetterHelpers {
         var editsState = new EditState();
         foreach (var edit in editreasons) {
             var currstring = edit.StartPage + "/" + edit.StartLine;
-            var endstring = "";
-            var refstring = "";
+            var endstring = string.Empty;
+            var refstring = string.Empty;
             if (edit.StartPage != edit.EndPage)
                 endstring += edit.EndPage + "/" + edit.EndLine;
             else if (edit.StartLine != edit.EndLine)
@@ -81,8 +81,8 @@ public static class LetterHelpers {
         var handstrings = new List<(string, string, string, string, string)>();
         foreach (var hand in hands.OrderBy(x => x.StartPage.Length).ThenBy(x => x.StartPage).ThenBy(x => x.StartLine.Length).ThenBy(x => x.StartLine)) {
             var currstring = hand.StartPage + "/" + hand.StartLine;
-            var endstring = "";
-            var personstring = "";
+            var endstring = string.Empty;
+            var personstring = string.Empty;
             if (hand.StartPage != hand.EndPage)
                 endstring += hand.EndPage + "/" + hand.EndLine;
             else

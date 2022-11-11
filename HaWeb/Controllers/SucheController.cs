@@ -7,6 +7,11 @@ using HaDocument.Models;
 using HaXMLReader.Interfaces;
 using System.Collections.Specialized;
 using HaWeb.XMLParser;
+using HaWeb.Settings.ParsingState;
+using System.Text;
+using HaWeb.Settings.ParsingRules;
+using System.Linq;//AsParallel, ToList
+using System.Collections.Generic;//Dictionary
 
 namespace HaWeb.Controllers;
 
@@ -23,65 +28,188 @@ public class SucheController : Controller {
         _lettersForPage = config.GetValue<int>("LettersOnPage");
     }
     
-    [Route("/HKB/Suche")]
-    public IActionResult Index(string search, string category = "letters", int page = 0) {
-        if (search == null) return _error404();
+    // Letter Search
+    [Route("/HKB/Suche/Briefe/")]
+    public IActionResult Briefe(string search, int page = 0, bool? comments = false) {
         var lib = _lib.GetLibrary();
 
-        if (category == "letters") {
-            if (String.IsNullOrWhiteSpace(search)) 
-                return _paginateSendLetters(lib, page, search, SearchResultType.InvalidSearchTerm, null, null);
-            search = search.Trim();
-            var res = _xmlService.SearchCollection("letters", search, _readerService, null);
-            if (res == null || !res.Any()) 
-                return _paginateSendLetters(lib, page, search, SearchResultType.NotFound, null, null);
-            var ret = res.ToDictionary(
-                x => x.Index,
-                x => x.Results
-                    .Select(y => new SearchResult(search, x.Index) { Page = y.Page, Line = y.Line, Preview = y.Preview })
-                    .ToList()
-                );
-            var keys = res.Select(x => x.Index).Where(x => lib.Metas.ContainsKey(x)).Select(x => lib.Metas[x]);
-            var letters = keys.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
+        // Error checking
+        if (search == null) return _error404();
+        if (String.IsNullOrWhiteSpace(search)) 
+            return View("~/Views/HKB/Dynamic/Suche.cshtml", new SucheViewModel(SearchType.Letters, SearchResultType.InvalidSearchTerm, comments, page, null, search, null, null, null, null));
+        search = search.Trim();
 
-            return _paginateSendLetters(lib, page, search, SearchResultType.Success, ret, letters);
-        } else if (category == "register") {
-            if (String.IsNullOrWhiteSpace(search)) 
-                return _paginateSendRegister(lib, page, search, SearchResultType.InvalidSearchTerm, null);
-            search = search.Trim();
+        // Letter & comment search and search result creation
+        var resletter = _xmlService.SearchCollection("letters", search, _readerService, null);
+        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? rescomments = null;
+        if (comments == true) 
+            rescomments = _xmlService.SearchCollection("marginals", search, _readerService, lib);
+        
+        // Error checking
+        if ((resletter == null || !resletter.Any()) && (rescomments == null || !rescomments.Any())) 
+            return View("~/Views/HKB/Dynamic/Suche.cshtml", new SucheViewModel(SearchType.Letters, SearchResultType.NotFound, comments, page, null, search, null, null, null, null));
+        
+        // Metadata aquisition & sorting
+        List<Meta>? metas = new List<Meta>();
+        if (resletter != null) 
+            metas.AddRange(
+                resletter
+                    .Select(x => x.Index)
+                    .Where(x => lib.Metas.ContainsKey(x))
+                    .Select(x => lib.Metas[x])
+            );
+        if (rescomments != null) 
+            metas.AddRange( 
+                rescomments
+                    .Where(x => lib.Marginals.ContainsKey(x.Index))
+                    .Select(x => lib.Marginals[x.Index])
+                    .Where(x => lib.Metas.ContainsKey(x.Letter))
+                    .Select(x => lib.Metas[x.Letter])
+            );
 
-            List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
-            if (page == 0)
-                res = _xmlService.SearchCollection("register-comments", search, _readerService, lib);
-            if (page == 1)
-                res = _xmlService.SearchCollection("forschung-comments", search, _readerService, lib);
-            if (res == null || !res.Any()) 
-                return _paginateSendRegister(lib, page, search, SearchResultType.NotFound, null);
-            
-            return _paginateSendRegister(lib, page, search, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Index, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.Index).ToList()));
+        // Return
+        return _paginateSendLettersComments(lib, page, search, comments, SearchResultType.Success, metas.Distinct().ToList(), resletter, rescomments);
+    }
+
+    // Register & Bibliography Search
+    [Route("/HKB/Suche/Register/")]
+    public IActionResult Register(string search) {
+        var lib = _lib.GetLibrary();
+
+        // Error checking
+        if (search == null) return _error404();
+        if (String.IsNullOrWhiteSpace(search)) 
+            return _paginateSendRegister(lib, search, SearchType.Register, SearchResultType.InvalidSearchTerm, null);
+        search = search.Trim();
+
+        // Search
+        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
+        
+        res = _xmlService.SearchCollection("register-comments", search, _readerService, lib);
+        if (res == null || !res.Any()) 
+            return _paginateSendRegister(lib, search, SearchType.Register, SearchResultType.NotFound, null);
+
+        // Return 
+        return _paginateSendRegister(lib, search, SearchType.Register, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Index, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.Index).ToList()));
+
+    }
+
+    [Route("/HKB/Suche/Forschung/")]
+    public IActionResult Science(string search) {
+        var lib = _lib.GetLibrary();
+
+        // Error checking
+        if (search == null) return _error404();
+        if (String.IsNullOrWhiteSpace(search)) 
+            return _paginateSendRegister(lib, search, SearchType.Science, SearchResultType.InvalidSearchTerm, null);
+        search = search.Trim();
+
+        // Search
+        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
+        res = _xmlService.SearchCollection("forschung-comments", search, _readerService, lib);
+        if (res == null || !res.Any()) 
+            return _paginateSendRegister(lib, search, SearchType.Science, SearchResultType.NotFound, null);
+
+        // Return 
+        return _paginateSendRegister(lib, search, SearchType.Science, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Index, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.Index).ToList()));
+
+    }
+
+    private IActionResult _paginateSendLettersComments(
+        ILibrary lib,
+        int page,
+        string search,
+        bool? comments,
+        SearchResultType SRT,
+        List<Meta>? metas,
+        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? resletters,
+        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? rescomments
+    ) {
+        // Sorting, get Pages & Error Checking
+        var metasbyyear = metas!.Distinct().ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
+        var pages = IndexController.Paginate(metasbyyear, _lettersForPage);
+        if (pages != null && page >= pages.Count) return _error404();
+        if (pages == null && page > 0) return _error404();
+
+        List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters = null;
+        // Select & Parse Metadata for Letters to be shown on the selected Page
+        if (pages != null && metasbyyear != null) 
+            letters = metasbyyear
+                .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
+                .Select(x => (x.Key, x
+                    .Select(y => IndexController.GenerateMetaViewModel(lib, y))
+                    .OrderBy(x => x.Meta.Sort)
+                    .ThenBy(x => x.Meta.Order)
+                    .ToList()))
+                .ToList();
+        
+        // Generate Search results & previews
+        Dictionary<string, List<SearchResult>>? searchResults = new Dictionary<string, List<SearchResult>>();
+        Dictionary<string, List<(Marginal, string)>>? parsedMarginals = null;
+        if (resletters != null)
+            foreach (var res in resletters) {
+                if (!searchResults.ContainsKey(res.Index))
+                    searchResults.Add(res.Index, new List<SearchResult>());
+                foreach (var r in res.Results) {
+                    if(!searchResults[res.Index].Where(x => x.Page == r.Page && x.Line == r.Line).Any())
+                        searchResults[res.Index].Add(new SearchResult(search, res.Index) { Page = r.Page, Line = r.Line, Preview = r.Preview });
+                }
+                if (searchResults[res.Index].Any()) {
+                    searchResults[res.Index] = searchResults[res.Index].OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Page)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Line)).ToList();
+                }
+            }
+        if (rescomments != null) {
+            var marginals = rescomments.Where(x => lib.Marginals.ContainsKey(x.Index)).Select(x => lib.Marginals[x.Index]).ToLookup(x => x.Letter);
+            var shownletters = letters!.SelectMany(x => x.LetterList.Select(y => y.Meta.Index)).ToHashSet();
+            var shownmarginals = marginals!.Where(x => shownletters.Contains(x.Key)).Select(x => (x.Key, x.ToList())).ToList();
+            var previews = _xmlService != null ? _xmlService.GetPreviews(shownmarginals, _readerService ,lib) : null;            
+            if (previews != null)
+                foreach (var p in previews) {
+                    if (!searchResults.ContainsKey(p.Index))
+                        searchResults.Add(p.Index, new List<SearchResult>());
+                    foreach (var res in p.Results) {
+                        if (!searchResults[p.Index].Where(x => x.Page == res.Page && x.Line == res.Line).Any())
+                            searchResults[p.Index].Add(new SearchResult(search, p.Index) { Page = res.Page, Line = res.Line, Preview = res.Preview });
+                    }
+                    if (searchResults[p.Index].Any()) {
+                        searchResults[p.Index] = searchResults[p.Index].OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Page)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Line)).ToList();
+                    }
+                }
+
+            // Parse Marginals
+            foreach (var l in marginals) {
+                if (parsedMarginals == null && l.Any()) 
+                    parsedMarginals = new Dictionary<string, List<(Marginal, string)>>();
+                if (l.Any()) {
+                    var list = new List<(Marginal, string)>();
+                    foreach (var c in l) {
+                        var sb = new StringBuilder();
+                        var rd = _readerService.RequestStringReader(c.Element);
+                        var st = new LetterState(lib, _readerService, lib.Metas[c.Letter], null, null, null);
+                        new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>(st, rd, sb, LetterRules.OTagRules, null, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
+                        new HaWeb.HTMLHelpers.LinkHelper(st.Lib, rd, sb, false);
+                        rd.Read(); 
+                        list.Add((c, sb.ToString()));
+                    }
+                    parsedMarginals!.Add(l.Key, list);
+                }
+            }
         }
 
-        return _error404();
+        // Model Init & Return
+        var model = new SucheViewModel(SearchType.Letters, SearchResultType.Success, comments, page, _paginate(pages), search, searchResults, letters, null, parsedMarginals);
+        return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
     }
 
-    private List<(string Key, string Person)> _getAvailablePersons(ILibrary lib) {
-        return lib.Persons
-            .OrderBy(x => x.Value.Surname)
-            .ThenBy(x => x.Value.Prename)
-            .Select(x => (x.Key, x.Value.Name))
-            .ToList();
-    }
-
-    private BriefeMetaViewModel _generateMetaViewModel(ILibrary lib, Meta meta) {
-        var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
-        var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
-        var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
-        var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
-        return new BriefeMetaViewModel(meta, hasMarginals) {
-            ParsedZHString = zhstring,
-            ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
-            ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
-        };
+    private IActionResult _paginateSendRegister(
+        ILibrary lib,
+        string activeSearch,
+        SearchType ST,
+        SearchResultType SRT,
+        List<CommentModel> comments) {
+            // Model init & return
+            var model = new SucheViewModel(ST, SRT, null, 0, null, activeSearch, null, null, comments, null);
+            return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
     }
 
     private List<string>? _paginate(List<(int StartYear, int EndYear)>? pages) {
@@ -93,46 +221,7 @@ public class SucheController : Controller {
         }).ToList() : null;
     }
 
-    private List<string>? _paginate(List<string> comments) {
-        return null;
-    }
-
-    private IActionResult _paginateSendLetters(
-        ILibrary lib,
-        int page,
-        string activeSearch,
-        SearchResultType SRT,
-        Dictionary<string, List<SearchResult>>? searchResults,
-        List<IGrouping<int, Meta>>? metasbyyear
-    ) {
-        var pages = IndexController.Paginate(metasbyyear, _lettersForPage);
-        if (pages != null && page >= pages.Count) return _error404();
-        if (pages == null && page > 0) return _error404();
-        List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters = null;
-        if (pages != null && metasbyyear != null)
-            letters = metasbyyear
-                .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
-                .Select(x => (x.Key, x
-                    .Select(y => _generateMetaViewModel(lib, y))
-                    .OrderBy(x => x.Meta.Sort)
-                    .ThenBy(x => x.Meta.Order)
-                    .ToList()))
-                .ToList();
-        var model = new SucheViewModel("letters", SRT, page, _paginate(pages), activeSearch, searchResults, letters, null);
-        return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
-    }
-
-    private IActionResult _paginateSendRegister(
-        ILibrary lib,
-        int page,
-        string activeSearch,
-        SearchResultType SRT,
-        List<CommentModel> comments) {
-            var model = new SucheViewModel("register", SRT, page, new List<string>() { "Allgemeines Register", "Forschungsbibliographie" }, activeSearch, null, null, comments);
-            return View("~/Views/HKB/Dynamic/Suche.cshtml", model);
-    }
-
-
+    // Select and parse comments to be shown on a page
     private List<CommentModel> _createComments(string category, List<(string, List<string>)>? comments) {
         var lib = _lib.GetLibrary();
         var res = new List<CommentModel>();

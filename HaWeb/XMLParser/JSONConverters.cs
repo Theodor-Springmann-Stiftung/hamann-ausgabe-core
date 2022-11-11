@@ -25,7 +25,7 @@ public class IdentificationStringJSONConverter : JsonConverter<(string?, string?
         JsonSerializerOptions options)
         {
             if (value.Item1 == null && value.Item2 == null) return;
-            var res = "";
+            var res = string.Empty;
             if (value.Item1 != null) res += value.Item1;
             if (value.Item2 != null) res += "-" + value.Item2;
             writer.WriteStringValue(res);

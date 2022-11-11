@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Text;
 using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
+using HaDocument.Models;
 
 public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
@@ -113,7 +114,38 @@ public class XMLService : IXMLService {
         _collectedProduction = ret.ToDictionary(x => x.Key, y => y.Value);
     }
 
-     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib = null) {
+    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib) {
+        var searchableObjects = _collectedProduction["letters"].Items;
+        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview, string identifier)> Results)>();
+
+        Parallel.ForEach(places, (obj) => {
+            var text = searchableObjects[obj.Item1];
+            if (text == null || text.SearchText == null || obj.Item2 == null || !obj.Item2.Any()) return;
+            var state = new SearchState(String.Empty, false, lib);
+            var rd = reader.RequestStringReader(text.SearchText);
+            var parser = new HaWeb.HTMLParser.LineXMLHelper<SearchState>(state, rd, new StringBuilder(), null, null, null, null, null);
+            rd.Read();
+
+            res.Add((
+                obj.Item1,
+                obj.Item2.Select(x => (
+                    x.Page,
+                    x.Line,
+                    parser.Lines != null ?
+                        parser.Lines
+                        .Where(y => y.Page == x.Page && y.Line == x.Line)
+                        .Select(y => y.Text)
+                        .FirstOrDefault(string.Empty)
+                        : string.Empty,
+                    String.Empty
+                ) ).ToList()
+            ));
+        });
+
+        return res.ToList();
+    }
+
+     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary lib) {
         if (!_collectedProduction.ContainsKey(collection)) return null;
         var searchableObjects = _collectedProduction[collection].Items;
         var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview, string identifier)> Results)>();

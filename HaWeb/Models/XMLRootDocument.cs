@@ -70,7 +70,7 @@ public class XMLRootDocument {
     }
 
     private string _removeInvalidChars(string? s) {
-        if (String.IsNullOrWhiteSpace(s)) return "";
+        if (String.IsNullOrWhiteSpace(s)) return string.Empty;
         foreach (var c in Path.GetInvalidFileNameChars()) {
             s = s.Replace(c, '-');
         }

@@ -48,9 +48,9 @@ public class LinkHelper {
                     var letter = _lib.Metas[tag["letter"]];
                     _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
                     if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
-                        var linkstring = "";
-                        var ZHstring = "";
-                        var pglnstring = "";
+                        var linkstring = string.Empty;
+                        var ZHstring = string.Empty;
+                        var pglnstring = string.Empty;
                         linkstring += "HKB&nbsp;" + letter.Autopsic;
                         if (tag.Values.ContainsKey("page")) {
                             pglnstring += tag["page"];
@@ -103,7 +103,7 @@ public class LinkHelper {
             subreader.Read();
             return sb.ToString();
         }
-        return "";
+        return string.Empty;
     }
 
     public void Dispose() {

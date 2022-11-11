@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
 using HaDocument.Interfaces;
+using HaDocument.Models;
 using HaXMLReader.Interfaces;
 
 public interface IXMLService {
@@ -21,4 +22,5 @@ public interface IXMLService {
     public void SetInProduction();
     public void SetInProduction(XDocument document);
     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);
+    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib);
 }

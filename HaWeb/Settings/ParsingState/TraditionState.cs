@@ -50,6 +50,6 @@ public class TraditionState : HaWeb.HTMLParser.IState {
         active_trad = false;
         active_skipwhitespace = true;
         currline = "-1";
-        currpage = "";
+        currpage = string.Empty;
     }
 }

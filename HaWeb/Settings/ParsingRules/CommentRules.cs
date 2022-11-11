@@ -36,7 +36,7 @@ public static class CommentRules {
             if (reader.State.Category == "bibel" && reader.State.Type == HaWeb.Settings.ParsingState.CommentType.Subcomment &&
             reader.OpenTags.Any() && reader.OpenTags.Last().Name == "lemma" &&
                 !txt.Value.Contains("Stücke zu") && !txt.Value.Contains("ZusDan")) {
-                var lnkstring = Regex.Replace(txt.Value, @"\s+", "");
+                var lnkstring = Regex.Replace(txt.Value, @"\s+", string.Empty);
                 sb.Append(HTMLHelpers.TagHelpers.CreateCustomElement("a",
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "href", Value = "https://www.bibleserver.com/LUT/" + lnkstring},
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "target", Value = "_blank"},

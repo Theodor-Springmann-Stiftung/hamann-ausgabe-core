@@ -68,16 +68,11 @@ public class LineXMLHelper<T> {
         _newpage = false;
         _firstline = true;
 
-        if (_OTag_Funcs != null)
-            _in.OpenTag += OnOTag;
-        if (_STag_Funcs != null)
-            _in.SingleTag += OnSTag;
-        if (_CTag_Funcs != null)
-            _in.CloseTag += OnCTag;
-        if (_Text_Funcs != null)
-            _in.Text += OnText;
-        if (_WS_Funcs != null)
-            _in.Whitespace += OnWS;
+        _in.OpenTag += OnOTag;
+        _in.SingleTag += OnSTag;
+        _in.CloseTag += OnCTag;
+        _in.Text += OnText;
+        _in.Whitespace += OnWS;
     }
 
     private void _pushLine(object? _, EventArgs _empty) {
@@ -104,22 +99,18 @@ public class LineXMLHelper<T> {
 
     protected virtual void OnText(object? _, Text text) {
         LastText.Append(text.Value);
+        _currentText.Append(text.Value);
         if (_Text_Funcs != null)
-            if (CatchPageLine == null || (CurrentPage == CatchPageLine.Value.Page && CurrentLine == CatchPageLine.Value.Line)) {
-                _currentText.Append(text.Value);
-                foreach (var entry in _Text_Funcs)
-                    if (entry.Item1(text, this)) entry.Item2(_target, text, this);
-            }
+            foreach (var entry in _Text_Funcs)
+                if (entry.Item1(text, this)) entry.Item2(_target, text, this);
     }
 
     protected virtual void OnWS(object? _, Whitespace ws) {
         LastText.Append(ws.Value);
+        _currentText.Append(ws.Value);
         if (_WS_Funcs != null)
-            if (CatchPageLine == null || (CurrentPage == CatchPageLine.Value.Page && CurrentLine == CatchPageLine.Value.Line)) {
-                _currentText.Append(ws.Value);
-                foreach (var entry in _WS_Funcs)
-                    if (entry.Item1(ws, this)) entry.Item2(_target, ws, this);
-            }
+            foreach (var entry in _WS_Funcs)
+                if (entry.Item1(ws, this)) entry.Item2(_target, ws, this);
     }
 
     protected virtual void OnOTag(object? _, Tag tag) {

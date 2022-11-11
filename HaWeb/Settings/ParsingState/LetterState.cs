@@ -50,7 +50,7 @@ public class LetterState : HaWeb.HTMLParser.IState {
         sb_lettertext = new StringBuilder();
         active_skipwhitespace = true;
         currline = "-1";
-        currpage = "";
+        currpage = string.Empty;
         mustwrap = (false, false);
         minwidth = false;
 
