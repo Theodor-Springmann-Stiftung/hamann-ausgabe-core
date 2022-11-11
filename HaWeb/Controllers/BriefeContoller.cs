@@ -23,7 +23,7 @@ public class Briefecontroller : Controller {
 
     [Route("/HKB/Briefe")]
     [Route("/HKB/Briefe/{id?}")]
-    public IActionResult Index(string? id) {
+    public IActionResult Index(string? id, string? search = null) {
         // Setup settings and variables
         var lib = _lib.GetLibrary();
         var url = "/HKB/Briefe/";
@@ -50,6 +50,9 @@ public class Briefecontroller : Controller {
         ViewData["Title"] = "Brief " + id.ToLower();
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Brief " + id.ToLower();
         ViewData["Filename"] = "HKB_" + meta.Autopsic + ".pdf";
+        if (!string.IsNullOrWhiteSpace(search)) {
+            ViewData["Mark"] = "search";
+        }
 
         // Model creation
         var hasMarginals = false;

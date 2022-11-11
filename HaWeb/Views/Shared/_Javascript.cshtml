@@ -1,6 +1,35 @@
 @* Javascript gets inlined because it ain't much (but it's honest work) *@
-@* Only put PRODUCTION JavaScript here *@
+
+@* Mark searched term *@
+@if(ViewData.ContainsKey("Mark")) {
+    <script src="~/js/mark.min.js" asp-append-version="true"></script>
+    <script>
+        var instance = new Mark(document.querySelectorAll(".ha-register-body, .ha-letterbody *, .ha-searchresultpreview, .ha-comment"));
+        instance.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"]});
+        
+    </script>
+}
 <script>
+    function markanchor() {
+        var currentUrl = document.URL,
+        urlParts   = currentUrl.split('#');
+        var anchor = (urlParts.length > 1) ? urlParts[1] : null;
+        if (anchor != null) {
+            var element = document.getElementById(anchor);
+            if (element !== null && element.classList.contains("ha-linecount") && element.firstChild.classList.contains("ha-hiddenlinecount")) {
+                element.classList.add("ha-found");
+                element.classList.add("font-bold");
+                element.classList.add("mr-3");
+                element.prepend("● ");
+            } else if (element !== null && element.classList.contains("ha-commenthead")) {
+                element.classList.add("ha-found");
+                element.classList.add("font-bold");
+                element.prepend("● ");
+            }
+        }
+    }
 
-
+    window.addEventListener("load", function () {
+        markanchor();
+    });
 </script>

@@ -57,6 +57,10 @@
     @apply !hidden
   }
 
+  .ha-found {
+    @apply !text-hamannSlate-300
+  }
+
   .ha-zhbreak {
     @apply hidden sm:inline
   }

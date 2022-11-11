@@ -3,6 +3,7 @@
     ViewData["Title"] = "Briefauswahl & Suche";
     ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe, Hg. v. Leonard Keidel und Janina Reibold. Durchsuchbare Online-Ausgabe der Briefe von und an Johann Georg Hamann.";
     ViewData["showCredits"] = "false";
+    ViewData["Mark"] = Model.ActiveSearch;
 }
 
 <div class="ha-search">
@@ -110,12 +111,12 @@
                         {
                             <div class="ha-letterlistsearchresult">
                                 <div class="ha-searchresultlocation">
-                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-fragment="@sr.Page-@sr.Line">
+                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
                                     HKB @sr.Page/@sr.Line
                                     </a>
                                 </div>
                                 <div class="ha-searchresultpreview">
-                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-fragment="@sr.Page-@sr.Line">
+                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
                                     @sr.Preview
                                     </a>
                                     @if (Model.Marginals != null && Model.Marginals.Any()) {

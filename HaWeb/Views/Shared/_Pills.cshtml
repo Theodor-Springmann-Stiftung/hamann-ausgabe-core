@@ -37,7 +37,7 @@
         </div>
     }
 
-    @if (Model.Letter.Meta.isProofread != HaDocument.Models.OptionalBool.True) {
+    @* @if (Model.Letter.Meta.isProofread != HaDocument.Models.OptionalBool.True) {
         <div class="ha-tooltip">
             <div class="ha-pill">
                 <span class="ha-cross">geprüft</span>
@@ -56,7 +56,7 @@
                 Textkritisch geprüft
             </div>
         </div>
-    }
+    } *@
 
     @if (Model.Letter.Meta.ZH != null && Model.Letter.Meta.ZH.dateChanged) {
         <div class="ha-tooltip">

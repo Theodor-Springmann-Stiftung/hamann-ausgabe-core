@@ -125,7 +125,7 @@
                         let pg = page.value;
                         window.location.href = "/HKB/" + vol + "/" + pg;
                     }
-
+                    
                     window.addEventListener("load", () => {
                         let vol = document.getElementById("ha-zhformvolume");
                         let pg = document.getElementById("ha-zhformpage");
@@ -147,8 +147,9 @@
                     <div class="ha-filtertitle">
                         Volltextsuche
                     </div>
-                     <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Briefe" method="get">
+                     <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Briefe" asp-route-comments="true" method="get">
                         <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
+                        <input type="hidden" name="comments" value="true"/>
                         <button id="ha-searchformsubmit" type="submit">Suchen</button>
                      </form>
                 </div>
