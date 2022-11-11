@@ -51,7 +51,7 @@ public class Briefecontroller : Controller {
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Brief " + id.ToLower();
         ViewData["Filename"] = "HKB_" + meta.Autopsic + ".pdf";
         if (!string.IsNullOrWhiteSpace(search)) {
-            ViewData["Mark"] = "search";
+            ViewData["Mark"] = search;
         }
 
         // Model creation

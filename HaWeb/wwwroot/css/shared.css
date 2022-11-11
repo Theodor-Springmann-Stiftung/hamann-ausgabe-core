@@ -58,8 +58,13 @@
   }
 
   .ha-found {
-    @apply !text-hamannSlate-300
+    @apply !text-hamannHighlight
   }
+
+  .ha-location {
+    @apply !text-hamannHighlight
+  }
+
 
   .ha-zhbreak {
     @apply hidden sm:inline

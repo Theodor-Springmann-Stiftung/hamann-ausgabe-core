@@ -261,7 +261,7 @@
   }
 
   .ha-linecount {
-    @apply sm:absolute sm:right-full sm:mr-2 sm:text-right text-xs sm:mt-1 font-sans select-none
+    @apply sm:absolute sm:right-full sm:mr-2 sm:text-right text-xs sm:mt-1 font-sans select-none whitespace-nowrap
   }
 
   .ha-linecount .ha-zhline {

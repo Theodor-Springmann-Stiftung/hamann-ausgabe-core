@@ -40,13 +40,15 @@ public class SearchRules {
                         }
                         sb.Remove(0, sb.Length - sw.Length);
                     }
-                } else {
-                    if (t.ToUpperInvariant().Contains(sw)) {
-                        if (reader.State.Results == null)
-                                reader.State.Results = new List<(string Page, string Line, string Identifier)>();
-                        reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine, reader.State.CurrentIdentifier));
-                    }
-                }
+                } 
+                // Enable, if zou want unparsed context tto be conidered when searching.
+                // else {
+                //     if (t.ToUpperInvariant().Contains(sw)) {
+                //         if (reader.State.Results == null)
+                //                 reader.State.Results = new List<(string Page, string Line, string Identifier)>();
+                //         reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine, reader.State.CurrentIdentifier));
+                //     }
+                // }
             }
         })
     };
