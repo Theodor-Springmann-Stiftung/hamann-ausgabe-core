@@ -15,7 +15,7 @@
         @if (Model.ActiveSearch != null) {
         <div class="ha-activefilterinfo">
             @if (Model.SearchType == SearchType.Letters) {
-                <span><span class="">Briefe</span> @if(Model.IncludeComments == true) { <span> und Stellenkommentare</span> }, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <span><span class="">Briefe</span>@if(Model.IncludeComments == true) {<span> und Stellenkommentare</span>}, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
             }
             @if (Model.SearchType == SearchType.Register) {
                 <span><span class="">Registereinträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
