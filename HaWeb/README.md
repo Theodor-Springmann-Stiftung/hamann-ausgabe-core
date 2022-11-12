@@ -87,6 +87,8 @@ TODO Suchergebnisse beschränken
 TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
 TODO Fehlerseiten bei nicht gefundenen Seiten
 TODO Traditions durchsuchen
+TODO Briefe, in welchen Sender / Empfänger jeweils doppelt / getauscht sind 876
+TODO SEO Description & Titel
 
 Liste für Janina/Luca:
 KEIN brief für Bassa
