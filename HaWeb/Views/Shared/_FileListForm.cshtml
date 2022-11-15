@@ -1,5 +1,8 @@
 @model (List<FileModel>? files, string title, string aspcontrolller, string aspaction, string id, string downloadprefix, bool multipleallowed);
 
+
+<script defer src="/js/filelistform.js"></script>
+
 <fieldset class="ha-filelistfieldset">
     <legend class="ha-filelistlegend">@Model.title</legend>
     @if(Model.files != null && Model.files.Any()) {
@@ -48,36 +51,3 @@
         <div>Keine Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
     }
 </fieldset>
-
-<script>
-    const USESubmit = async function (oFormElement, file = null) {
-      let fd = new FormData(oFormElement);
-      document.getElementById("ha-filelistbutton").style.pointerEvents = "none";
-      document.getElementById("ha-lds-ellipsis-load").style.display = "inline-block";
-      await fetch(oFormElement.action, {
-          method: 'POST',
-          headers: {
-            'RequestVerificationToken': getCookie('RequestVerificationToken')
-          },
-          body: fd
-        })
-        .then(response => response.json())
-        .then(json => {
-          if ("Error" in json) {
-              document.getElementById("ha-filelistbutton").style.pointerEvents = "auto";
-              document.getElementById("ha-lds-ellipsis-load").style.display = "none";
-            document.getElementById("ha-filelistoutput").textContent = json.Error;
-          } 
-          else {
-              document.getElementById("ha-filelistbutton").style.pointerEvents = "auto";
-              document.getElementById("ha-lds-ellipsis-load").style.display = "none";
-            location.reload(); 
-          }
-        })
-        .catch ((e) => {
-            document.getElementById("ha-filelistbutton").style.pointerEvents = "auto";
-            document.getElementById("ha-lds-ellipsis-load").style.display = "none";
-            document.getElementById("ha-filelistoutput").textContent = e;
-        })
-    }
-</script>

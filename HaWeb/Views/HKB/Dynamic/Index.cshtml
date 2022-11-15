@@ -5,6 +5,8 @@
     ViewData["showCredits"] = "true";
 }
 
+<script defer src="/js/index.js" asp-append-version="true"></script>
+
 <div class="ha-index">
     @if (Model.Letters != null) {
 
@@ -49,41 +51,14 @@
                 @* Go To Letter *@
                 <div class="ha-gotofilter">
                     <div class="ha-filtertitle">H&hairsp;K&hairsp;B</div>
-                    <form class="ha-gotoform" id="ha-gotoform">
+                    <form class="ha-gotoform" id="ha-gotoform" asp-controller="Briefe" asp-action="Index" method="get">
                         <div class="ha-gototext">
                             Briefnummer
                         </div>
-                        <input type="text" id="ha-gotoletternumber" class="ha-gotoletternumber" />
+                        <input name="id" type="text" id="ha-gotoletternumber" class="ha-gotoletternumber" />
                         <button type="submit" id="ha-gotoformsubmit">Nachschlagen</button>
                     </form>
                 </div>
-                <script>
-                    const ACTIVATEGOTOFILTER = function(filter, button) {
-                        let f = filter.value;
-                        if (f === "") {
-                            button.disabled = true;
-                            return;
-                        }
-                        button.disabled = false;
-                    }
-
-                    const SUBMITGOTO = function(filter) {
-                        let f = filter.value;
-                        window.location.href = "/HKB/" + f;
-                    }
-
-                    window.addEventListener("load", () => {
-                        let gotofilter = document.getElementById("ha-gotoletternumber");
-                        let gotosubmitbtn = document.getElementById("ha-gotoformsubmit");
-                        let gotoform = document.getElementById("ha-gotoform");
-                        ACTIVATEGOTOFILTER(gotofilter, gotosubmitbtn);
-                        gotofilter.addEventListener("input", () => ACTIVATEGOTOFILTER(gotofilter, gotosubmitbtn));
-                        gotoform.addEventListener("submit", (ev) => { 
-                            ev.preventDefault();
-                            SUBMITGOTO(gotofilter);
-                        });
-                    });
-                </script>
 
                 @* ZH Loopkup *@
                 @if (Model.AvailablePages != null) {
@@ -99,47 +74,17 @@
                     </div>
                      <form class="ha-zhform" id="ha-zhform">
                         <span>Z&hairsp;H Band</span>
-                        <select id="ha-zhformvolume">
+                        <select name="zhvolume" id="ha-zhformvolume">
                             @foreach (var volume in Model.AvailablePages) {
                                 <option>@volume.Volume</option> 
                             }
                         </select>
                         <span>/ </span>
-                        <input id="ha-zhformpage" type="text" value="@Model.ActivePage" placeholder="Seite"/>
+                        <input name="zhpage" id="ha-zhformpage" type="text" value="@Model.ActivePage" placeholder="Seite"/>
                         <button id="ha-zhformsubmit" type="submit">Nachschlagen</button>
                      </form>
                 </div>
-                <script>
-                    const ACTIVATEZHSEARCH = function(volume, page, button) {
-                        let vol = volume.options[volume.selectedIndex].value;
-                        let pg = page.value;
-                        if (pg === "") {
-                            button.disabled = true;
-                            return;
-                        }
-                        button.disabled = false;
-                    }
-
-                    const SUBMITZHSEARCH = function(volume, page) {
-                        let vol = volume.options[volume.selectedIndex].value;
-                        let pg = page.value;
-                        window.location.href = "/HKB/" + vol + "/" + pg;
-                    }
-                    
-                    window.addEventListener("load", () => {
-                        let vol = document.getElementById("ha-zhformvolume");
-                        let pg = document.getElementById("ha-zhformpage");
-                        let zhsubmitbtn = document.getElementById("ha-zhformsubmit");
-                        let zhsearchform = document.getElementById("ha-zhform");
-                        ACTIVATEZHSEARCH(vol, pg, zhsubmitbtn);
-                        vol.addEventListener("change", () => ACTIVATEZHSEARCH(vol, pg, zhsubmitbtn));
-                        pg.addEventListener("input", () => ACTIVATEZHSEARCH(vol, pg, zhsubmitbtn));
-                        zhsearchform.addEventListener("submit", (ev) => { 
-                            ev.preventDefault();
-                            SUBMITZHSEARCH(vol, pg);
-                        });
-                    });
-                </script>
+                
                 }
     
                  @* Full-Text-Search *@
@@ -153,24 +98,6 @@
                         <button id="ha-searchformsubmit" type="submit">Suchen</button>
                      </form>
                 </div>
-                <script>
-                    const ACTIVATESEARCHFILTER = function(filter, button) {
-                        let f = filter.value;
-                        if (f === "") {
-                            button.disabled = true;
-                            return;
-                        }
-                        button.disabled = false;
-                    }
-
-                    window.addEventListener("load", () => {
-                        let searchfilter = document.getElementById("ha-searchformtext");
-                        let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
-                        let searchform = document.getElementById("ha-searchform");
-                        ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
-                        searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
-                    });
-                </script>
 
                 @* Person Filter *@
                 @if(Model.AvailablePersons != null) {

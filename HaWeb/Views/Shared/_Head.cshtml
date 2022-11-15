@@ -9,12 +9,16 @@
     <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
     <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
 -->
-<link rel="preload" href="/css/output.css" as="style" asp-append-version="true"/>
+
+@* Resources *@
 <link rel="preload" href="/img/subtlenet2.png" as="image" />
 <link rel="preload" href="/fonts/LinBiolinum_Rah.ttf" as="font" crossorigin/>
 <link rel="preload" href="/fonts/LinLibertine_Rah.ttf" as="font" crossorigin/>
 <link rel="preload" href="/fonts/LinLibertine_RIah.ttf" as="font" crossorigin/>
 <link rel="preload" href="/fonts/LinLibertine_RBah.ttf" as="font" crossorigin/>
 
-
+@* Styles *@
 <link rel="stylesheet" href="/css/output.css" asp-append-version="true" />
+
+@* JavaScript *@
+@await Html.PartialAsync("/Views/Shared/_JavaScript.cshtml")

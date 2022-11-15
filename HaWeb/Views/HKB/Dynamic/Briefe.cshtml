@@ -7,10 +7,8 @@
     if (Model.MinWidthTrad)
         minwidthtrads = "ha-minwidth"; 
 }
-@* No JavaScript Settings *@
-<noscript>
-@* TODO *@
-</noscript>
+
+<script defer src="/js/briefe.js" asp-append-version="true"></script>
 
 <div class="ha-letterheader">
     @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, false, false))
@@ -155,11 +153,3 @@
         }
     </div>
 </div>
-
-
-@* <script src="~/js/mark.min.js" asp-append-version="true"></script>
-<script>
-    var instance = new Mark(document.querySelectorAll(".ha-letterbody"));
-    instance.mark('l', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"]});
-    
-</script> *@

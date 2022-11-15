@@ -5,6 +5,7 @@
     ViewData["showCredits"] = "false";
     ViewData["Mark"] = Model.ActiveSearch;
 }
+<script defer src="/js/search.js"></script>
 
 <div class="ha-search">
     <div class="ha-searchhead">
@@ -61,24 +62,6 @@
             }
         </div>
         </div>
-        <script>
-            const ACTIVATESEARCHFILTER = function(filter, button) {
-                let f = filter.value;
-                if (f === "") {
-                    button.disabled = true;
-                    return;
-                }
-                button.disabled = false;
-            }
-
-            window.addEventListener("load", () => {
-                let searchfilter = document.getElementById("ha-searchformtext");
-                let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
-                let searchform = document.getElementById("ha-searchform");
-                ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
-                searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
-            });
-        </script>
 
         <div class="ha-searchnav">
         @if (Model.AvailablePages != null && Model.AvailablePages.Any() && Model.AvailablePages.Count > 1) {
@@ -112,7 +95,7 @@
                             <div class="ha-letterlistsearchresult">
                                 <div class="ha-searchresultlocation">
                                     <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
-                                    HKB @sr.Page/@sr.Line
+                                    HKB @letter.Meta.Autopsic @sr.Page/@sr.Line
                                     </a>
                                 </div>
                                 <div class="ha-searchresultpreview">

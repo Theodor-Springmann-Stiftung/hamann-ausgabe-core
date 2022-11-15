@@ -24,6 +24,8 @@
         : "ha-bibel";
 }
 
+<script defer src="/js/register.js"></script>
+
 <div class="ha-register">
     <div class="@commentClass">
         <div class="ha-register-head">
@@ -50,25 +52,6 @@
                         <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
                     </form>
                 }
-
-            <script>
-                const ACTIVATESEARCHFILTER = function(filter, button) {
-                    let f = filter.value;
-                    if (f === "") {
-                        button.disabled = true;
-                        return;
-                    }
-                    button.disabled = false;
-                }
-
-                window.addEventListener("load", () => {
-                    let searchfilter = document.getElementById("ha-searchformtext");
-                    let searchsubmitbtn = document.getElementById("ha-searchformsubmit");
-                    let searchform = document.getElementById("ha-searchform");
-                    ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn);
-                    searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
-                });
-            </script>
 
             @* <form asp-controller="Suche" asp-action="Index" method="GET" >
                 <input type="text" name="search" placeholder="Suchbegriff" />

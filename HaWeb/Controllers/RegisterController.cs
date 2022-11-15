@@ -114,7 +114,6 @@ public class RegisterController : Controller {
         var title = "Forschungsbibliographie";
         ViewData["Title"] = "Forschungsbibliographie";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Forschungsbibliographie.";
-        ViewData["Mark"] = "He";
 
         // Normalisation and Validation
         if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);

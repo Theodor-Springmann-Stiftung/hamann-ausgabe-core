@@ -1,0 +1,24 @@
+/* PRINT */
+header {
+    @apply print:hidden
+  }
+
+.ha-footer {
+    @apply print:hidden
+}
+
+.ha-letterheadernav {
+    @apply print:!hidden
+}
+
+.ha-letterheader {
+    @apply print:!border-none
+}
+
+.ha-scrollbutton {
+    @apply print:!hidden
+}
+
+html {
+    @apply print:text-base
+}

@@ -44,6 +44,9 @@ module.exports = {
       '2xl': '1680px',    
     },
     extend: {
+      screens: {
+        'print': { 'raw': 'print' },
+      },
       colors: {
         'hamannHighlight': '#d80000',
         'hamannLightHighlight': '#cc7878',
