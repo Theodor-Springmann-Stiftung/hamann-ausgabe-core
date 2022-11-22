@@ -161,7 +161,8 @@ public class LetterRules {
                     sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.ZHLINECOUNTCLASS, reader.State.currpage + "-" + reader.State.currline));
                 
                     // Fall 1: Neue Seite
-                    if (reader.State.currline == "1") {
+                    if (reader.State.pagebreak == true) {
+                        reader.State.pagebreak = false;
                         sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.ZHPAGECLASS, ""));
                         sb.Append("S.&nbsp;" + reader.State.currpage);
                     } 
@@ -184,6 +185,7 @@ public class LetterRules {
             } else if (reader.State.currline == "-1" && !String.IsNullOrWhiteSpace(tag["index"])) {
                 reader.State.Startline = tag["index"];
                 reader.State.currline = tag["index"];
+                reader.State.pagebreak = false;
             }
 
             // Marginalien, only for lines with a linenumber

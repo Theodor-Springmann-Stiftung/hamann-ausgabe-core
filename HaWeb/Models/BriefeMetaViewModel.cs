@@ -9,6 +9,8 @@ public class BriefeMetaViewModel {
     private string? _ParsedSenders;
     private string? _ParsedReceivers;
     private string? _ParsedZHString;
+    private string? _Startline;
+    private string? _Startpage;
 
     public string? ParsedSenders {
         get => _ParsedSenders;
@@ -39,6 +41,26 @@ public class BriefeMetaViewModel {
             else
                 _ParsedZHString = value;
 
+        }
+    }
+
+    public string? Startline {
+        get => _Startline;
+        set {
+            if (value != null)
+                _Startline = HttpUtility.HtmlEncode(value);
+            else
+                _Startline = value;
+        }
+    }
+
+    public string? Startpage {
+        get => _Startpage;
+        set {
+            if (value != null)
+                _Startpage = HttpUtility.HtmlEncode(value);
+            else
+                _Startpage = value;
         }
     }
 

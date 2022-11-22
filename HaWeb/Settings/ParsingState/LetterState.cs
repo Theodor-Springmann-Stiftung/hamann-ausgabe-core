@@ -26,14 +26,25 @@ public class LetterState : HaWeb.HTMLParser.IState {
     // What's the current line?
     internal string currline;
     // What's the current page?
-    internal string currpage;
-    // Does the container need a min-widt, so percentages are useful (tables)
+    private string? _currpage;
+    internal string? currpage { 
+        get => _currpage;
+        set {
+            if (Startpage == null)
+                Startpage = value;
+            _currpage = value;
+            pagebreak = true;
+    }}
+    // Does the container need a min-width, so percentages are useful (tables)
     internal bool minwidth;
+    // Did a pagebreak just occur?
+    internal bool pagebreak = false;
 
     // Results
     internal StringBuilder sb_lettertext;
     internal List<(string, string, string)>? ParsedMarginals;
-    internal string Startline;
+    internal string? Startline;
+    internal string? Startpage = null;
 
     public LetterState(ILibrary lib, IReaderService readerService, Meta meta, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
         Lib = lib;
@@ -50,12 +61,11 @@ public class LetterState : HaWeb.HTMLParser.IState {
         sb_lettertext = new StringBuilder();
         active_skipwhitespace = true;
         currline = "-1";
-        currpage = string.Empty;
         mustwrap = (false, false);
         minwidth = false;
 
         // Initialize State
-        if (Meta.ZH != null) {
+        if (Meta.ZH != null && !String.IsNullOrWhiteSpace(Meta.ZH.Page)) {
             currpage = Meta.ZH.Page;
         }
     }

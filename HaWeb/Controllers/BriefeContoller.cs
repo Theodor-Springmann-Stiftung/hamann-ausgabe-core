@@ -71,8 +71,8 @@ public class Briefecontroller : Controller {
             (model.ParsedText, model.MinWidth) = (parsedLetter.sb_lettertext.ToString(), parsedLetter.minwidth);
             if (model.ParsedMarginals != null && parsedLetter.ParsedMarginals != null) model.ParsedMarginals.AddRange(parsedLetter.ParsedMarginals);
             else model.ParsedMarginals = parsedLetter.ParsedMarginals;
-            if (parsedLetter.Startline != "-1" && parsedLetter.Startline != "1" && model.MetaData.ParsedZHString != null)
-                model.MetaData.ParsedZHString += " / " + parsedLetter.Startline;
+            model.MetaData.Startline = parsedLetter.Startline;
+            model.MetaData.Startpage = parsedLetter.Startpage;
             if (String.IsNullOrWhiteSpace(model.ParsedText))
                 model.MetaData.HasText = false;
         }

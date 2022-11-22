@@ -1,7 +1,7 @@
 @model (List<FileModel>? files, string title, string aspcontrolller, string aspaction, string id, string downloadprefix, bool multipleallowed);
 
 
-<script defer src="/js/filelistform.js"></script>
+<script defer src="/js/filelistform.js" asp-append-version="true"></script>
 
 <fieldset class="ha-filelistfieldset">
     <legend class="ha-filelistlegend">@Model.title</legend>

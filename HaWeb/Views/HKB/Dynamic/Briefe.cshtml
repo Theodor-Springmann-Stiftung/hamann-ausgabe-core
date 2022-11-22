@@ -11,7 +11,7 @@
 <script defer src="/js/briefe.js" asp-append-version="true"></script>
 
 <div class="ha-letterheader">
-    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, false, false))
+    @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, true, false))
     <div class="ha-letterheadernav">
         <div class="ha-lettertabs">
             @if (!String.IsNullOrWhiteSpace(Model.ParsedText))
@@ -54,11 +54,13 @@
 
 <div class="ha-letterbody " id="ha-letterbody">
     <div class="ha-lettertext @minwidth" id="ha-lettertext">
-        @if (Model.MetaData.ParsedZHString != null) {
-        <div class="ha-linecount ha-firstline">
-            <span>@Html.Raw(Model.MetaData.ParsedZHString)</span>
+        <div class="ha-linecount">
+            @if (Model.MetaData.Startline == "1") {
+                <div id="@Model.MetaData.Startpage-@Model.MetaData.Startline" class="ha-zhpage">S. @Html.Raw(Model.MetaData.Startpage)</div>
+            } else {
+                <div id="@Model.MetaData.Startpage-@Model.MetaData.Startline" class="ha-zhpage">@Html.Raw(Model.MetaData.Startpage)/@Html.Raw(Model.MetaData.Startline)</div>
+            }
         </div>
-        }
         @Html.Raw(@Model.ParsedText)
         @* It's not beautiful but it's a hack to keep the last comment within parent element boundaries: *@
         <br>
@@ -99,11 +101,7 @@
                             <tr class="ha-handentry">
                                 <td>
                                     @* Not beautiful, but here's whitespace in between otherwise *@
-                                    <div class="ha-handfrom">@hand.Item1</div>@if (!String.IsNullOrEmpty(hand.Item2))
-                                    {
-                                        <div
-                                class="ha-handto">–@hand.Item2</div>
-                                    }
+                                    <div class="ha-handfrom">@hand.Item1</div>@if(!String.IsNullOrEmpty(hand.Item2)){<div class="ha-handto">–@hand.Item2</div>}
                                 </td>
                                 <td class="ha-handperson">@Html.Raw(@hand.Item3)</td>
                             </tr>
@@ -128,11 +126,7 @@
                         {
                             <tr>
                                 <td class="ha-editfromto">
-                                    <div class="ha-editfrom">@edit.Item1</div>@if (!String.IsNullOrEmpty(edit.Item2))
-                                    {
-                                        <div
-                                class="ha-editto">–@edit.Item2</div>
-                                    }
+                                    <div class="ha-editfrom">@edit.Item1</div>@if(!String.IsNullOrEmpty(edit.Item2)){<div class="ha-editto">–@edit.Item2</div>}
                                 </td>
                                 <td class="ha-editreference">
                                     @if (!String.IsNullOrWhiteSpace(edit.Item3))

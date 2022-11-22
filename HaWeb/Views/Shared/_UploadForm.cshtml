@@ -1,6 +1,6 @@
 @model UploadViewModel;
 
-<script defer src="/js/uploadform.js"></script>
+<script defer src="/js/uploadform.js" asp-append-version="true"></script>
 
 <form class="ha-uploadform" id="uploadForm" asp-controller="API" asp-action="Upload" method="post" enctype="multipart/form-data">
     <label class="ha-uploadfilelabel" id="dropzone">

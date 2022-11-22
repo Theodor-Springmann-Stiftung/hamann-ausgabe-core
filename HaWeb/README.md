@@ -66,38 +66,27 @@ Veränderungen im Code
 - Code wird open source zugänglich
 
 Ästhetisch unzufriedenstellend, aber funktional:
-TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
-TODO High Contrast Mode manchmal komisch
-TODO Kein High Contrast Mode für den Upload
-TODO High Contrast Mode: Kursiv und ausgegraut (Herausgeberanmerkungen) schwer sichtbar
-TODO 400: Traditions nicht genug Abstand
-TODO Word-wrap before align, tabs
+B TODO pills are not mobile friendly (hover / click), Pills allgemein Ästhetik
+D TODO High Contrast Mode manchmal komisch
+D TODO Kein High Contrast Mode für den Upload
+D TODO High Contrast Mode: Kursiv und ausgegraut (Herausgeberanmerkungen) schwer sichtbar
+D TODO 400: Traditions nicht genug Abstand
 
 Technische Details:
-TODO Move ILibrary -> neuer Parser
-TODO Hochstellungen nach mediaevalziffern
-TODO Syntax-Check
-TODO Datum im Footer Edierdatum der Hamann-Datei
-TODO Fußnoten in Editionsgeschichte als Marginalkommentare
-TODO Navigation auf die Startseite / von Kontakt
+D TODO Move ILibrary -> neuer Parser
+C TODO Syntax-Check
+B TODO Datum im Footer Edierdatum der Hamann-Datei
+A TODO Fußnoten in Editionsgeschichte als Marginalkommentare
 
 Vor dem internen release:
-TODO Jahreszahlen auf der Startseite
-TODO Suchergebnisse beschränken
-TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
-TODO Fehlerseiten bei nicht gefundenen Seiten
-TODO Traditions durchsuchen
-TODO Briefe, in welchen Sender / Empfänger jeweils doppelt / getauscht sind 876
-TODO SEO Description & Titel
+A TODO Jahreszahlen auf der Startseite
+B TODO Suchergebnisse beschränken
+B TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
+A TODO Fehlerseiten bei nicht gefundenen Seiten
+C TODO Traditions durchsuchen
+A TODO Briefe, in welchen Sender / Empfänger jeweils doppelt / getauscht sind 876
+A TODO SEO Description & Titel
+A TODO fixed width briefe kommentar bisschen nach links 306, 309
 
 Liste für Janina/Luca:
-KEIN brief für Bassa
-Editionsgeschichte erste Fußnote 
-tabellen ok, ausser 939, 806 falsch geschachtelt: dort sind htabs geschachtelt
-Fehlende Seiten auf HKW
-vmtl bei sendern und empfängern
-
-theophrast-abschilderungen: Link mit linktext
-
-
-
+tabellen ok, ausser 939

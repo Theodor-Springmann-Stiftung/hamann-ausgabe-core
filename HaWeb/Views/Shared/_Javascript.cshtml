@@ -12,7 +12,7 @@
     @* This uses Razor Syntax so it is inlined into this razor file *@
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
-            var elements = document.querySelectorAll(".ha-register-body, .ha-searchresultpreview, .ha-comment");
+            var elements = document.querySelectorAll(".ha-register-body, .ha-searchresultpreview, .ha-commenthead, .ha-entry");
             if (elements.length < 1000) {
                 var instancesearch = new Mark(elements);
                 instancesearch.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
