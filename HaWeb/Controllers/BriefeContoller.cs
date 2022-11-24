@@ -47,8 +47,8 @@ public class Briefecontroller : Controller {
         var prevmeta = meta != lib.MetasByDate.First() ? lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) - 1) : null;
 
         // More Settings and variables
-        ViewData["Title"] = "Brief " + id.ToLower();
-        ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Brief " + id.ToLower();
+        ViewData["Title"] = "HKB – Brief " + id.ToLower();
+        ViewData["SEODescription"] = "HKB – Brief " + id.ToLower();
         ViewData["Filename"] = "HKB_" + meta.Autopsic + ".pdf";
         if (!string.IsNullOrWhiteSpace(search)) {
             ViewData["Mark"] = search;

@@ -45,7 +45,7 @@ public class RegisterController : Controller {
         var category = "neuzeit";
         var defaultLetter = "A";
         var title = "Allgemeines Register";
-        ViewData["Title"] = "Allgemeines Register";
+        ViewData["Title"] = "HKB – Allgemeines Register";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Personen-, Sach- und Ortsregister.";
 
         // Normalisation and validation
@@ -79,7 +79,7 @@ public class RegisterController : Controller {
         var category = "bibel";
         var defaultLetter = "AT";
         var title = "Bibelstellenregister";
-        ViewData["Title"] = "Bibelstellenregister";
+        ViewData["Title"] = "HKB – Bibelstellenregister";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Bibelstellenregister.";
 
         // Normalisation and Validation
@@ -112,7 +112,7 @@ public class RegisterController : Controller {
         var category = "forschung";
         var defaultLetter = "A";
         var title = "Forschungsbibliographie";
-        ViewData["Title"] = "Forschungsbibliographie";
+        ViewData["Title"] = "HKB – Forschungsbibliographie";
         ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe. Forschungsbibliographie.";
 
         // Normalisation and Validation
