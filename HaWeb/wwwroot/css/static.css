@@ -41,12 +41,16 @@
     @apply my-3 w-full;
   }
 
+  .ha-static table tr td p {
+    @apply !my-2
+  }
+
   .ha-static table th {
     @apply pl-2 pr-2 desktop:pr-4 text-left font-bold
   }
 
   .ha-static table tr td {
-    @apply pl-2 pr-2 desktop:pr-4 align-top desktop:whitespace-nowrap;
+    @apply pl-2 pr-2 desktop:pr-4 align-top
   }
 
   .ha-static table tr td:last-child {
@@ -72,4 +76,8 @@
   .ha-static .ha-footnote .ha-footnote-ref {
     @apply inline-block absolute text-right w-8 -left-10
   }
+}
+
+.ha-static table {
+  empty-cells: show;
 }

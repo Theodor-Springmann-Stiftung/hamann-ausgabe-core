@@ -25,8 +25,18 @@ public class HKWController : Controller {
         return View("~/Views/HKW/Static/SokratischeDenkwuerdigkeiten.cshtml");
     }
 
-    [Route("Uebersicht")]
-    public IActionResult Uebersicht() {
-        return View("~/Views/HKW/Static/Uebersicht.cshtml");
+    [Route("Werkuebersicht")]
+    public IActionResult Werkuebersicht() {
+        return View("~/Views/HKW/Static/Werkuebersicht.cshtml");
+    }
+
+    [Route("Edition/Mitwirkende")]
+    public IActionResult Mitwirkende() {
+        return View("~/Views/HKW/Static/Mitwirkende.cshtml");
+    }
+
+    [Route("Edition/Editionsgeschichte")]
+    public IActionResult Editionsgeschichte() {
+        return View("~/Views/HKW/Static/Editionsgeschichte.cshtml");
     }
 }

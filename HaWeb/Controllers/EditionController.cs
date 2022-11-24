@@ -17,4 +17,8 @@ public class EditionController : Controller {
     public IActionResult Editionsgeschichte() {
         return View("~/Views/HKB/Static/Editionsgeschichte.cshtml");
     }
+
+    public IActionResult Zitierempfehlung() {
+        return View("~/Views/HKB/Static/Zitierempfehlung.cshtml");
+    }
 }
