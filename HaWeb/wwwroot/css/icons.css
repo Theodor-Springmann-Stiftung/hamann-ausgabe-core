@@ -50,15 +50,34 @@
     visibility: visible;
     opacity: 1;
   }
-  
-  .ha-open-btn-collapsed-box::before {
+
+  .ha-open-btn-collapsed-box::after {
     content: "\200E+";
-    font-weight: 900;
   }
-  
+
+  .ha-open-btn-collapsed-box {
+    transform: rotate(0deg);
+    font-weight: bold;
+    -webkit-transition: -webkit-transform 80ms ease-in-out;
+    -moz-transition:    -moz-transform 80ms ease-in-out;
+    -o-transition:      -o-transform 80ms ease-in-out;
+    -ms-transition:     -ms-transform 80ms ease-in-out;
+    transition:         transform 80ms ease-in-out;
+  }
+
+  .ha-open-btn-collapsed-box.ha-close-btn-collapsed-box {
+    transform: rotate(45deg);
+    transform-origin: 53% 57%;
+    -webkit-transition: -webkit-transform 80ms ease-in-out;
+    -moz-transition:    -moz-transform 80ms ease-in-out;
+    -o-transition:      -o-transform 80ms ease-in-out;
+    -ms-transition:     -ms-transform 80ms ease-in-out;
+    transition:         transform 80ms ease-in-out;
+  }
+/*   
   .ha-close-btn-collapsed-box::before {
-    content: "\200E\00D7";
-    font-weight: 900;
+    /* content: "\200E\00D7"; */
+    /*font-weight: 900;
   }
   
   .ha-uploadheader .ha-usedfilesheaderlist .ha-plussign {

@@ -3,7 +3,7 @@ const getLineHeight = function (element) {
     var temp = document.createElement(element.nodeName),
         ret;
     temp.setAttribute("class", element.className);
-    temp.innerHTML = "Ü";
+    temp.innerHTML = "Üj";
     element.parentNode.appendChild(temp);
     ret = temp.getBoundingClientRect().height;
     temp.parentNode.removeChild(temp);
@@ -35,14 +35,12 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
         ev.stopPropagation();
         if (element.classList.contains("ha-collapsed-box")) {
             uncollapsebox(element);
-            btn.classList.remove("ha-open-btn-collapsed-box");
             btn.classList.add("ha-close-btn-collapsed-box");
             btn.classList.add("ha-collapsed-box-manually-toggled");
         } else {
             collapsebox(element, height);
             btn.classList.remove("ha-close-btn-collapsed-box");
             btn.classList.remove("ha-collapsed-box-manually-toggled");
-            btn.classList.add("ha-open-btn-collapsed-box");
         }
     });
 
@@ -54,10 +52,9 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
             timer = setTimeout(function () {
                 if (element.classList.contains("ha-collapsed-box")) {
                     uncollapsebox(element);
-                    btn.classList.remove("ha-open-btn-collapsed-box");
                     btn.classList.add("ha-close-btn-collapsed-box");
                 }
-            }, 200);
+            }, 80);
         });
 
         element.addEventListener("mouseleave", function (ev) {
@@ -71,7 +68,6 @@ const addbuttoncaollapsebox = function (element, height, hoverfunction) {
             ) {
                 collapsebox(element, height);
                 btn.classList.remove("ha-close-btn-collapsed-box");
-                btn.classList.add("ha-open-btn-collapsed-box");
             }
         });
     }
@@ -105,7 +101,7 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
                 if (newlength % (lineheight * 3) <= 2)
                     newlength -= lineheight;
                 let remainder = newlength % lineheight;
-                newlength = newlength - remainder - 1;
+                newlength = newlength - remainder;
 
                 // Line clamping for Marginals
                 if (element.classList.contains("ha-marginalbox")) {

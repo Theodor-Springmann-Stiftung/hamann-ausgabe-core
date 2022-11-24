@@ -69,12 +69,11 @@
             </div>
         </div>
     </nav>
-    <div class="w-100 absolute right-0 -bottom-10">
-        <div class="w-auto dark:bg-slate-900 bg-gray-50 text-base py-1 px-2 drop-shadow-sm dark:drop-shadow-md">
-            <a class="" asp-controller="Index" asp-action="Index">
-                <img src="/img/HKB.png" class="inline w-5 h-5 mr-2 border dark:border-none border-gray-300 " alt="HKB-Logo" />
-                <span class="underline decoration-dotted hover:decoration-solid decoration-slate-500">Kommentierte Briefausgabe</span> →
-            </a>
-        </div>
+    <div class="switchsites">
+        <a class="switchsitesbtn" asp-controller="Index" asp-action="Index">
+            <img src="/img/HKB.png" alt="HKB-Logo" />
+            <span class="switchsitestext">Kommentierte Briefausgabe</span>
+            <span class="switchsitesarrow">→</span>
+        </a>
     </div>
 </header>
