@@ -10,14 +10,13 @@ namespace HaDocument.Reactors {
     class AppDefsReactor : Reactor {
         internal Dictionary<string, App> CreatedInstances;
 
-
         // State
         private string Index;
         private string Name;
         private bool Category;
 
         internal AppDefsReactor(IReader reader, IntermediateLibrary lib) : base(reader, lib) {
-            lib.Locations = new Dictionary<string, Location>();
+            lib.Apps = new Dictionary<string, App>();
             CreatedInstances = lib.Apps;
             reader.Tag += Listen;
         }

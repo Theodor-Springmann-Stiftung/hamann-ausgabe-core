@@ -11,6 +11,7 @@ namespace HaDocument.Models {
         ) {
             Index = index;
             Name = name;
+            Category = category;
         }
     }
 }

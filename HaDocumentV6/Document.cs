@@ -42,6 +42,7 @@ namespace HaDocument
             new PersonDefsReactor(_reader, _lib);
             new TraditionsReactor(_reader, _lib, _settings.NormalizeWhitespace);
             new CommentReactor(_reader, _lib, _settings.NormalizeWhitespace);
+            new AppDefsReactor(_reader, _lib);
         }
 
         private static void _createReader() {
