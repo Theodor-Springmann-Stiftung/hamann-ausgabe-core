@@ -9,7 +9,7 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
     public string[] XPathContainer { get; } = { ".//data/definitions", ".//definitions" };
     
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
-        if (elem.Name == "personDefs" || elem.Name == "structureDefs" || elem.Name == "handDefs" || elem.Name == "locationDefs")
+        if (elem.Name == "personDefs" || elem.Name == "structureDefs" || elem.Name == "handDefs" || elem.Name == "locationDefs" || elem.Name == "appDefs")
             return true;
         return false;
     };

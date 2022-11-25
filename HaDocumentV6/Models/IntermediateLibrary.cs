@@ -16,6 +16,7 @@ namespace HaDocument.Models
         public Dictionary<string, Comment> Comments;
         public Dictionary<string, List<Backlink>> Backlinks;
         public Dictionary<string, List<Hand>> Hands;
+        public Dictionary<string, App> Apps;
 
         // Helper Library for precalculationg the Structure of the Document:
         public Dictionary<string, Dictionary<string, HashSet<string>>> LetterPageLines;
@@ -63,6 +64,7 @@ namespace HaDocument.Models
                 Backlinks,
                 Hands,
                 Structure,
+                Apps,
                 options
             );
         }

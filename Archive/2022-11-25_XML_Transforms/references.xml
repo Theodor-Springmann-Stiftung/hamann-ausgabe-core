@@ -1,7 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<opus>
-  <data>
-    <definitions>
+﻿<?xml version="1.0" encoding="utf-8"?><opus><definitions>
       <structureDefs>
 			<structureDef index="1" level="1" type="volume" friendlyName="Band {1}" />
 			<structureDef index="2" level="2" type="letter" friendlyName="Brief {2}" />
@@ -12,7 +9,7 @@
 			<personDef index="1" name="Johann Georg Hamann" vorname="Johann Georg" nachname="Hamann" />
 			<personDef index="2" name="Gottlob Jacob Sahme" vorname="Gottlob Jacob" nachname="Sahme" />
 			<personDef index="3" name="Philipp Belger" vorname="Philipp" nachname="Belger" />
-			<personDef index="4" name="Ein Studienfreund" nachname="Studienfreund"/>
+			<personDef index="4" name="Ein Studienfreund" nachname="Studienfreund" />
 			<personDef index="5" name="Johann Christoph Hamann (Vater)" vorname="Johann Christoph" nachname="Hamann" />
 			<personDef index="6" name="Maria Magdalena Hamann (Mutter)" vorname="Maria Magdalena" nachname="Hamann" />
 			<personDef index="7" name="Johann Gottlieb Kreutzfeld" vorname="Johann Gottlieb" nachname="Kreutzfeld" />
@@ -22,15 +19,15 @@
 			<personDef index="11" name="Barbara Helena von Budberg, geb. von Zimmermann" vorname="Barbara Helena von" nachname="Budberg" />
 			<personDef index="12" name="Marianne Lindner, geb. Courtan" vorname="Marianne" nachname="Lindner" />
 			<personDef index="13" name="Arnold Corman" vorname="Arnold" nachname="Corman" />
-			<personDef index="14" name="George Bassa" vorname="George" nachname="Bassa" />
+			<personDef index="14" name="" />
 			<personDef index="15" name="Johann Ehregott Friedrich Lindner" vorname="Johann Ehregott Friedrich" nachname="Lindner" />
 			<personDef index="16" name="Johann Christoph Berens" vorname="Johann Christoph" nachname="Berens" />
 			<personDef index="17" name="Arend Berens" vorname="Arend" nachname="Berens" />
 			<personDef index="18" name="Johann Christoph Ruprecht" vorname="Johann Christoph" nachname="Ruprecht" />
-			<personDef index="19" name="Senel" vorname="[unbek. Vorname]" nachname="Senel"/>
+			<personDef index="19" name="Senel" vorname="[unbek. Vorname]" nachname="Senel" />
 			<personDef index="20" name="" />
 			<personDef index="21" name="Gottlob Immanuel Lindner" vorname="Gottlob Immanuel" nachname="Lindner" />
-			<personDef index="22" name="Peter Christoph Baron von Witten" vorname="Peter Christoph Baron von" nachname="Witten"/>
+			<personDef index="22" name="Peter Christoph Baron von Witten" vorname="Peter Christoph Baron von" nachname="Witten" />
 			<personDef index="23" name="Joseph Johann Baron von Witten" vorname="Joseph Johann Baron von" nachname="Witten" />
 			<personDef index="24" name="" />
 			<personDef index="25" name="" />
@@ -48,60 +45,60 @@
 			<personDef index="37" name="Friedrich Nicolai" vorname="Friedrich" nachname="Nicolai" />
 			<personDef index="38" name="Sebastian Friedrich Trescho" vorname="Sebastian Friedrich" nachname="Trescho" />
 			<personDef index="39" name="Friedrich Carl von Moser" vorname="Friedrich Carl von" nachname="Moser" />
-			<personDef index="40" name="Die Königlich Preußische Kriegs- und Domänen-Kammer zu Königsberg i. Pr." nachname="Kriegs- und Domänenkammer"/>
+			<personDef index="40" name="Die Königlich Preußische Kriegs- und Domänen-Kammer zu Königsberg i. Pr." nachname="Kriegs- und Domänenkammer" />
 			<personDef index="41" name="Johann Gottfried Herder" vorname="Johann Gottfried" nachname="Herder" />
 			<personDef index="42" name="Die Königlich Preußische Regierung zu Königsberg in Preußen" nachname="Regierung" />
 			<personDef index="43" name="" />
 			<personDef index="44" name="Christian Gottlieb Arndt" vorname="Christian Gottlieb" nachname="Arndt" />
 			<personDef index="45" name="Johann Christian Buchholtz" vorname="Johann Christian" nachname="Buchholtz" />
 			<personDef index="46" name="Das Königliche Pupillen-Kollegium" nachname="Pupillen-Kollegium" />
-			<personDef index="47" name="Friedrich II. (Preußen)" nachname="Friedrich II."/>
-			<personDef index="48" name="Kriegsrat Hindersin" nachname="Hindersin"/>
+			<personDef index="47" name="Friedrich II. (Preußen)" nachname="Friedrich II." />
+			<personDef index="48" name="Kriegsrat Hindersin" nachname="Hindersin" />
 			<personDef index="49" name="Johann Friedrich Hartknoch" vorname="Johann Friedrich" nachname="Hartknoch" />
 			<personDef index="50" name="Johann August Eberhard" vorname="Johann August" nachname="Eberhard" />
-			<personDef index="51" name="Johann Jakob Kanter" vorname="Johann Jakob" nachname="Kanter"/>
-			<personDef index="52" name="Der Geheime Ausschuß der G. v. V. Frey Mäurer Loge zu Königsberg in Preußen" nachname="Frey Mäurer Loge"/>
+			<personDef index="51" name="Johann Jakob Kanter" vorname="Johann Jakob" nachname="Kanter" />
+			<personDef index="52" name="Der Geheime Ausschuß der G. v. V. Frey Mäurer Loge zu Königsberg in Preußen" nachname="Frey Mäurer Loge" />
 			<personDef index="53" name="Jacob Friedrich Hinz" vorname="Jacob Friedrich" nachname="Hinz" />
 			<personDef index="54" name="Carl Theophilus Guichard" vorname="Carl Theophilus" nachname="Guichard" />
 			<personDef index="55" name="Johann Joachim Christoph Bode" vorname="Johann Joachim Christoph" nachname="Bode" />
-			<personDef index="56" name="Accise und Zoll-Direktor Stockmar" nachname="Stockmar"/>
+			<personDef index="56" name="Accise und Zoll-Direktor Stockmar" nachname="Stockmar" />
 			<personDef index="57" name="" />
 			<personDef index="58" name="" />
 			<personDef index="59" name="Albertine Hartknoch, geb. Toussaint" vorname="Albertine" nachname="Hartknoch" />
 			<personDef index="60" name="Johann Friedrich Reichardt" vorname="Johann Friedrich" nachname="Reichardt" />
 			<personDef index="61" name="Matthias Claudius" vorname="Matthias" nachname="Claudius" />
 			<personDef index="62" name="Johann August Starck" vorname="Johann August" nachname="Starck" />
-			<personDef index="63" name="Catharina Dorothea Güldenhorn, geb. Herder" vorname="Catharina Dorothea" nachname="Güldenhorn"/>
-			<personDef index="64" name="Rebecca Claudius" vorname="Rebecca" nachname="Claudius"/>
+			<personDef index="63" name="Catharina Dorothea Güldenhorn, geb. Herder" vorname="Catharina Dorothea" nachname="Güldenhorn" />
+			<personDef index="64" name="Rebecca Claudius" vorname="Rebecca" nachname="Claudius" />
 			<personDef index="65" name="" />
 			<personDef index="66" name="" />
-			<personDef index="67" name="Sophie Marianne Courtan, geb. Toussaint" vorname="Sophie Marianne" nachname="Courtan"/>
+			<personDef index="67" name="Sophie Marianne Courtan, geb. Toussaint" vorname="Sophie Marianne" nachname="Courtan" />
 			<personDef index="68" name="Die General-Administration" nachname="General-Administration" />
 			<personDef index="69" name="Witwe Blom" nachname="Blom" />
 			<personDef index="70" name="" />
-			<personDef index="71" name="Dr. Laubmeyer" nachname="Laubmeyer"/>
+			<personDef index="71" name="Dr. Laubmeyer" nachname="Laubmeyer" />
 			<personDef index="72" name="Christoph Kaufmann" vorname="Christoph" nachname="Kaufmann" />
 			<personDef index="73" name="Johann Ehrmann" vorname="Johann" nachname="Ehrmann" />
 			<personDef index="74" name="" />
 			<personDef index="75" name="Vmtl. Samuel Lippmann Löwen" vorname="Samuel Lippmann" nachname="Löwen" />
 			<personDef index="76" name="Johann Caspar Lavater" vorname="Johann Caspar" nachname="Lavater" />
-			<personDef index="77" name="Elise Kaufmann, geb. Ziegler" vorname="Elise" nachname="Kaufmann"/>
-			<personDef index="78" name="Caroline Charlotte Amalie Reichsgräfin von Keyserling, geb. von Truchseß-Waldburg" vorname="Caroline Charlotte Amalie Reichsgräfin von" nachname="Keyserling"/>
+			<personDef index="77" name="Elise Kaufmann, geb. Ziegler" vorname="Elise" nachname="Kaufmann" />
+			<personDef index="78" name="Caroline Charlotte Amalie Reichsgräfin von Keyserling, geb. von Truchseß-Waldburg" vorname="Caroline Charlotte Amalie Reichsgräfin von" nachname="Keyserling" />
 			<personDef index="79" name="" />
 			<personDef index="80" name="" />
 			<personDef index="81" name="" />
 			<personDef index="82" name="" />
-			<personDef index="83" name="Hans Jacob von Auerswald" vorname="Hans Jacob von" nachname="Auerswald"/>
+			<personDef index="83" name="Hans Jacob von Auerswald" vorname="Hans Jacob von" nachname="Auerswald" />
 			<personDef index="84" name="" />
-			<personDef index="85" name="Caroline Stoltz" vorname="Caroline" nachname="Stoltz"/>
-			<personDef index="86" name="Johann Caspar Häfeli" vorname="Johann Caspar" nachname="Häfeli"/>
+			<personDef index="85" name="Caroline Stoltz" vorname="Caroline" nachname="Stoltz" />
+			<personDef index="86" name="Johann Caspar Häfeli" vorname="Johann Caspar" nachname="Häfeli" />
 			<personDef index="87" name="Christian Jakob Kraus" vorname="Christian Jakob" nachname="Kraus" />
 			<personDef index="88" name="Friedrich Gottlieb Klopstock" vorname="Friedrich Gottlieb" nachname="Klopstock" />
-			<personDef index="89" name="Caroline Herder, geb. Flachsland" vorname="Caroline" nachname="Herder"/>
+			<personDef index="89" name="Caroline Herder, geb. Flachsland" vorname="Caroline" nachname="Herder" />
 			<personDef index="90" name="Johann Friedrich Kleuker" vorname="Johann Friedrich" nachname="Kleuker" />
-			<personDef index="91" name="Heinrich Christian Reichsgraf von Keyserling" vorname="Heinrich Christian Reichsgraf von" nachname="Keyserling"/>
-			<personDef index="92" name="Johann Heinrich Voß" vorname="Johann Heinrich" nachname="Voß"/>
-			<personDef index="93" name="August Herder" vorname="August" nachname="Herder"/>
+			<personDef index="91" name="Heinrich Christian Reichsgraf von Keyserling" vorname="Heinrich Christian Reichsgraf von" nachname="Keyserling" />
+			<personDef index="92" name="Johann Heinrich Voß" vorname="Johann Heinrich" nachname="Voß" />
+			<personDef index="93" name="August Herder" vorname="August" nachname="Herder" />
 			<personDef index="94" name="Johann Georg Müller" vorname="Johann Georg" nachname="Müller" />
 			<personDef index="95" name="Friedrich Heinrich Jacobi" vorname="Friedrich Heinrich" nachname="Jacobi" />
 			<personDef index="96" name="" />
@@ -118,26 +115,26 @@
 			<personDef index="107" name="Elisabeth Regina Hamann (Tochter)" vorname="Elisabeth Regina" nachname="Hamann" />
 			<personDef index="108" name="Die Provinzial-Direktion" nachname="Provinzial-Direktion" />
 			<personDef index="109" name="" />
-			<personDef index="110" name="Elisa von der Recke" vorname="Elisa von der" nachname="Recke"/>
-			<personDef index="111" name="Die Königliche General-Accise- und Zoll-Administration" nachname="General-Accise- und Zoll-Administration"/>
-			<personDef index="112" name="Heinrich Schenk" vorname="Heinrich" nachname="Schenk"/>
+			<personDef index="110" name="Elisa von der Recke" vorname="Elisa von der" nachname="Recke" />
+			<personDef index="111" name="Die Königliche General-Accise- und Zoll-Administration" nachname="General-Accise- und Zoll-Administration" />
+			<personDef index="112" name="Heinrich Schenk" vorname="Heinrich" nachname="Schenk" />
 			<personDef index="113" name="" />
-			<personDef index="114" name="Thomas Wizenmann" vorname="Thomas" nachname="Wizenmann"/>
+			<personDef index="114" name="Thomas Wizenmann" vorname="Thomas" nachname="Wizenmann" />
 			<personDef index="115" name="" />
 			<personDef index="116" name="Gottfried Leberecht Masius" vorname="Gottfried Leberecht" nachname="Masius" />
 			<personDef index="117" name="" />
 			<personDef index="118" name="Finanzrat von Köpke" nachname="Köpke" />
-			<personDef index="119" name="Minister von Werder" nachname="Werder"/>
+			<personDef index="119" name="Minister von Werder" nachname="Werder" />
 			<personDef index="120" name="Johann Ernst von Druffel" vorname="Johann Ernst von" nachname="Druffel" />
-			<personDef index="121" name="Finanzbeamter Gomm" nachname="Gomm"/>
-			<personDef index="122" name="Fürstin Amalia von Gallitzin" vorname="Fürstin Amalia von" nachname="Gallitzin"/>
+			<personDef index="121" name="Finanzbeamter Gomm" nachname="Gomm" />
+			<personDef index="122" name="Fürstin Amalia von Gallitzin" vorname="Fürstin Amalia von" nachname="Gallitzin" />
 			<personDef index="123" name="" />
 			<personDef index="124" name="" />
 			<personDef index="125" name="Johann Gottlieb Steudel" vorname="Johann Gottlieb" nachname="Steudel" />
 			<personDef index="126" name="" />
-			<personDef index="127" name="Abraham Jakob Penzel" vorname="Abraham Jakob" nachname="Penzel"/>
-			<personDef index="129" name="Martinus Maletius" vorname="Martinus" nachname="Maletius"/>
-			<personDef index="130" name="Vmtl. Theodor Gottlieb Hippel" vorname="Theodor Gottlieb" nachname="Hippel"/>
+			<personDef index="127" name="Abraham Jakob Penzel" vorname="Abraham Jakob" nachname="Penzel" />
+			<personDef index="129" name="Martinus Maletius" vorname="Martinus" nachname="Maletius" />
+			<personDef index="130" name="Vmtl. Theodor Gottlieb Hippel" vorname="Theodor Gottlieb" nachname="Hippel" />
 		</personDefs>
       <handDefs>
 			<handDef index="-1" name="Unbekannt" />
@@ -166,7 +163,7 @@
 			<handDef index="23" name="Johann Michael Hamann (Sohn)" />
 			<handDef index="24" name="Arnold Corman" />
 			<handDef index="25" name="Franz Kaspar Bucholtz" />
-			<handDef index="26" name="vermutlich George Bassa" />
+			<handDef index="26" name="Vmtl. George Bassa" />
 			<handDef index="27" name="Sophie Marianne Courtan" />
 			<handDef index="28" name="Christian Jakob Kraus" />
 			<handDef index="29" name="Helene Jacobi" />
@@ -174,6 +171,8 @@
 			<handDef index="31" name="August Herder" />
 			<handDef index="32" name="Heinrich Schenk" />
 			<handDef index="33" name="Johann Konrad Pfenninger" />
+			<handDef index="34" name="Johann Gotthelf Lindner" />
+			<handDef index="35" name="Samuel Wolff Friedländer" />
 		</handDefs>
       <locationDefs>
 			<locationDef index="-1" name="unbekannt" />
@@ -223,12 +222,9 @@
 
 		</locationDefs>
       <sourceDefs>
-			<!-- Quelle für den gesetzten Text bei Emmendationen.
-					 Wird referenziert durch ref="" in <recte> 
-					 Nächstes Mal mit ausgeben! -->
 			<sourceDef index="1" name="Ohne Beleg emendiert" />
 			<sourceDef index="2" name="BdI, 1940" />
-			<sourceDef index="3" name="nur BdI Aufl. 1 (1955): Berichtigungen [abgekürzt: BdI1]" /> <!-- Zum Zeitpunkt des Anlegens der Korrekturverzeichnisse zum 1. Band waren bis auf Brief 111 alle autographen Briefe verschollen. -->
+			<sourceDef index="3" name="nur BdI Aufl. 1 (1955): Berichtigungen [abgekürzt: BdI1]" /> 
 			<sourceDef index="4" name="nur BdI Aufl. 2 (1988): Berichtigungen [abgekürzt: BdI2]" />
 			<sourceDef index="5" name="beide: BdI1 und BdI2 Berichtigungen" />
 			<sourceDef index="6" name="Autograph" />
@@ -251,6 +247,4 @@
 			<appDef index="9" name="Anhänge" category="true" />
 			<appDef index="10" name="Entwürfe" category="true" />
 		</appDefs>
-    </definitions>
-  </data>
-</opus>
+    </definitions></opus>

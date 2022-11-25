@@ -18,6 +18,7 @@ namespace HaDocument.Models
         public ImmutableDictionary<string, Location> Locations { get; }
         public ImmutableDictionary<string, Letter> Letters { get; }
         public ImmutableDictionary<string, Person> HandPersons { get; }
+        public ImmutableDictionary<string, App> Apps { get; }
         public ImmutableDictionary<string, Editreason> Editreasons { get; }
         public ImmutableDictionary<string, Comment> Comments { get; }
         public ImmutableDictionary<string, ImmutableList<Backlink>> Backlinks { get; }
@@ -56,6 +57,7 @@ namespace HaDocument.Models
             Dictionary<string, List<Backlink>> backlinks,
             Dictionary<string, List<Hand>> hands,
             Dictionary<string, Dictionary<string, Dictionary<string, string>>> Structure,
+            Dictionary<string, App> apps,
             IHaDocumentOptions options
         )
         {
@@ -69,6 +71,7 @@ namespace HaDocument.Models
             HandPersons = ImmutableDictionary.ToImmutableDictionary(handPersons);
             Editreasons = ImmutableDictionary.ToImmutableDictionary(editReasons);
             Comments = ImmutableDictionary.ToImmutableDictionary(comments);
+            Apps = ImmutableDictionary.ToImmutableDictionary(apps);
 
             var backbuilder = ImmutableDictionary.CreateBuilder<string, ImmutableList<Backlink>>();
             foreach (var entry in backlinks)

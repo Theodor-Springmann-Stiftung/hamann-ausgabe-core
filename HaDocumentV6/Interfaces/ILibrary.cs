@@ -14,6 +14,7 @@ namespace HaDocument.Interfaces {
         ImmutableDictionary<string, Location> Locations { get; }
         ImmutableDictionary<string, Letter> Letters { get; }
         ImmutableDictionary<string, Person> HandPersons { get; }
+        ImmutableDictionary<string, App> Apps { get; }
         ImmutableDictionary<string, Editreason> Editreasons { get; }
         ImmutableDictionary<string, Comment> Comments { get; }
         ImmutableDictionary<string, ImmutableList<Backlink>> Backlinks { get; }
