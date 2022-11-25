@@ -2,12 +2,12 @@ namespace HaDocument.Models {
     public class App {
         public string Index { get; } = "";
         public string Name { get; } = "";
-        public bool Category { get; } = false;
+        public string Category { get; } = "";
 
         public App(
             string index, 
             string name,
-            bool category
+            string category
         ) {
             Index = index;
             Name = name;

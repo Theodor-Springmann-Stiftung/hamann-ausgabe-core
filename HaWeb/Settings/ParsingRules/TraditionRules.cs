@@ -81,7 +81,7 @@ public static class TraditionRules {
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.HANDCLASS));
         }),
 
-         // Tradition specific:
+        // Tradition specific:
         ( ( x, _) => x.Name == "app", (sb, tag, _) => {  sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.APPCLASS)); } ),
         ( ( x, _) => x.Name == "ZHText", (sb, tag, reader) => {
             reader.State.sb_tradition.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.TRADZHTEXTCLASS));

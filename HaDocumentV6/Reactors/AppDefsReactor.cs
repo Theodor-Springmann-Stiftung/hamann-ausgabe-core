@@ -13,7 +13,7 @@ namespace HaDocument.Reactors {
         // State
         private string Index;
         private string Name;
-        private bool Category;
+        private string Category;
 
         internal AppDefsReactor(IReader reader, IntermediateLibrary lib) : base(reader, lib) {
             lib.Apps = new Dictionary<string, App>();
@@ -26,8 +26,7 @@ namespace HaDocument.Reactors {
                 !tag.EndTag && 
                 tag.IsEmpty &&
                 tag.Name == "appDef" && 
-                !String.IsNullOrWhiteSpace(tag["index"]) &&
-                !String.IsNullOrWhiteSpace(tag["name"])
+                !String.IsNullOrWhiteSpace(tag["index"])
             ) {
                 Activate(_reader, tag);
             }
@@ -39,8 +38,7 @@ namespace HaDocument.Reactors {
                 _active = true;
                 Index = tag["index"];
                 Name = tag["name"];
-                if (!String.IsNullOrWhiteSpace(tag["category"] ))
-                    Category = tag["category"] == "true" ? true : false;
+                Category = tag["category"];
                 Add();
                 _active = false;
             }
@@ -49,7 +47,7 @@ namespace HaDocument.Reactors {
         protected override void Reset() {
             Index = "";
             Name = "";
-            Category = false;
+            Category = "";
         }
 
         protected void Add() {

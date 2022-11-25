@@ -98,67 +98,65 @@ static void ReplaceStructure(List<(XElement appNode, List<XNode> childNodes)> no
 
         foreach (var node in n.childNodes)
             node.Remove();
+    }
+}
 
-        var children = n.appNode.Nodes();
-        foreach (var c in children) {
-            if (c.NodeType == XmlNodeType.Element) {
-                var e = (XElement)c;
-                if (e.Name == "line" && e.Attribute("type") != null && e.Attribute("type").Value == "break")
-                    c.Remove();
-                break;
-            }
-            if (!String.IsNullOrWhiteSpace(c.ToString()))
-                break;
-        }
+static void CleanupLineBreaks(XDocument traditions) {
+    var apps = traditions.Descendants("app");
+    foreach (var a in apps) {
+        var children = a.Nodes();
+        RemoveLineBreaks(children);
 
         children = children.Reverse();
-        foreach (var c in children) {
-            if (c.NodeType == XmlNodeType.Element) {
-                var e = (XElement)c;
-                if (e.Name == "line" && e.Attribute("type") != null && e.Attribute("type").Value == "break")
-                    c.Remove();
-                break;
-            }
-            if (!String.IsNullOrWhiteSpace(c.ToString()))
-                break;
-        }
+        RemoveLineBreaks(children);
 
-        var siblings = n.appNode.NodesAfterSelf();
-        foreach (var c in siblings) {
-            if (c.NodeType == XmlNodeType.Element) {
-                var e = (XElement)c;
-                if (e.Name == "line" && e.Attribute("type") != null && e.Attribute("type").Value == "break")
-                    c.Remove();
-                break;
-            }
-            if (!String.IsNullOrWhiteSpace(c.ToString()))
-                break;
-        }
+        var siblings = a.NodesAfterSelf();
+        RemoveLineBreaks(siblings);
 
-        siblings = n.appNode.NodesBeforeSelf();
-        foreach (var c in siblings) {
-            if (c.NodeType == XmlNodeType.Element) {
-                var e = (XElement)c;
-                if (e.Name == "line" && e.Attribute("type") != null && e.Attribute("type").Value == "break")
-                    c.Remove();
+        siblings = a.NodesBeforeSelf();
+        RemoveLineBreaks(siblings);
+    }
+}
+
+static void RemoveLineBreaks(IEnumerable<XNode> nodes) {
+    foreach (var c in nodes) {
+        if (c.NodeType == XmlNodeType.Element) {
+            var e = (XElement)c;
+            if (e.Name == "line" && e.Attribute("type") != null && e.Attribute("type").Value == "break")
+                c.Remove();
+            break;
+        }
+        if (!String.IsNullOrWhiteSpace(c.ToString()))
+            break;
+    }
+}
+
+
+static void FindSingles(XDocument traditions) {
+    var tradition = traditions.Descendants("letterTradition");
+    foreach (var t in tradition) {
+        var nodes = t.Nodes();
+        var singles = new List<XNode> ();
+        var isnonws = false;
+        foreach (var n in nodes) {
+            if (n.NodeType == XmlNodeType.Element && ((XElement)n).Name == "app")
                 break;
-            }
-            if (!String.IsNullOrWhiteSpace(c.ToString()))
-                break;
+            singles.Add(n);
+            if (!String.IsNullOrWhiteSpace(n.ToString()))
+                isnonws = true;
+        }
+        if (isnonws) {
+            var elem = new XElement("app");
+            elem.SetAttributeValue("ref", "-1");
+            elem.Add(singles);
+            t.AddFirst(elem);
+            foreach (var n in singles)
+                n.Remove();
         }
     }
 }
 
 static void Cleanup(XDocument traditions) {
-    var tradition = traditions.Descendants("letterTradition").SelectMany(x => x.Descendants());
-    var notapp = tradition.Where(x => x.Name != "app" && !x.Ancestors("app").Any());
-    foreach (var e in notapp) {
-        if (e.Name != "line" || (e.Attribute("type") != null && e.Attribute("type")!.Value != "break"))
-            Console.WriteLine("Nicht app zugehöriges Element " + e.Name + " Zeile " + ((IXmlLineInfo)e).LineNumber);
-    }
-
-    // notapp.Remove();
-
     var apps = traditions.Descendants("app");
     foreach (var a in apps) {
         if (a.Value.Last() != '\n')
@@ -182,5 +180,7 @@ var names = GetNormalizeNames(documents.Item1);
 var appnumbers = GetAppNumbers(documents.Item2, names);
 var contents = GetAppContents(documents.Item1);
 ReplaceStructure(contents, appnumbers);
+FindSingles(documents.Item1);
+CleanupLineBreaks(documents.Item1);
 Cleanup(documents.Item1);
 Save(documents);

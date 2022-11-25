@@ -236,15 +236,17 @@
 			<sourceDef index="12" name="BdIII: Nachtrag zu BdII [aus einer Abschrift Lavaters] – betrifft nur BdII 221f" />
 		</sourceDefs>
 		<appDefs>
-			<appDef index="1" name="Veränderte Einsortierung" category="false" />
-			<appDef index="2" name="Korrigierte Nummerierung" category="false" />
-			<appDef index="3" name="Korrigierte Datierung" category="false" />
-			<appDef index="4" name="Provenienz" category="false" />
-			<appDef index="5" name="Bisherige Drucke" category="false" />
-			<appDef index="6" name="Digitalisat" category="false" />
-			<appDef index="7" name="Exzerpte" category="false" />
-			<appDef index="8" name="Abschriften" category="true" />
-			<appDef index="9" name="Anhänge" category="true" />
-			<appDef index="10" name="Entwürfe" category="true" />
+			<appDef index="-1" name="" category="Überlieferung &amp; Textkritik" />
+			<appDef index="0" name="Brieftext" category="Brieftext" />
+			<appDef index="1" name="Veränderte Einsortierung" category="Überlieferung &amp; Textkritik" />
+			<appDef index="2" name="Korrigierte Nummerierung" category="Überlieferung &amp; Textkritik" />
+			<appDef index="3" name="Korrigierte Datierung" category="Überlieferung &amp; Textkritik" />
+			<appDef index="4" name="Provenienz" category="Überlieferung &amp; Textkritik" />
+			<appDef index="5" name="Bisherige Drucke" category="Überlieferung &amp; Textkritik" />
+			<appDef index="6" name="Digitalisat" category="Überlieferung &amp; Textkritik" />
+			<appDef index="7" name="Exzerpte" category="Überlieferung &amp; Textkritik" />
+			<appDef index="8" name="Abschriften" category="Abschriften" />
+			<appDef index="9" name="Anhänge" category="Anhänge" />
+			<appDef index="10" name="Entwürfe" category="Entwürfe" />
 		</appDefs>
     </definitions></opus>

@@ -39,6 +39,8 @@ public class LetterState : HaWeb.HTMLParser.IState {
     internal bool minwidth;
     // Did a pagebreak just occur?
     internal bool pagebreak = false;
+    // Are we in line-counted territory?
+    internal bool activelinecount;
 
     // Results
     internal StringBuilder sb_lettertext;
@@ -63,6 +65,7 @@ public class LetterState : HaWeb.HTMLParser.IState {
         currline = "-1";
         mustwrap = (false, false);
         minwidth = false;
+        activelinecount = true;
 
         // Initialize State
         if (Meta.ZH != null && !String.IsNullOrWhiteSpace(Meta.ZH.Page)) {

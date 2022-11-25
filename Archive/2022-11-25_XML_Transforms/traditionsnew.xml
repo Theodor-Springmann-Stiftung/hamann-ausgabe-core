@@ -1,4 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?><opus><traditions>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<opus><traditions>
+
 <letterTradition autopsic="0" ref="1192">
 <app ref="4">
 Universitäts- und Landesbibliothek Münster, Signatur: Hamann-Nachlass, Kaps. 2, 50. Neujahrsglückwünsche von Martinus Maletius mit einer späteren Notiz von Hamann. Abschrift von Arthur Warda. Original verschollen. Letzter bekannter Aufbewahrungsort: Unbekannt.
@@ -14644,9 +14646,11 @@ ZH VI 262 f., Nr. 927.
 </letterTradition>
 
 
-<letterTradition autopsic="928" ref="935">
+<letterTradition autopsic="928" ref="935"><app ref="-1">
 <note>ZH druckte an dieser Stelle einen Hinweis auf einen Brief von Hamann an Elisa von der Recke. Der Wortlaut des Briefes findet sich
-in dem Brief an Jacobi, 6. Februar 1786, HKB 926 (VI 258/16–260/16). Original nicht überliefert.</note></letterTradition>
+in dem Brief an Jacobi, 6. Februar 1786, HKB 926 (VI 258/16–260/16). Original nicht überliefert.</note>
+</app>
+</letterTradition>
 
 
 <letterTradition autopsic="929" ref="936">
@@ -17271,7 +17275,9 @@ ZH VII 142 f., Nr. 1055.
 
 
 <letterTradition autopsic="1056" ref="1063">
-Universitäts- und Landesbibliothek Münster, Signatur: Nachlass Gallitzin, 20, 3. Zeitgenössische Abschrift von unbekannter Hand.<line type="break" />
+<app ref="4">
+Universitäts- und Landesbibliothek Münster, Signatur: Nachlass Gallitzin, 20, 3. Zeitgenössische Abschrift von unbekannter Hand.
+</app>
 <app ref="5">
 ZH VII 143–146, Nr. 1056.
 </app>
@@ -20144,4 +20150,4 @@ ZH VII 515, Nr. 552a.
 </letterTradition>
 
 
-        </traditions></opus>
+</traditions></opus>
