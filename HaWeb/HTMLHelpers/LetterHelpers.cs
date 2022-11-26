@@ -12,22 +12,17 @@ using HaWeb.Settings.ParsingState;
 using HaWeb.Settings.ParsingRules;
 
 public static class LetterHelpers {
-    public static LetterState CreateLetter(ILibrary lib, IReaderService readerService, Meta meta, Letter letter, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
-        var rd = readerService.RequestStringReader(letter.Element);
-        var letterState = new LetterState(lib, readerService, meta, marginals, hands, edits);
-        new HaWeb.HTMLParser.XMLHelper<LetterState>(letterState, rd, letterState.sb_lettertext, LetterRules.OTagRules, LetterRules.STagRules, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
-        rd.Read();
 
-        return letterState;
-    }
+    public static TextState ParseText(ILibrary lib, IReaderService readerService, string text, Meta meta, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits)
+        => ParseText(lib, readerService, XElement.Parse(text, LoadOptions.PreserveWhitespace), meta, marginals, hands, edits);
 
-    public static TraditionState CreateTraditions(ILibrary lib, IReaderService readerService, IEnumerable<Marginal>? marginals, Tradition tradition, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
-        var rd = readerService.RequestStringReader(tradition.Element);
-        var traditionState = new TraditionState(lib, rd, readerService, marginals, hands, edits);
-        new HaWeb.HTMLParser.XMLHelper<TraditionState>(traditionState, rd, traditionState.sb_tradition, TraditionRules.OTagRules, TraditionRules.STagRules, TraditionRules.CTagRules, TraditionRules.TextRules, TraditionRules.WhitespaceRules);
-        new HaWeb.HTMLHelpers.LinkHelper(lib, rd, traditionState.sb_tradition);
+    public static TextState ParseText(ILibrary lib, IReaderService readerService, XElement text, Meta meta, IEnumerable<Marginal>? marginals, IEnumerable<Hand>? hands, IEnumerable<Editreason>? edits) {
+        var rd = readerService.RequestReader(text);
+        var state = new TextState(lib, readerService, meta, marginals, hands, edits);
+        new HaWeb.HTMLParser.XMLHelper<TextState>(state, rd, state.sb, TextRules.OTagRules, TextRules.STagRules, TextRules.CTagRules, TextRules.TRules, TextRules.WhitespaceRules);
+        new HaWeb.HTMLHelpers.LinkHelper(lib, rd, state.sb);
         rd.Read();
-        return traditionState;
+        return state;
     }
 
     public static List<(string, string, string, string, string, string)> CreateEdits(ILibrary lib, IReaderService readerService, IEnumerable<Editreason> editreasons) {

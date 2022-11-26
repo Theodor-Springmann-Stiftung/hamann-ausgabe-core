@@ -133,11 +133,11 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
 const marginalboxwidthset = function () {
     let lt = document.getElementById("ha-letterbody");
     if (lt !== null) {
-        let mg = lt.querySelectorAll(".ha-lettertext .ha-marginalbox");
+        let mg = lt.querySelectorAll(".ha-text .ha-marginalbox");
         if (mg.length > 0) {
             let ltbcr = lt.getBoundingClientRect();
             let mgbcr = mg[0].getBoundingClientRect();
-            let nw = ltbcr.right - mgbcr.left - 18;
+            let nw = ltbcr.right - mgbcr.left - 20;
 
             for (let element of mg) {
                 element.style.width = nw + "px";
@@ -152,14 +152,14 @@ const collapseboxes = function () {
     overlappingcollapsebox(".ha-neuzeit .ha-letlinks", true);
     overlappingcollapsebox(".ha-forschung .ha-letlinks", true);
     overlappingcollapsebox(".ha-commentlist .ha-letlinks", true);
-    overlappingcollapsebox(".ha-lettertext .ha-marginalbox", true);
+    overlappingcollapsebox(".ha-text .ha-marginalbox", true);
 };
 
 marginalboxwidthset();
 collapseboxes();
-var doit;
-this.window.addEventListener("resize", function () {
-    this.clearTimeout(doit);
-    marginalboxwidthset();
-    doit = this.setTimeout(collapseboxes, 250);
-});
+// var doit;
+// this.window.addEventListener("resize", function () {
+//     this.clearTimeout(doit);
+//     marginalboxwidthset();
+//     doit = this.setTimeout(collapseboxes, 250);
+// });

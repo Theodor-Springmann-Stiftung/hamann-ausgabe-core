@@ -9,7 +9,8 @@ public static class CSSClasses {
     public const string SUBSECTIONCLASS = "ha-subsection"; // XML: <subsection>
     public const string TRADITIONCLASS = "ha-tradition"; // XML: <tradition>
     public const string MARGINALCLASS = "ha-marginal"; // XML: <marginal>
-    public const string LETTERCLASS = "ha-lettertext"; // XML: <lemma>
+    public const string INDEXEDTEXTCONTAINERCLASS = "ha-textcontainer";
+    public const string INDEXEDTEXTCLASS = "ha-text";
 
     // Comments:
     public const string LEMMACLASS = "ha-lemma"; // XML: <lemma>
@@ -50,7 +51,7 @@ public static class CSSClasses {
     public const string TABLECLASS = "ha-table";
     public const string TABCLASS = "ha-hatab-"; // TODO: GEN 
     public const string CROSSEDDASHCLASS = "ha-diagdel";
-    public const string TEXTCLASS = "ha-text";
+    public const string TEXTCLASS = "ha-literal";
 
     public const string BZGCLASS = "ha-bzg";
     public const string ZHCLASS = "ha-zh";
@@ -60,7 +61,6 @@ public static class CSSClasses {
     public const string MARGINALLISTCLASS = "ha-marginallist";
     public const string TRADLINECOUNTCLASS = "ha-tradlinecount";
     public const string TRADCOMMENTCOLUMNCLASS = "ha-tradcommentcolumn";
-    public const string TRADZHTEXTCLASS = "ha-tradzhtext";
     public const string TRADZHTEXTBOXCLASS = "ha-tradtextbox";
 
     // Zeilen:

@@ -185,8 +185,8 @@ public class SucheController : Controller {
                     foreach (var c in l) {
                         var sb = new StringBuilder();
                         var rd = _readerService.RequestStringReader(c.Element);
-                        var st = new LetterState(lib, _readerService, lib.Metas[c.Letter], null, null, null);
-                        new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.LetterState>(st, rd, sb, LetterRules.OTagRules, null, LetterRules.CTagRules, LetterRules.TextRules, LetterRules.WhitespaceRules);
+                        var st = new TextState(lib, _readerService, lib.Metas[c.Letter], null, null, null);
+                        new HaWeb.HTMLParser.XMLHelper<HaWeb.Settings.ParsingState.TextState>(st, rd, sb, TextRules.OTagRules, null, TextRules.CTagRules, TextRules.TRules, TextRules.WhitespaceRules);
                         new HaWeb.HTMLHelpers.LinkHelper(st.Lib, rd, sb, false);
                         rd.Read(); 
                         list.Add((c, sb.ToString()));

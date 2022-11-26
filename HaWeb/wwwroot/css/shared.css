@@ -78,7 +78,7 @@
     @apply !font-serif !text-xs !font-semibold
   }
 
-  .ha-text {
+  .ha-literal {
     @apply inline
   }
 

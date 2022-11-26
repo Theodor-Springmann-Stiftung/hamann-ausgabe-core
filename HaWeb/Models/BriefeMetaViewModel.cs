@@ -64,8 +64,8 @@ public class BriefeMetaViewModel {
         }
     }
 
-    public (BriefeMetaViewModel, string)? Next { get; set; }
-    public (BriefeMetaViewModel, string)? Prev { get; set; }
+    public (BriefeMetaViewModel Model, string)? Next { get; set; }
+    public (BriefeMetaViewModel Model, string)? Prev { get; set; }
 
 
     public BriefeMetaViewModel(Meta meta, bool hasMarginals) {

@@ -90,3 +90,11 @@ A TODO fixed width briefe kommentar bisschen nach links 306, 309
 
 Liste für Janina/Luca:
 tabellen ok, ausser 939
+
+KOmmentare verschobem 202 Anhang
+458 leeren lettertext löschen
+935 leeren lettertext löschen
+
+min-width 673 1150
+doppel- empfänder sender 876
+1075 zwischentitel

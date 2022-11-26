@@ -5,6 +5,7 @@ using HaWeb.FileHelpers;
 using HaDocument.Interfaces;
 using HaXMLReader.Interfaces;
 using HaDocument.Models;
+using System.Xml.Linq;
 
 namespace HaWeb.Controllers;
 
@@ -62,20 +63,52 @@ public class Briefecontroller : Controller {
         if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(lib, prevmeta, false), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(lib, _readerService, editreasons);
-        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) {
-            var parsedTraditions = HaWeb.HTMLHelpers.LetterHelpers.CreateTraditions(lib, _readerService, marginals, tradition, hands, editreasons);
-            (model.ParsedTradition, model.ParsedMarginals, model.MinWidthTrad) = (parsedTraditions.sb_tradition.ToString(), parsedTraditions.ParsedMarginals, parsedTraditions.minwidth);
-        }
+        model.DefaultCategory = lib.Apps.ContainsKey("-1") ? lib.Apps["-1"].Category : null;
+
+        List<(string Category, List<Text>)>? texts = null;
         if (text != null && !String.IsNullOrWhiteSpace(text.Element)) {
-            var parsedLetter = HaWeb.HTMLHelpers.LetterHelpers.CreateLetter(lib, _readerService, meta, text, marginals, hands, editreasons);
-            (model.ParsedText, model.MinWidth) = (parsedLetter.sb_lettertext.ToString(), parsedLetter.minwidth);
-            if (model.ParsedMarginals != null && parsedLetter.ParsedMarginals != null) model.ParsedMarginals.AddRange(parsedLetter.ParsedMarginals);
-            else model.ParsedMarginals = parsedLetter.ParsedMarginals;
-            model.MetaData.Startline = parsedLetter.Startline;
-            model.MetaData.Startpage = parsedLetter.Startpage;
-            if (String.IsNullOrWhiteSpace(model.ParsedText))
+            var state = HaWeb.HTMLHelpers.LetterHelpers.ParseText(lib, _readerService, text.Element, meta, marginals, hands, editreasons);
+            // TODO: it is still hardcoded that <letterText> means <app id="0">
+            var textid = "0";
+            var category = lib.Apps[textid].Category;
+            var name = lib.Apps[textid].Name;
+            var t = new Text(id, textid, category, state.minwidth);
+            t.ParsedMarginals = state.ParsedMarginals;
+            t.ParsedText = state.sb.ToString();
+            t.Title = name;
+            if (!String.IsNullOrWhiteSpace(t.ParsedText)) {
+                if (texts == null) texts = new List<(string, List<Text>)>();
+                if(!texts.Where(x => x.Category == category).Any())
+                    texts.Add((category, new List<Text>() { t }));
+                else
+                    texts.Where(x => x.Category == category).First().Item2.Add(t);
+            } else {
                 model.MetaData.HasText = false;
+            }
         }
+        
+        if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) {
+            var additions = XElement.Parse(tradition.Element, LoadOptions.PreserveWhitespace).Descendants("app");
+            foreach (var a in additions) {
+                var app = a.HasAttributes && a.Attribute("ref") != null && lib.Apps.ContainsKey(a.Attribute("ref").Value) ? 
+                    lib.Apps[a.Attribute("ref").Value]  : 
+                    null;
+                if (app != null && !a.IsEmpty) {
+                    var state = HaWeb.HTMLHelpers.LetterHelpers.ParseText(lib, _readerService, a, meta, marginals, hands, editreasons);
+                    var t = new Text(id, app.Index, app.Category, state.minwidth);
+                    t.Title = app.Name;
+                    t.ParsedMarginals = state.ParsedMarginals;
+                    t.ParsedText = state.sb.ToString();
+                    if (texts == null) texts = new List<(string, List<Text>)>();
+                    if(!texts.Where(x => x.Category == app.Category).Any())
+                        texts.Add((app.Category, new List<Text>() { t }));
+                    else
+                        texts.Where(x => x.Category == app.Category).First().Item2.Add(t);
+                }
+            }
+        }
+        
+        model.Texts = texts;
 
         // Return
         return View("~/Views/HKB/Dynamic/Briefe.cshtml", model);
