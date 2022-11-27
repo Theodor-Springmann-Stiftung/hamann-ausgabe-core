@@ -56,7 +56,8 @@
             <div class="ha-tab">
             @foreach (var text in app.Item2)
             {
-                <div class="ha-appcontainer">
+                var mw = (text.MinWidth) ? "ha-minwidth" : "";
+                <div class="ha-appcontainer ha-appcontainer-@text.Number @mw">
                 @if (app.Item2.Count > 1 && !String.IsNullOrWhiteSpace(text.ParsedText) && !String.IsNullOrWhiteSpace(text.Title) ) {
                     <h3>@text.Title</h3>
                 }
@@ -71,7 +72,8 @@
             <div class="ha-tab ha-defaulttab">
             @foreach (var text in Model.Texts.Where(x => x.Category == Model.DefaultCategory).First().Item2)
             {
-                <div class="ha-appcontainer">
+                var mw = (text.MinWidth) ? "ha-minwidth" : "";
+                <div class="ha-appcontainer ha-appcontainer-@text.Number @mw">
                 @if (!String.IsNullOrWhiteSpace(text.ParsedText) && !String.IsNullOrWhiteSpace(text.Title) ) {
                     <h3>@text.Title</h3>
                 }

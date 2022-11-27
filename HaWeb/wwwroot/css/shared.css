@@ -1,7 +1,7 @@
 @layer components {
 /* COLORS */
   body {
-    @apply text-black dark:text-white dark:bg-gray-800 dark:bg-none
+    @apply text-black dark:text-white dark:bg-gray-800 dark:bg-none overflow-x-hidden md:overflow-x-auto
   }
 
   .ha-added,

@@ -111,7 +111,7 @@
   }
 
   header .switchsites .switchsitesbtn .switchsitestext {
-    @apply block mb-0.5 mt-1 mr-2 ml-1
+    @apply block mb-0.5 mt-1 mr-2 ml-1 whitespace-nowrap
   }
 
   header .switchsites .switchsitesbtn .switchsitesarrow {

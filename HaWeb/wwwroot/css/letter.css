@@ -25,7 +25,11 @@
   }
 
   .ha-text {
-    @apply bg-slate-50 dark:bg-slate-900 border-slate-200 sm:border-l-2 sm:dark:border-none 
+    @apply bg-slate-50 dark:bg-slate-900 border-slate-200  
+  }
+
+  .ha-appcontainer.ha-appcontainer-0 .ha-text {
+    @apply sm:border-l-2 sm:dark:border-none
   }
 
   .ha-marginals {
@@ -107,15 +111,15 @@
   }
 
   .ha-tab {
-    @apply max-w-[52rem] pt-2
+    @apply max-w-[52rem]
   }
 
   .ha-tab .ha-appcontainer {
-    @apply ml-6 md:ml-16 mb-4 pb-3 font-serif numeric-mediaeval
+    @apply ml-6 md:ml-16 font-serif numeric-mediaeval py-3
   }
 
-  .ha-app {
-    
+  .ha-appcontainer.ha-appcontainer-0 {
+    @apply py-0
   }
 
   .ha-appcontainer h3 {
@@ -127,7 +131,7 @@
   }
 
   .ha-textcontainer {
-    @apply flex -ml-6 -mt-2 -mb-3 md:-ml-16 
+    @apply flex -ml-6 md:-ml-16 
   }
 
   .ha-text {
@@ -273,20 +277,18 @@
   .ha-defaulttab .ha-edits .ha-editentries .ha-editreas .ha-zh * {
     @apply !font-serif
   }
-/* 
-  .ha-minwidth .ha-tradzhtext,
-  .ha-lettertext.ha-minwidth {
+
+  .ha-minwidth .ha-text {
     @apply min-w-[44rem] desktop:min-w-[52rem]
   }
 
-  .ha-minwidth .ha-tradzhtext .ha-alignright,
-  .ha-lettertext.ha-minwidth .ha-alignright {
+  .ha-minwidth .ha-text .ha-alignright {
     @apply float-right mr-[20%]
   }
 
-  .ha-lettertext.ha-minwidth .ha-aligncenter {
+  .ha-minwidth .ha-aligncenter {
     @apply absolute left-1/3 whitespace-nowrap -translate-x-1/2
-  } */
+  } 
 }
 
 .ha-lettertext .ha-marginalbox:before {

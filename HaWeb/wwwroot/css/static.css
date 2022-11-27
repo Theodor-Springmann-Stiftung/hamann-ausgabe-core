@@ -18,7 +18,7 @@
 
 /* STYLES */
   .ha-static {
-    @apply w-full py-12 px-12 md:px-16 hyphenate font-serif
+    @apply w-full md:py-12 py-4 px-4 md:px-16 hyphenate font-serif
   }
 
   .ha-static .ha-static-right-margin {
