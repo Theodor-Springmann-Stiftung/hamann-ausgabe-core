@@ -137,7 +137,7 @@ public class SucheController : Controller {
             letters = metasbyyear
                 .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
                 .Select(x => (x.Key, x
-                    .Select(y => IndexController.GenerateMetaViewModel(lib, y))
+                    .Select(y => Briefecontroller.GenerateMetaViewModel(lib, y))
                     .OrderBy(x => x.Meta.Sort)
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))

@@ -172,7 +172,7 @@
   } 
 
   .ha-text .ha-marginalbox {
-    @apply hidden select-none hover:select-auto hyphenate pl-1 md:inline-block absolute left-full ml-6 desktop:ml-16 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
+    @apply hidden select-none hover:select-auto hyphenate pl-1 md:inline-block absolute left-full ml-6 desktop:ml-10 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
   }
 
   .ha-text .ha-marginalbox .ha-marginallist {
@@ -289,6 +289,10 @@
   .ha-minwidth .ha-aligncenter {
     @apply absolute left-1/3 whitespace-nowrap -translate-x-1/2
   } 
+
+  .ha-minwidth .ha-marginalbox {
+    @apply !ml-1
+  }
 }
 
 .ha-lettertext .ha-marginalbox:before {

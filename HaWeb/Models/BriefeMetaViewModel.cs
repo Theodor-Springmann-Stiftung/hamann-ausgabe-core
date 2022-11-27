@@ -6,30 +6,20 @@ public class BriefeMetaViewModel {
     public bool HasMarginals { get; private set; }
     public bool HasText { get; set; } = true;
 
-    private string? _ParsedSenders;
-    private string? _ParsedReceivers;
+    private List<(string Sender, string Receiver)>? _SenderReceiver;
     private string? _ParsedZHString;
     private string? _Startline;
     private string? _Startpage;
 
-    public string? ParsedSenders {
-        get => _ParsedSenders;
+    public List<(string Sender, string Receiver)>? SenderReceiver {
+        get => _SenderReceiver;
         set {
             if (value != null)
-                _ParsedSenders = HttpUtility.HtmlEncode(value);
-            else
-                _ParsedSenders = value;
-        }
-    }
-
-    public string? ParsedReceivers {
-        get => _ParsedReceivers;
-        set {
-            if (value != null)
-                _ParsedReceivers = HttpUtility.HtmlEncode(value);
-            else
-                _ParsedReceivers = value;
-
+                value.ForEach(x =>  {
+                    HttpUtility.HtmlEncode(x.Sender);
+                    HttpUtility.HtmlEncode(x.Receiver);
+                });
+            _SenderReceiver = value;
         }
     }
 

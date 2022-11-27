@@ -96,18 +96,6 @@ public class IndexController : Controller {
             .ToList();
     }
 
-    internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta) {
-        var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
-        var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
-        var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
-        var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
-        return new BriefeMetaViewModel(meta, hasMarginals) {
-            ParsedZHString = zhstring,
-            ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
-            ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
-        };
-    }
-
     internal static List<(int StartYear, int EndYear)>? Paginate(List<IGrouping<int, Meta>>? letters, int lettersForPage) {
         if (letters == null || !letters.Any()) return null;
         List<(int StartYear, int EndYear)>? res = null;
@@ -146,7 +134,7 @@ public class IndexController : Controller {
             letters = metasbyyear
                 .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
                 .Select(x => (x.Key, x
-                    .Select(y => GenerateMetaViewModel(lib, y))
+                    .Select(y => Briefecontroller.GenerateMetaViewModel(lib, y))
                     .OrderBy(x => x.Meta.Sort)
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))

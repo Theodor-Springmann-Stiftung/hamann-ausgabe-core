@@ -8,7 +8,7 @@
         </div>
     </div>
     }
-    @if (!String.IsNullOrWhiteSpace(Model.Letter.ParsedReceivers)) {
+    @if (Model.Letter.SenderReceiver != null && Model.Letter.SenderReceiver.Any()) {
     <div class="ha-metadata">
             <div class="ha-metadataupperrow">
                 <div class="ha-metadatadate">
@@ -19,19 +19,20 @@
                 }
             </div>
             <div class="ha-metadatapersons">
-
-                @if (Model.Letter.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
-                    <span>@Html.Raw(Model.Letter.ParsedSenders)</span>
-                    <div class="ha-tooltip">
-                            ↛
-                        <div class="ha-tooltiptext" style="bottom: 100%;">
-                            Entwurf
+                @foreach(var pair in Model.Letter.SenderReceiver) {
+                    @if (Model.Letter.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
+                        <span>@Html.Raw(pair.Sender)</span>
+                        <div class="ha-tooltip">
+                                ↛
+                            <div class="ha-tooltiptext" style="bottom: 100%;">
+                                Entwurf
+                            </div>
                         </div>
-                    </div>
-                    <span>@Html.Raw(Model.Letter.ParsedReceivers)</span>
-                }
-                else {
-                    <span>@Html.Raw(Model.Letter.ParsedSenders) → @Html.Raw(Model.Letter.ParsedReceivers)</span>
+                        <span>@Html.Raw(pair.Receiver)</span><br>
+                    }
+                    else {
+                        <span>@Html.Raw(pair.Sender) → @Html.Raw(pair.Receiver)</span><br>
+                    }
                 }
             </div>
     </div>

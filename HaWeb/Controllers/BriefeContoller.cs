@@ -58,9 +58,9 @@ public class Briefecontroller : Controller {
         // Model creation
         var hasMarginals = false;
         if (marginals != null && marginals.Any()) hasMarginals = true;
-        var model = new BriefeViewModel(id, index, generateMetaViewModel(lib, meta, hasMarginals));
-        if (nextmeta != null) model.MetaData.Next = (generateMetaViewModel(lib, nextmeta, false), url + nextmeta.Autopsic);
-        if (prevmeta != null) model.MetaData.Prev = (generateMetaViewModel(lib, prevmeta, false), url + prevmeta.Autopsic);
+        var model = new BriefeViewModel(id, index, GenerateMetaViewModel(lib, meta));
+        if (nextmeta != null) model.MetaData.Next = (GenerateMetaViewModel(lib, nextmeta), url + nextmeta.Autopsic);
+        if (prevmeta != null) model.MetaData.Prev = (GenerateMetaViewModel(lib, prevmeta), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(lib, _readerService, editreasons);
         model.DefaultCategory = lib.Apps.ContainsKey("-1") ? lib.Apps["-1"].Category : null;
@@ -119,14 +119,38 @@ public class Briefecontroller : Controller {
         return Redirect("/Error404");
     }
 
-    private BriefeMetaViewModel generateMetaViewModel(ILibrary lib, Meta meta, bool hasMarginals) {
+    internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta) {
+        var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
         var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
         return new BriefeMetaViewModel(meta, hasMarginals) {
             ParsedZHString = zhstring,
-            ParsedSenders = HTMLHelpers.StringHelpers.GetEnumerationString(senders),
-            ParsedReceivers = HTMLHelpers.StringHelpers.GetEnumerationString(recivers)
+            SenderReceiver = generateSendersRecievers(senders, recivers)
         };
+    }
+
+
+    private static List<(string Sender, string Receiver)> generateSendersRecievers(IEnumerable<string>? senders, IEnumerable<string>? receivers) {
+        var res = new List<(string Sender, string Receiver)>();
+        if (senders != null && receivers != null) {
+            if (senders.Any(x => receivers.Contains(x))) {
+                var s = senders.ToList();
+                var r = receivers.ToList();
+                for (var i = 0; i < r.Count || i < s.Count; i++) {
+                    res.Add((
+                        s[i],
+                        r[i]
+                    ));
+                }
+            }
+            else {
+                res.Add((
+                    HTMLHelpers.StringHelpers.GetEnumerationString(senders),
+                    HTMLHelpers.StringHelpers.GetEnumerationString(receivers)
+                ));
+            }
+        }
+        return res;
     }
 }

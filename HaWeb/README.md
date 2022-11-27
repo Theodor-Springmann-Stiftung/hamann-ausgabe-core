@@ -82,11 +82,7 @@ Vor dem internen release:
 A TODO Jahreszahlen auf der Startseite
 B TODO Suchergebnisse beschränken
 B TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
-A TODO Fehlerseiten bei nicht gefundenen Seiten
 C TODO Traditions durchsuchen
-A TODO Briefe, in welchen Sender / Empfänger jeweils doppelt / getauscht sind 876
-A TODO SEO Description & Titel
-A TODO fixed width briefe kommentar bisschen nach links 306, 309
 
 Liste für Janina/Luca:
 tabellen ok, ausser 939
@@ -95,5 +91,4 @@ KOmmentare verschobem 202 Anhang
 458 leeren lettertext löschen
 935 leeren lettertext löschen
 
-doppel- empfänder sender 876
 Evtl finetuning von note
