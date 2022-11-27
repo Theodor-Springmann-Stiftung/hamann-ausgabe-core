@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html lang="de" id="top">
+<html class="h-full w-full" lang="de" id="top">
 
 <head>
 @await Html.PartialAsync("/Views/Shared/_Head.cshtml")
 </head>
 
-<body class="w-full ">
-    <div class="relative min-h-screen">
-        <div class="pb-24">
-            @await Html.PartialAsync("/Views/Shared/_HKWMenu.cshtml")
-            <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto h-full">
-                @RenderBody()
-            </main>
-        </div>
-        <div class="absolute bottom-0 w-full">
-            @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
-            </div>
-        </div>
-        @await Html.PartialAsync("/Views/Shared/_ScrollButton.cshtml")
+<body class="h-full w-full">
+    <div class="flex flex-col h-full">
+    @await Html.PartialAsync("/Views/Shared/_HKWMenu.cshtml")
+    <main role="main" class="mb-6 w-full desktop:max-w-screen-desktop mx-auto grow">
+        @RenderBody()
+    </main>
+    <div class="w-full">
+        @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
     </div>
+    </div>
+    @await Html.PartialAsync("/Views/Shared/_ScrollButton.cshtml")
     @await RenderSectionAsync("JavaScript", false)
 </body>
 </html>

@@ -31,12 +31,15 @@
             </button>
         </div>
         <div class="ha-topnav " id="ha-topnav">
+
             <a class="ha-active-default" asp-controller="Index" asp-action="Index">
                 Suche & Briefauswahl
             </a>
+
             <a asp-controller="Briefe" asp-action="Index">
                 Briefansicht
             </a>
+
             <div class="ha-topnav-dropdown">
                 <a href="/HKB/Register" class="cursor-default ha-menu-arrowsymbol pointer-events-none">
                     Register
@@ -47,6 +50,7 @@
                     <a asp-controller="Register" asp-action="Forschung">Forschungsbibliographie</a>
                 </div>
             </div>
+
              <div class="ha-topnav-dropdown">
                 <a href="/HKB/Edition" class="cursor-default ha-menu-arrowsymbol pointer-events-none !mr-0" >
                 Edition
@@ -59,6 +63,11 @@
                     <a asp-controller="Edition" asp-action="Editionsgeschichte">Editionsgeschichte</a>
                 </div>
             </div>
+
+            <a class="md:!hidden" asp-controller="HKW" asp-action="Index">
+                <img class="inline relative w-4 h-4 -top-1 mr-2" src="/img/HKW.png" alt="HKW-Logo" /> Kritische Werkausgabe (HKW) →
+            </a>
+
         </div>
     </nav>
     <div class="switchsites">

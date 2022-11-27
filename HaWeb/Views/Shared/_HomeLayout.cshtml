@@ -1,36 +1,32 @@
 <!DOCTYPE html>
-<html lang="de" id="top">
+<html class="h-full w-full" lang="de" id="top">
 
 <head>
 @await Html.PartialAsync("/Views/Shared/_Head.cshtml")
 </head>
 
-<body class="w-full ">
-    <div class="relative min-h-screen">
-        <div class="pb-24">
-            <header class="w-100 font-serif mb-10 pb-4 pt-4 flex flex-col justify-center bg-slate-50 border-t-[5px] border-gray-300 dark:border-gray-900">
-                <nav class="w-auto text-xl md:text-3xl text-black hover:text-black mx-auto">
-                    <a asp-controller="Home" asp-action="Index">
-                        <span class="sm:hidden">Johan Georg Hamann<br/>Kommentierte Edition der Briefe & Werke</span> 
-                        <span class="hidden sm:inline align-baseline">Johann Georg Hamann: Kommentierte Edition der Briefe und Werke</span>
-                    </a>
-                    <div class="w-auto mt-2 md:mt-4 overflow-hidden whitespace-nowrap text-ellipsis text-base md:text-lg">
-                        <a class="sm:hidden" href="/Edition/Mitwirkende">Hrsg. v. Leonard Keidel und Janina Reibold</a>
-                        <a class="hidden sm:inline" href="/Edition/Mitwirkende">Herausgegeben von Leonard Keidel und Janina Reibold</a>
-                    </div>
-                </nav>  
-            </header>
-            <main role="main" class="pb-3 w-full desktop:max-w-screen-desktop mx-auto h-full">
-                @* Placeholder Main *@
-                @RenderBody()
-            </main>
-        </div>
-            <div class="absolute bottom-0 w-full">
-                @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
+<body class="h-full w-full">
+    <div class="flex flex-col h-full">
+    <header class="w-100 font-serif mb-10 pb-4 pt-4 flex flex-col justify-center bg-slate-50 border-t-[5px] border-gray-300 dark:border-gray-900">
+        <nav class="w-auto text-xl md:text-3xl text-black hover:text-black mx-auto">
+            <a asp-controller="Home" asp-action="Index">
+                <span class="sm:hidden">Johan Georg Hamann<br/>Kommentierte Edition der Briefe & Werke</span> 
+                <span class="hidden sm:inline align-baseline">Johann Georg Hamann: Kommentierte Edition der Briefe und Werke</span>
+            </a>
+            <div class="w-auto mt-2 md:mt-4 overflow-hidden whitespace-nowrap text-ellipsis text-base md:text-lg">
+                <a class="sm:hidden" href="/Edition/Mitwirkende">Hrsg. v. Leonard Keidel und Janina Reibold</a>
+                <a class="hidden sm:inline" href="/Edition/Mitwirkende">Herausgegeben von Leonard Keidel und Janina Reibold</a>
             </div>
-        </div>
-        @await Html.PartialAsync("/Views/Shared/_ScrollButton.cshtml")
+        </nav>  
+    </header>
+    <main role="main" class="mb-6 w-full desktop:max-w-screen-desktop mx-auto grow">
+        @RenderBody()
+    </main>
+    <div class="w-full">
+        @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
     </div>
+    </div>
+    @await Html.PartialAsync("/Views/Shared/_ScrollButton.cshtml")
     @await RenderSectionAsync("JavaScript", false)
 </body>
 </html>

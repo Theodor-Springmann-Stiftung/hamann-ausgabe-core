@@ -95,7 +95,7 @@
   }
 
   header .switchsites {
-    @apply absolute right-0 -bottom-11 
+    @apply hidden md:block absolute right-0 -bottom-11 
   }
 
   header .switchsites .switchsitesbtn {
