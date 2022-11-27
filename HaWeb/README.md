@@ -95,6 +95,5 @@ KOmmentare verschobem 202 Anhang
 458 leeren lettertext löschen
 935 leeren lettertext löschen
 
-min-width 673 1150
 doppel- empfänder sender 876
-1075 zwischentitel
+Evtl finetuning von note
