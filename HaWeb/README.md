@@ -97,4 +97,3 @@ KOmmentare verschobem 202 Anhang
 
 doppel- empfänder sender 876
 Evtl finetuning von note
-Button für forschungbibliografie

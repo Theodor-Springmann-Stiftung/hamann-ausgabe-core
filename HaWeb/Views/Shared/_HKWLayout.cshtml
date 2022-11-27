@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full w-full" lang="de" id="top">
+<html class="h-full w-full overflow-hidden" lang="de" id="top">
 
 <head>
 @await Html.PartialAsync("/Views/Shared/_Head.cshtml")
@@ -7,13 +7,13 @@
 
 <body class="h-full w-full">
     <div class="flex flex-col h-full">
-    @await Html.PartialAsync("/Views/Shared/_HKWMenu.cshtml")
-    <main role="main" class="mb-6 w-full desktop:max-w-screen-desktop mx-auto grow">
-        @RenderBody()
-    </main>
-    <div class="w-full">
-        @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
-    </div>
+        @await Html.PartialAsync("/Views/Shared/_HKWMenu.cshtml")
+        <main role="main" class="mb-6 w-full desktop:max-w-screen-desktop mx-auto grow">
+            @RenderBody()
+        </main>
+        <div class="w-full">
+            @await Html.PartialAsync("/Views/Shared/_Footer.cshtml")
+        </div>
     </div>
     @await Html.PartialAsync("/Views/Shared/_ScrollButton.cshtml")
     @await RenderSectionAsync("JavaScript", false)

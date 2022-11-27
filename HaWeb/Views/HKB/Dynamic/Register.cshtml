@@ -24,39 +24,36 @@
         : "ha-bibel";
 }
 
-<script defer src="/js/register.js" asp-append-version="true"></script>
+<script defer src="/js/search.js" asp-append-version="true"></script>
 
 <div class="ha-register">
     <div class="@commentClass">
         <div class="ha-register-head">
             <h1>@Model.Title</h1>
-            @if (Model.AllowSendIn) {
-            <div class="ha-register-add">
-                <a href="mailto:post@hamann-ausgabe.de?subject=Publikation%28en%29%20beitragen">
-                    <div class="ha-register-add-plusbutton">+</div>
-                    <div class="ha-register-add-text">Publikation(en) beitragen</div>
-                </a>
-            </div>
-            }
             @if (Model.AllowSearch) {
                 @if (Model.Category == "neuzeit") {
                     <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Register" method="get">
                         <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
                         <input type="hidden" name="page" type="text" value="@(Model.Category == "forschung" ? "1" : "0")"/>
-                        <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
+                        <button id="ha-searchformsubmit" type="submit">Suchen</button>
                     </form>
                 } else {
                     <form class="ha-searchform" id="ha-searchform" asp-controller="Suche" asp-action="Science" method="get">
                         <input id="ha-searchformtext" name="search" type="text" placeholder="Suchbegriff"/>
                         <input type="hidden" name="page" type="text" value="@(Model.Category == "forschung" ? "1" : "0")"/>
-                        <button id="ha-searchformsubmit" type="submit">Durchsuchen</button>
+                        <button id="ha-searchformsubmit" type="submit">Suchen</button>
                     </form>
                 }
-
-            @* <form asp-controller="Suche" asp-action="Index" method="GET" >
-                <input type="text" name="search" placeholder="Suchbegriff" />
-                <button type="submit">Suchen</button>
-            </form> *@
+            }
+            @if (Model.AllowSendIn) {
+                <div class="ha-register-add">
+                    <a href="mailto:post@hamann-ausgabe.de?subject=Publikation%28en%29%20beitragen">
+                        <div class="ha-register-add-plusbutton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                        </div>
+                        <div class="ha-register-add-text">Publikation(en) beitragen</div>
+                    </a>
+                </div>
             }
             <div class="ha-register-nav" id="ha-register-nav">
                 <div class="ha-register-left-nav">
