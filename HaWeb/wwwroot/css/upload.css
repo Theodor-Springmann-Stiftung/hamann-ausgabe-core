@@ -76,7 +76,7 @@
   }
 
   .ha-uploadcontainer {
-    @apply w-full bg-slate-50 flex flex-col gap-y-2 h-full
+    @apply w-full bg-slate-50 flex flex-col gap-y-2
   }
 
   .ha-uploadcontainer .ha-publishfilelist {

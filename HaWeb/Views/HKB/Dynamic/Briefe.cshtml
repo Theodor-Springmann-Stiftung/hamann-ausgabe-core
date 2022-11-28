@@ -122,7 +122,7 @@
                                         <div class="ha-editfrom">@edit.ParsedStart</div>@if(!String.IsNullOrEmpty(edit.ParsedEnd)){<div class="ha-editto">–@edit.ParsedEnd</div>}
                                     </td>
                                     <td class="ha-editreference">
-                                        @if (!String.IsNullOrWhiteSpace(edit.Text))
+                                        @if (!String.IsNullOrWhiteSpace(edit.Text) && !String.IsNullOrWhiteSpace(edit.Preview))
                                         {
                                             <span>
                                                 @Html.Raw(@edit.Preview)]

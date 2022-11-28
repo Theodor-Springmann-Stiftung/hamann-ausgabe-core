@@ -85,6 +85,8 @@ public class Briefecontroller : Controller {
             } else {
                 model.MetaData.HasText = false;
             }
+        } else {
+            model.MetaData.HasText = false;
         }
         
         if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) {

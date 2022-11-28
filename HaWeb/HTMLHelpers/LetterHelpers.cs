@@ -49,12 +49,16 @@ public static class LetterHelpers {
                 // Old: (edit.StartPage != edit.EndPage || edit.StartLine != edit.EndLine) && 
                 if (XElement.Parse(sb2.ToString()).Value.ToString().Length >= 20) {
                     var text = XElement.Parse(sb2.ToString()).Value.ToString();
-                    text = text.ToString().Split(' ').Take(1).First() + " [&#x2026;] " + text.ToString().Split(' ').TakeLast(1).First();
+                    var beginning = text.ToString().Split(new char[] {' ', ' '}).Take(1).First();
+                    var end = text.ToString().Split(new char[] {' ', ' '}).TakeLast(1).First();
                     var sb3 = new StringBuilder();
                     sb3.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement("span", "reference"));
-                    sb3.Append(text);
+                    sb3.Append(beginning + " [&#x2026;] " + end);
                     sb3.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement("span"));
-                    refstring = sb3.ToString();
+                    if (!String.IsNullOrWhiteSpace(beginning) && !String.IsNullOrWhiteSpace(end))
+                        refstring = sb3.ToString();
+                    else
+                        refstring = "";
                 } else
                     refstring = sb2.ToString();
             }

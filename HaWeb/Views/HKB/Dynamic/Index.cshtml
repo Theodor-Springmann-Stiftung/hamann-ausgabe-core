@@ -18,7 +18,7 @@
                     <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-controller="Index" asp-route-page="@i">
                         @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {
                             <span>
-                                @Model.AvailableYears[i].StartYear-@Model.AvailableYears[i].EndYear
+                                @Model.AvailableYears[i].StartYear–@Model.AvailableYears[i].EndYear
                             </span>
                         }
                         else {
