@@ -13,13 +13,23 @@
 <div class="ha-letterheader">
     @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, true, false))
     <div class="ha-letterheadernav">
-        <div class="ha-lettertabs">
+        <div class="md:hidden grow">
+            <select id="ha-switchlettercategory">
+                @foreach (var app in Model.Texts) {
+                    @if (app.Category != Model.DefaultCategory) { <option class="ha-tabbtn" autocomplete="off">@app.Category</option> }
+                }
+                @if (Model.Texts != null && Model.Texts.Where(x => x.Category == Model.DefaultCategory).Any()) {
+                    <option class="ha-tabbtn" autocomplete="off">@Model.DefaultCategory</option>
+                }
+            </select>
+        </div>
+        <div class="ha-lettertabs !hidden md:!block">
             @foreach (var app in Model.Texts)
             {
-                @if (app.Category != Model.DefaultCategory) { <a class="ha-tabbtn">@app.Category</a> }
+                @if (app.Category != Model.DefaultCategory) { <a class="ha-tabbtn hidden md:inline-block">@app.Category</a> }
             }
             @if (Model.Texts != null && Model.Texts.Where(x => x.Category == Model.DefaultCategory).Any()) {
-                <a class="ha-tabbtn">@Model.DefaultCategory</a>
+                <a class="ha-tabbtn hidden md:inline-block">@Model.DefaultCategory</a>
             }
             <a >PDF</a>
         </div>

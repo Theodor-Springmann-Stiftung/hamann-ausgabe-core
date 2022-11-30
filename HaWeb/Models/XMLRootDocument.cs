@@ -65,7 +65,7 @@ public class XMLRootDocument {
             filename += hash + "_";
         }
         if (!String.IsNullOrWhiteSpace(IdentificationString.Item2)) filename += _removeInvalidChars(IdentificationString.Item2) + "_";
-        filename += _removeInvalidChars(Date.Year.ToString() + "-" + Date.Month.ToString() + "-" + Date.Day.ToString());
+        filename += _removeInvalidChars(Date.Year.ToString() + "-" + Date.Month.ToString() + "-" + Date.Day.ToString()) + "." +  Path.GetRandomFileName();
         return filename + ".xml";
     }
 

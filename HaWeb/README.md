@@ -88,7 +88,8 @@ Liste für Janina/Luca:
 tabellen ok, ausser 939
 
 KOmmentare verschobem 202 Anhang
-458 leeren lettertext löschen
-935 leeren lettertext löschen
 
 Evtl finetuning von note
+
+- Text auf der Startseite
+- Stellenkommentare in extra Tab

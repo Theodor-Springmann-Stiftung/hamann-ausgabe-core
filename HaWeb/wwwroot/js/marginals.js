@@ -115,14 +115,14 @@ const overlappingcollapsebox = function (selector, hoverfunction) {
                             let lines = Math.floor(eh / lineheight);
                             let cutoff = Math.floor((h - newlength) / lineheight);
                             m.style.cssText += "-webkit-line-clamp: " + (lines - cutoff) + ";";
+                            m.style.cssText += "line-clamp: " + (lines - cutoff) + ";";
                         }
                     }
                 }
-
+                
                 requestAnimationFrame(() => {
+                    collapsedboxes.push(element);
                     collapsebox(element, newlength, lineheight);
-                });
-                requestAnimationFrame(() => {
                     addbuttoncaollapsebox(element, newlength, hoverfunction);
                 });
             }
@@ -155,11 +155,36 @@ const collapseboxes = function () {
     overlappingcollapsebox(".ha-text .ha-marginalbox", true);
 };
 
+var collapsedboxes = [];
+
+const clearcollapsedboxes = function () {
+    var elements = document.querySelectorAll(".ha-text .ha-marginalbox");
+    elements.forEach(element => {
+        element.removeAttribute("style");
+    });
+    collapsedboxes.forEach(element => {
+        element.classList.remove("ha-expanded-box");
+        element.classList.remove("ha-collapsed-box");
+        element.outerHTML = element.outerHTML;
+    });
+    collapsedboxes = [];
+    var elements = document.querySelectorAll(".ha-btn-collapsed-box");
+    elements.forEach(element => {
+        element.remove();
+    });
+}
+
+const resetall = function() {
+    clearcollapsedboxes();
+    marginalboxwidthset();
+    collapseboxes();
+}
+
 marginalboxwidthset();
 collapseboxes();
-// var doit;
-// this.window.addEventListener("resize", function () {
-//     this.clearTimeout(doit);
-//     marginalboxwidthset();
-//     doit = this.setTimeout(collapseboxes, 250);
-// });
+
+var doit;
+this.window.addEventListener("resize", function () {
+    this.clearTimeout(doit);
+    doit = this.setTimeout(resetall, 250);
+});

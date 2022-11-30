@@ -193,7 +193,7 @@
   }
 
   .ha-text .ha-btn-collapsed-box {
-    @apply absolute left-full ml-4 desktop:ml-[3.4rem] hidden md:inline-block cursor-pointer leading-none mt-0.5
+    @apply absolute left-full ml-4 desktop:ml-[1.7rem] hidden md:inline-block cursor-pointer leading-none mt-[0.2rem]
   }
 
   .ha-defaulttab .ha-hands {

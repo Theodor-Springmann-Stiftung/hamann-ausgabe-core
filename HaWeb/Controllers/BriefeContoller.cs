@@ -122,13 +122,15 @@ public class Briefecontroller : Controller {
     }
 
     internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta) {
+        var hasText = lib.Letters.ContainsKey(meta.Index) ? true : false;
         var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
         var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
         return new BriefeMetaViewModel(meta, hasMarginals) {
             ParsedZHString = zhstring,
-            SenderReceiver = generateSendersRecievers(senders, recivers)
+            SenderReceiver = generateSendersRecievers(senders, recivers),
+            HasText = hasText,
         };
     }
 
