@@ -48,7 +48,7 @@ export class HaMenu extends LitElement {
               Forschungsbibliographie
             </a>
             <a class="pr-2 2xl:pr-4" href="https://www.hamann-ausgabe.de">
-              Kommentierte Briefausgabe (&thinsp;H&thinsp;K&thinsp;B&thinsp;)
+              Hamann-Ausgabe
             </a>
           </div>
         </nav>

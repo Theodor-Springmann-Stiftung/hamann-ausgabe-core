@@ -93,3 +93,6 @@ Evtl finetuning von note
 
 - Text auf der Startseite
 - Stellenkommentare in extra Tab
+
+- click event does not work in iOS
+- rerende marginals on tab switch

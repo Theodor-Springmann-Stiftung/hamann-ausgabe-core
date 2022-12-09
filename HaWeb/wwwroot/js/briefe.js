@@ -21,6 +21,11 @@ for (let i = 0; i < tabbtnlist.length; i++) {
         activetab = tablist[i % tablist.length];
         activetabbtn = tabbtnlist[i];
         activetabbtn2 = tabbtnlist[(i + tablist.length) % tabbtnlist.length];
+
+        // if (resetall != null) { 
+        //     console.log("RESET MARG")
+        //     requestAnimationFrame(() => { resetall(); });
+        // }
     });
 }
 

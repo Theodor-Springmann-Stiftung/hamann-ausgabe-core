@@ -186,5 +186,5 @@ collapseboxes();
 var doit;
 this.window.addEventListener("resize", function () {
     this.clearTimeout(doit);
-    doit = this.setTimeout(resetall, 250);
+    doit = this.setTimeout(resetall, 17);
 });
