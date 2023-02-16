@@ -78,10 +78,10 @@ C TODO Syntax-Check
 B TODO Datum im Footer Edierdatum der Hamann-Datei
 A TODO Fußnoten in Editionsgeschichte als Marginalkommentare
 
-Vor dem internen release:
+(Am Besten) Vor dem release:
 A TODO Jahreszahlen auf der Startseite
-A Kopieren von Text ermöglichen, mit SPAN arbeiten
-A Keine Marginalverweise in Bibliographie
+A TODO Kopieren von Text ermöglichen, mit SPAN arbeiten
+A TODO Keine Marginalverweise in Bibliographie
 B TODO Suchergebnisse beschränken
 B TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
 C TODO Traditions durchsuchen
