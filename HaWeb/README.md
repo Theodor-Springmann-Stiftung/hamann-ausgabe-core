@@ -80,6 +80,8 @@ A TODO Fußnoten in Editionsgeschichte als Marginalkommentare
 
 Vor dem internen release:
 A TODO Jahreszahlen auf der Startseite
+A Kopieren von Text ermöglichen, mit SPAN arbeiten
+A Keine Marginalverweise in Bibliographie
 B TODO Suchergebnisse beschränken
 B TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
 C TODO Traditions durchsuchen
@@ -95,4 +97,4 @@ Evtl finetuning von note
 - Stellenkommentare in extra Tab
 
 - click event does not work in iOS
-- rerende marginals on tab switch
+- rerender marginals on tab switch
