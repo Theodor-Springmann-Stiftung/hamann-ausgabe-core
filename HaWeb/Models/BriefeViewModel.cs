@@ -7,6 +7,10 @@ public class BriefeViewModel {
     public BriefeMetaViewModel MetaData { get; private set; }
     public string? DefaultCategory { get; set; }
 
+    public string? PDFFilePath { get; set; }
+
+    public string? YearPDFFilePath { get; set; }
+
     private List<(string, string, string, string, string, string)>? _ParsedEdits;
     private List<(string, string, string, string, string)>? _ParsedHands;
     private List<(string Category, List<Text>)>? _Texts;

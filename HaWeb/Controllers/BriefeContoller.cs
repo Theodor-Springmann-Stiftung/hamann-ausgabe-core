@@ -112,6 +112,14 @@ public class Briefecontroller : Controller {
         
         model.Texts = texts;
 
+        if (System.IO.File.Exists("./wwwroot/pdf/HKB_" + id + ".pdf")) {
+            model.PDFFilePath = "/pdf/HKB_" + id + ".pdf";
+        }
+
+        if (System.IO.File.Exists("./wwwroot/pdf/HKB_" + model.MetaData.Meta.Sort.Year + ".pdf")) {
+            model.YearPDFFilePath = "/pdf/HKB_" + model.MetaData.Meta.Sort.Year + ".pdf";
+        }
+
         // Return
         return View("~/Views/HKB/Dynamic/Briefe.cshtml", model);
     }
