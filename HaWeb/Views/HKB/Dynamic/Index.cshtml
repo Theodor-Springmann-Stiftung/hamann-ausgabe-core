@@ -47,6 +47,7 @@
             </div>
 
             <div class="ha-filterlist">
+                
 
                 @* Go To Letter *@
                 <div class="ha-gotofilter">
@@ -72,6 +73,9 @@
                              </div>
                         }
                     </div>
+                     <div class="mr-2 leading-snug text-base px-1 bg-slate-200">
+                        Derzeit kritisch geprüft, ediert und hochgeladen sind Briefe bis einschließlich @Model.EndYear (= @Model.EndPageString).
+                    </div>
                      <form class="ha-zhform" id="ha-zhform">
                         <span>Z&hairsp;H Band</span>
                         <select name="zhvolume" id="ha-zhformvolume">
@@ -83,6 +87,7 @@
                         <input name="zhpage" id="ha-zhformpage" type="text" value="@Model.ActivePage" placeholder="Seite"/>
                         <button id="ha-zhformsubmit" type="submit">Nachschlagen</button>
                      </form>
+                    
                 </div>
                 
                 }

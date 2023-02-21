@@ -15,12 +15,14 @@ public class IndexController : Controller {
     private IReaderService _readerService;
     private IXMLService _xmlService;
     private int _lettersForPage;
+    private int _endYear;
 
     public IndexController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService service, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
         _xmlService = service;
         _lettersForPage = config.GetValue<int>("LettersOnPage");
+        _endYear = config.GetValue<int>("AvailableEndYear");
     }
 
     [Route("/HKB/{letterno}")]
@@ -142,10 +144,14 @@ public class IndexController : Controller {
         List<(string Volume, List<string> Pages)>? availablePages = null;
         availablePages = lib.Structure.Where(x => x.Key != "-1").Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
         zhvolume = zhvolume == null ? "1" : zhvolume;
+
+        var lastletter = lib.MetasByDate.Last();
         var model = new IndexViewModel(
             letters, 
-            page, 
-            pages, 
+            page,
+            _endYear.ToString(),
+            "ZH " + HTMLHelpers.ConversionHelpers.ToRoman(Int32.Parse(lastletter.ZH.Volume)) + ", S. " + lastletter.ZH.Page,
+            pages,
             _getAvailablePersons(lib), 
             availablePages.OrderBy(x => x.Volume).ToList(), 
             zhvolume, 
