@@ -343,8 +343,18 @@ public class APIController : Controller {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         _xmlProvider.SetInProduction(newFile.First());
-        _xmlService.UnUseProduction();
 
         return Created("/", newFile.First());
+    }
+
+
+    [HttpPost]
+    [Route("API/SetStartEndYear")]
+    [ValidateAntiForgeryToken]
+    [FeatureGate(Features.UploadService, Features.AdminService)]
+    public async Task<IActionResult>? SetStartEndYear(StartEndYear startendyear) {
+        if (startendyear.StartYear > startendyear.EndYear) return BadRequest();
+        _lib.SetStartEndYear(startendyear.StartYear, startendyear.EndYear);
+        return Created("/", "");;
     }
 }

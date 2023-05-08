@@ -18,7 +18,6 @@ public interface IXMLService {
     public void AutoUse(FileList filelist);
     public Dictionary<string, FileList?>? GetInProduction();
     public void UnUse(string prefix);
-    public void UnUseProduction();
     public void SetInProduction();
     public void SetInProduction(XDocument document);
     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);

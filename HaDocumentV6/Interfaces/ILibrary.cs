@@ -10,6 +10,7 @@ namespace HaDocument.Interfaces {
         ImmutableDictionary<string, Tradition> Traditions { get; }
         ImmutableDictionary<string, Person> Persons { get; }
         ImmutableDictionary<string, Meta> Metas { get; }
+        ImmutableDictionary<string, Meta> ExcludedMetas { get; }
         ImmutableDictionary<string, Marginal> Marginals { get; }
         ImmutableDictionary<string, Location> Locations { get; }
         ImmutableDictionary<string, Letter> Letters { get; }
@@ -27,6 +28,7 @@ namespace HaDocument.Interfaces {
         Lookup<string, Editreason> EditreasonsByLetter { get; }
         ImmutableSortedSet<Meta> MetasByDate { get; }
         ILookup<int, Meta> MetasByYear { get; }
+        ILookup<int, Meta> ExcludedMetasByYear { get; }
         ImmutableDictionary<string, Comment> SubCommentsByID { get; }
     }
 }

@@ -14,6 +14,7 @@ namespace HaDocument.Models
         public ImmutableDictionary<string, Tradition> Traditions { get; }
         public ImmutableDictionary<string, Person> Persons { get; }
         public ImmutableDictionary<string, Meta> Metas { get; }
+        public ImmutableDictionary<string, Meta> ExcludedMetas { get; }
         public ImmutableDictionary<string, Marginal> Marginals { get; }
         public ImmutableDictionary<string, Location> Locations { get; }
         public ImmutableDictionary<string, Letter> Letters { get; }
@@ -42,12 +43,14 @@ namespace HaDocument.Models
         public ImmutableSortedSet<Meta> MetasByDate { get; }
         // Auswählen von Briefen nach dem Jahr, sortiert nach Datum
         public ILookup<int, Meta> MetasByYear { get; }
+        public ILookup<int, Meta> ExcludedMetasByYear { get; }
 
 
         public Library(
             Dictionary<string, Tradition> traditions,
             Dictionary<string, Person> persons,
             Dictionary<string, Meta> meta,
+            Dictionary<string, Meta> excludedMeta,
             Dictionary<string, Marginal> marginals,
             Dictionary<string, Location> locations,
             Dictionary<string, Letter> letters,
@@ -72,6 +75,7 @@ namespace HaDocument.Models
             Editreasons = ImmutableDictionary.ToImmutableDictionary(editReasons);
             Comments = ImmutableDictionary.ToImmutableDictionary(comments);
             Apps = ImmutableDictionary.ToImmutableDictionary(apps);
+            ExcludedMetas = ImmutableDictionary.ToImmutableDictionary(excludedMeta);
 
             var backbuilder = ImmutableDictionary.CreateBuilder<string, ImmutableList<Backlink>>();
             foreach (var entry in backlinks)
@@ -95,6 +99,7 @@ namespace HaDocument.Models
             EditreasonsByLetter = (Lookup<string, Editreason>)Editreasons.Values.ToLookup(x => x.Letter);
             MetasByDate = Metas.Values.ToImmutableSortedSet<Meta>(new DefaultComparer());
             MetasByYear = Metas.Values.ToLookup(x => x.Sort.Year);
+            ExcludedMetasByYear = ExcludedMetas.Values.ToLookup(x => x.Sort.Year);
 
             var tempbuilder = ImmutableDictionary.CreateBuilder<string, Comment>();
             foreach (var comm in Comments)

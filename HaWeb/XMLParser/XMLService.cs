@@ -11,6 +11,7 @@ using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
 using HaDocument.Models;
 
+// XMLService provides a wrapper around the loaded and used XML data 
 public class XMLService : IXMLService {
     private Dictionary<string, FileList?>? _Used;
     private Dictionary<string, IXMLRoot>? _Roots;
@@ -199,8 +200,6 @@ public class XMLService : IXMLService {
         });
         return res.ToList();
     }
-
-    public void UnUseProduction() => this._InProduction = null;
 
     public List<XMLRootDocument>? ProbeFile(XDocument document, ModelStateDictionary ModelState) {
         if (document.Root!.Name != "opus") {

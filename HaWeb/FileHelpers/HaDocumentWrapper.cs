@@ -14,6 +14,8 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
     private IXMLProvider _xmlProvider;
     private IXMLService _xmlService;
 
+    private string _filepath;
+
     public int StartYear { get; private set; }
     public int EndYear { get; private set; }
 
@@ -38,8 +40,20 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
         }
     }
 
+    public int GetStartYear() => StartYear;
+
+    public int GetEndYear() => EndYear;
+
+    public void SetStartEndYear(int start, int end) {
+        this.StartYear = start;
+        this.EndYear = end;
+        SetLibrary(_filepath);
+    }
+
     public ILibrary ResetLibrary() {
-        Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { AvailableYearRange = (StartYear, EndYear) });
+        var options = new HaWeb.Settings.HaDocumentOptions() { AvailableYearRange = (StartYear, EndYear )};
+        Library = HaDocument.Document.Create(options);
+        _filepath = options.HamannXMLFilePath;
         return Library;
     }
 
@@ -60,7 +74,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             _xmlService.SetInProduction(System.Xml.Linq.XDocument.Load(filepath, System.Xml.Linq.LoadOptions.PreserveWhitespace));
         sw.Stop();
         Console.WriteLine("COLLECTIONS: " + sw.ElapsedMilliseconds);
-
+        _filepath = filepath;
         return Library;
     }
 

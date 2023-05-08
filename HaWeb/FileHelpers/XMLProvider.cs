@@ -5,6 +5,7 @@ using HaWeb.Models;
 using HaWeb.XMLParser;
 using System.Xml.Linq;
 
+// XMLService provides a wrapper around the available XML data on a FILE basis
 public class XMLProvider : IXMLProvider {
     private IFileProvider _fileProvider;
     private Dictionary<string, FileList?>? _Files;

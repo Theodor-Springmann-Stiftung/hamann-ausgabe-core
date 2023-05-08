@@ -8,6 +8,7 @@ namespace HaDocument.Models
         public Dictionary<string, Tradition> Traditions;
         public Dictionary<string, Person> Persons;
         public Dictionary<string, Meta> Metas;
+        public Dictionary<string, Meta> ExcludedMetas;
         public Dictionary<string, Marginal> Marginals;
         public Dictionary<string, Location> Locations;
         public Dictionary<string, Letter> Letters;
@@ -55,6 +56,7 @@ namespace HaDocument.Models
                 Traditions,
                 Persons,
                 Metas,
+                ExcludedMetas,
                 Marginals,
                 Locations,
                 Letters,

@@ -95,6 +95,20 @@
     <div class="ha-hamannfilechooser">
       @await Html.PartialAsync("/Views/Shared/_FileListForm.cshtml", (Model.HamannFiles, "Verfügbare Hamann-Dateien", "API", "SetUsedHamann", string.Empty, "/Download/XML/", false))
     </div>
+
+    <form id="seatstartendyearform" enctype="application/x-www-form-urlencoded"  asp-controller="API" asp-action="SetStartEndYear">
+      <select name="StartYear" id="">
+          @foreach (var y in Model.AvailableYears) {
+              <option>@y</option> 
+          }
+      </select>
+      <select name="EndYear" id="">
+          @foreach (var y in Model.AvailableYears) {
+              <option>@y</option> 
+          }
+      </select>
+      <button type="submit">Setzen</button>
+    </form>
   }
 
 </div>

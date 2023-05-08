@@ -10,13 +10,18 @@ public class UploadViewModel {
     public List<FileModel>? AvailableFiles { get; set; }
     public Dictionary<string, List<FileModel>?>? UsedFiles { get; private set; }
     public Dictionary<string, List<FileModel>?>? ProductionFiles { get; set; }
-
+    public List<int> AvailableYears { get; private set; }
+    public int StartYear { get; private set; }
+    public int EndYear { get; private set; }
     public List<FileModel>? HamannFiles { get; set; }
 
-    public UploadViewModel(string title, string? prefix, List<IXMLRoot>? roots, Dictionary<string, List<FileModel>?>? usedFiles) {
+    public UploadViewModel(string title, string? prefix, List<IXMLRoot>? roots, Dictionary<string, List<FileModel>?>? usedFiles, int startYear, int endYear, List<int> availableYears) {
         Prefix = prefix;
         ActiveTitle = title;
         AvailableRoots = roots;
         UsedFiles = usedFiles;
+        StartYear = startYear;
+        EndYear = endYear;
+        AvailableYears = availableYears;
     }
 }

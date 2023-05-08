@@ -9,7 +9,7 @@ namespace HaDocument.Reactors {
     class MetaReactor : Reactor {
 
         internal Dictionary<string, Meta> CreatedInstances { get; }
-
+        internal Dictionary<string, Meta> ExcludedInstances { get; }
         private string[] _availableVolumes;
         private (int, int) _availableYearRange;
 
@@ -36,6 +36,8 @@ namespace HaDocument.Reactors {
             _availableYearRange = availableYearRange;
             lib.Metas = new Dictionary<string, Meta>();
             CreatedInstances = lib.Metas;
+            lib.ExcludedMetas = new Dictionary<string, Meta>();
+            ExcludedInstances = lib.ExcludedMetas;
             reader.OpenTag += Listen;
         }
 
@@ -150,13 +152,8 @@ namespace HaDocument.Reactors {
         }
 
         private void Add() {
-            if (
-                _availableVolumes.Contains(Volume) ||
-                (Sort.Year >= _availableYearRange.Item1 && Sort.Year <= _availableYearRange.Item2) ||
-                (_availableVolumes == null && _availableYearRange.Item1 == 0 && _availableYearRange.Item2 == 0)
-            ) {
-                var ZHInfo = !inZH ? null : new ZHInfo(AltLineNumbering, dateChanged, Volume, Page);
-                var meta = new Meta(
+            var ZHInfo = !inZH ? null : new ZHInfo(AltLineNumbering, dateChanged, Volume, Page);
+            var meta = new Meta(
                     Index,
                     Autopsic,
                     Date,
@@ -170,7 +167,15 @@ namespace HaDocument.Reactors {
                     Receivers,
                     ZHInfo
                 );
+            if (
+                _availableVolumes.Contains(Volume) ||
+                (Sort.Year >= _availableYearRange.Item1 && Sort.Year <= _availableYearRange.Item2) ||
+                (_availableVolumes == null && _availableYearRange.Item1 == 0 && _availableYearRange.Item2 == 0)
+            ) {
                 CreatedInstances.TryAdd(meta.Index, meta);
+            }
+            else {
+                ExcludedInstances.TryAdd(meta.Index, meta);
             }
         }
 

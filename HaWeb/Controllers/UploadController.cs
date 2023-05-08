@@ -44,6 +44,7 @@ public class UploadController : Controller {
     [FeatureGate(Features.AdminService)]
     [GenerateAntiforgeryTokenCookie]
     public IActionResult Index(string? id) {
+        var library = _lib.GetLibrary();
         var roots = _xmlService.GetRootsList();
         if (roots == null) return error404();
 
@@ -76,20 +77,22 @@ public class UploadController : Controller {
             }
         }
 
+        var availableYears = library.MetasByYear.Select(x => x.Key).Union(library.ExcludedMetasByYear.Select(x => x.Key)).ToList();
+        availableYears.Sort();
         if (id != null) {
             id = id.ToLower();
 
             var root = _xmlService.GetRoot(id);
             if (root == null) return error404();
 
-            var model = new UploadViewModel(root.Type, id, roots, usedFiles);
+            var model = new UploadViewModel(root.Type, id, roots, usedFiles, _lib.GetStartYear(), _lib.GetEndYear(), availableYears);
             model.ProductionFiles = productionFiles;
             model.HamannFiles = hamannFiles;
             model.AvailableFiles = XMLFileHelpers.ToFileModel(_xmlProvider.GetFiles(id), pF, uF);
 
             return View("~/Views/Admin/Dynamic/Upload.cshtml", model);
         } else {
-            var model = new UploadViewModel("Upload & Veröffentlichen", id, roots, usedFiles);
+            var model = new UploadViewModel("Upload & Veröffentlichen", id, roots, usedFiles, _lib.GetStartYear(), _lib.GetEndYear(), availableYears);
             model.ProductionFiles = productionFiles;
             model.HamannFiles = hamannFiles;
 

@@ -30,7 +30,6 @@ public class XMLRootDocument {
             _file = value;
             // After saving, we don't need to save the ELement anymore, it can get read in if it's used.
             // We do this to prevent memory hogging. TODO: MAKE IT MORE EFFICIENT, EG ALL USED FILES HAVE SET ELEMENTS OR SO
-            // TODO Also make the file directory more efficient by reading in the directories as they are requested.
             if (value != null) _Element = null;
         } }
     public string Prefix { get; private set; }
