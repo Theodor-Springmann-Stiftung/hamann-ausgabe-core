@@ -9,6 +9,7 @@ using HaWeb.Filters;
 using HaWeb.FileHelpers;
 using HaWeb.XMLParser;
 using HaWeb.Models;
+using HaWeb.XMLTests;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using HaDocument.Interfaces;
@@ -28,17 +29,19 @@ public class APIController : Controller {
     private readonly string _targetFilePath;
     private readonly IXMLService _xmlService;
     private readonly IXMLProvider _xmlProvider;
+    private readonly IXMLTestService _testService;
 
     // Options
     private static readonly string[] _permittedExtensions = { ".xml" };
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
 
-    public APIController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IXMLProvider xmlProvider, IConfiguration config) {
+    public APIController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService xmlService, IXMLProvider xmlProvider, IXMLTestService testService, IConfiguration config) {
         _lib = lib;
         _xmlProvider = xmlProvider;
         _readerService = readerService;
         _xmlService = xmlService;
+        _testService = testService;
         _fileSizeLimit = config.GetValue<long>("FileSizeLimit");
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             _targetFilePath = config.GetValue<string>("StoredFilePathWindows");
@@ -154,6 +157,7 @@ public class APIController : Controller {
         };
 
         string json = JsonSerializer.Serialize(docs);
+        _testService.Test();
         return Created(nameof(UploadController), json);
     }
 
@@ -260,11 +264,12 @@ public class APIController : Controller {
             }
         }
 
+        _xmlService.UnUse(id);
         if (newUsed != null && newUsed.Any()) {
-            _xmlService.UnUse(id);
             newUsed.ForEach(x => _xmlService.Use(x));
         }
-
+        
+        _testService.Test();
         return Created("/", newUsed);
     }
 

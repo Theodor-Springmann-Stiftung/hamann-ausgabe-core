@@ -7,6 +7,7 @@ public class FileModel {
     public bool IsUsed { get; private set; }
     public bool InProduction { get; private set; }
     public List<(string, string?)>? Fields { get; set; }
+    public string? Messages { get; set; }
 
     public FileModel(string name, string prefix, DateTime lastModified, bool isUsed, bool inProduction) {
         FileName = name;

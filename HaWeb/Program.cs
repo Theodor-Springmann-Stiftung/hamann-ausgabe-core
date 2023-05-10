@@ -2,6 +2,7 @@ using HaXMLReader;
 using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
 using HaWeb.XMLParser;
+using HaWeb.XMLTests;
 using HaWeb.FileHelpers;
 using Microsoft.FeatureManagement;
 using System.Runtime.InteropServices;
@@ -34,6 +35,7 @@ builder.Services.AddTransient<IReaderService, ReaderService>();
 builder.Services.AddSingleton<IXMLProvider, XMLProvider>();
 builder.Services.AddSingleton<IXMLService, XMLService>();
 builder.Services.AddSingleton<HaWeb.FileHelpers.IHaDocumentWrappper, HaWeb.FileHelpers.HaDocumentWrapper>();
+builder.Services.AddSingleton<IXMLTestService, XMLTestService>();
 builder.Services.AddFeatureManagement();
 
 var app = builder.Build();

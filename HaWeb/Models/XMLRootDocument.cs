@@ -4,11 +4,14 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.FileProviders;
 using HaWeb.XMLParser;
+using System.Text;
 
 public class XMLRootDocument {
     private XElement? _Element;
     private string? _filename;
     private IFileInfo? _file;
+
+    private StringBuilder? _log;
 
     [JsonIgnore]
     public IXMLRoot XMLRoot { get; private set; }
@@ -30,7 +33,7 @@ public class XMLRootDocument {
             _file = value;
             // After saving, we don't need to save the ELement anymore, it can get read in if it's used.
             // We do this to prevent memory hogging. TODO: MAKE IT MORE EFFICIENT, EG ALL USED FILES HAVE SET ELEMENTS OR SO
-            if (value != null) _Element = null;
+            // if (value != null) _Element = null;
         } }
     public string Prefix { get; private set; }
     public DateTime Date { get; private set; }
@@ -89,12 +92,39 @@ public class XMLRootDocument {
         }
     }
 
+    public string? GetLog() {
+        if (_log == null) return null;
+        return _log.ToString();
+    }
+
+    public void Log(string msg) {
+        if (_log == null) _log = new StringBuilder();
+        var prefix = DateTime.Now.ToString() + " ";
+        if (File != null) prefix += File.Name + ": ";
+        _log.Append("<br>" + prefix + msg);
+    }
+
+    public void ResetLog() {
+        if (_log != null) _log.Clear();
+    }
+
+    // Call on UnUse to prevent memory hogging
+    public void UnUse() {
+        _Element = null;
+        _log = null;
+    }
+
     public XElement GetElement() {
+        if (_Element == null)
+            _Element = _GetElement();
+        return _Element;
+    }
+
+    private XElement _GetElement() {
         if (File == null || String.IsNullOrWhiteSpace(File.PhysicalPath) || !File.Exists)
             throw new Exception("Es ist kein Pfad für die XML-Datei vorhanden.");
 
-        var root = XMLRoot;
-        if (root == null)
+        if (XMLRoot == null)
             throw new Exception("Kein gültiges Hamann-Dokument: " + File.PhysicalPath + "Vom Prefix: " + Prefix);
 
         XDocument? doc = null;
@@ -107,7 +137,7 @@ public class XMLRootDocument {
         if (doc == null || doc.Root == null)
             throw new Exception("Das Dokument ist ungültig und kann nicht gelesen werden: " + File.PhysicalPath);
 
-        var element = root.IsTypeOf(doc.Root);
+        var element = XMLRoot.IsTypeOf(doc.Root);
         if (element == null || !element.Any())
             throw new Exception("Kein gültiges Hamann-Dokument: " + File.PhysicalPath + "Vom Prefix: " + Prefix);
 
@@ -115,8 +145,7 @@ public class XMLRootDocument {
     }
 
     public async Task Save(Stream stream, ModelStateDictionary state) {
-        var root = XMLRoot;
-        if (root == null) {
+        if (XMLRoot == null) {
             state.AddModelError("Error", "No corresponding Root Element found.");
             return;
         }
@@ -129,6 +158,6 @@ public class XMLRootDocument {
             _Element = GetElement();
         }
         
-        await root.CreateHamannDocument(_Element).SaveAsync(stream, SaveOptions.DisableFormatting, new CancellationToken());
+        await XMLRoot.CreateHamannDocument(_Element).SaveAsync(stream, SaveOptions.DisableFormatting, new CancellationToken());
     }
 }

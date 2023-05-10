@@ -10,6 +10,7 @@ using System.Text;
 using HaXMLReader.Interfaces;
 using HaDocument.Interfaces;
 using HaDocument.Models;
+using HaWeb.XMLTests;
 
 // XMLService provides a wrapper around the loaded and used XML data 
 public class XMLService : IXMLService {
@@ -231,10 +232,20 @@ public class XMLService : IXMLService {
         if (_Used == null) _Used = new Dictionary<string, FileList?>();
         if (!_Used.ContainsKey(doc.Prefix)) _Used.Add(doc.Prefix, new FileList(doc.XMLRoot));
         _Used[doc.Prefix]!.Add(doc);
+        _ = doc.GetElement();
     }
 
     public void UnUse(string prefix) {
-        if (_Used != null && _Used.ContainsKey(prefix)) _Used.Remove(prefix);
+        if (_Used != null && _Used.ContainsKey(prefix)) {
+            // Unload the Elements so unused files don't use up the memory.
+            if (_Used[prefix]!.GetFileList() != null) {
+                foreach (var e in _Used[prefix]!.GetFileList()) {
+                    e.UnUse();
+                }
+            }
+            _Used.Remove(prefix);
+        }
+
         return;
     }
 

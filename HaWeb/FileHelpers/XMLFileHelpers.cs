@@ -166,7 +166,9 @@ public static class XMLFileHelpers {
             isUsed = usedFiles[id]!.Contains(document);
         }
 
-        return new FileModel(document.FileName, document.Prefix, document.File.LastModified.LocalDateTime, isUsed, inProduction) { Fields = document.Fields };
+        var model = new FileModel(document.FileName, document.Prefix, document.File.LastModified.LocalDateTime, isUsed, inProduction) { Fields = document.Fields };
+        model.Messages = document.GetLog();
+        return model;
     }
 
     public static async Task<byte[]?> ProcessStreamedFile(

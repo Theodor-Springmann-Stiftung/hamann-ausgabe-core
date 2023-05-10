@@ -70,17 +70,13 @@
     </div>
     
     @if (Model.UsedFiles != null && Model.Prefix != null && Model.UsedFiles.ContainsKey(Model.Prefix)) {
-      <div class="ha-errorswarnings">
-        <div class="ha-criticalerrors">
-
-        </div>
-        <div class="ha-warnings">
-          
-        </div>
-      </div>
-
-      <div class="ha-crossfilechecking">
-        
+      <div class="ha-crossfilechecking text-sm">
+        @foreach (var f in Model.UsedFiles[Model.Prefix])
+          {
+            <div>
+              @Html.Raw(f.Messages)
+            </div>
+          }
       </div>
     }
   }
