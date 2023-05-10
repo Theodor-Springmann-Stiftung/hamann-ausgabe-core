@@ -75,26 +75,18 @@ D TODO 400: Traditions nicht genug Abstand
 Technische Details:
 D TODO Move ILibrary -> neuer Parser
 C TODO Syntax-Check
-B TODO Datum im Footer Edierdatum der Hamann-Datei
 A TODO Fußnoten in Editionsgeschichte als Marginalkommentare
 
 (Am Besten) Vor dem release:
-A TODO Jahreszahlen auf der Startseite
 A TODO Kopieren von Text ermöglichen, mit SPAN arbeiten
-A TODO Keine Marginalverweise in Bibliographie
 B TODO Suchergebnisse beschränken
 B TODO Mobile Menüs bei der Seitennavigation (Jahrszahlen, Buchstabenindex usw)
 C TODO Traditions durchsuchen
 
-Liste für Janina/Luca:
+Bugs für Janina/Luca:
 tabellen ok, ausser 939
-
 KOmmentare verschobem 202 Anhang
 
-Evtl finetuning von note
-
-- Text auf der Startseite
-- Stellenkommentare in extra Tab
-
+Known Bugs:
 - click event does not work in iOS
 - rerender marginals on tab switch

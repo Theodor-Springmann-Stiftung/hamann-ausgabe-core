@@ -134,7 +134,7 @@ public class RegisterController : Controller {
         if (comments == null) return error404();
 
         // Parsing
-        var res = _createCommentModelForschungRegister(category, comments);
+        var res = _createCommentModelForschungRegister(category, comments, false);
 
         // Model instantiation
         var model = new RegisterViewModel(category, id, res, title, true, true) {
@@ -164,17 +164,17 @@ public class RegisterController : Controller {
         return Redirect("/Error404");
     }
 
-    private List<CommentModel> _createCommentModelForschungRegister(string category, IOrderedEnumerable<Comment>? comments) {
+    private List<CommentModel> _createCommentModelForschungRegister(string category, IOrderedEnumerable<Comment>? comments, bool generateBacklinks = true) {
         var lib = _lib.GetLibrary();
         var res = new List<CommentModel>();
         if (comments == null) return res;
         foreach (var comm in comments) {
-            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment);
+            var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, category, Settings.ParsingState.CommentType.Comment, generateBacklinks);
             List<string>? parsedSubComments = null;
             if (comm.Kommentare != null) {
                 parsedSubComments = new List<string>();
                 foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
-                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
+                    parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment, generateBacklinks));
                 }
             }
             res.Add(new CommentModel(parsedComment, parsedSubComments));
@@ -199,38 +199,4 @@ public class RegisterController : Controller {
         }
         return res;
     }
-
-    // private IEnumerable<Comment> Search(IEnumerable<Comment> all) {
-    //     var ret = new ConcurrentBag<Comment>();
-    //     var cnt = 0;
-    //     Parallel.ForEach (all, (comm, state) => {
-    //         if (cnt > 150) {
-    //             maxSearch = true;
-    //             state.Break();
-    //         }
-    //         if (SearchInComm(comm)) {
-    //             ret.Add(comm);
-    //             cnt++;
-    //         }
-    //     });
-    //     return ret;
-    // }
-
-    // private bool SearchInComm(Comment comment) {
-    //     var found = false;
-    //     var x = new RegisterSearch(comment, _readerService.RequestStringReader(comment.Entry), search);
-    //     found = x.Act();
-    //     if (!found) {
-    //         x = new RegisterSearch(comment, _readerService.RequestStringReader(comment.Lemma), search);
-    //         found = x.Act();
-    //     }
-    //     if (comment.Kommentare != null)
-    //         foreach (var sub in comment.Kommentare) {
-    //             if (!found) {
-    //                 found = SearchInComm(sub.Value);
-    //             }
-    //             else break;
-    //         }
-    //     return found;
-    // }
 }

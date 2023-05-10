@@ -14,7 +14,7 @@ public static class CommentHelpers {
     private static readonly string COMMENTHEADCLASS = HaWeb.Settings.CSSClasses.COMMENTHEADCLASS;
     private static readonly string BACKLINKSHKBCLASS = HaWeb.Settings.CSSClasses.BACKLINKSHKBCLASS;
 
-    public static string CreateHTML(ILibrary lib, IReaderService readerService, Comment comment, string category, CommentType type) {
+    public static string CreateHTML(ILibrary lib, IReaderService readerService, Comment comment, string category, CommentType type, bool generateBacklinks = true) {
         var sb = new StringBuilder();
         var rd = readerService.RequestStringReader(comment.Lemma);
         var commentState = new CommentState(category, type);
@@ -26,7 +26,7 @@ public static class CommentHelpers {
             .Where(x => lib.Metas.ContainsKey(x.Letter))
             .OrderBy(x => lib.Metas[x.Letter].Sort)
             .ThenBy(x => lib.Metas[x.Letter].Order) : null;
-        if (backlinks != null) {
+        if (backlinks != null && generateBacklinks) {
             sb.Append(HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, BACKLINKSCLASS));
             var arrow = false;
             foreach (var blk in backlinks) {
