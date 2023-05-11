@@ -70,14 +70,12 @@
     </div>
     
     @if (Model.UsedFiles != null && Model.Prefix != null && Model.UsedFiles.ContainsKey(Model.Prefix)) {
-      <div class="ha-crossfilechecking text-sm">
+      <textarea class="py-2 px-3 mx-8 mb-8 shadow-lg font-mono text-sm border rounded" id="errormessagebox" name="errormessagebox" rows="25" cols="90" readonly>
         @foreach (var f in Model.UsedFiles[Model.Prefix])
           {
-            <div>
-              @Html.Raw(f.Messages)
-            </div>
+              @f.Messages
           }
-      </div>
+      </textarea>
     }
   }
 
@@ -89,21 +87,17 @@
     </div>
 
     <div class="ha-hamannfilechooser">
-      @await Html.PartialAsync("/Views/Shared/_FileListForm.cshtml", (Model.HamannFiles, "Verfügbare Hamann-Dateien", "API", "SetUsedHamann", string.Empty, "/Download/XML/", false))
+      @await Html.PartialAsync("/Views/Shared/_FileListForm.cshtml", (Model.HamannFiles, "Verfügbare Hamann-Dateien", "API", "SetInProduction", string.Empty, "/Download/XML/", false))
     </div>
 
-    <form id="seatstartendyearform" enctype="application/x-www-form-urlencoded"  asp-controller="API" asp-action="SetStartEndYear">
-      <select name="StartYear" id="">
-          @foreach (var y in Model.AvailableYears) {
-              <option>@y</option> 
-          }
-      </select>
+    <form class="ha-setendyearform" id="ha-setendyearform" enctype="application/x-www-form-urlencoded" asp-controller="API" asp-action="SetEndYear" onsubmit="YEARSUBMIT(this);return false;">
+    Verfügbare Jahre: bis&nbsp;
       <select name="EndYear" id="">
           @foreach (var y in Model.AvailableYears) {
               <option>@y</option> 
           }
       </select>
-      <button type="submit">Setzen</button>
+      <button id="ha-setendyearbutton" class="ha-setendyearbutton" type="submit">Setzen</button>
     </form>
   }
 

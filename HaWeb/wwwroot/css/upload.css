@@ -108,7 +108,7 @@
   }
 
   .ha-filesheader {
-    @apply mb-8
+    @apply mb-4
   }
 
   .ha-availablefileslist {
@@ -138,6 +138,14 @@
 
   .ha-uploadcontainer .ha-hamannfilechooser {
     @apply px-16 pb-16 
+  }
+
+  .ha-uploadcontainer .ha-setendyearform {
+    @apply px-16 pb-16 float-right
+  }
+
+  .ha-uploadcontainer .ha-setendyearform .ha-setendyearbutton {
+    @apply mt-4 ml-6 rounded-md px-3 border-2 border-blue-600 hover:border-2 hover:shadow active:shadow-inner hover:border-blue-800 cursor-pointer
   }
 
   /* Classes for FileList Component */

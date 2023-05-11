@@ -28,3 +28,23 @@ const USESubmit = async function (oFormElement, file = null) {
         document.getElementById("ha-filelistoutput").textContent = e;
     })
 }
+
+const YEARSUBMIT = async function (oFormElement, file = null) {
+    let fd = new FormData(oFormElement);
+    document.getElementById("ha-setendyearbutton").style.pointerEvents = "none";
+    await fetch(oFormElement.action, {
+        method: 'POST',
+        headers: {
+        'RequestVerificationToken': getCookie('RequestVerificationToken')
+        },
+        body: fd
+    })
+    .then(response => response.json())
+    .then(json => {
+        document.getElementById("ha-setendyearbutton").style.pointerEvents = "auto";
+        location.reload();
+    })
+    .catch ((e) => {
+        document.getElementById("ha-setendyearbutton").style.pointerEvents = "auto";
+    })
+}

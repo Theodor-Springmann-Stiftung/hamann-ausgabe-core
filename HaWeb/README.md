@@ -35,6 +35,12 @@ There is a chance you need to set the Environment Variable to 'Development' in W
 
 Recommended vscode plugins include the XML Tools, c#, Tailwind CSS IntelliSense & TODO Tree.
 
+## Release
+
+To build a release version for the current server, run:
+
+`dotnet publish -a x64 --os win -c Release`
+
 ## Redesign der Hamann-Vebseite, drittes Update
 Veränderungenen in der Funktionalität für den Benutzer
 - Behutsames Redesign der Webseite:

@@ -10,7 +10,6 @@ public class XMLRootDocument {
     private XElement? _Element;
     private string? _filename;
     private IFileInfo? _file;
-
     private StringBuilder? _log;
 
     [JsonIgnore]
@@ -31,9 +30,7 @@ public class XMLRootDocument {
         } 
         set {
             _file = value;
-            // After saving, we don't need to save the ELement anymore, it can get read in if it's used.
-            // We do this to prevent memory hogging. TODO: MAKE IT MORE EFFICIENT, EG ALL USED FILES HAVE SET ELEMENTS OR SO
-            // if (value != null) _Element = null;
+            _Element = null;
         } }
     public string Prefix { get; private set; }
     public DateTime Date { get; private set; }
@@ -99,9 +96,9 @@ public class XMLRootDocument {
 
     public void Log(string msg) {
         if (_log == null) _log = new StringBuilder();
-        var prefix = DateTime.Now.ToString() + " ";
+        var prefix = DateTime.Now.ToShortTimeString() + " ";
         if (File != null) prefix += File.Name + ": ";
-        _log.Append("<br>" + prefix + msg);
+        _log.AppendLine(prefix + msg);
     }
 
     public void ResetLog() {

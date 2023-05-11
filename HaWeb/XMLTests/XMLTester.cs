@@ -7,11 +7,14 @@ using System.Xml.XPath;
 
 public class XMLTester {
     private Dictionary<string, INodeRule>? _Ruleset;
+    private Dictionary<string, ICollectionRule>? _CollectionRuleset;
     private List<XMLRootDocument>? _Documents;
     private Dictionary<string, HashSet<string>>? _IDs;
+    private Dictionary<string, HashSet<string>>? _CollectionIDs;
     private Dictionary<string, List<(XElement, XMLRootDocument)>?> _XPathEvaluated;
     public XMLTester (IXMLTestService testService, Dictionary<string, Models.FileList?>? filelists) {
         _Ruleset  = testService.Ruleset;
+        _CollectionRuleset = testService.CollectionRuleset;
         if (filelists != null) {
             foreach (var fl in filelists) {
                 if (fl.Value != null)  {
@@ -30,6 +33,64 @@ public class XMLTester {
         foreach (var rule in _Ruleset) {
             buildIDs(rule.Value);
             checkRequiredAttributes(rule.Value);
+            checkReferences(rule.Value);
+        }
+        if (_CollectionRuleset == null) return;
+        _CollectionIDs = new Dictionary<string, HashSet<string>>();
+        foreach (var collectionrule in _CollectionRuleset) {
+            buildIDs(collectionrule.Value);
+            checkReferences(collectionrule.Value);
+        }
+    }
+    private void checkReferences(INodeRule rule) {
+        if (rule.References == null || !rule.References.Any()) return;
+        var elements = GetEvaluateXPath(rule.XPath);
+        if (elements != null && elements.Any()) {
+            foreach (var e in elements) {
+                foreach (var r in rule.References) {
+                    var hasattr = checkAttribute(e.Item1, r.LinkAttribute, e.Item2, false);
+                    var keyname = r.RemoteElement + "-" + r.RemoteAttribute;
+                    if (_IDs != null && _IDs.ContainsKey(keyname) && hasattr) {
+                        var val = e.Item1.Attribute(r.LinkAttribute)!.Value;
+                        if (!_IDs[keyname].Contains(val)) {
+                            e.Item2.Log(generateLogMessage(e.Item1) + "Verlinktes Element " + val + " nicht gefunden.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void checkReferences(ICollectionRule rule) {
+        if (rule.Backlinks == null || !rule.Backlinks.Any() || !_CollectionIDs.ContainsKey(rule.Name)) return;
+        foreach (var bl in rule.Backlinks) {
+            var elemens = GetEvaluateXPath(bl);
+            if (elemens != null && elemens.Any()) {
+                foreach(var r in rule.GenerateBacklinkString(elemens)) {
+                    if (!r.Item4 && !_CollectionIDs[rule.Name].Contains(r.Item1)) {
+                        r.Item3.Log(generateLogMessage(r.Item2) + "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                    }
+                    if (r.Item4) {
+                        var coll = _CollectionIDs[rule.Name];
+                        var items = r.Item1.Split('-');
+                        var searchterm = items[0];
+                        var found = coll.Where(x => x.StartsWith(searchterm));
+                        if (items[0] == "NA" || found == null || !found.Any()) {
+                            r.Item3.Log(generateLogMessage(r.Item2) + "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                        } else {
+                            for (var i = 1; i < items.Length; i++) {
+                                if (items[i] == "NA") break;
+                                else {
+                                    searchterm = searchterm + "-" + items[i];
+                                    found = found.Where(x => x.StartsWith(searchterm));
+                                    if (found == null || !found.Any())
+                                        r.Item3.Log(generateLogMessage(r.Item2) + "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -47,17 +108,34 @@ public class XMLTester {
 
     private void buildIDs(INodeRule rule) {
         if (!String.IsNullOrWhiteSpace(rule.uniquenessAttribute)) {
-            checkUniqueness(rule.Name, rule.XPath, rule.uniquenessAttribute);
+            checkUniqueness(rule.XPath, rule.uniquenessAttribute);
         }
         if (rule.References != null && rule.References.Any()) {
             foreach (var reference in rule.References) {
-                checkUniqueness(rule.Name, reference.RemoteElement, reference.RemoteAttribute);
+                checkUniqueness(reference.RemoteElement, reference.RemoteAttribute);
             }
         }
     }
 
-    private void checkUniqueness(string name, string xpathelement, string attribute) {
-        if (_Documents == null || _IDs == null || _IDs.ContainsKey(name)) return;
+    private void buildIDs(ICollectionRule rule) {
+        if (rule.Bases != null && rule.Bases.Any()) {
+            var hs = new HashSet<string>();
+            foreach (var b in rule.Bases) {
+                var elemens = GetEvaluateXPath(b);
+                if (elemens != null && elemens.Any()) {
+                    foreach (var r in rule.GenerateIdentificationStrings(elemens)) {
+                        if (!hs.Add(r.Item1)) {
+                            r.Item3.Log(generateLogMessage(r.Item2) + "Brief-Seite-Zeile  " + r.Item1 + " mehrdeutig.");
+                        }
+                    }
+                }
+            }
+            _CollectionIDs!.TryAdd(rule.Name, hs);
+        }
+    }
+
+    private void checkUniqueness(string xpathelement, string attribute) {
+        if (_Documents == null || _IDs == null || _IDs.ContainsKey(xpathelement + "-" + attribute)) return;
         var hs = new HashSet<string>();
         var elements = GetEvaluateXPath(xpathelement);
         if (elements != null)
@@ -68,12 +146,12 @@ public class XMLTester {
                     }
                 }
             }
-            _IDs.TryAdd(name, hs);
+            _IDs.TryAdd(xpathelement  + "-" + attribute, hs);
     }
 
-    private bool checkAttribute(XElement element, string attributename, XMLRootDocument doc) {
+    private bool checkAttribute(XElement element, string attributename, XMLRootDocument doc, bool log = true) {
         if (!element.HasAttributes || element.Attribute(attributename) == null) {
-            doc.Log(generateLogMessage(element) + "Attribut " + attributename + " fehlt.");
+            if (log) doc.Log(generateLogMessage(element) + "Attribut " + attributename + " fehlt.");
             return false;
         }
         return true;

@@ -3,6 +3,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
 using HaWeb.XMLParser;
+using HaWeb.XMLTests;
 using System.Xml.Linq;
 
 // XMLProvider provides a wrapper around the available XML data on a FILE basis
@@ -13,7 +14,7 @@ public class XMLProvider : IXMLProvider {
     private List<IFileInfo>? _HamannFiles;
     private Stack<IFileInfo>? _InProduction;
 
-    public XMLProvider(IFileProvider provider, IXMLService xmlservice) {
+    public XMLProvider(IFileProvider provider, IXMLService xmlservice, IXMLTestService testService) {
         _fileProvider = provider;
         _Roots = xmlservice.GetRootsDictionary();
         _Files = _ScanFiles();
@@ -23,6 +24,8 @@ public class XMLProvider : IXMLProvider {
             foreach (var category in _Files)
                 if (category.Value != null)
                     xmlservice.AutoUse(category.Value);
+                    
+        testService.Test();
     }
 
     public List<IFileInfo>? GetHamannFiles() => this._HamannFiles;
@@ -67,7 +70,7 @@ public class XMLProvider : IXMLProvider {
 
         var info = _fileProvider.GetFileInfo(Path.Combine(doc.Prefix, doc.FileName));
         if (info == null) {
-            ModelState.AddModelError("Error", "Auf die neu erstellte Dtaei konnte nicht zugegriffen werden.");
+            ModelState.AddModelError("Error", "Auf die neu erstellte Datei konnte nicht zugegriffen werden.");
             return;
         }
 

@@ -4,6 +4,7 @@ using HaWeb.XMLParser;
 public class XMLTestService : IXMLTestService {
     private IXMLService _XMLService;
     public Dictionary<string, INodeRule>? Ruleset { get; private set; }
+    public Dictionary<string, ICollectionRule>? CollectionRuleset { get; private set; }
     public XMLTestService(IXMLService xmlService) {
         _XMLService = xmlService;
 
@@ -12,6 +13,13 @@ public class XMLTestService : IXMLTestService {
             if (this.Ruleset == null) this.Ruleset = new Dictionary<string, INodeRule>();
             var instance = (INodeRule)Activator.CreateInstance(x)!;
             if (instance != null) this.Ruleset.Add(instance.Name, instance);
+        });
+
+        var collectionruleset = _GetAllTypesThatImplementInterface<ICollectionRule>().ToList();
+        collectionruleset.ForEach( x => {
+            if (this.CollectionRuleset == null) this.CollectionRuleset = new Dictionary<string, ICollectionRule>();
+            var instance = (ICollectionRule)Activator.CreateInstance(x)!;
+            if (instance != null) this.CollectionRuleset.Add(instance.Name, instance);
         });
     }
 

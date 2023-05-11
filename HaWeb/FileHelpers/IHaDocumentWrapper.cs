@@ -11,5 +11,5 @@ public interface IHaDocumentWrappper {
     public int GetStartYear();
     public int GetEndYear();
 
-    public void SetStartEndYear(int start, int end);
+    public void SetEndYear(int end);
 }

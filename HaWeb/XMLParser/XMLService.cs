@@ -20,8 +20,8 @@ public class XMLService : IXMLService {
 
     private Stack<Dictionary<string, FileList?>>? _InProduction;
 
-    private Dictionary<string, ItemsCollection> _collectedProduction;
-    private Dictionary<string, ItemsCollection> _collectedUsed;
+    private Dictionary<string, ItemsCollection>? _collectedProduction;
+    private Dictionary<string, ItemsCollection>? _collectedUsed;
 
     public XMLService() {
         // Getting all classes which implement IXMLRoot for possible document endpoints

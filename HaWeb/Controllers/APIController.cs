@@ -275,11 +275,11 @@ public class APIController : Controller {
 
 
     [HttpPost]
-    [Route("API/SetUsedHamann")]
+    [Route("API/SetInProduction")]
     [DisableFormValueModelBinding]
     [ValidateAntiForgeryToken]
     [FeatureGate(Features.UploadService, Features.AdminService)]
-    public async Task<IActionResult> SetUsedHamann() {
+    public async Task<IActionResult> SetInProduction() {
         var hF = _xmlProvider.GetHamannFiles();
         if (hF == null) {
             ModelState.AddModelError("Error", "There are no Hamman.xml files available.");
@@ -354,12 +354,11 @@ public class APIController : Controller {
 
 
     [HttpPost]
-    [Route("API/SetStartEndYear")]
+    [Route("API/SetYearSetting")]
     [ValidateAntiForgeryToken]
     [FeatureGate(Features.UploadService, Features.AdminService)]
-    public async Task<IActionResult>? SetStartEndYear(StartEndYear startendyear) {
-        if (startendyear.StartYear > startendyear.EndYear) return BadRequest();
-        _lib.SetStartEndYear(startendyear.StartYear, startendyear.EndYear);
+    public async Task<IActionResult>? SetEndYear(YearSetting startendyear) {
+        _lib.SetEndYear(startendyear.EndYear);
         return Created("/", "");;
     }
 }

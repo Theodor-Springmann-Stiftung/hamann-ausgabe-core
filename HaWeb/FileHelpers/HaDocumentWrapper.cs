@@ -44,8 +44,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
 
     public int GetEndYear() => EndYear;
 
-    public void SetStartEndYear(int start, int end) {
-        this.StartYear = start;
+    public void SetEndYear(int end) {
         this.EndYear = end;
         SetLibrary(_filepath);
     }
