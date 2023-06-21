@@ -277,6 +277,7 @@ namespace HamannPrinter
         static public Comment GetComment(XElement xelem)
         {
             //ref und subref id beziehen
+            if (!xelem.HasAttributes || xelem.Attribute("ref") == null) return null;
             string refer = xelem.Attribute("ref").Value;
             string subref = xelem?.Attribute("subref")?.Value;
             Comment comm;

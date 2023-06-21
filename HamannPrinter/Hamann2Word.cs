@@ -450,14 +450,14 @@ namespace HamannPrinter
                 }
                 else
                 {
-                    if (comment.Entry.Length > 0)
+                    if (comment.Element.Length > 0)
                     {
                         counter++;
                         if (counter < 1)
                         {
                             var xLemma = StringToXElement(comment.Lemma + " ");
                             ParseComment(xLemma, para, counter);
-                            var xComment = StringToXElement(comment.Entry);
+                            var xComment = StringToXElement(comment.Element);
                             ParseComment(xComment, para, counter);
                         }
                         else
@@ -469,7 +469,7 @@ namespace HamannPrinter
                     }
                     else
                     {
-                        Logger.Out("der Comment:\n" + comment.Entry + "\n für \n" + xelem + "\n ist leer");
+                        Logger.Out("der Comment:\n" + comment.Element + "\n für \n" + xelem + "\n ist leer");
                     }
                 }
             }
@@ -1414,7 +1414,7 @@ namespace HamannPrinter
             Paragraph lemmaDescription = lemmaPara.InsertAfterSelf(new Paragraph());
             ApplyParaStyle(lemmaDescription, "doppeleinzug");
             lemmaDescription.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = SmallDistance });
-            ParseComment(XElement.Parse(metaComm.Entry), lemmaDescription);
+            ParseComment(XElement.Parse(metaComm.Element), lemmaDescription);
             if (commReferences.ContainsKey(metaComm.Index))
             {
                 var commReference = commReferences[metaComm.Index];
@@ -1436,7 +1436,7 @@ namespace HamannPrinter
             {
                 foreach (var comm in metaComm.Kommentare)
                 {
-                    if (!String.IsNullOrWhiteSpace(comm.Value.Entry)) { 
+                    if (!String.IsNullOrWhiteSpace(comm.Value.Element)) { 
                         var subLemmaPara = GetLastPara(commDoc).InsertAfterSelf(new Paragraph());
                         ApplyParaStyle(subLemmaPara, "doppeleinzug");
                         ParseComment(XElement.Parse(comm.Value.Lemma), subLemmaPara);
@@ -1444,7 +1444,7 @@ namespace HamannPrinter
                         var subEintragPara = subLemmaPara.InsertAfterSelf(new Paragraph());
                         ApplyParaStyle(subEintragPara, "doppeleinzug");
                         subEintragPara.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = SmallDistance });
-                        ParseComment(XElement.Parse(RemoveWhiteSpaceLinebreak(comm.Value.Entry)), subEintragPara);
+                        ParseComment(XElement.Parse(RemoveWhiteSpaceLinebreak(comm.Value.Element)), subEintragPara);
                         if (commReferences.ContainsKey(metaComm.Index) && commReferences[metaComm.Index].ContainsKey(comm.Key))
                         {
                             subEintragPara.ParagraphProperties.AppendChild(new SpacingBetweenLines() { After = SmallDistance });
@@ -1680,7 +1680,7 @@ namespace HamannPrinter
                     volume = Int32.Parse(Letters.Metas[marg.Letter].ZH.Volume);
                 var place = new Place(volume, marg.Letter, ConvertNumber(marg.Page), Int32.Parse(marg.Line), marg.Page);
                 XElement comm = XElement.Parse(marg.Element);
-                foreach (var link in comm.Elements().Where(x => x.Name.LocalName == "link"))
+                foreach (var link in comm.Elements().Where(x => x.Name.LocalName == "link" && (x.HasAttributes && (x.Attribute("ref") != null || x.Attribute("subref") != null))))
                 {
                     string refer = link.Attribute("ref").Value;
                     string subref = "0";

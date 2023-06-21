@@ -14,10 +14,10 @@ namespace HamannPrinter
         class Options : IHaDocumentOptions
         {
             public string HamannXMLFilePath { get; set; }
-            public string[] AvailableVolumes { get; set; } = { "1", "2", "3", "4", "5", "6", "7" };
+            public string[] AvailableVolumes { get; set; } = {  };
             public bool NormalizeWhitespace { get; set; } = true;
 
-            public (int, int) AvailableYearRange {get; set; } = (1751, 1788);
+            public (int, int) AvailableYearRange {get; set; } = (1700, 1800);
 
             public Options(string HamannXmlPath)
             {
@@ -75,11 +75,19 @@ namespace HamannPrinter
 
         public void MakeDocuments(Confix confix)
         {
-            var hamannDoc = Document.Create(new Options(confix.HamannXmlPath));
-            DocOptions docOpt = new DocOptions(confix.Years, confix.OutputPath, confix.Editionsrichtlinien);
-            CheckXML(confix, docOpt, hamannDoc);
-            Coordinator(docOpt, hamannDoc, hamannDoc, docOpt.Years, confix.VolumeDocx, confix.RegisterDocx);
-            // DEV Helper.Ok("Fertig!");
+            // try {
+                var hamannDoc = Document.Create(new Options(confix.HamannXmlPath));
+                DocOptions docOpt = new DocOptions(confix.Years, confix.OutputPath, confix.Editionsrichtlinien);
+                CheckXML(confix, docOpt, hamannDoc);
+                Coordinator(docOpt, hamannDoc, hamannDoc, docOpt.Years, confix.VolumeDocx, confix.RegisterDocx);
+                // DEV Helper.Ok("Fertig!");
+            // } catch (Exception ex) {
+            //     Console.WriteLine("Quelle: " + ex.Source);
+            //     Console.WriteLine("Msg: " + ex.Message);
+            //     Console.WriteLine("Trace: " + ex.StackTrace);
+            //     Console.ReadKey();
+            // }
+            
             Environment.Exit(0);
         }
 

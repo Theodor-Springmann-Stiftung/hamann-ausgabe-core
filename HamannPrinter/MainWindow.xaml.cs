@@ -25,12 +25,12 @@ namespace HamannPrinter
         {
             InitializeComponent();
             RegisterDocs.IsChecked = true;
-            VolumeDocs.IsChecked = false;
-            StartYearTextBox.Text = "1751";
-            EndYearTextBox.Text = "1762"; // DEV
-            XmlFileBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\XML"; // DEV
-            OutputDirBox.Text = @"D:\dev\source\hamann-ausgabe-core\XML\Ausg"; // DEV
-            //Act(); // DEV
+            VolumeDocs.IsChecked = true;
+            StartYearTextBox.Text = "1700";
+            EndYearTextBox.Text = "1800"; // DEV
+            XmlFileBox.Text = @"D:\Simon\source\inp"; // DEV
+            OutputDirBox.Text = @"D:\Simon\source\ausg"; // DEV
+            Act(); // DEV
         }
 
         private void SingleDocChanged(object sender, RoutedEventArgs e)
@@ -214,11 +214,11 @@ namespace HamannPrinter
             if (File.Exists(file))
             {   
                 // DEV
-                // var answer = System.Windows.MessageBox.Show("HAMANN.xml gefunden. \nZuletzt bearbeitet: " + File.GetLastWriteTime(file) + "\n\nSoll diese Datei verwendet werden, ohne eine neue aus den Einzeldokumenten zusammenzusetzen?",
-                // "Confirmation",
-                // MessageBoxButton.YesNo,
-                // MessageBoxImage.Question);
-                // if (answer == MessageBoxResult.Yes) return file;
+                var answer = System.Windows.MessageBox.Show("HAMANN.xml gefunden. \nZuletzt bearbeitet: " + File.GetLastWriteTime(file) + "\n\nSoll diese Datei verwendet werden, ohne eine neue aus den Einzeldokumenten zusammenzusetzen?",
+                "Confirmation",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+                if (answer == MessageBoxResult.Yes) return file;
                 File.Delete(file);
             }
             return new Concatinator(MakePath(XmlFileBox.Text)).HamannXmlFile;

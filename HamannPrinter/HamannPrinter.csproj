@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HaDocument\HaDocument.csproj" />
+    <ProjectReference Include="..\HaDocumentV6\HaDocumentV6.csproj" />
   </ItemGroup>
 
   <ItemGroup>
