@@ -38,15 +38,15 @@
 
     /* NON THEME RULES */
     .ha-index .ha-indexhead {
-        @apply pt-9 md:pt-12 px-9 md:px-16 border-b-2 
+        @apply  border-b-2 
     }
 
     .ha-index .ha-indexhead h1 {
-        @apply font-bold text-2xl desktop:font-normal desktop:text-5xl mb-6 inline-block font-serif
+        @apply font-bold mt-9 md:mt-12 px-9 md:px-16 text-2xl desktop:font-normal desktop:text-5xl mb-7 inline-block font-serif
     }
 
     .ha-index .ha-indexhead .ha-indexnav {
-        @apply font-sans oldstyle-nums
+        @apply font-sans oldstyle-nums px-9 md:px-16 mt-2
     }
 
     .ha-index .ha-indexhead .ha-indexnav a {
@@ -59,6 +59,38 @@
 
     .ha-index .ha-indexbody {
         @apply pt-6 clear-both flex flex-row gap-x-4
+    }
+
+    .ha-index .ha-comment {
+        @apply font-serif hyphenate px-9 md:px-16 py-3 pb-12 border-l-2
+    }
+
+    .ha-index .ha-comment .ha-commentmetatext {
+        @apply mt-9 md:mt-12
+    }
+
+    .ha-index .ha-comment .ha-commentmetatext a {
+        @apply float-right bg-slate-200 text-sm inline-block px-2 rounded
+    }
+
+    .ha-index .ha-comment .ha-lemma {
+        @apply font-bold font-bold text-2xl desktop:font-normal desktop:text-5xl mb-3 inline-block font-serif
+    }
+
+    .ha-index .ha-comment .ha-entry {
+        @apply max-w-[calc(780px-4rem)]
+    }
+
+    .ha-index .ha-comment a {
+        @apply underline decoration-dotted hover:decoration-solid
+      }
+
+    .ha-index .ha-comment .ha-letlinks {
+        @apply hidden
+    }
+
+    .ha-index .ha-comment .ha-letlinks .ha-hkb {
+        @apply inline
     }
 
     .ha-index .ha-indexbody .ha-letterlist {

@@ -11,9 +11,22 @@
     @if (Model.Letters != null) {
 
         <div class="ha-indexhead">
-            <h1>Briefauswahl</h1>
-            <div class="ha-indexnav">
+            @if (Model.PersonComment == null) {
+                <h1>Briefauswahl</h1>
+            }
+            @if(Model.PersonComment != null) {
+                <div class="ha-comment">
+                    <div class="ha-headcomment">
+                        <div class="ha-commentmetatext">
+                            Briefe von und an &emsp;
+                            <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">←&nbsp;Alle&nbsp;Briefe</a>
+                        </div>
+                        @Html.Raw(Model.PersonComment.ParsedComment)
+                    </div>
+                </div>
+            }
             @if (Model.AvailableYears != null && Model.AvailableYears.Any() && Model.AvailableYears.Count > 1) {
+                <div class="ha-indexnav">
                 @for(var i = 0; i < Model.AvailableYears.Count; i++) {
                     <a class="@(Model.ActiveYear == i ? "active" : "")" asp-route-person="@Model.ActivePerson" asp-controller="Index" asp-route-page="@i">
                         @if (Model.AvailableYears[i].StartYear != Model.AvailableYears[i].EndYear) {
@@ -28,8 +41,8 @@
                         }
                     </a>
                 }
+                </div>
             }
-            </div>
         </div>
 
         <div class="ha-indexbody">

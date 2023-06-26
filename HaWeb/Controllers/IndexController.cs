@@ -59,7 +59,7 @@ public class IndexController : Controller {
             var metas = lib.Metas.Where(x => letters.Contains(x.Key)).Select(x => x.Value);
             if (metas == null) return _error404();
             var metasbyyear = metas.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
-            return _paginateSend(lib, 0, metasbyyear, null, zhvolume, zhpage);
+            return _paginateSend(lib, 0, metasbyyear, null, null, zhvolume, zhpage);
         }
         return _error404();
     }
@@ -76,25 +76,27 @@ public class IndexController : Controller {
 
     [Route("/HKB/Person/{person}")]
     public IActionResult Person(string person, int page = 0) {
+        var lib = _lib.GetLibrary();
         if (String.IsNullOrWhiteSpace(person)) return _error404();
         person = person.Trim();
-        var lib = _lib.GetLibrary();
+        if (!lib.Persons.ContainsKey(person)) return _error404();
         List<IGrouping<int, Meta>>? metasbyyear = null;
+        Person p = lib.Persons[person];
+        CommentModel? comment = null;
+        if (p.Komm != null) comment = _getPersonComment(p.Komm);
         var letters = lib.Metas
             .Where(x => x.Value.Senders.Contains(person) || x.Value.Receivers.Contains(person))
             .Select(x => x.Value);
         if (letters == null) return _error404();
         metasbyyear = letters.ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
-        return _paginateSend(lib, page, metasbyyear, person);
+        return _paginateSend(lib, page, metasbyyear, person, comment);
     }
 
 
-    private List<(string Key, string Person)>? _getAvailablePersons(ILibrary lib) {
-        if (!lib.Persons.Any()) return null;
-        return lib.Persons
-            .OrderBy(x => x.Value.Surname)
-            .ThenBy(x => x.Value.Prename)
-            .Select(x => (x.Key, x.Value.Name))
+    private List<(string Key, string Person)>? _getAvailablePersons() {
+        if (_lib.GetAvailablePersons() == null || !_lib.GetAvailablePersons()!.Any()) return null;
+        return _lib.GetAvailablePersons()!
+            .Select(x => (x.Index, x.Name))
             .ToList();
     }
 
@@ -126,6 +128,7 @@ public class IndexController : Controller {
         int page,
         List<IGrouping<int, Meta>> metasbyyear,
         string? person = null,
+        CommentModel? personcomment = null,
         string? zhvolume = null,
         string? zhpage = null) {
         var pages = Paginate(metasbyyear, _lettersForPage);
@@ -136,7 +139,7 @@ public class IndexController : Controller {
             letters = metasbyyear
                 .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
                 .Select(x => (x.Key, x
-                    .Select(y => Briefecontroller.GenerateMetaViewModel(lib, y))
+                    .Select(y => Briefecontroller.GenerateMetaViewModel(lib, y, false))
                     .OrderBy(x => x.Meta.Sort)
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))
@@ -152,13 +155,29 @@ public class IndexController : Controller {
             _endYear.ToString(),
             "ZH " + HTMLHelpers.ConversionHelpers.ToRoman(Int32.Parse(lastletter.ZH.Volume)) + ", S. " + lastletter.ZH.Page,
             pages,
-            _getAvailablePersons(lib), 
+            _getAvailablePersons(), 
             availablePages.OrderBy(x => x.Volume).ToList(), 
             zhvolume, 
             zhpage, 
             person
         );
+        model.PersonComment = personcomment;
         return View("~/Views/HKB/Dynamic/Index.cshtml", model);
+    }
+
+    private CommentModel? _getPersonComment(string comment) {
+        var lib = _lib.GetLibrary();
+        if (!lib.Comments.ContainsKey(comment)) return null;
+        var comm = lib.Comments[comment];
+        var parsedComment = HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, comm, "neuzeit", Settings.ParsingState.CommentType.Comment, true); // Maybe true for Backlinks
+        List<string>? parsedSubComments = null;
+        if (comm.Kommentare != null) {
+            parsedSubComments = new List<string>();
+            foreach (var subcomm in comm.Kommentare.OrderBy(x => x.Value.Order)) {
+                parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, "neuzeit", Settings.ParsingState.CommentType.Subcomment, true));
+            }
+        }
+        return new CommentModel(parsedComment, parsedSubComments);
     }
 
     private IActionResult _error404() {

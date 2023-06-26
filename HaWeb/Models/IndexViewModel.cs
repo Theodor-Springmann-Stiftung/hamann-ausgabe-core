@@ -7,6 +7,7 @@ public class IndexViewModel {
     public int ActiveYear { get; private set; }
     public List<(int StartYear, int EndYear)>? AvailableYears { get; private set; }
     public string? ActivePerson { get; set; }
+    public CommentModel? PersonComment { get; set; }
     public List<(string Key, string Name)>? AvailablePersons { get; private set; }
     public List<(string Volume, List<string> Pages)>? AvailablePages { get; private set; }
     public string? ActiveVolume { get; private set; }

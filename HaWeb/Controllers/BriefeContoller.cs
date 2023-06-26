@@ -58,9 +58,9 @@ public class Briefecontroller : Controller {
         // Model creation
         var hasMarginals = false;
         if (marginals != null && marginals.Any()) hasMarginals = true;
-        var model = new BriefeViewModel(id, index, GenerateMetaViewModel(lib, meta));
-        if (nextmeta != null) model.MetaData.Next = (GenerateMetaViewModel(lib, nextmeta), url + nextmeta.Autopsic);
-        if (prevmeta != null) model.MetaData.Prev = (GenerateMetaViewModel(lib, prevmeta), url + prevmeta.Autopsic);
+        var model = new BriefeViewModel(id, index, GenerateMetaViewModel(lib, meta, true));
+        if (nextmeta != null) model.MetaData.Next = (GenerateMetaViewModel(lib, nextmeta, false), url + nextmeta.Autopsic);
+        if (prevmeta != null) model.MetaData.Prev = (GenerateMetaViewModel(lib, prevmeta, false), url + prevmeta.Autopsic);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(lib, _readerService, editreasons);
         model.DefaultCategory = lib.Apps.ContainsKey("-1") ? lib.Apps["-1"].Category : null;
@@ -129,39 +129,67 @@ public class Briefecontroller : Controller {
         return Redirect("/Error404");
     }
 
-    internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta) {
+    internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta, bool generatePersonLinks) {
         var hasText = lib.Letters.ContainsKey(meta.Index) ? true : false;
         var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
-        var senders = meta.Senders.Select(x => lib.Persons[x].Name) ?? new List<string>();
-        var recivers = meta.Receivers.Select(x => lib.Persons[x].Name) ?? new List<string>();
+        var senders = meta.Senders.Select(x => lib.Persons[x]).ToList() ?? new List<Person>();
+        var receivers = meta.Receivers.Select(x => lib.Persons[x]).ToList() ?? new List<Person>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;
         return new BriefeMetaViewModel(meta, hasMarginals) {
             ParsedZHString = zhstring,
-            SenderReceiver = generateSendersRecievers(senders, recivers),
+            SenderReceiver = generateSendersRecievers(senders, receivers, generatePersonLinks),
             HasText = hasText,
         };
     }
 
 
-    private static List<(string Sender, string Receiver)> generateSendersRecievers(IEnumerable<string>? senders, IEnumerable<string>? receivers) {
+    private static List<(string Sender, string Receiver)> generateSendersRecievers(List<Person>? senders, List<Person>? receivers, bool generatePersonLinks) {
         var res = new List<(string Sender, string Receiver)>();
-        if (senders != null && receivers != null) {
+        if (senders == null || receivers == null) return null;
+        if (!generatePersonLinks) {
             if (senders.Any(x => receivers.Contains(x))) {
-                var s = senders.ToList();
-                var r = receivers.ToList();
-                for (var i = 0; i < r.Count || i < s.Count; i++) {
+                for (var i = 0; i < receivers.Count || i < senders.Count; i++) {
                     res.Add((
-                        s[i],
-                        r[i]
+                        senders[i].Name,
+                        receivers[i].Name
                     ));
                 }
             }
             else {
                 res.Add((
-                    HTMLHelpers.StringHelpers.GetEnumerationString(senders),
-                    HTMLHelpers.StringHelpers.GetEnumerationString(receivers)
+                    HTMLHelpers.StringHelpers.GetEnumerationString(senders.Select(x => x.Name)),
+                    HTMLHelpers.StringHelpers.GetEnumerationString(receivers.Select(x => x.Name))
                 ));
             }
+        } else {
+            if (senders.Any(x => receivers.Contains(x))) {
+                for (var i = 0; i < receivers.Count || i < senders.Count; i++) {
+                    res.Add((
+                        HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + senders[i].Index) + senders[i].Name + HTMLHelpers.TagHelpers.CreateEndElement("a"),
+                        HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + receivers[i].Index) + receivers[i].Name + HTMLHelpers.TagHelpers.CreateEndElement("a")
+                    ));
+                }
+            }
+            else {
+                res.Add((
+                    GetEnumerationStringLinks(senders),
+                    GetEnumerationStringLinks(receivers)
+                ));
+            }
+        }
+        return res;
+    }
+
+    public static string GetEnumerationStringLinks(IEnumerable<Person> strlist) {
+        var res = string.Empty;
+        foreach (var str in strlist) {
+            if (str != strlist.First())
+                if (str == strlist.Last())
+                    res += " und " + HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index) + str.Name + HTMLHelpers.TagHelpers.CreateEndElement("a");
+                else
+                    res += ", " + HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index) + str.Name + HTMLHelpers.TagHelpers.CreateEndElement("a");
+            else
+                res += HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index) + str.Name + HTMLHelpers.TagHelpers.CreateEndElement("a");
         }
         return res;
     }

@@ -1,27 +1,9 @@
 namespace HaWeb.Controllers;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HaWeb.Models;
-using HaDocument.Interfaces;
 using HaXMLReader.Interfaces;
-using System.Text;
-using HaXMLReader;
-using HaXMLReader.EvArgs;
 using HaDocument.Models;
-using System.Collections.Concurrent;
 using HaWeb.FileHelpers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Net.Http.Headers;
-using HaWeb.Filters;
-using HaWeb.XMLParser;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using Microsoft.FeatureManagement.Mvc;
-using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Http.Features;
 
 [Route("/HKB/Register/[action]/{id?}")]
 public class RegisterController : Controller {

@@ -7,7 +7,7 @@ public class RegisterViewModel {
     public string Title { get; private set; }
     public bool AllowSendIn { get; private set; }
     public bool AllowSearch { get; private set; }
-
+    
     private List<(string, string)>? _AvailableCategories;
     private List<(string, string)>? _AvailableSideCategories;
 

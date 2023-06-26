@@ -15,11 +15,7 @@ public class BriefeMetaViewModel {
         get => _SenderReceiver;
         set {
             if (value != null)
-                value.ForEach(x =>  {
-                    HttpUtility.HtmlEncode(x.Sender);
-                    HttpUtility.HtmlEncode(x.Receiver);
-                });
-            _SenderReceiver = value;
+                _SenderReceiver = value;
         }
     }
 
