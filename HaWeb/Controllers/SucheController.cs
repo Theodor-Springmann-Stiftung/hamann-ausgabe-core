@@ -137,7 +137,7 @@ public class SucheController : Controller {
             letters = metasbyyear
                 .Where(x => x.Key >= pages[page].StartYear && x.Key <= pages[page].EndYear)
                 .Select(x => (x.Key, x
-                    .Select(y => Briefecontroller.GenerateMetaViewModel(lib, y, true))
+                    .Select(y => Briefecontroller.GenerateMetaViewModel(lib, y, false))
                     .OrderBy(x => x.Meta.Sort)
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))
@@ -237,7 +237,7 @@ public class SucheController : Controller {
                     parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcommobj, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
-            res.Add(new CommentModel(parsedComment, parsedSubComments));
+            res.Add(new CommentModel(parsedComment, parsedSubComments, comm.Item1));
         }
         return res;
     }

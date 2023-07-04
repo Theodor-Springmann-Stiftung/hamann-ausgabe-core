@@ -22,6 +22,11 @@
                             <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">←&nbsp;Alle&nbsp;Briefe</a>
                         </div>
                         @Html.Raw(Model.PersonComment.ParsedComment)
+                        @if (Model.PersonComment.ParsedSubComments != null && Model.PersonComment.ParsedSubComments.Any()) {
+                            <div class="">
+                                <a asp-controller="Register" asp-action="Allgemein" asp-route-id="@Model.PersonComment.ID[0]" asp-fragment="@Model.PersonComment.ID">Werke & Referenzstellen im Registereintrag&nbsp;→</a>
+                            </div>
+                        }
                     </div>
                 </div>
             }

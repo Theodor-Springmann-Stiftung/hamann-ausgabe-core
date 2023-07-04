@@ -159,7 +159,7 @@ public class RegisterController : Controller {
                     parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment, generateBacklinks));
                 }
             }
-            res.Add(new CommentModel(parsedComment, parsedSubComments));
+            res.Add(new CommentModel(parsedComment, parsedSubComments, comm.Index));
         }
         return res;
     }
@@ -177,7 +177,7 @@ public class RegisterController : Controller {
                     parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, category, Settings.ParsingState.CommentType.Subcomment));
                 }
             }
-            res.Add(new CommentModel(parsedComment, parsedSubComments));
+            res.Add(new CommentModel(parsedComment, parsedSubComments, comm.Index));
         }
         return res;
     }

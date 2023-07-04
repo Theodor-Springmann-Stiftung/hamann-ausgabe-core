@@ -78,7 +78,7 @@
     @apply w-full h-0 absolute right-0 top-1/2
   }
 
-  .ha-letterhead .ha-metadata .ha-metadatarows .hametadatapersons {
-    @apply flex leading-snug
+  .ha-letterhead .ha-metadata .ha-metadatapersons a {
+    @apply hover:decoration-solid rounded decoration-dotted underline decoration-slate-400 hover:decoration-gray-600
   }
 }

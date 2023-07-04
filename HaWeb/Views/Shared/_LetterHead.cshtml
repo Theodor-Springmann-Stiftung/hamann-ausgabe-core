@@ -2,14 +2,14 @@
 
 <div class="ha-letterhead">
     @if (!Model.Compact) {
-    <div class="ha-letternumber">
-        <div class="ha-letternumberinline">
-            @Model.Letter.Meta.Autopsic
+        <div class="ha-letternumber">
+            <div class="ha-letternumberinline">
+                @Model.Letter.Meta.Autopsic
+            </div>
         </div>
-    </div>
     }
     @if (Model.Letter.HasText) {
-    <div class="ha-metadata">
+        <div class="ha-metadata">
             <div class="ha-metadataupperrow">
                 <div class="ha-metadatadate">
                     @Model.Letter.Meta.Date
@@ -39,23 +39,23 @@
      }
     else {
         <div class="ha-metadatastrike">
-        <span>[Fälschlich in ZH aufgenommen]</span>
-        @if (!Model.Compact && Model.ShowZHData) {
-        @if (Model.Letter.ParsedZHString != null && Model.ShowZHData) {
-            <div class="ha-tooltip">
-                <div class="ha-pill">
-                    <span>@Html.Raw(Model.Letter.ParsedZHString)</span>
-                </div>
-            </div>
-        }
-        else if (Model.Letter.ParsedZHString == null) {
-            <div class="ha-tooltip">
-                <div class="ha-pill ha-newpill">
-                    <span>Neu</span>
-                </div>
-            </div>
-        }
-        }
+            <span>[Fälschlich in ZH aufgenommen]</span>
+            @if (!Model.Compact && Model.ShowZHData) {
+                @if (Model.Letter.ParsedZHString != null && Model.ShowZHData) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill">
+                            <span>@Html.Raw(Model.Letter.ParsedZHString)</span>
+                        </div>
+                    </div>
+                }
+                else if (Model.Letter.ParsedZHString == null) {
+                    <div class="ha-tooltip">
+                        <div class="ha-pill ha-newpill">
+                            <span>Neu</span>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     }
 </div>

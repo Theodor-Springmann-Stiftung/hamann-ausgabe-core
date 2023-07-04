@@ -177,7 +177,7 @@ public class IndexController : Controller {
                 parsedSubComments.Add(HTMLHelpers.CommentHelpers.CreateHTML(lib, _readerService, subcomm.Value, "neuzeit", Settings.ParsingState.CommentType.Subcomment, true));
             }
         }
-        return new CommentModel(parsedComment, parsedSubComments);
+        return new CommentModel(parsedComment, parsedSubComments, comment);
     }
 
     private IActionResult _error404() {

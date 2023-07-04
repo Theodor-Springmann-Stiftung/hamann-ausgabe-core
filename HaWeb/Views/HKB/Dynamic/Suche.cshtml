@@ -85,7 +85,7 @@
                 foreach (var letter in year.LetterList) {
                     <div class="ha-letterlistentry">
                         <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
-                            @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, false))
+                            @Html.Partial("/Views/Shared/_LetterHead.cshtml", (letter, true, false))
                         </a>
                         
                         @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
