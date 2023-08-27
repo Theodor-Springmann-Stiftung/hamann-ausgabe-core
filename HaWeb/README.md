@@ -41,6 +41,10 @@ To build a release version for the current server, run:
 
 `dotnet publish -a x64 --os win -c Release`
 
+For a Linux server run:
+
+`dotnet publish --runtime linux-x64 -c Release`
+
 ## Redesign der Hamann-Vebseite, drittes Update
 Veränderungenen in der Funktionalität für den Benutzer
 - Behutsames Redesign der Webseite:
