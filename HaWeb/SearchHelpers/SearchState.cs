@@ -7,7 +7,7 @@ public class SearchState : HaWeb.HTMLParser.IState {
     internal string? CurrentIdentifier;
     internal ILibrary? Lib;
     internal bool Normalize;
-    internal List<(string Page, string Line, string Identifier)>? Results;
+    internal List<(string Page, string Line, string? Identifier)>? Results;
 
     public SearchState(string searchword, bool normalize = false, ILibrary? lib = null) {
         Lib = lib;

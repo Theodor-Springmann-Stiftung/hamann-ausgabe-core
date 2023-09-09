@@ -7,7 +7,7 @@ using System.IO;
 public class DocumentRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Brieftext";
     public string Prefix { get; } = "brieftext";
-    public string[] XPathContainer { get; } = { ".//data/document", ".//document" };
+    public string[] XPathContainer { get; } = { "/opus/data/document", "/opus/document" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "letterText") return true;
@@ -35,7 +35,7 @@ public class DocumentRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("document") == null)
             file.AddFirst(new XElement("document"));
-        var elements = document.GetElement().Elements().Where(x => IsCollectedObject(x));
+        var elements = document.Element.Elements().Where(x => IsCollectedObject(x));
         var root = file.Element("document");
         foreach (var element in elements) {
             root!.Add(element);

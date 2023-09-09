@@ -13,11 +13,11 @@ namespace HaWeb.Controllers;
 public class IndexController : Controller {
     private IHaDocumentWrappper _lib;
     private IReaderService _readerService;
-    private IXMLService _xmlService;
+    private IXMLInteractionService _xmlService;
     private int _lettersForPage;
     private int _endYear;
 
-    public IndexController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService service, IConfiguration config) {
+    public IndexController(IXMLFileProvider _, IHaDocumentWrappper lib, IReaderService readerService, IXMLInteractionService service, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
         _xmlService = service;

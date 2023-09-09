@@ -4,41 +4,63 @@ using HaDocument.Interfaces;
 using HaWeb.XMLParser;
 using HaWeb.XMLTests;
 using HaWeb.FileHelpers;
+using HaWeb.BackgroundTask;
 using Microsoft.FeatureManagement;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 
 var builder = WebApplication.CreateBuilder(args);
+List<string> configpaths = new List<string>();
+
+// Add additional configuration
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+    var p = builder.Configuration.GetValue<string>("WorkingTreePathWindows") + "settings.json";
+    configpaths.Add(p);
+    builder.Configuration.AddJsonFile(p, optional: true, reloadOnChange: true);
+} else {
+    var p = builder.Configuration.GetValue<string>("WorkingTreePathLinux") + "settings.json";
+    configpaths.Add(p);
+    builder.Configuration.AddJsonFile(p, optional: true, reloadOnChange: true);
+}
+
+
+
+// Create initial Data
+var tS = new XMLTestService(); 
+var XMLIS = new XMLInteractionService(builder.Configuration, tS);
+var hdW = new HaDocumentWrapper(XMLIS, builder.Configuration);
+var XMLFP = new XMLFileProvider(XMLIS, hdW, builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
-
-// // To get files from a path provided by configuration:
-// TODO: Test Read / Write Access
-string? filepath = null;
-if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-    filepath = builder.Configuration.GetValue<string>("StoredFilePathWindows");
-} 
-else {
-    filepath = builder.Configuration.GetValue<string>("StoredFilePathLinux");
-}
-
-if (filepath == null) {
-    throw new Exception("You need to set a specific Filepath, either StoredFilePathWindows or StoredFilePathLinux");
-}
-
-var physicalProvider = new PhysicalFileProvider(filepath);
-
-builder.Services.AddSingleton<IFileProvider>(physicalProvider);
 builder.Services.AddTransient<IReaderService, ReaderService>();
-builder.Services.AddSingleton<IXMLProvider, XMLProvider>();
-builder.Services.AddSingleton<IXMLService, XMLService>();
-builder.Services.AddSingleton<HaWeb.FileHelpers.IHaDocumentWrappper, HaWeb.FileHelpers.HaDocumentWrapper>();
-builder.Services.AddSingleton<IXMLTestService, XMLTestService>();
+builder.Services.AddSingleton<IXMLTestService, XMLTestService>((_) => tS);
+builder.Services.AddSingleton<IXMLInteractionService, XMLInteractionService>((_) => XMLIS);
+builder.Services.AddSingleton<IHaDocumentWrappper, HaDocumentWrapper>((_) => hdW);
+builder.Services.AddSingleton<IXMLFileProvider, XMLFileProvider>(_ => XMLFP);
+// builder.Services.AddSingleton<IConfigurationMonitor, ConfigurationMonitor>();
+// builder.Services.AddHostedService<QueuedHostedService>();
+// builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
+// {
+//     if (!int.TryParse(builder.Configuration["QueueCapacity"], out var queueCapacity))
+//         queueCapacity = 100;
+//     return new BackgroundTaskQueue(queueCapacity);
+// });
+// builder.Services.AddSingleton<IMonitorLoop, MonitorLoop>();
 builder.Services.AddFeatureManagement();
-
 var app = builder.Build();
+
+// Reload config on change
+var cM = new ConfigurationMonitor(configpaths.ToArray(), app.Services);
+ChangeToken.OnChange(
+    () => app.Configuration.GetReloadToken(),
+    (state) => cM.InvokeChanged(state),
+    configpaths.ToArray()
+);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -47,6 +69,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseHttpsRedirection();
+    app.UseForwardedHeaders(new ForwardedHeadersOptions{ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto});
 }
 
 app.UseAuthorization();

@@ -17,8 +17,6 @@ public class FileList {
             throw new Exception("Diese Liste kann nur Elemente des Typs " + XMLRoot.Prefix + " enthalten");
 
         if (_Files == null) _Files = new HashSet<XMLRootDocument>();
-        var replacing = _Files.Where(x => x.FileName == document.FileName);
-        if (replacing != null && replacing.Any()) _Files.Remove(replacing.First());
         _Files.Add(document);
     }
 

@@ -1,3 +1,9 @@
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
 const USESubmit = async function (oFormElement, file = null) {
     let fd = new FormData(oFormElement);
     document.getElementById("ha-filelistbutton").style.pointerEvents = "none";

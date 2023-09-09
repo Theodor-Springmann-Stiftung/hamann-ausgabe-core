@@ -6,10 +6,13 @@ using HaWeb.XMLTests;
 public class AutopsicNode : INodeRule
 {
     public string Name => "autopsic";
-    public string XPath => "//autopsic";
+    public HamannXPath XPath => new HamannXPath() {
+        Documents = new[] { "metadaten" },
+        XPath = "//autopsic"
+    };
     public string[]? Attributes { get; } = { "value" };
     public string? uniquenessAttribute => "value" ;
-    public List<(string, string, string)>? References { get; } = new List<(string, string, string)>()
+    public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
     };
 }

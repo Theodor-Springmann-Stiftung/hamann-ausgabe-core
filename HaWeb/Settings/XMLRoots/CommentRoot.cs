@@ -6,7 +6,7 @@ using HaWeb.XMLParser;
 public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Register";
     public string Prefix { get; } = "register";
-    public string[] XPathContainer { get; } = { ".//data//kommentare/kommcat", ".//kommentare/kommcat" };
+    public string[] XPathContainer { get; } = { "/opus/data//kommentare/kommcat", "/opus//kommentare/kommcat" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "kommentar") return true;
@@ -39,7 +39,7 @@ public class CommentRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("kommentare") == null)
             file.AddFirst(new XElement("kommentare"));
-        file.Element("kommentare")!.AddFirst(document.GetElement());
+        file.Element("kommentare")!.AddFirst(document.Element);
     }
 
 }

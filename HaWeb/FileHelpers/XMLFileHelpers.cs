@@ -54,152 +54,54 @@ public static class XMLFileHelpers {
         }
     };
 
-    // Unused as of rn, used to take a file and do the same sanity checks as below
-    // public static async Task<byte[]> ProcessFormFile<T>(IFormFile formFile, ModelStateDictionary modelState, string[] permittedExtensions, long sizeLimit)
-    // {
-    //     var fieldDisplayName = string.Empty;
-
-    //     // Use reflection to obtain the display name for the model
-    //     // property associated with this IFormFile. If a display
-    //     // name isn't found, error messages simply won't show
-    //     // a display name.
-    //     MemberInfo property =
-    //         typeof(T).GetProperty(
-    //             formFile.Name.Substring(formFile.Name.IndexOf(".",
-    //             StringComparison.Ordinal) + 1));
-
-    //     if (property != null)
-    //     {
-    //         if (property.GetCustomAttribute(typeof(DisplayAttribute)) is
-    //             DisplayAttribute displayAttribute)
-    //         {
-    //             fieldDisplayName = $"{displayAttribute.Name} ";
-    //         }
-    //     }
-
-    //     // Don't trust the file name sent by the client. To display
-    //     // the file name, HTML-encode the value.
-    //     var trustedFileNameForDisplay = WebUtility.HtmlEncode(
-    //         formFile.FileName);
-
-    //     // Check the file length. This check doesn't catch files that only have 
-    //     // a BOM as their content.
-    //     if (formFile.Length == 0)
-    //     {
-    //         modelState.AddModelError(formFile.Name, 
-    //             $"{fieldDisplayName}({trustedFileNameForDisplay}) is empty.");
-
-    //         return Array.Empty<byte>();
-    //     }
-
-    //     if (formFile.Length > sizeLimit)
-    //     {
-    //         var megabyteSizeLimit = sizeLimit / 1048576;
-    //         modelState.AddModelError(formFile.Name,
-    //             $"{fieldDisplayName}({trustedFileNameForDisplay}) exceeds " +
-    //             $"{megabyteSizeLimit:N1} MB.");
-
-    //         return Array.Empty<byte>();
-    //     }
-
-    //     try
-    //     {
-    //         using (var memoryStream = new MemoryStream())
-    //         {
-    //             await formFile.CopyToAsync(memoryStream);
-
-    //             // Check the content length in case the file's only
-    //             // content was a BOM and the content is actually
-    //             // empty after removing the BOM.
-    //             if (memoryStream.Length == 0)
-    //             {
-    //                 modelState.AddModelError(formFile.Name,
-    //                     $"{fieldDisplayName}({trustedFileNameForDisplay}) is empty.");
-    //             }
-
-    //             if (!IsValidFileExtensionAndSignature(
-    //                 formFile.FileName, memoryStream, permittedExtensions))
-    //             {
-    //                 modelState.AddModelError(formFile.Name,
-    //                     $"{fieldDisplayName}({trustedFileNameForDisplay}) file " +
-    //                     "type isn't permitted or the file's signature " +
-    //                     "doesn't match the file's extension.");
-    //             }
-    //             else
-    //             {
-    //                 return memoryStream.ToArray();
-    //             }
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         modelState.AddModelError(formFile.Name,
-    //             $"{fieldDisplayName}({trustedFileNameForDisplay}) upload failed. " +
-    //             $"Please contact the Help Desk for support. Error: {ex.HResult}");
-    //     }
-
-    //     return Array.Empty<byte>();
+    // public static List<FileModel>? ToFileModel(FileList? fileList) {
+    //     if (fileList == null) return null;
+    //     var fL = fileList.GetFileList();
+    //     if (fL == null) return null;
+    //     var ret = new List<FileModel>();
+    //     foreach (var f in fL) {
+    //         if (f.File == null) continue;
+    //         ret.Add(ToFileModel(f));
+    //     };
+    //     return ret.OrderBy(x => x.LastModified).ToList();
     // }
 
-    public static List<FileModel>? ToFileModel(FileList? fileList, Dictionary<string, FileList?>? productionFiles = null, Dictionary<string, FileList?>? usedFiles = null) {
-        if (fileList == null) return null;
-        var fL = fileList.GetFileList();
-        if (fL == null) return null;
-        var ret = new List<FileModel>();
-        foreach (var f in fL) {
-            if (f.File == null) continue;
-            ret.Add(ToFileModel(f, productionFiles, usedFiles));
-        };
-        return ret.OrderBy(x => x.LastModified).ToList();
-    }
+    // // TODO: File State IsValid
+    // public static FileModel ToFileModel(XMLRootDocument document) {
+    //     string id = document.Prefix;
+    //     var model = new FileModel(document.FileName, document.File.LastModified.LocalDateTime, true) { 
+    //         Fields = document.Fields,
+    //         Messages = document.GetLog(),
+    //         Prefix = id
+    //     };
+    //     return model;
+    // }
 
-    public static FileModel ToFileModel(XMLRootDocument document, Dictionary<string, FileList?>? productionFiles = null, Dictionary<string, FileList?>? usedFiles = null) {
-        string id = document.Prefix;
-
-        bool inProduction = false;
-        if (productionFiles != null && productionFiles.ContainsKey(id)) {
-            inProduction = productionFiles[id]!.Contains(document);
-        }
-
-        bool isUsed = false;
-        if (usedFiles != null && usedFiles.ContainsKey(id)) {
-            isUsed = usedFiles[id]!.Contains(document);
-        }
-
-        var model = new FileModel(document.FileName, document.Prefix, document.File.LastModified.LocalDateTime, isUsed, inProduction) { Fields = document.Fields };
-        model.Messages = document.GetLog();
-        return model;
-    }
-
-    public static async Task<byte[]?> ProcessStreamedFile(
-        MultipartSection section, ContentDispositionHeaderValue contentDisposition,
-        ModelStateDictionary modelState, string[] permittedExtensions, long sizeLimit) {
+    public static bool ProcessFile(
+        Stream file,
+        string fileName,
+        StringBuilder errorMessages,
+        string[] permittedExtensions, 
+        long sizeLimit) {
         try {
-            using (var memoryStream = new MemoryStream()) {
-                await section.Body.CopyToAsync(memoryStream);
-
-                // Check if the file is empty or exceeds the size limit.
-                if (memoryStream.Length == 0)
-                    modelState.AddModelError("Error", "The file is empty.");
-                else if (memoryStream.Length > sizeLimit) {
-                    var megabyteSizeLimit = sizeLimit / 1048576;
-                    modelState.AddModelError("Error", $"The file exceeds {megabyteSizeLimit:N1} MB.");
-                }
-
-                // Check file extension and first bytes
-                else if (!IsValidFileExtensionAndSignature(contentDisposition.FileName.Value, memoryStream, permittedExtensions))
-                    modelState.AddModelError("Error", "The file must be of the following specs:<br>" +
-                        "1. The file must hava a .xml File-Extension<br>" +
-                        "2. To make sure the file isn't executable the file must start with: <?xml version=\"1.0\" encoding=\"utf-8\"?> or <?xml version=\"1.0\"?>");
-
-                // Return the File as a byte array
-                else return memoryStream.ToArray();
+            // Check if the file is empty or exceeds the size limit.
+            if (file.Length == 0) {
+                errorMessages.AppendLine("Die Datei ist leer.");
+                return false;
             }
-        } catch (Exception ex) {
-            modelState.AddModelError("Error", $"The upload failed. Error: {ex.Message}");
-        }
+            else if (file.Length > sizeLimit) {
+                var megabyteSizeLimit = sizeLimit / 1048576;
+                errorMessages.AppendLine($"Die Datei überschreitet das Größenlimit {megabyteSizeLimit:N1} MB.");
+                return false;
+            }
 
-        return null;
+            // Return orderly, if signature & extension okay
+            else return IsValidFileExtensionAndSignature(fileName, file, errorMessages, permittedExtensions);
+            
+        } catch (Exception ex) {
+            errorMessages.AppendLine($"The upload failed. Error: {ex.Message}");
+            return false;
+        }
     }
 
     public static string? StreamToString(System.IO.Stream stream, ModelStateDictionary modelState) {
@@ -216,22 +118,26 @@ public static class XMLFileHelpers {
         }
     } 
 
-    private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, string[] permittedExtensions) {
+    private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, StringBuilder errorMessages, string[] permittedExtensions) {
         if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0)
             return false;
 
         var ext = Path.GetExtension(fileName).ToLowerInvariant();
-
-        if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
+        if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext)) {
+            errorMessages.AppendLine("Dateiname endet nicht auf .xml");
             return false;
+        }
 
         data.Position = 0;
-
         using (var reader = new BinaryReader(data)) {
             var signatures = _fileSignature[ext];
             var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
-            return signatures.Any(signature =>
-                headerBytes.Take(signature.Length).SequenceEqual(signature));
+            if (!signatures.Any(signature =>
+                headerBytes.Take(signature.Length).SequenceEqual(signature))) {
+                    errorMessages.AppendLine("Datei muss mit <?xml version=\"1.0\" encoding=\"utf-8\"?> oder <?xml version=\"1.0\"?> beginnen.");
+                    return false;
+                };
         }
+        return true;
     }
 }

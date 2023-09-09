@@ -6,10 +6,13 @@ using HaWeb.XMLTests;
 public class LetterTraditionNode : INodeRule
 {
     public string Name => "letterTradition";
-    public string XPath => "//letterTradition";
+    public HamannXPath XPath => new HamannXPath() {
+        Documents = new[] { "ueberlieferung" },
+        XPath = "//letterTradition"
+    };
     public string[]? Attributes { get; } = { "ref" };
     public string? uniquenessAttribute => "ref" ;
-    public List<(string, string, string)>? References { get; } = new List<(string, string, string)>()
+    public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
     };
 }

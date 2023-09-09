@@ -2,12 +2,9 @@ namespace HaWeb.XMLTests;
 using HaWeb.XMLParser;
 
 public class XMLTestService : IXMLTestService {
-    private IXMLService _XMLService;
     public Dictionary<string, INodeRule>? Ruleset { get; private set; }
     public Dictionary<string, ICollectionRule>? CollectionRuleset { get; private set; }
-    public XMLTestService(IXMLService xmlService) {
-        _XMLService = xmlService;
-
+    public XMLTestService() {
         var roottypes = _GetAllTypesThatImplementInterface<INodeRule>().ToList();
         roottypes.ForEach( x => {
             if (this.Ruleset == null) this.Ruleset = new Dictionary<string, INodeRule>();
@@ -23,17 +20,10 @@ public class XMLTestService : IXMLTestService {
         });
     }
 
-    public void Test() {
-        var docs = _XMLService.GetUsedDictionary();
+    public void Test(IXMLInteractionService _XMLService) {
+        var docs = _XMLService.GetLoaded();
         if (docs == null) return;
-        foreach (var d in docs.Values) {
-            var fl = d.GetFileList();
-            if (fl == null) continue;
-            foreach (var v in fl) {
-                v.ResetLog();
-            }
-        }
-        var tester = new XMLTester(this, _XMLService.GetUsedDictionary());
+        var tester = new XMLTester(this, docs);
         tester.Test();
     }
 

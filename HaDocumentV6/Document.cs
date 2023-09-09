@@ -4,6 +4,7 @@ using HaDocument.Logic;
 using HaDocument.Reactors;
 using HaXMLReader.Interfaces;
 using HaXMLReader;
+using System.Xml.Linq;
 
 namespace HaDocument
 {
@@ -32,6 +33,18 @@ namespace HaDocument
             return GetLibrary();
         }
 
+        public static ILibrary Create(IHaDocumentOptions Settings, XElement root) {
+            _lib = new IntermediateLibrary();
+            SettingsValidator.Validate(Settings);
+            _settings = Settings;
+            _createReader(root);
+            _createReactors();
+            _reader.Read();
+            _library = _createLibrary();
+            _reader.Dispose();
+            return GetLibrary();
+        }
+
         private static void _createReactors() {
             new EditreasonReactor(_reader, _lib, _settings.NormalizeWhitespace);
             new HandDefsReactor(_reader, _lib);
@@ -47,6 +60,10 @@ namespace HaDocument
 
         private static void _createReader() {
             _reader = new FileReader(_settings.HamannXMLFilePath);
+        }
+
+        private static void _createReader(XElement root) {
+            _reader = new XElementReader(root);
         }
 
         private static ILibrary _createLibrary()

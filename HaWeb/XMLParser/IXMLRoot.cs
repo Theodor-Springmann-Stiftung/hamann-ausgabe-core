@@ -58,8 +58,5 @@ public interface IXMLRoot {
     //     });
     //     return ret;
     // }
-
-    public abstract XElement CreateHamannDocument(XElement element);
-
     public abstract void MergeIntoFile(XElement file, XMLRootDocument document);
 }

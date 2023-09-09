@@ -6,11 +6,14 @@ using HaWeb.XMLTests;
 public class AppNode : INodeRule
 {
     public string Name => "app";
-    public string XPath => "//app";
+    public HamannXPath XPath => new HamannXPath() {
+        Documents = new[] { "ueberlieferung" },
+        XPath = "//app"
+    };
     public string[]? Attributes { get; } = { "ref" };
     public string? uniquenessAttribute => null;
-    public List<(string, string, string)>? References { get; } = new List<(string, string, string)>()
+    public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
-        ("ref", "//appDef", "index")
+        ("ref", new HamannXPath() { Documents = new[] { "personenorte" }, XPath =  "//appDef" }, "index")
     };
 }

@@ -35,7 +35,7 @@ public class SearchRules {
                     if (sb.Length >= sw.Length) {
                         if (sb.ToString().Contains(sw)) {
                             if (reader.State.Results == null)
-                                reader.State.Results = new List<(string Page, string Line, string Identifier)>();
+                                reader.State.Results = new List<(string Page, string Line, string? Identifier)>();
                             reader.State.Results.Add((reader.CurrentPage, reader.CurrentLine, reader.State.CurrentIdentifier));
                         }
                         sb.Remove(0, sb.Length - sw.Length);

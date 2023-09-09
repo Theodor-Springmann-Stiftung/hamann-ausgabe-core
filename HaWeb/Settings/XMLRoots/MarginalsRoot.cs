@@ -6,7 +6,7 @@ using HaWeb.XMLParser;
 public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Stellenkommentar";
     public string Prefix { get; } = "stellenkommentar";
-    public string[] XPathContainer { get; } = { ".//data/marginalien", ".//marginalien" };
+    public string[] XPathContainer { get; } = { "/opus/data/marginalien", "/opus/marginalien" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "marginal") return true;
@@ -34,7 +34,7 @@ public class MarginalsRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("marginalien") == null)
             file.AddFirst(new XElement("marginalien"));
-        var elements = document.GetElement().Elements().Where(x => IsCollectedObject(x));
+        var elements = document.Element.Elements().Where(x => IsCollectedObject(x));
         var root = file.Element("marginalien");
         foreach (var element in elements) {
             root!.Add(element);

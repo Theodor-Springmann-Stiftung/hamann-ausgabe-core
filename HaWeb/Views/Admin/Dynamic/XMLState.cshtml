@@ -1,0 +1,83 @@
+@model XMLStateViewModel;
+@{
+    ViewData["Title"] = "Syntax-Check & Dateien";
+    ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Briefausgabe, Hg. v. Leonard Keidel und Janina Reibold. Durchsuchbare Online-Ausgabe der Briefe von und an Johann Georg Hamann.";
+    ViewData["showCredits"] = "false";
+}
+
+<div class="ha-adminuploadfields" id="ha-adminuploadfields">
+  <div class="ha-uploadcontainer"> 
+
+  @* File Category Page File List *@ 
+    @*
+        <textarea class="py-2 px-3 mx-8 mb-8 shadow-lg font-mono text-sm border rounded" id="errormessagebox" name="errormessagebox" rows="25" cols="90" readonly>
+            @foreach (var f in Model.Files[Model.Prefix])
+            {
+                @f.Messages
+            }
+        </textarea> *@
+  @if (Model.ManagedFiles != null && Model.ManagedFiles.Any()) {
+    <div class="">
+      <table>
+        @foreach (var f in Model.ManagedFiles) {
+          <tr>
+            <td>@f.FileName</td>
+            <td>@f.GetLastModified()</td>
+            @if (f.IsValid) {
+              <td>Valid! @f.GetLog()</td>
+            } else {
+              <td>@f.GetLog()</td>
+            }
+          </tr>
+        }
+      </table>
+    </div>
+  } else {
+    <div class="">
+      Keine Dateien im Repository gefunden!
+    </div>
+  }
+
+
+    <script defer src="/js/filelistform.js" asp-append-version="true"></script>
+
+<fieldset class="ha-filelistfieldset">
+    <legend class="ha-filelistlegend">Verfügbare Dateien</legend>
+    @if(Model.HamannFiles != null && Model.HamannFiles.Any()) {
+        <form class="ha-selectfilesform" id="selecthamannfilesform" asp-controller="API" asp-action="SetInProduction" method="post" onsubmit="USESubmit(this);return false;" enctype="multipart/form-data">
+        <div class="ha-filelistlist">
+        @foreach (var file in Model.HamannFiles) {
+            <div class="ha-filelistfile">
+              @if (Model.ActiveFile != null) {
+                <input type="radio" id="@file.Name" name="file" value="@file.Name" @(file.Name == @Model.ActiveFile!.Name ? "checked='checked'" : "")>
+              } else {
+                <input type="radio" id="@file.Name" name="file" value="@file.Name">
+              }
+            <div class="ha-filelistname">@file.Name</div>
+            @if (Model.ActiveFile != null && file.Name == Model.ActiveFile!.Name) {
+                <div class="ha-filelistusedproduction">
+                    <div class="ha-filelistproduction">in Verwendung</div>
+                </div>
+            }
+            @* // TODO Metadata
+            // TODO DELETE *@
+            <div class="ha-filelistmodified">@file.LastModified.LocalDateTime</div>
+            </div>
+        }
+        </div>
+        @if (!Model.ValidState) {
+          <div>
+            Status nicht validiert! Daten können nicht auf der Webseite angezeigt werden!
+          </div>
+        }
+        <output id ="ha-filelistoutput"></output>
+        <button type="submit" class="ha-filelistbutton" id="ha-filelistbutton" >
+            Laden
+            <div class="ha-lds-ellipsis-load" id="ha-lds-ellipsis-load"></div>
+        </button>
+        </form>
+    }
+    else {
+        <div>Keine Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
+    }
+  </fieldset>

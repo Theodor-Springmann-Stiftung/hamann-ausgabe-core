@@ -143,7 +143,7 @@ public class Briefecontroller : Controller {
     }
 
 
-    private static List<(string Sender, string Receiver)> generateSendersRecievers(List<Person>? senders, List<Person>? receivers, bool generatePersonLinks) {
+    private static List<(string Sender, string Receiver)>? generateSendersRecievers(List<Person>? senders, List<Person>? receivers, bool generatePersonLinks) {
         var res = new List<(string Sender, string Receiver)>();
         if (senders == null || receivers == null) return null;
         if (!generatePersonLinks) {

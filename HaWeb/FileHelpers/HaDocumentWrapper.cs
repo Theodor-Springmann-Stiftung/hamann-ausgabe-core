@@ -9,12 +9,13 @@ using HaXMLReader.Interfaces;
 using HaWeb.SearchHelpers;
 using HaWeb.XMLParser;
 using System.Text;
+using System.Xml.Linq;
+using System.Diagnostics;
 
 public class HaDocumentWrapper : IHaDocumentWrappper {
-    private ILibrary Library;
-    private IXMLProvider _xmlProvider;
-    private IXMLService _xmlService;
-    private string _filepath;
+    private IFileInfo _ActiveFile;
+    private ILibrary? Library;
+    private IXMLInteractionService _xmlService;
     private int _startYear;
     private int _endYear;
     private List<Person>? _availablePersons;
@@ -22,23 +23,14 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
 
     // public List<SearchHelpers.CollectedItem>? SearchableLetters { get; private set; }
 
-    public HaDocumentWrapper(IXMLProvider xmlProvider, IXMLService service, IConfiguration configuration) {
-        _xmlProvider = xmlProvider;
+    public HaDocumentWrapper(IXMLInteractionService service, IConfiguration configuration) {
         _xmlService = service;
+        ParseConfiguration(configuration);
+    }
+
+    public void ParseConfiguration(IConfiguration configuration) {
         _startYear = configuration.GetValue<int>("AvailableStartYear");
         _endYear = configuration.GetValue<int>("AvailableEndYear");
-        var filelist = xmlProvider.GetHamannFiles();
-        if (filelist != null && filelist.Any()) {
-            _AutoLoad(filelist);
-        }
-
-        // Use Fallback library
-        if (Library == null) {
-            var options = new HaWeb.Settings.HaDocumentOptions();
-            if (SetLibrary(options.HamannXMLFilePath) == null) {
-                throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
-            }
-        }
     }
 
     public List<Person>? GetAvailablePersons() => _availablePersons;
@@ -49,26 +41,29 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
 
     public int GetEndYear() => _endYear;
 
-    public void SetEndYear(int end) {
-        this._endYear = end;
-        SetLibrary(_filepath);
-    }
+    public IFileInfo GetActiveFile() => _ActiveFile;
 
-    public ILibrary? SetLibrary(string filepath, ModelStateDictionary? ModelState = null) {
-        // 1. Set ILibrary
+    public ILibrary? SetLibrary(IFileInfo? file, XDocument? doc, ModelStateDictionary? ModelState = null) {
+        // Handle null on file & doc
+        var path = file == null ? new HaWeb.Settings.HaDocumentOptions().HamannXMLFilePath : file.PhysicalPath;
+        if (doc == null) doc = XDocument.Load(path, LoadOptions.PreserveWhitespace);
+
+        // 1. Parse the Document, create search Index
+        if (_xmlService != null) 
+            _xmlService.CreateSearchables(doc);
+        // 2. Set ILibrary
         try {
-            Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = filepath, AvailableYearRange = (_startYear, _endYear) });
+            Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = path, AvailableYearRange = (_startYear, _endYear) }, doc.Root);
         } catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
 
-        // 1a. Set Available Persons
+        // 3a. Set Available Persons
         var persons = Library.Metas.SelectMany(x => x.Value.Senders.Union(x.Value.Receivers)).Distinct();
         _availablePersons = persons.Select(x => Library.Persons[x]).OrderBy(x => x.Surname).ThenBy(x => x.Prename).ToList();
 
-        // 1b. Setup a Dictionary with available Person ovierview Pages
-        
+        // 3b. Setup a Dictionary with available Person ovierview Pages
         _personsWithLetters = new Dictionary<string, Person>();
         var availablePersonPages = Library.Persons.Where(x => !String.IsNullOrWhiteSpace(x.Value.Komm));
         foreach (var p in availablePersonPages) {
@@ -77,30 +72,12 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             }
         }
 
-        // 2. Set Library in Production, collect some Objects
-        if (_xmlService != null) 
-            _xmlService.SetInProduction(System.Xml.Linq.XDocument.Load(filepath, System.Xml.Linq.LoadOptions.PreserveWhitespace));
-
-        // 3. Set Filepath
-        _filepath = filepath;
+        // 4. Set info on loaded file
+        _ActiveFile = file;
         return Library;
     }
 
-    public ILibrary GetLibrary() {
+    public ILibrary? GetLibrary() {
         return Library;
-    }
-
-    private void _AutoLoad(List<IFileInfo> files) {
-        var orderdlist = files.OrderByDescending(x => x.LastModified);
-        foreach (var item in orderdlist) {
-            if (SetLibrary(item.PhysicalPath) != null) {
-                _xmlProvider.SetInProduction(item);
-                return;
-            }
-        }
-    }
-
-    private string _prepareSearch(HaDocument.Interfaces.ISearchable objecttoseach) {
-        return SearchHelpers.StringHelpers.NormalizeWhiteSpace(objecttoseach.Element, ' ', false);
     }
 }

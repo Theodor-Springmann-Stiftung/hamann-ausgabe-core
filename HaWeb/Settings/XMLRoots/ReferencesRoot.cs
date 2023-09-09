@@ -6,7 +6,7 @@ using HaWeb.XMLParser;
 public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Personen / Orte";
     public string Prefix { get; } = "personenorte";
-    public string[] XPathContainer { get; } = { ".//data/definitions", ".//definitions" };
+    public string[] XPathContainer { get; } = { "/opus/data/definitions", "/opus/definitions" };
     
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "personDefs" || elem.Name == "structureDefs" || elem.Name == "handDefs" || elem.Name == "locationDefs" || elem.Name == "appDefs")
@@ -35,7 +35,7 @@ public class ReferencesRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("definitions") == null)
             file.AddFirst(new XElement("definitions"));
-        var elements = document.GetElement().Elements().Where(x => IsCollectedObject(x));
+        var elements = document.Element.Elements().Where(x => IsCollectedObject(x));
         var root = file.Element("definitions");
         foreach (var element in elements) {
             root!.Add(element);

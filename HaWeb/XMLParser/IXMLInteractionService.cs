@@ -5,21 +5,17 @@ using HaWeb.Models;
 using HaDocument.Interfaces;
 using HaDocument.Models;
 using HaXMLReader.Interfaces;
+using Microsoft.Extensions.FileProviders;
 
-public interface IXMLService {
+public interface IXMLInteractionService {
+    public XElement? TryCreate();
+    public bool GetValidState();
+    public void Collect(List<IFileInfo> Files);
+    public Dictionary<string, FileList?>? GetLoaded();
     public IXMLRoot? GetRoot(string name);
     public List<IXMLRoot>? GetRootsList();
-    public Dictionary<string, IXMLRoot>? GetRootsDictionary();
-    public List<XMLRootDocument>? ProbeFile(XDocument document, ModelStateDictionary ModelState);
-    public Dictionary<string, FileList?>? GetUsedDictionary();
-    public XElement? MergeUsedDocuments(ModelStateDictionary ModelState);
-    public void Use(XMLRootDocument doc);
-    public void AutoUse(string prefix);
-    public void AutoUse(FileList filelist);
-    public Dictionary<string, FileList?>? GetInProduction();
-    public void UnUse(string prefix);
-    public void SetInProduction();
-    public void SetInProduction(XDocument document);
+    public void CreateSearchables(XDocument document);
+    public List<FileModel>? GetManagedFiles();
     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);
     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib);
 }

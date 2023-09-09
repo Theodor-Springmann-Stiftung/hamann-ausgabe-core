@@ -1,19 +1,46 @@
+using System.Text;
+using Microsoft.Extensions.FileProviders;
+
 namespace HaWeb.Models;
 
 public class FileModel {
     public string FileName { get; private set; }
-    public string Prefix { get; private set; }
-    public DateTime LastModified { get; private set; }
-    public bool IsUsed { get; private set; }
-    public bool InProduction { get; private set; }
-    public List<(string, string?)>? Fields { get; set; }
-    public string? Messages { get; set; }
+    public IFileInfo File { get; private set; }
 
-    public FileModel(string name, string prefix, DateTime lastModified, bool isUsed, bool inProduction) {
+    // This affects only repo files
+    public bool IsValid { get; private set; } = false;
+    public List<XMLRootDocument>? Content { get; set; }
+    public List<(string, string?)>? Fields { get; set; }
+    public string? Prefix { get; set; }
+
+    private StringBuilder? _log;
+
+    public FileModel(string name, IFileInfo file) {
         FileName = name;
-        IsUsed = isUsed;
-        LastModified = lastModified;
-        InProduction = inProduction;
-        Prefix = prefix;
+        File = file;
+    }
+
+    public string? GetLog() {
+        if (_log == null) return null;
+        return _log.ToString();
+    }
+
+    public void Log(string msg) {
+        if (_log == null) _log = new StringBuilder();
+        var prefix = DateTime.Now.ToShortTimeString() + " ";
+        if (File != null) prefix += File.Name + ": ";
+        _log.AppendLine(prefix + msg);
+    }
+
+    public void ResetLog() {
+        if (_log != null) _log.Clear();
+    }
+
+    public void Validate() { 
+        IsValid = true; 
+    }
+
+    public DateTime GetLastModified() {
+        return File.LastModified.ToLocalTime().DateTime;
     }
 }

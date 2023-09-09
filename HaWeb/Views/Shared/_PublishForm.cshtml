@@ -1,10 +1,10 @@
-@model UploadViewModel;
+@model XMLStateViewModel;
 <script defer src="/js/publishform.js" asp-append-version="true"></script>
 
-@if (Model.UsedFiles != null && Model.UsedFiles.Any()) {
+@* @if (Model. != null && Model..Any()) {
       <div class="ha-publishfilelisttitle">Aktuell geladene Dateien</div>
         <table class="ha-publishfilelistlist">
-        @foreach (var (category, files) in Model.UsedFiles.OrderBy(x => x.Key))
+        @foreach (var (category, files) in Model..OrderBy(x => x.Key))
         {
           <tr>
             <td>@Model.AvailableRoots.Where(x => x.Prefix == category).First().Type:</td>
@@ -32,4 +32,4 @@
             <output form="uploadForm" name="publish-result" id="publish-result"></output>
           </div>
       </form>
-}
+} *@

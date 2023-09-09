@@ -18,6 +18,6 @@ public class AdminController : Controller {
     [Route("Admin")]
     [FeatureGate(Features.AdminService)]
     public IActionResult Index() {
-        return Redirect("/Admin/Upload");
+        return Redirect("/Admin/XMLState");
     }
 }

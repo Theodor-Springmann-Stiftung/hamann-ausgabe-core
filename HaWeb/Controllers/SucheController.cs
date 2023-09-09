@@ -18,10 +18,10 @@ namespace HaWeb.Controllers;
 public class SucheController : Controller {
     private IHaDocumentWrappper _lib;
     private IReaderService _readerService;
-    private IXMLService _xmlService;
+    private IXMLInteractionService _xmlService;
     private int _lettersForPage;
 
-    public SucheController(IHaDocumentWrappper lib, IReaderService readerService, IXMLService service, IConfiguration config) {
+    public SucheController(IHaDocumentWrappper lib, IReaderService readerService, IXMLInteractionService service, IConfiguration config) {
         _lib = lib;
         _readerService = readerService;
         _xmlService = service;
@@ -206,7 +206,7 @@ public class SucheController : Controller {
         string activeSearch,
         SearchType ST,
         SearchResultType SRT,
-        List<CommentModel> comments) {
+        List<CommentModel>? comments) {
             // Model init & return
             var model = new SucheViewModel(ST, SRT, null, 0, null, activeSearch, null, null, comments, null);
             return View("~/Views/HKB/Dynamic/Suche.cshtml", model);

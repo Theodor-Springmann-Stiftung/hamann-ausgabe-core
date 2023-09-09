@@ -5,8 +5,15 @@ namespace HaWeb.Settings.NodeRules;
 
 public class StructureCollection : ICollectionRule {
     public string Name { get; } = "structure";
-    public string[] Bases { get; } = { "//letterText", "//letterTradition" };
-    public string[] Backlinks { get; } = { "//intlink", "//marginal" };
+    public HamannXPath[] Bases { get; } = { 
+        new HamannXPath() { Documents = new[] { "brieftext" }, XPath = "//letterText" },
+        new HamannXPath() { Documents = new[] { "ueberlieferung" }, XPath = "//letterTradition"}
+    };
+    public HamannXPath[] Backlinks { get; } = {
+        new HamannXPath() { Documents = new[] { "stellenkommentar", "ueberlieferung", "texteingriffe", "register" }, XPath =  "//intlink" },
+        new HamannXPath() { Documents = new[] { "stellenkommentar" }, XPath = "//marginal"}
+    };
+
     public IEnumerable<(string, XElement, XMLRootDocument)> GenerateIdentificationStrings(IEnumerable<(XElement, XMLRootDocument)> list) {
         foreach (var e in list) {
             var id = e.Item1.Name == "letterText" ? e.Item1.Attribute("index")!.Value : e.Item1.Attribute("ref")!.Value;

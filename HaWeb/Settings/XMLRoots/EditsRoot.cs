@@ -6,7 +6,7 @@ using HaWeb.XMLParser;
 public class EditsRoot : HaWeb.XMLParser.IXMLRoot {
     public string Type { get; } = "Texteingriffe";
     public string Prefix { get; } = "texteingriffe";
-    public string[] XPathContainer { get; } = { ".//data/edits", ".//edits" };
+    public string[] XPathContainer { get; } = { "/opus/data/edits", "/opus/edits" };
 
     public Predicate<XElement> IsCollectedObject { get; } = (elem) => {
         if (elem.Name == "editreason") return true;
@@ -34,7 +34,7 @@ public class EditsRoot : HaWeb.XMLParser.IXMLRoot {
     public void MergeIntoFile(XElement file, XMLRootDocument document) {
         if (file.Element("edits") == null)
             file.AddFirst(new XElement("edits"));
-        var elements = document.GetElement().Elements().Where(x => IsCollectedObject(x));
+        var elements = document.Element.Elements().Where(x => IsCollectedObject(x));
         var root = file.Element("edits");
         foreach (var element in elements) {
             root!.Add(element);

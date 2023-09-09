@@ -6,10 +6,13 @@ using HaWeb.XMLTests;
 public class SubsectionNode : INodeRule
 {
     public string Name => "subsection";
-    public string XPath => "//subsection";
+    public HamannXPath XPath => new HamannXPath() {
+        Documents = new[] { "register" },
+        XPath = "//subsection"
+    };
     public string[]? Attributes { get; } = { "id" };
     public string? uniquenessAttribute => "id" ;
-    public List<(string, string, string)>? References { get; } = new List<(string, string, string)>()
+    public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
     };
 }

@@ -6,12 +6,15 @@ using HaWeb.XMLTests;
 public class LinkNode : INodeRule
 {
     public string Name => "link";
-    public string XPath => "//link";
+    public HamannXPath XPath => new HamannXPath() {
+        Documents = new[] { "ueberlieferung", "stellenkommentar", "register", "texteingriffe" },
+        XPath = "//link"
+    };
     public string[]? Attributes { get; } = null;
     public string? uniquenessAttribute => null;
-    public List<(string, string, string)>? References { get; } = new List<(string, string, string)>()
+    public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
-        ("ref", "//kommentar", "id"),
-        ("subref", "//subsection", "id")
+        ("ref", new HamannXPath() { Documents = new[] { "register" }, XPath = "//kommentar" }, "id"),
+        ("subref", new HamannXPath() { Documents = new[] { "register" }, XPath = "//subsection" }, "id"),
     };
 }
