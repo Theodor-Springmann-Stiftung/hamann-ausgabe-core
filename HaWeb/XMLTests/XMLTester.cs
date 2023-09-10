@@ -9,12 +9,14 @@ public class XMLTester {
     private Dictionary<string, INodeRule>? _Ruleset;
     private Dictionary<string, ICollectionRule>? _CollectionRuleset;
     private List<XMLRootDocument>? _Documents;
+    private Dictionary<string, SyntaxCheckModel> _Results;
     private Dictionary<string, HashSet<string>>? _IDs;
     private Dictionary<string, HashSet<string>>? _CollectionIDs;
     private Dictionary<string, List<(XElement, XMLRootDocument)>?> _XPathEvaluated;
-    public XMLTester (IXMLTestService testService, Dictionary<string, Models.FileList?>? filelists) {
+    public XMLTester (IXMLTestService testService, Dictionary<string, Models.FileList?>? filelists, Dictionary<string, SyntaxCheckModel> results) {
         _Ruleset  = testService.Ruleset;
         _CollectionRuleset = testService.CollectionRuleset;
+        _Results = results;
         if (filelists != null) {
             foreach (var fl in filelists) {
                 if (fl.Value != null)  {
@@ -27,20 +29,21 @@ public class XMLTester {
         _XPathEvaluated = new Dictionary<string, List<(XElement, XMLRootDocument)>?>();
     }
 
-    public void Test() {
-        if (_Ruleset == null) return;        
+    public Dictionary<string, SyntaxCheckModel>? Test() {
+        if (_Ruleset == null) return null;        
         _IDs = new Dictionary<string, HashSet<string>>();
         foreach (var rule in _Ruleset) {
             buildIDs(rule.Value);
             checkRequiredAttributes(rule.Value);
             checkReferences(rule.Value);
         }
-        if (_CollectionRuleset == null) return;
+        if (_CollectionRuleset == null) return null;
         _CollectionIDs = new Dictionary<string, HashSet<string>>();
         foreach (var collectionrule in _CollectionRuleset) {
             buildIDs(collectionrule.Value);
             checkReferences(collectionrule.Value);
         }
+        return _Results;
     }
 
     private void checkReferences(INodeRule rule) {
@@ -54,7 +57,8 @@ public class XMLTester {
                     if (_IDs != null && _IDs.ContainsKey(keyname) && hasattr) {
                         var val = e.Item1.Attribute(r.LinkAttribute)!.Value;
                         if (!_IDs[keyname].Contains(val)) {
-                            e.Item2.File.Log(generateLogMessage(e.Item1) + "Verlinktes Element " + val + " nicht gefunden.");
+                            var lc = getLineColumn(e.Item1);
+                            _Results[e.Item2.File.FileName].Log(lc.Item1, lc.Item2, "Verlinktes Element " + val + " nicht gefunden.");
                         }
                     }
                 }
@@ -69,7 +73,8 @@ public class XMLTester {
             if (elemens != null && elemens.Any()) {
                 foreach(var r in rule.GenerateBacklinkString(elemens)) {
                     if (!r.Item4 && !_CollectionIDs[rule.Name].Contains(r.Item1)) {
-                        r.Item3.File.Log(generateLogMessage(r.Item2) + "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                        var lc = getLineColumn(r.Item2);
+                        _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Verlinktes Element " + r.Item1 + " nicht gefunden.");
                     }
                     if (r.Item4) {
                         var coll = _CollectionIDs[rule.Name];
@@ -77,15 +82,18 @@ public class XMLTester {
                         var searchterm = items[0];
                         var found = coll.Where(x => x.StartsWith(searchterm));
                         if (items[0] == "NA" || found == null || !found.Any()) {
-                            r.Item3.File.Log(generateLogMessage(r.Item2) + "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                            var lc = getLineColumn(r.Item2);
+                            _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Verlinktes Element " + r.Item1 + " nicht gefunden.");
                         } else {
                             for (var i = 1; i < items.Length; i++) {
                                 if (items[i] == "NA") break;
                                 else {
                                     searchterm = searchterm + "-" + items[i];
                                     found = found.Where(x => x.StartsWith(searchterm));
-                                    if (found == null || !found.Any())
-                                        r.Item3.File.Log(generateLogMessage(r.Item2) + "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                                    if (found == null || !found.Any()) {
+                                        var lc = getLineColumn(r.Item2);
+                                        _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Verlinktes Element " + r.Item1 + " nicht gefunden.");
+                                    }
                                 }
                             }
                         }
@@ -126,7 +134,8 @@ public class XMLTester {
                 if (elemens != null && elemens.Any()) {
                     foreach (var r in rule.GenerateIdentificationStrings(elemens)) {
                         if (!hs.Add(r.Item1)) {
-                            r.Item3.File.Log(generateLogMessage(r.Item2) + "Brief-Seite-Zeile  " + r.Item1 + " mehrdeutig.");
+                            var lc = getLineColumn(r.Item2);
+                            _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Brief-Seite-Zeile  " + r.Item1 + " mehrdeutig.");
                         }
                     }
                 }
@@ -143,7 +152,8 @@ public class XMLTester {
             foreach (var e in elements) {
                 if (checkAttribute(e.Item1, attribute, e.Item2)) {
                     if (!hs.Add(e.Item1.Attribute(attribute)!.Value)) {
-                        e.Item2.File.Log(generateLogMessage(e.Item1) + "Attributwert " + e.Item1.Attribute(attribute)!.Value + " doppelt.");
+                        var lc = getLineColumn(e.Item1);
+                        _Results[e.Item2.File.FileName].Log(lc.Item1, lc.Item2, "Attributwert " + e.Item1.Attribute(attribute)!.Value + " doppelt.");
                     }
                 }
             }
@@ -152,18 +162,17 @@ public class XMLTester {
 
     private bool checkAttribute(XElement element, string attributename, XMLRootDocument doc, bool log = true) {
         if (!element.HasAttributes || element.Attribute(attributename) == null) {
-            if (log) doc.File.Log(generateLogMessage(element) + "Attribut " + attributename + " fehlt.");
+            if (log) {
+                var lc = getLineColumn(element);
+                _Results[doc.File.FileName].Log(lc.Item1, lc.Item2,"Attribut " + attributename + " fehlt.");
+            };
             return false;
         }
         return true;
     }
 
-    private string generateLogMessage(XElement element) {
-        return "Zeile " + 
-            ((IXmlLineInfo)element).LineNumber.ToString() + 
-            ", Element " +
-            element.Name +
-            ": ";
+    private (int, int) getLineColumn(XElement element) {
+        return (((IXmlLineInfo)element).LineNumber, ((IXmlLineInfo)element).LinePosition);
     }
 
     // Cache for XPATH evaluation

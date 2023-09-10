@@ -10,7 +10,7 @@ public interface IXMLFileProvider {
         public IFileInfo? SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary ModelState);
         public List<IFileInfo>? GetHamannFiles();
         public (DateTime PullTime, string Hash)? GetGitData();
-        public void Reload(IConfiguration config);
+        public void ParseConfiguration(IConfiguration config);
         public bool HasChanged();
         public void DeleteHamannFile(string filename);
         public void Scan();

@@ -27,13 +27,4 @@ public class FileList {
 
     public List<XMLRootDocument>? GetFileList()
         => this._Files != null ? this._Files.ToList() : null;
-
-    public FileList Clone() {
-        var ret = new FileList(this.XMLRoot);
-        if (_Files != null)
-            foreach (var file in _Files) {
-                ret.Add(file);
-            }
-        return ret;
-    }
 }

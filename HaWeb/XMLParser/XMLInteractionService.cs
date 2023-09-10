@@ -86,11 +86,12 @@ public class XMLInteractionService : IXMLInteractionService {
     public void Collect(List<IFileInfo> files) {
         if (files == null || !files.Any()) return;
         _ValidState = true;
-        List<FileModel> res = new List<FileModel>();
+        Dictionary<string, FileList?>? lF = new Dictionary<string, FileList?>();
+        List<FileModel> fM = new List<FileModel>();
         foreach (var f in files) {
             var sb = new StringBuilder();
             var m = _CreateFileModel(f, null);
-            res.Add(m);
+            fM.Add(m);
             // 1. Open File for Reading
             try {
                 using (Stream file = f.CreateReadStream()) {
@@ -118,9 +119,8 @@ public class XMLInteractionService : IXMLInteractionService {
                     // Success! File can be recognized and parsed.
                     m.Validate();
                     foreach (var d in docs) {
-                        if (_Loaded == null) _Loaded = new Dictionary<string, FileList?>();
-                        if (!_Loaded.ContainsKey(d.Prefix)) _Loaded.Add(d.Prefix, new FileList(d.XMLRoot));
-                        _Loaded[d.Prefix]!.Add(d);
+                        if (!lF.ContainsKey(d.Prefix)) lF.Add(d.Prefix, new FileList(d.XMLRoot));
+                        lF[d.Prefix]!.Add(d);
                     }
                 }
             } catch (Exception ex) {
@@ -128,20 +128,26 @@ public class XMLInteractionService : IXMLInteractionService {
                 continue;
             }
         }
-        if(res.Any()) this._ManagedFiles = res;
 
-        // Set validity
+        // Set data
+        this._ManagedFiles = fM;
+        this._Loaded = lF;
         foreach (var f in _ManagedFiles) {
-            if (!f.IsValid) _ValidState = false;
+            if (!f.IsValid) this._ValidState = false;
             break;
         }
+    }
 
-        // TODO: Speed up this:
+    public Dictionary<string, SyntaxCheckModel>? Test() {
+        if (_Loaded == null) return null;
+        // TODO: Speed up this, move it into a background task:
         var sw = new Stopwatch();
         sw.Start();
-        _testService.Test(this);
+        var res = this._Loaded?.SelectMany(x => x.Value?.GetFileList()?.Select(x => x.File)).Distinct().Select(x => x.FileName);
+        var ret = _testService.Test(this._Loaded, res.ToDictionary(x => x, y => new SyntaxCheckModel(y)));
         sw.Stop();
         Console.WriteLine("Syntaxcheck " + sw.ElapsedMilliseconds.ToString() + " ms");
+        return ret;
     }
 
     public XElement? TryCreate() {

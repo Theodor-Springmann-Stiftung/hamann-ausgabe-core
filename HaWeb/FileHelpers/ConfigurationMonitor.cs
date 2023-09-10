@@ -4,10 +4,12 @@ namespace HaWeb.FileHelpers;
 
 public class ConfigurationMonitor {
     private System.Timers.Timer? _timer;
+    private string[] _paths;
     private (string, byte[])[]? _h;
     private IServiceProvider _serviceProvider;
 
     public ConfigurationMonitor(string[] paths, IServiceProvider services) {
+        _paths = paths;
         _h = _getHash(paths);
         _serviceProvider = services;
     }
@@ -33,27 +35,25 @@ public class ConfigurationMonitor {
         return true;
     }
 
-    public void InvokeChanged(string[] paths) {
-        var h = _getHash(paths);
+    public void InvokeChanged(IHostEnvironment _) {
+        var h = _getHash(_paths);
         if (_timer == null && !isEqual(h, _h)) {
             _h = h;
-            _timer = new(5000) { AutoReset = false };
+            _timer = new(8000) { AutoReset = false };
             _timer.Enabled = true;
-            _timer.Elapsed += Action;
+            _timer.Elapsed += OnChanged;
         }
     }
 
-    private void Action(Object source, System.Timers.ElapsedEventArgs e) {
+    private void OnChanged(Object source, System.Timers.ElapsedEventArgs e) {
         Console.WriteLine("Configuration changed (ConfigurationMonitor Class)");
         using IServiceScope serviceScope = _serviceProvider.CreateScope();
         IServiceProvider provider = serviceScope.ServiceProvider;
-
         var cP = provider.GetRequiredService<IConfiguration>();
         var hP = provider.GetRequiredService<IHaDocumentWrappper>();
         hP.ParseConfiguration(cP);
         var fP = provider.GetRequiredService<IXMLFileProvider>();
-        fP.Reload(cP);
-        
+        fP.ParseConfiguration(cP);   
         // _lifetime.StopApplication();
         _timer = null;
     }

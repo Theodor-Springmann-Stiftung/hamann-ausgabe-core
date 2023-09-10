@@ -1,22 +1,22 @@
 namespace HaWeb.Models;
 
 public class SyntaxCheckModel {
-    public string Prefix { get; private set; }
-    public List<SyntaxError>? Errors { get; set; }
-    public List<SyntaxError>? Warnings { get; set; }
+    public string File { get; private set; }
+    public List<SyntaxError>? Errors { get; private set; }
 
-    public SyntaxCheckModel(string prefix) {
-        Prefix = prefix;
+    public SyntaxCheckModel(string file) {
+        File = file;
+    }
+
+    public void Log(int? line, int? column, string msg) {
+        if (String.IsNullOrWhiteSpace(msg)) return;
+        if (Errors == null) Errors = new();
+        // var prefix = DateTime.Now.ToLongDateString() + ": ";
+        Errors.Add(new SyntaxError(line, column, msg));
+    }
+
+    public void ResetLog() {
+        Errors = null;
     }
 }
 
-public class SyntaxError {
-    public string Message { get; private set; }
-    public string? File { get; set; }
-    public string? Line { get; set; }
-    public string? Column { get; set; }
-
-    public SyntaxError(string message) {
-        Message = message;
-    }
-}

@@ -16,6 +16,7 @@ public interface IXMLInteractionService {
     public List<IXMLRoot>? GetRootsList();
     public void CreateSearchables(XDocument document);
     public List<FileModel>? GetManagedFiles();
+    public Dictionary<string, SyntaxCheckModel>? Test();
     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);
     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib);
 }

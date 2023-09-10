@@ -19,6 +19,9 @@ public class XMLStateViewModel {
     // Verfügbare (Gesamt-)Dateien
     public List<IFileInfo>? HamannFiles { get; set; }
 
+    // Syntax-Check-Resultate
+    public Dictionary<string, SyntaxCheckModel>? SyntaxCheck { get; set; }
+
     public XMLStateViewModel(
         string title, 
         (DateTime PullTime, string Hash)? gitData,

@@ -49,19 +49,19 @@ public class XMLFileProvider : IXMLFileProvider {
         }
         _HamannFiles = _ScanHamannFiles();
         
-        // Check if hamann file already is current working tree status
+         // Check if hamann file already is current working tree status
         // -> YES: Load up the file via _lib.SetLibrary();
         if (_IsAlreadyParsed()) {
-            _Lib.SetLibrary(_HamannFiles.First(), null, null);
+            _Lib.SetLibrary(_HamannFiles!.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
 
          // -> NO: Try to create a new file
-        var created = xmlservice.TryCreate();
+        var created = _XMLService.TryCreate();
         if (created != null) {
             var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
             if (file != null) {
-                _lib.SetLibrary(file, created.Document, null);
+                _Lib.SetLibrary(file, created.Document, null);
                 if (_Lib.GetLibrary() != null) return;
             }
         }
@@ -75,36 +75,32 @@ public class XMLFileProvider : IXMLFileProvider {
         // -> There is none? Use Fallback:
         else {
             var options = new HaWeb.Settings.HaDocumentOptions();
-                if (_lib.SetLibrary(null, null, null) == null) {
+                if (_Lib.SetLibrary(null, null, null) == null) {
                 throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
             }
         }
     }
 
-    public void Reload(IConfiguration config) {
+    public void ParseConfiguration(IConfiguration config) {
         _Branch = config.GetValue<string>("RepositoryBranch");
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-            _hamannFileProvider = new PhysicalFileProvider(config.GetValue<string>("HamannFileStoreWindows"));
-            _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathWindows")); 
-            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathWindows")); 
-        } 
-        else {
-            _hamannFileProvider = new PhysicalFileProvider(config.GetValue<string>("HamannFileStoreLinux"));
-            _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathLinux"));
-            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathLinux")); 
-        }
 
-        // Create File Lists; Here and in xmlservice, which does preliminary checking
         Scan();
+        // Reset XMLInteractionService
         if (_WorkingTreeFiles != null && _WorkingTreeFiles.Any()) {
             _XMLService.Collect(_WorkingTreeFiles);
         }
         _HamannFiles = _ScanHamannFiles();
         
+        if (_HamannFiles != null && _HamannFiles.Select(x => x.Name).Contains(_Lib.GetActiveFile().Name)) {
+            _Lib.SetLibrary(_Lib.GetActiveFile(), null, null);
+            if (_Lib.GetLibrary() != null) return;
+        }
+
+        // Failed to reload File, reload it all, same procedure as above:
         // Check if hamann file already is current working tree status
         // -> YES: Load up the file via _lib.SetLibrary();
         if (_IsAlreadyParsed()) {
-            _Lib.SetLibrary(_HamannFiles.First(), null, null);
+            _Lib.SetLibrary(_HamannFiles!.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
 

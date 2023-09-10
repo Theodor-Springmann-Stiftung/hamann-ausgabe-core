@@ -26,8 +26,6 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
     builder.Configuration.AddJsonFile(p, optional: true, reloadOnChange: true);
 }
 
-
-
 // Create initial Data
 var tS = new XMLTestService(); 
 var XMLIS = new XMLInteractionService(builder.Configuration, tS);
@@ -59,7 +57,7 @@ var cM = new ConfigurationMonitor(configpaths.ToArray(), app.Services);
 ChangeToken.OnChange(
     () => app.Configuration.GetReloadToken(),
     (state) => cM.InvokeChanged(state),
-    configpaths.ToArray()
+    app.Environment
 );
 
 // Configure the HTTP request pipeline.
