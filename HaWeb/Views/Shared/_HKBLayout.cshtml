@@ -16,6 +16,9 @@
     </div>
     </div>
     @await Html.PartialAsync("/Views/Shared/_ScrollButton.cshtml")
+    <feature name="Notifications">
+        @await Html.PartialAsync("/Views/Shared/_Notifications.cshtml")
+    </feature>
     @await RenderSectionAsync("JavaScript", false)
 </body>
 </html>

@@ -27,7 +27,9 @@ Run
 
 `dotnet watch run` and
 
-`npm run watch`
+`npm run watch` or 
+
+`bun run watch`
 
 in seperate terminals to watch for specific file changes in .css / .js / .cshtml / .json or .cs files and to rebuild the css-Files and the app automatically on change.
 
@@ -37,7 +39,7 @@ Recommended vscode plugins include the XML Tools, c#, Tailwind CSS IntelliSense 
 
 ## Release
 
-To build a release version for the current server, run:
+To build a release version for the current server, build the css file, then run:
 
 `dotnet publish -a x64 --os win -c Release`
 
@@ -100,3 +102,34 @@ KOmmentare verschobem 202 Anhang
 Known Bugs:
 - click event does not work in iOS
 - rerender marginals on tab switch
+
+
+GIT-UMBAU:
+
+- OPUS-Check briefe
+- SYNTAX-Check
+- ILIB
+(- Searchables)
+
+Start: kein background service
+Datei vom Admin-Panel laden: kein bacckground service
+Datei ändert sich: background service + reload call on all clients
+Konfiguration ändert sich: kein background service
+
+BACKGROUND SERVICE:
+- FileWatch
+- XMLInteractionService.Collect(List<IFileInfo>)
+- XMLInteractionService.TryCreate()
+- XMLFileProvider.SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary? ModelState)
+
+BACKGROUND SERVICE WITH JSON OUTPUT:
+- XMLTestService.Test(XMLInteractionService)
+
+KEIN BACKGROUND SERVICE:
+- HaDocuemntWrapper.SetLibrary(IFileInfo? file, XDocument? doc, ModelStateDictionary? ModelState = null)
+- XMLInteractionService.CreateSearchables(XDocument document)
+
+TASKS:
+- Syntax Errors nicht mehr im FileModel loggen
+- State für Collect()
+- State für TryCreate()

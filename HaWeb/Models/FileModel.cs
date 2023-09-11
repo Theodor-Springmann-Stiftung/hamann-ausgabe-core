@@ -27,9 +27,7 @@ public class FileModel {
 
     public void Log(string msg) {
         if (_log == null) _log = new StringBuilder();
-        var prefix = DateTime.Now.ToShortTimeString() + " ";
-        if (File != null) prefix += File.Name + ": ";
-        _log.AppendLine(prefix + msg);
+        _log.AppendLine(msg);
     }
 
     public void ResetLog() {

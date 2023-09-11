@@ -35,11 +35,13 @@ var XMLFP = new XMLFileProvider(XMLIS, hdW, builder.Configuration);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient<IReaderService, ReaderService>();
 builder.Services.AddSingleton<IXMLTestService, XMLTestService>((_) => tS);
 builder.Services.AddSingleton<IXMLInteractionService, XMLInteractionService>((_) => XMLIS);
 builder.Services.AddSingleton<IHaDocumentWrappper, HaDocumentWrapper>((_) => hdW);
 builder.Services.AddSingleton<IXMLFileProvider, XMLFileProvider>(_ => XMLFP);
+builder.Services.AddSingleton<WebSocketMiddleware>();
+builder.Services.AddTransient<IReaderService, ReaderService>();
+
 // builder.Services.AddSingleton<IConfigurationMonitor, ConfigurationMonitor>();
 // builder.Services.AddHostedService<QueuedHostedService>();
 // builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
@@ -59,6 +61,11 @@ ChangeToken.OnChange(
     (state) => cM.InvokeChanged(state),
     app.Environment
 );
+
+app.UseWebSockets( new WebSocketOptions {
+    KeepAliveInterval = TimeSpan.FromMinutes(180)
+});
+app.UseMiddleware<WebSocketMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

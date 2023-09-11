@@ -1,0 +1,180 @@
+@layer components {
+  .ha-xmlstateheader {
+    @apply bg-slate-50 w-full mt-4 px-16 pt-12 pb-8 flex flex-row
+  }
+
+  .ha-xmlstateheader h1 {
+    @apply text-5xl
+  }
+
+  .ha-managedfiles {
+    @apply mt-4 border border-slate-300 px-4 py-3
+  }
+
+  .ha-repo {
+    @apply relative
+  }
+
+  .ha-repodata {
+    @apply bg-slate-50 px-3.5 py-1 w-max shadow
+  }
+
+  .ha-repodata div {
+    
+  }
+
+  .ha-repodata a {
+    @apply underline decoration-dotted
+  }
+
+  .ha-repofilecount {
+    @apply absolute right-0 bottom-0 bg-slate-50 px-3 py-1 shadow
+  }
+
+  .ha-managedfileslist {
+    @apply  flex flex-col gap-3 mt-3
+  }
+
+  .ha-managedfileheader {
+    @apply flex flex-row gap-2 bg-slate-50 pl-3.5 pr-2.5 rounded-md py-1 w-full shadow-md select-none border-b
+  }
+
+  .ha-managedfileheader.expandable {
+    @apply cursor-pointer rounded-none !rounded-t-md border-b 
+  }
+
+  .ha-managedfileheader.orange {
+    @apply border-b border-orange-300 bg-orange-50
+  }
+
+  .ha-managedfileheader.orange .ha-filestatusicon svg {
+    @apply text-orange-700 !pt-0
+  }
+
+  .ha-managedfileheader.red {
+    @apply border-b border-red-400 bg-red-50
+  }
+
+  .ha-managedfileheader.red .ha-filestatusicon svg {
+    @apply text-red-700 !pt-[0rem]
+  }
+
+  .ha-managedfileheader.green {
+    @apply bg-teal-50
+  }
+
+  .ha-managedfileheader.green .ha-filestatusicon svg {
+    @apply text-green-700
+  }
+
+  .ha-managedfileheader.expandable.red+.ha-managedfileannotations {
+    @apply bg-red-100
+  }
+
+  .ha-managedfileannotations {
+    @apply hidden font-mono w-full text-base px-4 pt-1.5 pb-1  rounded-b-md  shadow  bg-orange-100 overflow-x-hidden overflow-y-auto max-h-72
+  }
+
+  .ha-managedfileannotations table {
+    @apply text-left w-full
+  }
+
+  .ha-managedfileannotations table td,
+  .ha-managedfileannotations table th {
+    @apply pr-4
+  }
+
+  .ha-managedfileannotations table th {
+    @apply border-b border-black
+  }
+
+
+  .ha-managedfileheader.expandable.expanded+.ha-managedfileannotations {
+    @apply block
+  }
+
+  .ha-managedfile div:first-child {
+    @apply grow
+  }
+  .ha-managedfile .ha-filestatusicon {
+    @apply w-5 pt-[.14rem]
+  }
+
+  .ha-scbutton {
+    @apply mt-4 rounded-md px-4 py-1 border-2 bg-blue-600 shadow-blue-100 hover:shadow-blue-200 duration-500 text-slate-50 shadow-md hover:shadow-xl active:shadow-inner hover:border-blue-600 cursor-pointer absolute bottom-4 right-6 transition-all hover:ease-in-out;
+  }
+
+  .ha-scbutton.loading {
+    @apply shadow-blue-100 saturate-[.8] shadow-xl transition-all ease-in-out border-blue-600;
+  }
+  
+  /* Classes for FileList Component */
+  .ha-filelistfieldset {
+    @apply bg-slate-50 px-3 py-2 mt-4
+  }
+
+  .ha-filelistfieldset .ha-filelistlegend {
+    @apply pb-2 text-xl
+  }
+
+  .ha-selectfilesform {
+    @apply relative
+  }
+
+  .ha-selectfilesform .ha-filelistfile {
+    @apply flex flex-row gap-x-4 px-1 items-center
+  }
+
+  .ha-selectfilesform .ha-filelistfile:nth-child(even) {
+    @apply bg-slate-100
+  }
+
+  .ha-selectfilesform .ha-filelistlist {
+    @apply h-96 overflow-x-hidden overflow-y-scroll
+  }
+
+  .ha-selectfilesform .ha-filelistfile .ha-filelistname {
+    @apply font-mono
+  }
+
+  .ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction {
+    @apply text-sm
+  }
+
+  .ha-selectfilesform .ha-filelistfile .ha-filelistusedproduction .ha-filelistproduction {
+    @apply inline-block border rounded-md text-teal-600 border-teal-600 px-2 mr-2
+  }
+
+  .ha-selectfilesform .ha-filelistfile .ha-filelistmodified {
+    @apply grow text-right
+  }
+
+  .ha-selectfilesform .ha-filelistoutput {
+    @apply mt-4 ml-6 
+  }
+
+  .ha-selectfilesform .ha-filelistbutton {
+    @apply mt-4 rounded-md px-4 py-1 border-2 bg-blue-600 shadow-blue-100 hover:shadow-blue-200 duration-500 text-slate-50 shadow-md hover:shadow-xl active:shadow-inner hover:border-blue-600 cursor-pointer absolute bottom-4 right-6 transition-all hover:ease-in-out;
+  }
+
+  .ha-selectfilesform .ha-filelistbutton.loading {
+    @apply shadow-blue-100 saturate-[.8] shadow-xl transition-all ease-in-out border-blue-600;
+  }
+}
+
+.ha-scbutton.loading {
+  animation: ha-pulse .7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.ha-selectfilesform .ha-filelistbutton.loading {
+  animation: ha-pulse .7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ha-pulse {
+  0%, 100% {
+    opacity: .8;
+  }
+  50% {
+    opacity: .6;
+  }
+}

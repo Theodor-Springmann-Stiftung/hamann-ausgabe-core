@@ -1,0 +1,84 @@
+@layer components {
+    .ha-notifications {
+        @apply fixed right-5 bottom-4 px-3 min-w-full
+    }
+
+    .ha-notifications a {
+        @apply underline decoration-dotted hover:decoration-solid
+    }
+
+
+    .ha-notifications .ha-notcontent {
+        @apply absolute bottom-0 right-0 flex flex-row
+    }
+
+    .ha-notifications.loading .ha-noticon {
+        
+    }
+
+    .ha-notifications.green { 
+
+    }
+
+    .ha-notifications.green .ha-noticon {
+        @apply text-emerald-700
+    }
+
+    .ha-notifications.orange { 
+        
+    }
+
+    .ha-notifications.orange .ha-noticon {
+        @apply text-yellow-500 
+    }
+
+    .ha-notifications.red { 
+
+    }
+
+    .ha-notifications.red .ha-noticon {
+        @apply text-rose-600 
+    }
+
+    .ha-noticon {
+        @apply w-5 inline-block pt-1 relative top-[2px] text-slate-400 transition-all duration-500 
+    }
+
+    .ha-noticon svg {
+        @apply  shadow-red-800 drop-shadow-md
+    }
+
+    .ha-commslog {
+        @apply shadow-md inline-block bg-slate-50 mr-2 px-2 py-0.5 opacity-0 transition-all duration-300 text-sm font-mono
+    }
+
+    .ha-notifications:hover .ha-commslog {
+        @apply !opacity-100
+    }
+
+    .ha-notifications:hover .ha-noticon svg {
+        @apply !opacity-100 drop-shadow-xl
+    }
+}
+
+.ha-notifications.visible .ha-commslog {
+        
+}
+
+.ha-notifications.loading .ha-noticon {
+    animation: ha-pulse 1.1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes ha-pulse {
+    0%, 100% {
+      opacity: .8;
+    }
+    50% {
+      opacity: .6;
+    }
+  }
+
+  .ha-notifications.imp .ha-commslog {
+    animation: ha-pulse 5s cubic-bezier(0.4, 0, 0.6, 1);
+    animation-iteration-count: 1;
+  }

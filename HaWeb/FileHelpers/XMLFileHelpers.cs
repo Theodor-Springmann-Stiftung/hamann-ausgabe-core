@@ -80,26 +80,26 @@ public static class XMLFileHelpers {
     public static bool ProcessFile(
         Stream file,
         string fileName,
-        StringBuilder errorMessages,
+        Action<string> logger,
         string[] permittedExtensions, 
         long sizeLimit) {
         try {
             // Check if the file is empty or exceeds the size limit.
             if (file.Length == 0) {
-                errorMessages.AppendLine("Die Datei ist leer.");
+                logger("Die Datei ist leer.");
                 return false;
             }
             else if (file.Length > sizeLimit) {
                 var megabyteSizeLimit = sizeLimit / 1048576;
-                errorMessages.AppendLine($"Die Datei überschreitet das Größenlimit {megabyteSizeLimit:N1} MB.");
+                logger($"Die Datei überschreitet das Größenlimit {megabyteSizeLimit:N1} MB.");
                 return false;
             }
 
             // Return orderly, if signature & extension okay
-            else return IsValidFileExtensionAndSignature(fileName, file, errorMessages, permittedExtensions);
+            else return IsValidFileExtensionAndSignature(fileName, file, logger, permittedExtensions);
             
         } catch (Exception ex) {
-            errorMessages.AppendLine($"The upload failed. Error: {ex.Message}");
+            logger($"The upload failed. Error: {ex.Message}");
             return false;
         }
     }
@@ -118,13 +118,13 @@ public static class XMLFileHelpers {
         }
     } 
 
-    private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, StringBuilder errorMessages, string[] permittedExtensions) {
+    private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, Action<string> logger, string[] permittedExtensions) {
         if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0)
             return false;
 
         var ext = Path.GetExtension(fileName).ToLowerInvariant();
         if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext)) {
-            errorMessages.AppendLine("Dateiname endet nicht auf .xml");
+            logger("Dateiname endet nicht auf .xml");
             return false;
         }
 
@@ -134,7 +134,7 @@ public static class XMLFileHelpers {
             var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
             if (!signatures.Any(signature =>
                 headerBytes.Take(signature.Length).SequenceEqual(signature))) {
-                    errorMessages.AppendLine("Datei muss mit <?xml version=\"1.0\" encoding=\"utf-8\"?> oder <?xml version=\"1.0\"?> beginnen.");
+                    logger("Datei muss mit <?xml version=\"1.0\" encoding=\"utf-8\"?> oder <?xml version=\"1.0\"?> beginnen.");
                     return false;
                 };
         }

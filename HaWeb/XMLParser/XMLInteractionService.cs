@@ -36,12 +36,13 @@ public class XMLInteractionService : IXMLInteractionService {
 
     private Dictionary<string, IXMLRoot>? _RootDefs;
     private Dictionary<string, IXMLCollection>? _CollectionDefs;
-
-    private List<FileModel>? _ManagedFiles;
-    private Dictionary<string, FileList?>? _Loaded;
     private Dictionary<string, ItemsCollection>? _Collection;
 
-    private bool _ValidState = false;
+    public event EventHandler<Dictionary<string, SyntaxCheckModel>?> SyntaxCheck;
+
+    private XMLParsingState? _State;
+
+    private Dictionary<string, SyntaxCheckModel>? _SCCache;
     
     public XMLInteractionService(IConfiguration config, IXMLTestService testService) {
         _testService = testService;
@@ -68,38 +69,30 @@ public class XMLInteractionService : IXMLInteractionService {
     }
 
     // Getters and Setters
-    public Dictionary<string, FileList?>? GetLoaded() => this._Loaded;
+    public XMLParsingState? GetState() => this._State;
 
-    public List<FileModel>? GetManagedFiles() => this._ManagedFiles;
+    public void SetState(XMLParsingState? state) => this._State = state;
 
-    public List<IXMLRoot>? GetRootsList() => this._RootDefs == null ? null : this._RootDefs.Values.ToList();
+    public Dictionary<string, IXMLRoot>? GetRootDefs() => this._RootDefs;
 
-    public bool GetValidState() => this._ValidState;
-    
-    public IXMLRoot? GetRoot(string name) {
-        if (_RootDefs == null) return null;
-        _RootDefs.TryGetValue(name, out var root);
-        return root;
-    }
+    public Dictionary<string, SyntaxCheckModel>? GetSCCache() => this._SCCache;
+
+    public void SetSCCache(Dictionary<string, SyntaxCheckModel>? cache) => this._SCCache = cache;
 
     // Functions
-    public void Collect(List<IFileInfo> files) {
-        if (files == null || !files.Any()) return;
-        _ValidState = true;
-        Dictionary<string, FileList?>? lF = new Dictionary<string, FileList?>();
-        List<FileModel> fM = new List<FileModel>();
+    public XMLParsingState? Collect(List<IFileInfo> files, Dictionary<string, IXMLRoot>? rootDefs) {
+        if (files == null || !files.Any() || rootDefs == null || !rootDefs.Any()) return null;
+        var _state = new XMLParsingState() {
+            ValidState = true
+        };
         foreach (var f in files) {
-            var sb = new StringBuilder();
             var m = _CreateFileModel(f, null);
-            fM.Add(m);
+            _state.ManagedFiles!.Add(m);
             // 1. Open File for Reading
             try {
                 using (Stream file = f.CreateReadStream()) {
                     // 2. Some security checks, if file empty, wrong start, wrong extension, too big
-                    if (!XMLFileHelpers.ProcessFile(file, f.Name, sb, _allowedExtensions, _fileSizeLimit)) {
-                        m.Log(sb.ToString());
-                        continue;
-                    }
+                    if (!XMLFileHelpers.ProcessFile(file, f.Name, m.Log, _allowedExtensions, _fileSizeLimit))  continue;
                 }
             } catch {
                 m.Log( "Datei konnte nicht geöffnet werden.");
@@ -113,14 +106,14 @@ public class XMLInteractionService : IXMLInteractionService {
 
                     // 4. Check if opus-Document
                     // TODO: Unter der HOOD werden in ProbeFiles noch eigene Files gebaut!
-                    var docs = _ProbeFile(doc, m);
+                    var docs = _ProbeFile(doc, m, rootDefs);
                     if (docs == null || !docs.Any()) continue;
 
                     // Success! File can be recognized and parsed.
                     m.Validate();
                     foreach (var d in docs) {
-                        if (!lF.ContainsKey(d.Prefix)) lF.Add(d.Prefix, new FileList(d.XMLRoot));
-                        lF[d.Prefix]!.Add(d);
+                        if (!_state.Loaded!.ContainsKey(d.Prefix)) _state.Loaded.Add(d.Prefix, new FileList(d.XMLRoot));
+                        _state.Loaded[d.Prefix]!.Add(d);
                     }
                 }
             } catch (Exception ex) {
@@ -129,32 +122,38 @@ public class XMLInteractionService : IXMLInteractionService {
             }
         }
 
-        // Set data
-        this._ManagedFiles = fM;
-        this._Loaded = lF;
-        foreach (var f in _ManagedFiles) {
-            if (!f.IsValid) this._ValidState = false;
-            break;
+        foreach (var f in _state.ManagedFiles!) {
+            if (!f.IsValid) {
+                _state.ValidState = false;
+                break;
+            }
         }
+        return _state;
     }
 
-    public Dictionary<string, SyntaxCheckModel>? Test() {
-        if (_Loaded == null) return null;
+    // Every caller shoud ask the cache above first
+    public Dictionary<string, SyntaxCheckModel>? Test(XMLParsingState? state, string gitcommit) {
+        if (state == null || state.Loaded == null) return null;
         // TODO: Speed up this, move it into a background task:
         var sw = new Stopwatch();
         sw.Start();
-        var res = this._Loaded?.SelectMany(x => x.Value?.GetFileList()?.Select(x => x.File)).Distinct().Select(x => x.FileName);
-        var ret = _testService.Test(this._Loaded, res.ToDictionary(x => x, y => new SyntaxCheckModel(y)));
+        var res = state.Loaded?.SelectMany(x => x.Value?.GetFileList()?.Select(x => x.File)).Distinct().Select(x => x.FileName);
+        var ret = _testService.Test(state.Loaded, res.ToDictionary(x => x, y => new SyntaxCheckModel(y, gitcommit)));
+        if (ret != null)
+            foreach (var r in ret) {
+                r.Value.SortErrors();
+            }
         sw.Stop();
         Console.WriteLine("Syntaxcheck " + sw.ElapsedMilliseconds.ToString() + " ms");
+        OnSyntaxCheck(ret);
         return ret;
     }
 
-    public XElement? TryCreate() {
-        if (_Loaded == null || !_Loaded.Any() || _RootDefs == null || !_RootDefs.Any() || !_ValidState) return null;
+    public XElement? TryCreate(XMLParsingState state) {
+        if (state.Loaded == null || !state.Loaded.Any() || _RootDefs == null || !_RootDefs.Any() || !state.ValidState) return null;
         var opus = new XElement("opus");
         // TODO: Workaround for bug in HaDocument: roots have to be added in a specific order
-        var used = _Loaded.OrderByDescending(x => x.Key);
+        var used = state.Loaded.OrderByDescending(x => x.Key);
         foreach (var category in used) {
             if (category.Value == null || category.Value.GetFileList() == null || !category.Value.GetFileList()!.Any()) {
                 return null;
@@ -302,15 +301,15 @@ public class XMLInteractionService : IXMLInteractionService {
             .Where(type => typeof(T).IsAssignableFrom(type) && !type.IsInterface);
     }
 
-    private List<XMLRootDocument>? _ProbeFile(XDocument document, FileModel file) {
+    private List<XMLRootDocument>? _ProbeFile(XDocument document, FileModel file, Dictionary<string, IXMLRoot>? rootDefs) {
         if (document.Root!.Name != "opus") {
             file.Log("Ein gültiges Dokument muss mit <opus> beginnen.");
             return null;
         }
 
         List<XMLRootDocument>? res = null;
-        if (document.Root != null && _RootDefs != null) {
-            foreach (var (_, root) in _RootDefs) {
+        if (document.Root != null && rootDefs != null) {
+            foreach (var (_, root) in rootDefs) {
                 var elements = root.IsTypeOf(document.Root);
                 if (elements != null &&  elements.Any())
                     foreach (var elem in elements) {
@@ -337,5 +336,8 @@ public class XMLInteractionService : IXMLInteractionService {
         return m;
     }
 
-    
+    protected virtual void OnSyntaxCheck(Dictionary<string, SyntaxCheckModel>? state) {
+        EventHandler<Dictionary<string, SyntaxCheckModel>?> eh = SyntaxCheck;
+        eh?.Invoke(this, state);
+    }
 }

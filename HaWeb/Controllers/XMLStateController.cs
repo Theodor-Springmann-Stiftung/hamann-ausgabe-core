@@ -25,18 +25,15 @@ public class XMLStateController : Controller {
     [GenerateAntiforgeryTokenCookie]
     public IActionResult Index() {
         var library = _lib.GetLibrary();
-        var roots = _xmlService.GetRootsList();
-        if (roots == null) return error404();
-
         var hF = _xmlProvider.GetHamannFiles()?.OrderByDescending(x => x.LastModified).ToList();
-        var mF = _xmlService.GetManagedFiles();
-        var gD = _xmlProvider.GetGitData();
+        var mF = _xmlService.GetState() == null ? null : _xmlService.GetState()!.ManagedFiles;
+        var gD = _xmlProvider.GetGitState();
         var activeF = _lib.GetActiveFile();
-        var vS = _xmlService.GetValidState();
+        var vS = _xmlService.GetState() == null ? false : _xmlService.GetState()!.ValidState;
 
-        var model = new XMLStateViewModel("Dateiübersicht", gD, roots, hF, mF, vS) {
+        var model = new XMLStateViewModel("Dateiübersicht", gD, hF, mF, vS) {
             ActiveFile = activeF,
-            SyntaxCheck = _xmlService.Test()
+            SyntaxCheck = _xmlService.GetSCCache(),
         };
         return View("~/Views/Admin/Dynamic/XMLState.cshtml", model);
     }

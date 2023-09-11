@@ -185,11 +185,11 @@ public class Briefecontroller : Controller {
         foreach (var str in strlist) {
             if (str != strlist.First())
                 if (str == strlist.Last())
-                    res += " und " + HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index) + str.Name + HTMLHelpers.TagHelpers.CreateEndElement("a");
+                    res += " und " + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
                 else
-                    res += ", " + HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index) + str.Name + HTMLHelpers.TagHelpers.CreateEndElement("a");
+                    res += ", " + (str.Index == "1" ? "" :HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
             else
-                res += HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index) + str.Name + HTMLHelpers.TagHelpers.CreateEndElement("a");
+                res += (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
         }
         return res;
     }

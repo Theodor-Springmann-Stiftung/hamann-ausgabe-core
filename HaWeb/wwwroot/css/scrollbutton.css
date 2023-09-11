@@ -4,7 +4,7 @@
 
 /* STYLES */
   .ha-scrollbutton {
-    @apply opacity-0 transition-opacity duration-500 cursor-pointer fixed right-0 bottom-6 text-center py-2 pr-6 bg-slate-50 dark:bg-slate-700 dark:text-white px-2 shadow rounded-l-xl transition-all hover:shadow-md text-hamannSlate-700 hover:text-hamannSlate-500
+    @apply opacity-0 transition-opacity duration-500 cursor-pointer fixed right-0 bottom-48 text-center py-2 pr-6 bg-slate-50 dark:bg-slate-700 dark:text-white px-2 shadow rounded-l-xl transition-all hover:shadow-md text-hamannSlate-700 hover:text-hamannSlate-500
   }
 
   .ha-scrollbuttonarrow {

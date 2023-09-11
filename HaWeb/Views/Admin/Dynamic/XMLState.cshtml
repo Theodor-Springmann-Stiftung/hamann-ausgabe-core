@@ -5,57 +5,137 @@
     ViewData["showCredits"] = "false";
 }
 
-<div class="ha-adminuploadfields" id="ha-adminuploadfields">
-  <div class="ha-uploadcontainer"> 
-
-  @* File Category Page File List *@ 
-    @*
-        <textarea class="py-2 px-3 mx-8 mb-8 shadow-lg font-mono text-sm border rounded" id="errormessagebox" name="errormessagebox" rows="25" cols="90" readonly>
-            @foreach (var f in Model.Files[Model.Prefix])
-            {
-                @f.Messages
-            }
-        </textarea> *@
+  @* TODO: Headers <div class="ha-xmlstateheader">
+    <h1>XML-Daten</h1>
+  </div> *@
   @if (Model.ManagedFiles != null && Model.ManagedFiles.Any()) {
-    <div class="">
-      <table>
-        @foreach (var f in Model.ManagedFiles) {
-          <tr>
-            <td>@f.FileName</td>
-            <td>@f.GetLastModified()</td>
-            @if (f.IsValid) {
-              <td>Valid! @f.GetLog()</td>
-              <td>
-                 @if (Model.SyntaxCheck[f.FileName] != null && Model.SyntaxCheck[f.FileName].Errors != null) {
-                  <ul>
-                  @foreach(var e in Model.SyntaxCheck[f.FileName]?.Errors) {
-                    <li>@e.Line @e.Column @e.Message </li>
-                  }
-                  </ul>
-                 }
-              </td>
-            } else {
-              <td>@f.GetLog()</td>
-              <td> </td>
-            }
-          </tr>
+    <div class="ha-managedfiles">
+        <div class="ha-repo">
+          <div class="ha-repodata">
+          <div><a href="https://github.com/Theodor-Springmann-Stiftung/hamann-xml">Repository &rarr;</a></div>
+          @if (Model.GitData != null) {
+            <div>Commit @Model.GitData.Commit.Substring(0,7)</div>
+            <div>@Model.GitData.PullTime</div>
+          }
+          </div>
+          <div class="ha-repofilecount">
+            @Model.ManagedFiles.Count XML-Dateien
+          </div>
+        </div>
+
+    @* Syntax-Check cached? We provide the results. *@
+    @if (Model.SyntaxCheck != null) {
+      <div class="ha-managedfileslist">
+          @foreach (var f in Model.ManagedFiles) {
+            <div class="ha-managedfile" id="@f.FileName">
+            @if (Model.SyntaxCheck.ContainsKey(f.FileName) && Model.SyntaxCheck[f.FileName].Errors == null) {
+                <div class="ha-managedfileheader green">
+                  <div>@f.FileName</div>
+                  <div>@f.GetLastModified()</div>
+                  <div class="ha-filestatusicon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><title>check-bold</title><path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg>
+                  </div>
+                </div>
+              } else if (Model.SyntaxCheck.ContainsKey(f.FileName)) {
+                <div class="ha-managedfileheader expandable orange">
+                  <div>@f.FileName</div>
+                  <div>@f.GetLastModified()</div>
+                  <div class="ha-filestatusicon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><title>alert-decagram-outline</title><path d="M23,12L20.56,14.78L20.9,18.46L17.29,19.28L15.4,22.46L12,21L8.6,22.47L6.71,19.29L3.1,18.47L3.44,14.78L1,12L3.44,9.21L3.1,5.53L6.71,4.72L8.6,1.54L12,3L15.4,1.54L17.29,4.72L20.9,5.54L20.56,9.22L23,12M20.33,12L18.5,9.89L18.74,7.1L16,6.5L14.58,4.07L12,5.18L9.42,4.07L8,6.5L5.26,7.09L5.5,9.88L3.67,12L5.5,14.1L5.26,16.9L8,17.5L9.42,19.93L12,18.81L14.58,19.92L16,17.5L18.74,16.89L18.5,14.1L20.33,12M11,15H13V17H11V15M11,7H13V13H11V7" /></svg>                  </div>
+                </div>
+                <div class="ha-managedfileannotations">
+                  <table>
+                    <tr>
+                      <th>Zeile</th>
+                      <th>Spalte</th>
+                      <th>Fehler</th>
+                    </tr>
+                    @foreach (var e in Model.SyntaxCheck[f.FileName]!.Errors) {
+                      <tr>
+                        <td>@e.Line</td>
+                        <td>@e.Column</td>
+                        <td>@e.Message</td>
+                      </tr>
+                    }
+                  </table>
+                </div>
+              } else {
+                <div class="ha-managedfileheader expandable expanded red">
+                  <div>@f.FileName</div>
+                  <div>@f.GetLastModified()</div>
+                  <div class="ha-filestatusicon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
+                  </div>
+                </div>
+                <div class="ha-managedfileannotations">
+                  @f.GetLog()
+                </div>
+              }
+            </div>
+          }
+      </div>
+    } 
+
+    @* No SyntaxCheck? We provide the data + a button to load *@
+    else {
+        <div class="ha-managedfileslist">
+          @foreach (var f in Model.ManagedFiles) {
+            <div class="ha-managedfile" id="@f.FileName">
+              @if (f.IsValid) {
+                <div class="ha-managedfileheader">
+                  <div>@f.FileName</div>
+                  <div>@f.GetLastModified()</div>
+                  <div class="ha-filestatusicon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><title>check-bold</title><path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg>
+                  </div>
+                </div>
+              } else {
+                <div class="ha-managedfileheader expandable expanded red">
+                  <div>@f.FileName</div>
+                  <div>@f.GetLastModified()</div>
+                  <div class="ha-filestatusicon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
+                  </div>
+                </div>
+              }
+              <div class="ha-managedfileannotations">
+                @f.GetLog()
+              </div>
+            </div>
+          }
+      </div>
+      <feature name="SyntaxCheck">
+        @if (Model.ValidState) {
+          <form class="ha-selectfilesform" asp-controller="API" asp-action="GetSyntaxCheck" onsubmit="GETSyntaxCheck(this);return false;" method="get">
+          <button type="submit" class="ha-scbutton" id="ha-scbutton" >
+            Verweise & IDs prüfen
+          </button>
+          </form>
         }
-      </table>
+      </feature>
+    }
     </div>
   } else {
-    <div class="">
+    
+    <div class="ha-managedfilesnotfound">
       Keine Dateien im Repository gefunden!
     </div>
   }
 
-
-    <script defer src="/js/filelistform.js" asp-append-version="true"></script>
-
-<fieldset class="ha-filelistfieldset">
-    <legend class="ha-filelistlegend">Verfügbare Dateien</legend>
+<feature name="LocalPublishService">
+<div class="ha-filelistfieldset">
+    <div class="ha-filelistlegend">Auswahl verfügbarer Dateien</div>
     @if(Model.HamannFiles != null && Model.HamannFiles.Any()) {
-        <form class="ha-selectfilesform" id="selecthamannfilesform" asp-controller="API" asp-action="SetInProduction" method="post" onsubmit="USESubmit(this);return false;" enctype="multipart/form-data">
+        <form class="ha-selectfilesform" id="selecthamannfilesform" asp-controller="API" asp-action="SetInProduction" method="post" onsubmit="USESubmit(this);return false;" enctype="application/x-www-form-urlencoded">
         <div class="ha-filelistlist">
+          @if (!Model.ValidState) {
+            <div class="ha-filelistfile">
+              <input type="radio" disabled><div class="ha-filelistname"> Aktuelle Datei kann nicht geladen werden.</div>
+              <div class="ha-filelistusedproduction">
+                    <div class="ha-filelistproduction hue-rotate-180">Fehler</div>
+                </div>
+            </div>
+          }
         @foreach (var file in Model.HamannFiles) {
             <div class="ha-filelistfile">
               @if (Model.ActiveFile != null) {
@@ -66,7 +146,7 @@
             <div class="ha-filelistname">@file.Name</div>
             @if (Model.ActiveFile != null && file.Name == Model.ActiveFile!.Name) {
                 <div class="ha-filelistusedproduction">
-                    <div class="ha-filelistproduction">in Verwendung</div>
+                    <div class="ha-filelistproduction">geladen</div>
                 </div>
             }
             @* // TODO Metadata
@@ -75,11 +155,6 @@
             </div>
         }
         </div>
-        @if (!Model.ValidState) {
-          <div>
-            Status nicht validiert! Daten können nicht auf der Webseite angezeigt werden!
-          </div>
-        }
         <output id ="ha-filelistoutput"></output>
         <button type="submit" class="ha-filelistbutton" id="ha-filelistbutton" >
             Laden
@@ -90,4 +165,6 @@
     else {
         <div>Keine Dateien gefunden! Es wird eine fallback-Datei verwendet!</div>
     }
-  </fieldset>
+  </div>
+  </feature>
+  <script defer src="/js/filelistform.js" asp-append-version="true"></script>

@@ -41,11 +41,11 @@ public class ConfigurationMonitor {
             _h = h;
             _timer = new(8000) { AutoReset = false };
             _timer.Enabled = true;
-            _timer.Elapsed += OnChanged;
+            _timer.Elapsed += _OnChanged;
         }
     }
 
-    private void OnChanged(Object source, System.Timers.ElapsedEventArgs e) {
+    private void _OnChanged(Object source, System.Timers.ElapsedEventArgs e) {
         Console.WriteLine("Configuration changed (ConfigurationMonitor Class)");
         using IServiceScope serviceScope = _serviceProvider.CreateScope();
         IServiceProvider provider = serviceScope.ServiceProvider;

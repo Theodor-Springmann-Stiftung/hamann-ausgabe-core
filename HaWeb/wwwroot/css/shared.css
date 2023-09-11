@@ -62,7 +62,7 @@
   }
 
   .ha-location {
-    @apply !text-hamannHighlight absolute text-xl hidden sm:inline-block
+    @apply !text-hamannSlate-300 absolute text-xl hidden sm:inline-block
   }
 
 

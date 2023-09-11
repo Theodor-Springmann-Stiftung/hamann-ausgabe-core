@@ -6,10 +6,14 @@ using HaWeb.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 public interface IXMLFileProvider {
+        public event EventHandler<GitState?> FileChange;
+        public event EventHandler<XMLParsingState?> NewState;
+        public event EventHandler NewData;
+        public event EventHandler ConfigReload;
         public List<IFileInfo>? GetWorkingTreeFiles();
         public IFileInfo? SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary ModelState);
         public List<IFileInfo>? GetHamannFiles();
-        public (DateTime PullTime, string Hash)? GetGitData();
+        public GitState? GetGitState();
         public void ParseConfiguration(IConfiguration config);
         public bool HasChanged();
         public void DeleteHamannFile(string filename);

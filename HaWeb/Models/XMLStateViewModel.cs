@@ -7,11 +7,8 @@ public class XMLStateViewModel {
     // Titel der Seite / Aktiver Präfix
     public string ActiveTitle { get; private set; }
     public IFileInfo? ActiveFile { get; set; }
-    public (DateTime PullTime, string Hash)? GitData { get; private set; }
+    public GitState? GitData { get; private set; }
     public bool ValidState { get; private set; }
-
-    // Verfügbare Datei-Typen
-    public List<IXMLRoot>? AvailableRoots { get; private set; }
 
     // Akuell geladene Dateien
     public List<FileModel>? ManagedFiles { get; private set; }
@@ -24,13 +21,11 @@ public class XMLStateViewModel {
 
     public XMLStateViewModel(
         string title, 
-        (DateTime PullTime, string Hash)? gitData,
-        List<IXMLRoot>? roots,
+        GitState? gitData,
         List<IFileInfo>? hamannFiles,
         List<FileModel>? managedFiles,
         bool validState) {
             ActiveTitle = title;
-            AvailableRoots = roots;
             HamannFiles = hamannFiles;
             ManagedFiles = managedFiles;
             GitData = gitData;

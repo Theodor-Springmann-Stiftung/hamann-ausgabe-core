@@ -18,7 +18,7 @@
                 <div class="ha-comment">
                     <div class="ha-headcomment">
                         <div class="ha-commentmetatext">
-                            Briefe von und an &emsp;
+                            Briefwechsel mit &emsp;
                             <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">←&nbsp;Alle&nbsp;Briefe</a>
                         </div>
                         @Html.Raw(Model.PersonComment.ParsedComment)
@@ -131,7 +131,7 @@
                         </div>
                         @if (Model.ActivePerson != null && Model.AvailablePersons.Where(x => x.Key == Model.ActivePerson).Any()) {
                             <div class="ha-activefilterinfo">
-                                Briefe von und an @Model.AvailablePersons.Where(x => x.Key == Model.ActivePerson).First().Name.&emsp;
+                                Briefwechsel mit @Model.AvailablePersons.Where(x => x.Key == Model.ActivePerson).First().Name.&emsp;
                                 <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">←&nbsp;Auswahl&nbsp;aufheben</a>
                             </div>
                         }
