@@ -5,6 +5,7 @@ using HaWeb;
 using HaWeb.FileHelpers;
 using HaWeb.Models;
 using HaWeb.XMLParser;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.FeatureManagement;
 
 public class WebSocketMiddleware : IMiddleware {
@@ -70,16 +71,24 @@ public class WebSocketMiddleware : IMiddleware {
         WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         while (!result.CloseStatus.HasValue) {
             var msg = Encoding.UTF8.GetString(buffer,0,result.Count);
-            if (msg.ToLower() == "hello") {
-                var state = _xmlProvider.GetGitState();
-                await webSocket.SendAsync(_SerializeToBytes(state), WebSocketMessageType.Text, true, CancellationToken.None);
-                await webSocket.SendAsync(_SerializeToBytes(new FileState(_xmlService.GetState())), WebSocketMessageType.Text, true, CancellationToken.None);
-            } else if (msg.ToLower() == "ping" ) {
-                await webSocket.SendAsync(_SerializeToBytes(new { Ping = true}), WebSocketMessageType.Text, true, CancellationToken.None);
+            try {
+                if (msg.ToLower() == "hello") {
+                    var state = _xmlProvider.GetGitState();
+                    await webSocket.SendAsync(_SerializeToBytes(state), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await webSocket.SendAsync(_SerializeToBytes(new FileState(_xmlService.GetState())), WebSocketMessageType.Text, true, CancellationToken.None);
+                } else if (msg.ToLower() == "ping" ) {
+                    await webSocket.SendAsync(_SerializeToBytes(new { Ping = true}), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            } catch (ConnectionAbortedException ex) {
+                _openSockets!.Remove(webSocket);
             }
-            result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         }
-        await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        try {
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        } catch (ConnectionAbortedException ex) {
+            _openSockets.Remove(webSocket);
+        }
         _openSockets!.Remove(webSocket);
     }
 
@@ -116,7 +125,11 @@ public class WebSocketMiddleware : IMiddleware {
     private async Task _SendToAll<T>(T msg) {
         if (_openSockets == null) return;
         foreach (var socket in _openSockets) {
-            await socket.SendAsync(_SerializeToBytes(msg), WebSocketMessageType.Text, true, CancellationToken.None);
+            try {
+                await socket.SendAsync(_SerializeToBytes(msg), WebSocketMessageType.Text, true, CancellationToken.None);
+            } catch (ConnectionAbortedException ex) {
+                _openSockets.Remove(socket);
+            }
         }
     }
 

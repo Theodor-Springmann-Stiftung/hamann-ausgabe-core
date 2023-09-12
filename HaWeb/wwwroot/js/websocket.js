@@ -28,7 +28,7 @@ socket.onopen = function (event) {
     socket.send("Hello");
     wsPingInterval = setInterval(() => {
         socket.send("Ping");
-    }, 4500);
+    }, 30000);
     updateMessage();
 };
 socket.onclose = function (event) {

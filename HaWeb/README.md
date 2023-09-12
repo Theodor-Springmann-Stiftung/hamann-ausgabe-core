@@ -23,7 +23,7 @@ Note that nodejs is used only as a build tool for css (and possibly in the futur
 
 ## Development tools
 
-Run
+Set the `DOTNET_ENVIRONMENT` variable to `Development`. Run
 
 `dotnet watch run` and
 
@@ -46,6 +46,16 @@ To build a release version for the current server, build the css file, then run:
 For a Linux server run:
 
 `dotnet publish --runtime linux-x64 -c Release`
+
+In the appropriate settings (set the `DOTNET_ENVIRONMENT` variable on the server to `Staging` (development.hamann-ausgabe.de) or `Production` (hamann-ausgabe.de)) set the variables for
+
+- HamannFileStoreLinux
+- WorkingTreePathLinux
+- BareRepositoryPathLinux
+- RepositoryBranch
+- RepositoryURL
+
+Absolute paths, sadly, are reqired. Create Folders if neccessary. Reading rights are required for `HamannFileStoreLinux` (to save the state). The `BareRepositoryPath` usually is the `.git` Folder inside the Repo, where the Server gets the latest commit information from `refs/heads/<Branch-Name>`. To sync either you set up a git server and set the server as remote of the repository to push. Or use git webhooks to pull on pushes. 
 
 ## Redesign der Hamann-Vebseite, drittes Update
 Veränderungenen in der Funktionalität für den Benutzer
