@@ -36,11 +36,11 @@
   }
 
   .ha-managedfileheader {
-    @apply flex flex-row gap-2 bg-slate-50 pl-3.5 pr-2.5 rounded-md py-1 w-full shadow-md select-none border-b
+    @apply flex flex-row gap-2 bg-slate-50 pl-3.5 pr-2.5 rounded-md py-1 w-full shadow-md select-none border-b transition-all
   }
 
   .ha-managedfileheader.expandable {
-    @apply cursor-pointer rounded-none !rounded-t-md border-b 
+    @apply cursor-pointer rounded-none !rounded-t-md border-b  hover:saturate-200 shadow  duration-200
   }
 
   .ha-managedfileheader.orange {
@@ -110,7 +110,7 @@
   
   /* Classes for FileList Component */
   .ha-filelistfieldset {
-    @apply bg-slate-50 px-3 py-2 mt-4
+    @apply bg-slate-50 px-1.5 py-2 mt-4 shadow-md rounded-md
   }
 
   .ha-filelistfieldset .ha-filelistlegend {
@@ -146,7 +146,7 @@
   }
 
   .ha-selectfilesform .ha-filelistfile .ha-filelistmodified {
-    @apply grow text-right
+    @apply grow text-right pr-1.5
   }
 
   .ha-selectfilesform .ha-filelistoutput {
