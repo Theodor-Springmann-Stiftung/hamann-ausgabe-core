@@ -2,6 +2,7 @@ var stateSC = null;
 var stateValidation = null;
 var stateReload = null;
 var stateCommit = null;
+var statePing = false;
 var firstMessage = true;
 var commsLog = document.getElementById("commsLog");
 var commsNot = document.getElementById("comm-notifications");
@@ -9,7 +10,7 @@ var socket;
 
 var scheme = document.location.protocol === "https:" ? "wss" : "ws";
 var port = document.location.port ? (":" + document.location.port) : "";
-
+var wsPingInterval;
 var connectionUrl = scheme + "://" + document.location.hostname + port + "/WS" ;
 
 function htmlEscape(str) {
@@ -25,9 +26,13 @@ function htmlEscape(str) {
 socket = new WebSocket(connectionUrl);
 socket.onopen = function (event) {
     socket.send("Hello");
+    wsPingInterval = setInterval(() => {
+        socket.send("Ping");
+    }, 4500);
     updateMessage();
 };
 socket.onclose = function (event) {
+    clearInterval(wsPingInterval);
     updateMessage();
 };
 socket.onerror = updateMessage;
@@ -66,15 +71,18 @@ socket.onmessage = function (event) {
     } else if (msg.reload != null) {
         stateReload = msg.reload;
         if (msg.reload) {
+            commsLog.innerHTML = 'Seite wird neu geladen.';
+            commsNot.classList.add("imp");
             setTimeout(() =>  {
                 commsNot.remove();
                 socket.close(1000, "bye");
                 location.reload();
-            }, 1500);
-            
+            }, 2000);
         }
     } else if (msg.SC != null) {
         stateSC = msg.SC;
+    } else if (msg.Ping != null) {
+        statePing = true;
     } else {
         commsLog.innerHTML = htmlEscape(event.data);
     }

@@ -69,9 +69,14 @@ public class WebSocketMiddleware : IMiddleware {
         _openSockets!.Add(webSocket);
         WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         while (!result.CloseStatus.HasValue) {
-            var state = _xmlProvider.GetGitState();
-            await webSocket.SendAsync(_SerializeToBytes(state), WebSocketMessageType.Text, true, CancellationToken.None);
-            await webSocket.SendAsync(_SerializeToBytes(new FileState(_xmlService.GetState())), result.MessageType, true, CancellationToken.None);
+            var msg = Encoding.UTF8.GetString(buffer,0,result.Count);
+            if (msg.ToLower() == "hello") {
+                var state = _xmlProvider.GetGitState();
+                await webSocket.SendAsync(_SerializeToBytes(state), WebSocketMessageType.Text, true, CancellationToken.None);
+                await webSocket.SendAsync(_SerializeToBytes(new FileState(_xmlService.GetState())), WebSocketMessageType.Text, true, CancellationToken.None);
+            } else if (msg.ToLower() == "ping" ) {
+                await webSocket.SendAsync(_SerializeToBytes(new { Ping = true}), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
             result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         }
         await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
