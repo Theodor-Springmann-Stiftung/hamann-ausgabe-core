@@ -14,24 +14,26 @@ public class BackLinkCollection : HaWeb.XMLParser.IXMLCollection {
     public bool Searchable { get; } = true;
 
     public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        var margid = (string?)elem.Ancestors("marginal").First().Attribute("index");
-        if (String.IsNullOrWhiteSpace(margid)) return null;
-        return margid + _random.Next().ToString();
+        var letter = (string?)elem.Attribute("letter");
+        var page = (string?)elem.Attribute("page");
+        var line = (string?)elem.Attribute("line");
+        if (letter == null) return null;
+        var index = letter + "-" + page ?? "" + "-" + line ?? "";
+        if (String.IsNullOrWhiteSpace(index)) return null;
+        return index + _random.Next().ToString();
     };
 
     public static IDictionary<string, string>? GetDataFields(XElement element) {
         var res = new Dictionary<string, string>();
         var marg = element.Ancestors("marginal").First();
-        var index = (string?)marg.Attribute("index");
         var letter = (string?)marg.Attribute("letter");
         var page = (string?)marg.Attribute("page");
         var line = (string?)marg.Attribute("line");
         var refere = (string?)element.Attribute("ref");
         var subref = (string?)element.Attribute("subref");
-        if (index == null || letter == null || (refere == null && subref == null)) return null;
+        if (letter == null || (refere == null && subref == null)) return null;
         if (subref != null) res.Add("ref", subref);
         else res.Add("ref", refere!);
-        res.Add("index", index);
         res.Add("letter", letter);
         if (page != null) res.Add("page", page);
         if (line != null) res.Add("line", line);

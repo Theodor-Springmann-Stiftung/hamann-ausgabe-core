@@ -38,10 +38,10 @@ public static class CommentHelpers {
                         sb.Append(HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                         arrow = true;
                     }
-                    sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + let.Autopsic + "#" + blk.Page + "-" + blk.Line));
+                    sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + let.ID + "#" + blk.Page + "-" + blk.Line));
                     var linkstring = string.Empty;
                     var pglnstring = string.Empty;
-                    linkstring += let.Autopsic;
+                    linkstring += let.ID;
                     pglnstring += "&nbsp;(&#8239;" + blk.Page + "/" + blk.Line + "&#8239;)";
                     linkstring += pglnstring;
                     sb.Append(linkstring);

@@ -80,13 +80,13 @@ public class WebSocketMiddleware : IMiddleware {
                     await webSocket.SendAsync(_SerializeToBytes(new { Ping = true}), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            } catch (ConnectionAbortedException ex) {
+            } catch (WebSocketException ex) {
                 _openSockets!.Remove(webSocket);
             }
         }
         try {
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
-        } catch (ConnectionAbortedException ex) {
+        } catch (WebSocketException ex) {
             _openSockets.Remove(webSocket);
         }
         _openSockets!.Remove(webSocket);
@@ -127,7 +127,7 @@ public class WebSocketMiddleware : IMiddleware {
         foreach (var socket in _openSockets) {
             try {
                 await socket.SendAsync(_SerializeToBytes(msg), WebSocketMessageType.Text, true, CancellationToken.None);
-            } catch (ConnectionAbortedException ex) {
+            } catch (WebSocketException ex) {
                 _openSockets.Remove(socket);
             }
         }

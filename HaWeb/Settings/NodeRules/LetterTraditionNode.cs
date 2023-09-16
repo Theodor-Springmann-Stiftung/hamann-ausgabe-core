@@ -10,8 +10,8 @@ public class LetterTraditionNode : INodeRule
         Documents = new[] { "ueberlieferung" },
         XPath = "//letterTradition"
     };
-    public string[]? Attributes { get; } = { "ref" };
-    public string? uniquenessAttribute => "ref" ;
+    public string[]? Attributes { get; } = { "letter" };
+    public string? uniquenessAttribute => "letter" ;
     public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
     };

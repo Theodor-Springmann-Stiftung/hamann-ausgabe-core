@@ -46,12 +46,12 @@ public class LinkHelper {
                         new HaWeb.HTMLHelpers.TagHelpers.Attribute() { Name = "rel", Value = "noopener noreferrer" }));
                 if (tag.Name == "intlink" && tag.Values.ContainsKey("letter") && _lib.Metas.ContainsKey(tag["letter"])) {
                     var letter = _lib.Metas[tag["letter"]];
-                    _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + letter.Autopsic + "#" + tag["page"] + "-" + tag["line"]));
+                    _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", LETLINKCLASS, "/HKB/Briefe/" + letter.ID + "#" + tag["page"] + "-" + tag["line"]));
                     if (!tag.Values.ContainsKey("linktext") || tag.Values["linktext"] == "true") {
                         var linkstring = string.Empty;
                         var ZHstring = string.Empty;
                         var pglnstring = string.Empty;
-                        linkstring += "HKB&nbsp;" + letter.Autopsic;
+                        linkstring += "HKB&nbsp;" + letter.ID;
                         if (tag.Values.ContainsKey("page")) {
                             pglnstring += tag["page"];
                             if (tag.Values.ContainsKey("line")) {

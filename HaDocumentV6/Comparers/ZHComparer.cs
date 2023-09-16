@@ -13,8 +13,8 @@ namespace HaDocument.Comparers
         {
             var firstNumber = 0;
             var secondNumber = 0;
-            Int32.TryParse(first.Index, out firstNumber);
-            Int32.TryParse(second.Index, out secondNumber);
+            Int32.TryParse(first.ID, out firstNumber);
+            Int32.TryParse(second.ID, out secondNumber);
             return firstNumber.CompareTo(secondNumber);
 
             //var firstIndex = from c in first.Meta.Autopsic

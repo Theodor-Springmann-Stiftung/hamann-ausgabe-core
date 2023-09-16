@@ -1,6 +1,6 @@
 namespace HaWeb.SearchHelpers;
 
 public interface ISearchable {
-    public string Index { get; }
+    public string ID { get; }
     public string? SearchText { get; }
 }

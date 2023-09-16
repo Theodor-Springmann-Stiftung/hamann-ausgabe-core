@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace HaDocument.Models{
-    public class Comment : HaDocument.Interfaces.ISearchable {
+    public class Comment {
         public string Element { get; } = "";
         public string Index { get; } = "";
         public string Type { get; } = "";

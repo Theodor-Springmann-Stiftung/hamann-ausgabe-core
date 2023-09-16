@@ -15,7 +15,7 @@ namespace HaDocument.Models
         public ImmutableDictionary<string, Person> Persons { get; }
         public ImmutableDictionary<string, Meta> Metas { get; }
         public ImmutableDictionary<string, Meta> ExcludedMetas { get; }
-        public ImmutableDictionary<string, Marginal> Marginals { get; }
+        public ImmutableDictionary<string, List<Marginal>> Marginals { get; }
         public ImmutableDictionary<string, Location> Locations { get; }
         public ImmutableDictionary<string, Letter> Letters { get; }
         public ImmutableDictionary<string, Person> HandPersons { get; }
@@ -35,8 +35,6 @@ namespace HaDocument.Models
         public Lookup<string, Comment> CommentsByCategory { get; }
         // Auswählen von Subkommentaren nach ID
         public ImmutableDictionary<string, Comment> SubCommentsByID { get; }
-        // Auswählen von Marginalien nach Briefen
-        public Lookup<string, Marginal> MarginalsByLetter { get; }
         // Ausw?hlen von Edits nach Briefen
         public Lookup<string, Editreason> EditreasonsByLetter { get; }
         // Auswählen von Briefen nach autoptischer Numemr und in zeitlich sortierter Reihenfolge.
@@ -51,7 +49,7 @@ namespace HaDocument.Models
             Dictionary<string, Person> persons,
             Dictionary<string, Meta> meta,
             Dictionary<string, Meta> excludedMeta,
-            Dictionary<string, Marginal> marginals,
+            Dictionary<string, List<Marginal>> marginals,
             Dictionary<string, Location> locations,
             Dictionary<string, Letter> letters,
             Dictionary<string, Person> handPersons,
@@ -95,7 +93,6 @@ namespace HaDocument.Models
                 CommentsByLetter_builder.Add(ts.Key, (Lookup<string, Comment>)ts.ToLookup(x => x.Index.Substring(0, 1).ToUpper()));
             }
             CommentsByCategoryLetter = CommentsByLetter_builder.ToImmutableDictionary();
-            MarginalsByLetter = (Lookup<string, Marginal>)Marginals.Values.ToLookup(x => x.Letter);
             EditreasonsByLetter = (Lookup<string, Editreason>)Editreasons.Values.ToLookup(x => x.Letter);
             MetasByDate = Metas.Values.ToImmutableSortedSet<Meta>(new DefaultComparer());
             MetasByYear = Metas.Values.ToLookup(x => x.Sort.Year);

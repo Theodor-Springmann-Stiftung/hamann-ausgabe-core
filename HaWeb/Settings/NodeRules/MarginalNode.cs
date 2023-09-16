@@ -10,8 +10,8 @@ public class MarginalNode : INodeRule
         Documents = new[] { "stellenkommentar" },
         XPath = "//marginal"
     };
-    public string[]? Attributes { get; } = { "index", "letter", "page", "line" };
-    public string? uniquenessAttribute => "index";
+    public string[]? Attributes { get; } = { "letter", "page", "line" };
+    public string? uniquenessAttribute { get; }
     public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
     };

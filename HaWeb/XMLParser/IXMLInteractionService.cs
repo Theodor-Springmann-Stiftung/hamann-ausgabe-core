@@ -19,7 +19,9 @@ public interface IXMLInteractionService {
     public void CreateSearchables(XDocument document); // XMLFileProvider
     public Dictionary<string, SyntaxCheckModel>? Test(XMLParsingState? state, string gitcommit); // XMLFileProvider (optimal), Controller (right now)
     // Controller
-    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);
+    public List<(CollectedItem Item, List<(string Page, string Line, string Preview, string? Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);
     // Controller
-    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib);
+    public List<(CollectedItem Item, List<(string Page, string Line, string Preview, string? Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib);
+
+    public CollectedItem? GetCollectedItem(string collection, string id);
 }

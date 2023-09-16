@@ -16,7 +16,7 @@ public class StructureCollection : ICollectionRule {
 
     public IEnumerable<(string, XElement, XMLRootDocument)> GenerateIdentificationStrings(IEnumerable<(XElement, XMLRootDocument)> list) {
         foreach (var e in list) {
-            var id = e.Item1.Name == "letterText" ? e.Item1.Attribute("index")!.Value : e.Item1.Attribute("ref")!.Value;
+            var id = e.Item1.Attribute("letter")!.Value;
             var currpage = String.Empty;
             var currline = String.Empty;
             foreach (var el in e.Item1.Descendants()) {

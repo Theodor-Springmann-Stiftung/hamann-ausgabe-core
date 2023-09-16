@@ -13,7 +13,7 @@ public class LetterCollection : HaWeb.XMLParser.IXMLCollection {
     public bool Searchable { get; } = true;
 
     public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        var index = elem.Attribute("index");
+        var index = elem.Attribute("letter");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;
         else return null;

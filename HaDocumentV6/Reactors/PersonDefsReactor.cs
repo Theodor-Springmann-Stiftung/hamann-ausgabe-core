@@ -15,6 +15,7 @@ namespace HaDocument.Reactors {
         private string Name;
         private string Prename = "";
         private string Surname = "";
+        private string? Reference;
         private string? Komm;
 
         internal PersonDefsReactor(IReader reader, IntermediateLibrary lib) : base(reader, lib) {
@@ -42,6 +43,7 @@ namespace HaDocument.Reactors {
                 Name = tag["name"];
                 Prename = tag["vorname"];
                 Surname = tag["nachname"];
+                Reference = String.IsNullOrWhiteSpace(tag["ref"]) ? null : tag["ref"];
                 if (!String.IsNullOrWhiteSpace(tag["komm"])) Komm = tag["komm"];
                 Add();
                 _active = false;
@@ -53,11 +55,12 @@ namespace HaDocument.Reactors {
             Name = "";
             Prename = "";
             Surname = "";
+            Reference = null;
             Komm = null;
         }
 
         public void Add() {
-            CreatedInstances.Add(Index, new Person(Index, Name, Prename, Surname, Komm));
+            CreatedInstances.Add(Index, new Person(Index, Name, Prename, Surname, Komm, Reference));
         }
     }
 }

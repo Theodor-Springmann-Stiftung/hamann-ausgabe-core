@@ -166,10 +166,10 @@ public class XMLInteractionService : IXMLInteractionService {
         return opus;
     }
 
-    public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib) {
-         if (!_Collection.ContainsKey("letters")) return null;
+    public List<(CollectedItem Item, List<(string Page, string Line, string Preview, string? Identifier)> Results)>? GetPreviews(List<(string, List<Marginal>)> places, IReaderService reader, ILibrary lib) {
+         if (_Collection == null || !_Collection.ContainsKey("letters")) return null;
         var searchableObjects = _Collection["letters"].Items;
-        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview, string identifier)> Results)>();
+        var res = new ConcurrentBag<(CollectedItem item, List<(string Page, string Line, string preview, string? identifier)> Results)>();
 
         Parallel.ForEach(places, (obj) => {
             var text = searchableObjects[obj.Item1];
@@ -180,7 +180,7 @@ public class XMLInteractionService : IXMLInteractionService {
             rd.Read();
 
             res.Add((
-                obj.Item1,
+                text,
                 obj.Item2.Select(x => (
                     x.Page,
                     x.Line,
@@ -190,7 +190,7 @@ public class XMLInteractionService : IXMLInteractionService {
                         .Select(y => y.Text)
                         .FirstOrDefault(string.Empty)
                         : string.Empty,
-                    String.Empty
+                    (string?)null
                 ) ).ToList()
             ));
         });
@@ -198,10 +198,17 @@ public class XMLInteractionService : IXMLInteractionService {
         return res.ToList();
     }
 
-     public List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary lib) {
-        if (!_Collection.ContainsKey(collection)) return null;
+    public CollectedItem? GetCollectedItem(string collection, string id) {
+        if (_Collection == null || !_Collection.ContainsKey(collection)) return null;
+        var objects = _Collection[collection].Items;
+        if (objects == null || !objects.ContainsKey(id)) return null;
+        return objects[id];
+    }
+
+     public List<(CollectedItem Item, List<(string Page, string Line, string Preview, string? Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib) {
+        if (_Collection == null || !_Collection.ContainsKey(collection)) return null;
         var searchableObjects = _Collection[collection].Items;
-        var res = new ConcurrentBag<(string Index, List<(string Page, string Line, string preview, string identifier)> Results)>();
+        var res = new ConcurrentBag<(CollectedItem item, List<(string Page, string Line, string preview, string? identifier)> Results)>();
         var sw = StringHelpers.NormalizeWhiteSpace(searchword.Trim());
 
         // Non Parallel:
@@ -236,7 +243,7 @@ public class XMLInteractionService : IXMLInteractionService {
                 rd.Read();
                 if (state.Results != null)
                     res.Add((
-                        obj.Value.Index,
+                        obj.Value,
                         state.Results.Select(x => (
                             x.Page,
                             x.Line,
@@ -272,10 +279,7 @@ public class XMLInteractionService : IXMLInteractionService {
                             var searchtext = coll.Value.Searchable ? 
                                 StringHelpers.NormalizeWhiteSpace(e.ToString(), ' ', false) : 
                                 null;
-                            var datafileds = coll.Value.GenerateDataFields != null ? 
-                                coll.Value.GenerateDataFields(e) :
-                                null;
-                            items[k] = new CollectedItem(k, e, coll.Value, datafileds, searchtext);
+                            items[k] = new CollectedItem(k, e, coll.Value, searchtext);
                         }
                     }
                     if (items.Any()) {

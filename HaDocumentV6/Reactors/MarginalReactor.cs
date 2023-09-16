@@ -6,12 +6,12 @@ using System;
 
 namespace HaDocument.Reactors {
     class MarginalReactor : Reactor {
-        internal Dictionary<string, Marginal> CreatedInstances;
+        internal Dictionary<string, List<Marginal>> CreatedInstances;
         internal Dictionary<string, List<Backlink>> CreatedBacklinks;
         private bool _normalizeWhitespace = false;
 
         // State
-        private string Index = "";
+        private string? Sort = "";
         private string Letter = "";
         private string Page = "";
         private string Line = "";
@@ -20,8 +20,8 @@ namespace HaDocument.Reactors {
 
         internal MarginalReactor(IReader reader, IntermediateLibrary lib, bool normalizeWhitespace) : base(reader, lib) {
             _normalizeWhitespace = normalizeWhitespace;
-            lib.Marginals = new Dictionary<string, Marginal>();
-            lib.Backlinks = new Dictionary<string, List<Backlink>>();
+            lib.Marginals = new ();
+            lib.Backlinks = new ();
             CreatedBacklinks = lib.Backlinks;
             CreatedInstances = lib.Marginals;
             reader.OpenTag += Listen;
@@ -32,7 +32,6 @@ namespace HaDocument.Reactors {
                 !tag.EndTag && 
                 !tag.IsEmpty &&
                 tag.Name == "marginal" &&
-                !String.IsNullOrEmpty(tag["index"]) &&
                 !String.IsNullOrWhiteSpace(tag["letter"]) &&
                 !String.IsNullOrWhiteSpace(tag["page"]) &&
                 !String.IsNullOrWhiteSpace(tag["line"])
@@ -45,7 +44,7 @@ namespace HaDocument.Reactors {
             if (!_active && reader != null && tag != null) {
                 _active = true;
                 _reader = reader;
-                Index = tag["index"];
+                Sort = tag["sort"];
                 Letter = tag["letter"];
                 Page = tag["page"];
                 Line = tag["line"];
@@ -67,7 +66,7 @@ namespace HaDocument.Reactors {
                 if (!String.IsNullOrWhiteSpace(id)) {
                     if (!CreatedBacklinks.ContainsKey(id))
                         CreatedBacklinks.Add(id, new List<Backlink>());
-                    CreatedBacklinks[id].Add(new Backlink(id, Letter, Page, Line, Index));
+                    CreatedBacklinks[id].Add(new Backlink(id, Letter, Page, Line));
                 }
             }
         }
@@ -75,18 +74,19 @@ namespace HaDocument.Reactors {
         private void Add(string element) {
             if (String.IsNullOrWhiteSpace(element)) return;
             var marg = new Marginal(
-                Index,
                 Letter,
                 Page,
                 Line,
+                String.IsNullOrWhiteSpace(Sort) ? null : Sort,
                 element
             );
-            CreatedInstances.TryAdd(Index, marg);
+            if (!CreatedInstances.ContainsKey(Letter)) CreatedInstances.Add(Letter, new());
+            CreatedInstances[Letter].Add(marg);
             Reset();
         }
 
         protected override void Reset() {
-            Index = "";
+            Sort = "";
             _active = false;
             _element = null;
             _reader.Tag -= OnTag;

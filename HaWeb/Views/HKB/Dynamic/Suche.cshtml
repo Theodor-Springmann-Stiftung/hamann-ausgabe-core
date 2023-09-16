@@ -84,27 +84,27 @@
             @foreach (var year in Model.Letters) {
                 foreach (var letter in year.LetterList) {
                     <div class="ha-letterlistentry">
-                        <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
+                        <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.ID">
                             @Html.Partial("/Views/Shared/_LetterHead.cshtml", (letter, true, false))
                         </a>
                         
-                        @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.Index)) {
+                        @if (Model.SearchResults != null && Model.SearchResults.ContainsKey(letter.Meta.ID)) {
                         <div class="ha-letterlistsearchresults">
-                        @foreach (var sr in Model.SearchResults[letter.Meta.Index])
+                        @foreach (var sr in Model.SearchResults[letter.Meta.ID])
                         {
                             <div class="ha-letterlistsearchresult">
                                 <div class="ha-searchresultlocation">
-                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
-                                    HKB @letter.Meta.Autopsic @sr.Page/@sr.Line
+                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.ID" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
+                                    HKB @letter.Meta.ID @sr.Page/@sr.Line
                                     </a>
                                 </div>
                                 <div class="ha-searchresultpreview">
-                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
+                                    <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.ID" asp-route-search="@Model.ActiveSearch" asp-fragment="@sr.Page-@sr.Line">
                                     @sr.Preview
                                     </a>
                                     @if (Model.Marginals != null && Model.Marginals.Any()) {
-                                    @if (Model.Marginals.ContainsKey(letter.Meta.Index)) {
-                                        @foreach (var c in Model.Marginals[letter.Meta.Index]) {
+                                    @if (Model.Marginals.ContainsKey(letter.Meta.ID)) {
+                                        @foreach (var c in Model.Marginals[letter.Meta.ID]) {
                                             @if (c.Item1.Page == sr.Page && c.Item1.Line == sr.Line) {
                                                 <div class="ha-seachresultmarginal">
                                                     <div class="ha-searchresultcommentpill">Kommentar</div>

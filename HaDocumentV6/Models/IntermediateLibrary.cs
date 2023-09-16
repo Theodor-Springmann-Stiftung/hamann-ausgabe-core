@@ -9,7 +9,7 @@ namespace HaDocument.Models
         public Dictionary<string, Person> Persons;
         public Dictionary<string, Meta> Metas;
         public Dictionary<string, Meta> ExcludedMetas;
-        public Dictionary<string, Marginal> Marginals;
+        public Dictionary<string, List<Marginal>> Marginals;
         public Dictionary<string, Location> Locations;
         public Dictionary<string, Letter> Letters;
         public Dictionary<string, Person> HandPersons;

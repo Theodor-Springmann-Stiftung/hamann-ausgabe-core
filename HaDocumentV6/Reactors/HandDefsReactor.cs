@@ -13,7 +13,6 @@ namespace HaDocument.Reactors {
         // State
         private string Index;
         private string Name;
-        private string? Komm;
 
         internal HandDefsReactor(IReader reader, IntermediateLibrary lib) : base(reader, lib) {
             lib.HandPersons = new Dictionary<string, Person>();
@@ -39,7 +38,6 @@ namespace HaDocument.Reactors {
                 _active = true;
                 Index = tag["index"];
                 Name = tag["name"];
-                if (!String.IsNullOrWhiteSpace(tag["komm"])) Komm = tag["komm"];
                 Add();
                 _active = false;
             }
@@ -51,7 +49,7 @@ namespace HaDocument.Reactors {
         }
 
         protected void Add() {
-            CreatedInstances.Add(Index, new Person(Index, Name, "", "", Komm));
+            CreatedInstances.Add(Index, new Person(Index, Name, null, null, null, null));
         }
     }
 }

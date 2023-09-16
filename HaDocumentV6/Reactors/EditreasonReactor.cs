@@ -70,14 +70,14 @@ namespace HaDocument.Reactors {
                 !tag.IsEmpty &&
                 tag.Name == "letterText"
             ) {
-                letter = tag["index"];
+                letter = tag["letter"];
             }
             else if (
                 !tag.EndTag &&
                 !tag.IsEmpty &&
                 tag.Name == "letterTradition"
             ) {
-                letter = tag["ref"];
+                letter = tag["letter"];
             }
             else if (
                 !tag.EndTag &&

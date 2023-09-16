@@ -56,7 +56,7 @@
             @foreach (var year in Model.Letters) {
                 foreach (var letter in year.LetterList) {
                     <div class="ha-letterlistentry">
-                        <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.Autopsic">
+                        <a asp-controller="Briefe" asp-action="Index" asp-route-id="@letter.Meta.ID">
                             @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (letter, true, false))
                         </a>
                     </div>

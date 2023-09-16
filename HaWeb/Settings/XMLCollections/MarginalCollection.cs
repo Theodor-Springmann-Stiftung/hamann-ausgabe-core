@@ -13,9 +13,14 @@ public class MarginalCollection : HaWeb.XMLParser.IXMLCollection {
     public bool Searchable { get; } = true;
 
     public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        var index = elem.Attribute("index");
-        if (index != null && !String.IsNullOrWhiteSpace(index.Value))
-            return index.Value;
+        var letter = (string?)elem.Attribute("letter");
+        var page = (string?)elem.Attribute("page");
+        var line = (string?)elem.Attribute("line");
+        var sort = (string?)elem.Attribute("sort");
+        if (letter == null || page == null || line == null) return null;
+        var index = letter + "-" + page + "-" + line + sort ?? "";
+        if (index != null && !String.IsNullOrWhiteSpace(index))
+            return index;
         else return null;
     };
 
@@ -24,10 +29,12 @@ public class MarginalCollection : HaWeb.XMLParser.IXMLCollection {
         var letter = (string?)element.Attribute("letter");
         var page = (string?)element.Attribute("page");
         var line = (string?)element.Attribute("line");
+        var sort = (string?)element.Attribute("sort");
         if (letter == null || page == null || line == null) return null;
         res.Add("letter", letter);
         res.Add("page", page);
         res.Add("line", line);
+        if (sort != null) res.Add("sort", sort);
         return res;
     }
 

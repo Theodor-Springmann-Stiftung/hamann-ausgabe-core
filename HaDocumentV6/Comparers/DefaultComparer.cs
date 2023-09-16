@@ -16,7 +16,7 @@ namespace HaDocument.Comparers
             else if (first.Order != second.Order)
                 return first.Order.CompareTo(second.Order);
             else
-                return String.Compare(first.Index, second.Index);
+                return String.Compare(first.ID, second.ID);
         }
     }
 }

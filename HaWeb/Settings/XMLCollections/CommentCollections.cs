@@ -22,9 +22,9 @@ public static class CommentCollectionHelpers {
 
     public static IDictionary<string, ILookup<string, CollectedItem>>? GetLookups(IEnumerable<CollectedItem> items) {
         var res = new Dictionary<string, ILookup<string, CollectedItem>>();
-        var lemmas = items.Where(x => !String.IsNullOrWhiteSpace(x.Index));
+        var lemmas = items.Where(x => !String.IsNullOrWhiteSpace(x.ID));
         if (lemmas != null && lemmas.Any())
-            res.Add("lemma", lemmas.ToLookup(x => x.Index.Substring(0, 1).ToUpper()));
+            res.Add("lemma", lemmas.ToLookup(x => x.ID.Substring(0, 1).ToUpper()));
         // If we use lemmas
         // var lemmas = items.Where(x => x.Fields != null && x.Fields.ContainsKey("lemma"));
         // if (lemmas != null && lemmas.Any()) 

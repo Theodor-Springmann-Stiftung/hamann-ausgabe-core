@@ -30,7 +30,7 @@ public class IndexController : Controller {
         if (String.IsNullOrWhiteSpace(letterno)) return _error404();
         letterno = letterno.Trim();
         var lib = _lib.GetLibrary();
-        var letter = lib.Metas.Where(x => x.Value.Autopsic == letterno);
+        var letter = lib.Metas.ContainsKey(letterno) ? lib.Metas[letterno] : null;
         if (letter != null)
             return RedirectToAction("Index", "Briefe", new { id = letterno });
         return _error404();
@@ -50,7 +50,7 @@ public class IndexController : Controller {
         if (letters != null && letters.Any() && letters.Count == 1) {
             string? autopsic = null;
             if (lib.Metas.ContainsKey(letters.First())) {
-                autopsic = lib.Metas[letters.First()].Autopsic;
+                autopsic = lib.Metas[letters.First()].ID;
             }
             if (autopsic == null) return _error404();
             return RedirectToAction("Index", "Briefe", new { id = autopsic });

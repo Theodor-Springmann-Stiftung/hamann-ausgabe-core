@@ -1,14 +1,29 @@
+using System.Xml.Linq;
+
 namespace HaDocument.Models {
-    public class Letter : HaModel, HaDocument.Interfaces.ISearchable {
-        public string Index { get; } = "";
+    public class Letter {
+        public string ID { get; } = "";
         public string Element { get; } = "";
+        public XElement? XElement { get; }
 
         public Letter(
-            string index,
-            string element
+            string id,
+            string element,
+            XElement? xelement = null
         ) {
-            Index = index;
+            ID = id;
             Element = element;
+            XElement = xelement;
+        }
+
+        public static Letter? FromXElement(XElement element) {
+            if (!element.HasAttributes || element.IsEmpty || element.Name != "letterText") return null;
+            if (element.Attribute("letter")?.Value == null) return null;
+            return new Letter(
+                element.Attribute("letter")!.Value,
+                element.ToString(),
+                element
+            );
         }
     }
 }

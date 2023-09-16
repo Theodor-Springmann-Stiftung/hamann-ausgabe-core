@@ -33,24 +33,22 @@ public class Briefecontroller : Controller {
         // Normalisation and Validation, (some) data aquisition
         if (id == null) return Redirect(url + defaultID);
         id = id.ToLower();
-        var preliminarymeta = lib.Metas.Where(x => x.Value.Autopsic == id);
-        if (preliminarymeta == null || !preliminarymeta.Any()) return error404();
+        Meta? meta;
+        if (!lib.Metas.TryGetValue(id, out meta)) return error404();
 
         // Get all neccessary data
-        var index = preliminarymeta.First().Key;
-        var meta = preliminarymeta.First().Value;
-        var text = lib.Letters.ContainsKey(index) ? lib.Letters[index] : null;
-        var marginals = lib.MarginalsByLetter.Contains(index) ? lib.MarginalsByLetter[index] : null;
-        var tradition = lib.Traditions.ContainsKey(index) ? lib.Traditions[index] : null;
-        var editreasons = lib.Editreasons.ContainsKey(index) ? lib.EditreasonsByLetter[index] : null; // TODO: Order
-        var hands = lib.Hands.ContainsKey(index) ? lib.Hands[index] : null;
+        var text = lib.Letters.ContainsKey(id) ? lib.Letters[id] : null;
+        var marginals = lib.Marginals.ContainsKey(id) ? lib.Marginals[id] : null;
+        var tradition = lib.Traditions.ContainsKey(id) ? lib.Traditions[id] : null;
+        var editreasons = lib.Editreasons.ContainsKey(id) ? lib.EditreasonsByLetter[id] : null; // TODO: Order
+        var hands = lib.Hands.ContainsKey(id) ? lib.Hands[id] : null;
         var nextmeta = meta != lib.MetasByDate.Last() ? lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) + 1) : null;
         var prevmeta = meta != lib.MetasByDate.First() ? lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) - 1) : null;
 
         // More Settings and variables
         ViewData["Title"] = "HKB – Brief " + id.ToLower();
         ViewData["SEODescription"] = "HKB – Brief " + id.ToLower();
-        ViewData["Filename"] = "HKB_" + meta.Autopsic + ".pdf";
+        ViewData["Filename"] = "HKB_" + meta.ID + ".pdf";
         if (!string.IsNullOrWhiteSpace(search)) {
             ViewData["Mark"] = search;
         }
@@ -58,9 +56,9 @@ public class Briefecontroller : Controller {
         // Model creation
         var hasMarginals = false;
         if (marginals != null && marginals.Any()) hasMarginals = true;
-        var model = new BriefeViewModel(id, index, GenerateMetaViewModel(lib, meta, true));
-        if (nextmeta != null) model.MetaData.Next = (GenerateMetaViewModel(lib, nextmeta, false), url + nextmeta.Autopsic);
-        if (prevmeta != null) model.MetaData.Prev = (GenerateMetaViewModel(lib, prevmeta, false), url + prevmeta.Autopsic);
+        var model = new BriefeViewModel(id, id, GenerateMetaViewModel(lib, meta, true));
+        if (nextmeta != null) model.MetaData.Next = (GenerateMetaViewModel(lib, nextmeta, false), url + nextmeta.ID);
+        if (prevmeta != null) model.MetaData.Prev = (GenerateMetaViewModel(lib, prevmeta, false), url + prevmeta.ID);
         if (hands != null && hands.Any()) model.ParsedHands = HaWeb.HTMLHelpers.LetterHelpers.CreateHands(lib, hands);
         if (editreasons != null && editreasons.Any()) model.ParsedEdits = HaWeb.HTMLHelpers.LetterHelpers.CreateEdits(lib, _readerService, editreasons);
         model.DefaultCategory = lib.Apps.ContainsKey("-1") ? lib.Apps["-1"].Category : null;
@@ -130,8 +128,8 @@ public class Briefecontroller : Controller {
     }
 
     internal static BriefeMetaViewModel GenerateMetaViewModel(ILibrary lib, Meta meta, bool generatePersonLinks) {
-        var hasText = lib.Letters.ContainsKey(meta.Index) ? true : false;
-        var hasMarginals = lib.MarginalsByLetter.Contains(meta.Index) ? true : false;
+        var hasText = lib.Letters.ContainsKey(meta.ID) ? true : false;
+        var hasMarginals = lib.Marginals.ContainsKey(meta.ID) ? true : false;
         var senders = meta.Senders.Select(x => lib.Persons[x]).ToList() ?? new List<Person>();
         var receivers = meta.Receivers.Select(x => lib.Persons[x]).ToList() ?? new List<Person>();
         var zhstring = meta.ZH != null ? HaWeb.HTMLHelpers.LetterHelpers.CreateZHString(meta) : null;

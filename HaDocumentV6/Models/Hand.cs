@@ -1,5 +1,5 @@
 namespace HaDocument.Models {
-    public class Hand : HaModel {
+    public class Hand {
         public string Letter { get; } = "";
         public string Person { get; } = "";
         public string StartPage { get; } = "";

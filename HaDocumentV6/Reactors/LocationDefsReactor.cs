@@ -14,6 +14,7 @@ namespace HaDocument.Reactors {
         // State
         private string Index;
         private string Name;
+        private string? Reference;
 
         internal LocationDefsReactor(IReader reader, IntermediateLibrary lib) : base(reader, lib) {
             lib.Locations = new Dictionary<string, Location>();
@@ -39,6 +40,7 @@ namespace HaDocument.Reactors {
                 _active = true;
                 Index = tag["index"];
                 Name = tag["name"];
+                Reference = String.IsNullOrWhiteSpace(tag["ref"]) ? null : tag["ref"];
                 Add();
                 _active = false;
             }
@@ -47,10 +49,11 @@ namespace HaDocument.Reactors {
         protected override void Reset() {
             Index = "";
             Name = "";
+            Reference = null;
         }
 
         protected void Add() {
-            CreatedInstances.Add(Index, new Location(Index, Name));
+            CreatedInstances.Add(Index, new Location(Index, Name, Reference));
         }
     }
 }

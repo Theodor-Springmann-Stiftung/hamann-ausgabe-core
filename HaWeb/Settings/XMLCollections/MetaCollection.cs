@@ -13,7 +13,7 @@ public class MetaCollection : HaWeb.XMLParser.IXMLCollection {
     public bool Searchable { get; } = false;
 
     public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        var index = elem.Attribute("ref");
+        var index = elem.Attribute("letter");
         if (index != null && !String.IsNullOrWhiteSpace(index.Value))
             return index.Value;
         return null;

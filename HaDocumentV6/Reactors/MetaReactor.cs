@@ -14,8 +14,7 @@ namespace HaDocument.Reactors {
         private (int, int) _availableYearRange;
 
         // State
-        private string Index { get; set; } = "";
-        private string Autopsic { get; set; } = "";
+        private string ID { get; set; } = "";
         private string Volume { get; set; } = "";
         private string Page { get; set; } = "";
         private string Date { get; set; } = "";
@@ -23,9 +22,9 @@ namespace HaDocument.Reactors {
         private int Order { get; set; } = -1;
         private bool AltLineNumbering { get; set; } = false;
         private bool inZH { get; set; } = false;
-        private OptionalBool hasOriginal { get; set; } = OptionalBool.None;
-        private OptionalBool isProofread { get; set; } = OptionalBool.None;
-        private OptionalBool isDraft { get; set; } = OptionalBool.None;
+        private bool? hasOriginal { get; set; } = null;
+        private bool? isProofread { get; set; } = null;
+        private bool? isDraft { get; set; } = null;
         private bool dateChanged {get; set; } = false;
         private string Location { get; set; } = "";
         private List<string> Senders { get; set; } = null;
@@ -46,7 +45,7 @@ namespace HaDocument.Reactors {
                 !tag.EndTag && 
                 !tag.IsEmpty &&
                 tag.Name =="letterDesc" && 
-                !String.IsNullOrWhiteSpace(tag["ref"])
+                !String.IsNullOrWhiteSpace(tag["letter"])
             ) {
                 Activate(_reader, tag);
             }
@@ -56,7 +55,7 @@ namespace HaDocument.Reactors {
             if (!_active && reader != null && tag != null) { 
                 Reset();
                 _active = true;
-                Index = tag["ref"];
+                ID = tag["letter"];
                 reader.Tag += OnTag;
                 _reader = reader;
             }
@@ -79,10 +78,6 @@ namespace HaDocument.Reactors {
         private void OnTag(object _, Tag tag) {
             switch (tag.Name)
             {
-                case "autopsic":
-                    Autopsic = tag["value"];
-                    if (String.IsNullOrWhiteSpace(Autopsic)) Abort();
-                    break;
                 case "begin":
                     Page = tag["page"];
                     Volume = tag["vol"];
@@ -110,29 +105,29 @@ namespace HaDocument.Reactors {
                 case "hasOriginal":
                     var val = tag["value"];
                     if (val.ToLower() == "true")
-                        hasOriginal = OptionalBool.True;
+                        hasOriginal = true;
                     else if (val.ToLower() == "false")
-                        hasOriginal = OptionalBool.False;
+                        hasOriginal = false;
                     else
-                        hasOriginal = OptionalBool.None;
+                        hasOriginal = null;
                     break;
                 case "isProofread":
                     var val2 = tag["value"];
                     if (val2.ToLower() == "true")
-                        isProofread = OptionalBool.True;
+                        isProofread = true;
                     else if (val2.ToLower() == "false")
-                        isProofread = OptionalBool.False;
+                        isProofread = false;
                     else
-                        isProofread = OptionalBool.None;
+                        isProofread = null;
                     break;
                 case "isDraft":
                     var val3 = tag["value"];
                     if (val3.ToLower() == "true")
-                        isDraft = OptionalBool.True;
+                        isDraft = true;
                     else if (val3.ToLower() == "false")
-                        isDraft = OptionalBool.False;
+                        isDraft = false;
                     else
-                        isDraft = OptionalBool.None;
+                        isDraft = null;
                     break;
                 case "ZHInfo":
                     if (!tag.EndTag) {
@@ -154,8 +149,7 @@ namespace HaDocument.Reactors {
         private void Add() {
             var ZHInfo = !inZH ? null : new ZHInfo(AltLineNumbering, dateChanged, Volume, Page);
             var meta = new Meta(
-                    Index,
-                    Autopsic,
+                    ID,
                     Date,
                     Sort,
                     Order,
@@ -172,21 +166,20 @@ namespace HaDocument.Reactors {
                 (Sort.Year >= _availableYearRange.Item1 && Sort.Year <= _availableYearRange.Item2) ||
                 (_availableVolumes == null && _availableYearRange.Item1 == 0 && _availableYearRange.Item2 == 0)
             ) {
-                CreatedInstances.TryAdd(meta.Index, meta);
+                CreatedInstances.TryAdd(meta.ID, meta);
             }
             else {
-                ExcludedInstances.TryAdd(meta.Index, meta);
+                ExcludedInstances.TryAdd(meta.ID, meta);
             }
         }
 
         protected override void Reset() {
             inZH = true;
-            hasOriginal = OptionalBool.None;
-            isProofread = OptionalBool.None;
-            isDraft = OptionalBool.None;
+            hasOriginal = null;
+            isProofread = null;
+            isDraft = null;
             dateChanged = false;
-            Index = "";
-            Autopsic = "";
+            ID = "";
             Volume = "";
             Page = "";
             Date = "";

@@ -53,7 +53,7 @@
                 {
 
                             <a class="ml-1" href="@Model.PDFFilePath">
-                        <div class="inline-block bg-slate-100 hover:bg-slate-200 border px-1.5 rounded">Brief @Model.MetaData.Meta.Autopsic</div>
+                        <div class="inline-block bg-slate-100 hover:bg-slate-200 border px-1.5 rounded">Brief @Model.MetaData.Meta.ID</div>
                     </a>
                 }
 
@@ -73,7 +73,7 @@
                 @if (Model.MetaData.Prev != null)
                 {
                             <a href="@Model.MetaData.Prev.Value.Item2">
-                        @Model.MetaData.Prev.Value.Model.Meta.Autopsic ◀
+                        @Model.MetaData.Prev.Value.Model.Meta.ID ◀
                             </a>
                 }
 
@@ -84,7 +84,7 @@
                 @if (Model.MetaData.Next != null)
                 {
                             <a href="@Model.MetaData.Next.Value.Item2">
-                                ▶ @Model.MetaData.Next.Value.Model.Meta.Autopsic
+                                ▶ @Model.MetaData.Next.Value.Model.Meta.ID
                             </a>
                 }
                 </div>

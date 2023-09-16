@@ -14,7 +14,7 @@ namespace HaDocument.Reactors
         private bool _normalizeWhitespace = false;
 
         // State
-        private string Index = "";
+        private string ID = "";
 
         private string _page = "";
         private string _line = "";
@@ -46,7 +46,7 @@ namespace HaDocument.Reactors
             if (!tag.EndTag &&
                 !tag.IsEmpty &&
                 tag.Name == "letterTradition" &&
-                !String.IsNullOrWhiteSpace(tag["ref"])
+                !String.IsNullOrWhiteSpace(tag["letter"])
             )
             {
                 Activate(_reader, tag);
@@ -57,33 +57,33 @@ namespace HaDocument.Reactors
                 tag.Name == "ZHText"
             )
             {
-                if (!CreatedStructure.ContainsKey(tag["index"]))
-                    this.CreatedStructure.Add(tag["index"], new Dictionary<string, HashSet<string>>());
+                if (!CreatedStructure.ContainsKey(tag["letter"]))
+                    this.CreatedStructure.Add(tag["letter"], new Dictionary<string, HashSet<string>>());
             }
             else if (
                 !tag.EndTag &&
                 _active &&
                 tag.Name == "line" &&
-                !String.IsNullOrWhiteSpace(tag["index"])
+                !String.IsNullOrWhiteSpace(tag["letter"])
             )
             {
-                _line = tag["index"];
-                if (!CreatedStructure[Index][_page].Contains(_line))
+                _line = tag["letter"];
+                if (!CreatedStructure[ID][_page].Contains(_line))
                 {
-                    CreatedStructure[Index][_page].Add(_line);
+                    CreatedStructure[ID][_page].Add(_line);
                 }
             }
             else if (
                 !tag.EndTag &&
                 _active &&
                 tag.Name == "page" &&
-                !String.IsNullOrWhiteSpace(tag["index"])
+                !String.IsNullOrWhiteSpace(tag["letter"])
             )
             {
-                _page = tag["index"];
-                if (!CreatedStructure[Index].ContainsKey(_page))
+                _page = tag["letter"];
+                if (!CreatedStructure[ID].ContainsKey(_page))
                 {
-                    CreatedStructure[Index].Add(_page, new HashSet<string>());
+                    CreatedStructure[ID].Add(_page, new HashSet<string>());
                 }
             }
             else if (
@@ -106,7 +106,7 @@ namespace HaDocument.Reactors
             {
                 if (_hands == null)
                     _hands = new List<Hand>();
-                _hands.Add(new Hand(Index, _person, _handstartpg, _handstartln, _page, _line));
+                _hands.Add(new Hand(ID, _person, _handstartpg, _handstartln, _page, _line));
             }
         }
 
@@ -115,7 +115,7 @@ namespace HaDocument.Reactors
             if (!_active && reader != null && tag != null)
             {
                 _active = true;
-                Index = tag["ref"];
+                ID = tag["letter"];
                 _element = new ElementStringBinder(reader, tag, Add, _normalizeWhitespace);
             }
         }
@@ -124,22 +124,22 @@ namespace HaDocument.Reactors
         {
             if (String.IsNullOrWhiteSpace(element)) return;
             var reason = new Tradition(
-                Index,
+                ID,
                 element);
-            CreatedInstances.TryAdd(Index, reason);
+            CreatedInstances.TryAdd(ID, reason);
             if (_hands != null)
             {
-                if (!CreatedHands.ContainsKey(Index))
-                    CreatedHands.Add(Index, _hands);
+                if (!CreatedHands.ContainsKey(ID))
+                    CreatedHands.Add(ID, _hands);
                 else
-                    CreatedHands[Index].AddRange(_hands);
+                    CreatedHands[ID].AddRange(_hands);
             }
             Reset();
         }
 
         protected override void Reset()
         {
-            Index = "";
+            ID = "";
             _page = "";
             _line = "";
             _active = false;

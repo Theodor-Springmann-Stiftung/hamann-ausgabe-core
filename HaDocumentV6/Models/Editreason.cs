@@ -1,5 +1,7 @@
+using System.Xml.Linq;
+
 namespace HaDocument.Models {
-    public class Editreason : HaDocument.Interfaces.ISearchable {
+    public class Editreason {
         public string Index { get; } = "";
         public string Element { get; } = "";
         public string Letter { get; } = "";
@@ -27,6 +29,10 @@ namespace HaDocument.Models {
             EndPage = endpage;
             EndLine = endline;
             Reference = reference;
+        }
+
+        public static Editreason? FromXElement(XElement element) {
+            throw new NotImplementedException("We need two Elements for editreason");
         }
     }
 }

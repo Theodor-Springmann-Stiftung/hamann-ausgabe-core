@@ -16,7 +16,7 @@ namespace HaDocument.Reactors
         internal Dictionary<string, Dictionary<string, HashSet<string>>> CreatedStructure;
 
         // State
-        private string Index = "";
+        private string Letter = "";
         private ElementStringBinder _element = null;
 
         private bool _normalizeWhitespace = false;
@@ -49,12 +49,12 @@ namespace HaDocument.Reactors
                 !tag.EndTag &&
                 !tag.IsEmpty &&
                 tag.Name == "letterText" &&
-                !String.IsNullOrWhiteSpace(tag["index"])
+                !String.IsNullOrWhiteSpace(tag["letter"])
             )
             {
                 Activate(_reader, tag);
-                if (!CreatedStructure.ContainsKey(tag["index"]))
-                    this.CreatedStructure.Add(tag["index"], new Dictionary<string, HashSet<string>>());
+                if (!CreatedStructure.ContainsKey(tag["letter"]))
+                    this.CreatedStructure.Add(tag["letter"], new Dictionary<string, HashSet<string>>());
             }
             else if (
                 !tag.EndTag &&
@@ -64,9 +64,9 @@ namespace HaDocument.Reactors
             )
             {
                 _line = tag["index"];
-                if (!CreatedStructure[Index][_page].Contains(_line))
+                if (!CreatedStructure[Letter][_page].Contains(_line))
                 {
-                    CreatedStructure[Index][_page].Add(_line);
+                    CreatedStructure[Letter][_page].Add(_line);
                 }
             }
             else if (
@@ -77,8 +77,8 @@ namespace HaDocument.Reactors
             )
             {
                 _page = tag["index"];
-                if (!CreatedStructure[Index].ContainsKey(_page))
-                    CreatedStructure[Index].Add(_page, new HashSet<string>());
+                if (!CreatedStructure[Letter].ContainsKey(_page))
+                    CreatedStructure[Letter].Add(_page, new HashSet<string>());
             }
             else if (
                 _active &&
@@ -100,7 +100,7 @@ namespace HaDocument.Reactors
             {
                 if (_hands == null)
                     _hands = new List<Hand>();
-                _hands.Add(new Hand(Index, _person, _handstartpg, _handstartln, _page, _line));
+                _hands.Add(new Hand(Letter, _person, _handstartpg, _handstartln, _page, _line));
             }
         }
 
@@ -110,7 +110,7 @@ namespace HaDocument.Reactors
             {
                 _active = true;
                 _reader = reader;
-                Index = tag["index"];
+                Letter = tag["letter"];
                 _element = new ElementStringBinder(reader, tag, Add, _normalizeWhitespace);
             }
         }
@@ -119,23 +119,23 @@ namespace HaDocument.Reactors
         {
             if (String.IsNullOrWhiteSpace(text)) return;
             var letter = new Letter(
-                Index,
+                Letter,
                 text
             );
-            CreatedInstances.TryAdd(Index, letter);
+            CreatedInstances.TryAdd(Letter, letter);
             if (_hands != null)
             {
-                if (!CreatedHands.ContainsKey(Index))
-                    CreatedHands.Add(Index, _hands);
+                if (!CreatedHands.ContainsKey(Letter))
+                    CreatedHands.Add(Letter, _hands);
                 else
-                    CreatedHands[Index].AddRange(_hands);
+                    CreatedHands[Letter].AddRange(_hands);
             }
             Reset();
         }
 
         protected override void Reset()
         {
-            Index = "";
+            Letter = "";
             _active = false;
             _element = null;
             _hands = null;

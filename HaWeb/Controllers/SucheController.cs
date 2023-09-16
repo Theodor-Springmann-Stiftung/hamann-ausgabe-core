@@ -41,7 +41,7 @@ public class SucheController : Controller {
 
         // Letter & comment search and search result creation
         var resletter = _xmlService.SearchCollection("letters", search, _readerService, null);
-        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? rescomments = null;
+        List<(CollectedItem, List<(string Page, string Line, string Preview, string Identifier)> Results)>? rescomments = null;
         if (comments == true) 
             rescomments = _xmlService.SearchCollection("marginals", search, _readerService, lib);
         
@@ -54,17 +54,15 @@ public class SucheController : Controller {
         if (resletter != null) 
             metas.AddRange(
                 resletter
-                    .Select(x => x.Index)
+                    .Select(x => x.Item.ID)
                     .Where(x => lib.Metas.ContainsKey(x))
                     .Select(x => lib.Metas[x])
             );
         if (rescomments != null) 
             metas.AddRange( 
                 rescomments
-                    .Where(x => lib.Marginals.ContainsKey(x.Index))
-                    .Select(x => lib.Marginals[x.Index])
-                    .Where(x => lib.Metas.ContainsKey(x.Letter))
-                    .Select(x => lib.Metas[x.Letter])
+                    .Where(x => lib.Metas.ContainsKey(x.Item1.ID.Split('-').First()))
+                    .Select(x => lib.Metas[x.Item1.ID.Split('-').First()])
             );
 
         // Return
@@ -83,14 +81,12 @@ public class SucheController : Controller {
         search = search.Trim();
 
         // Search
-        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
-        
-        res = _xmlService.SearchCollection("register-comments", search, _readerService, lib);
+        var res = _xmlService.SearchCollection("register-comments", search, _readerService, lib);
         if (res == null || !res.Any()) 
             return _paginateSendRegister(lib, search, SearchType.Register, SearchResultType.NotFound, null);
 
         // Return 
-        return _paginateSendRegister(lib, search, SearchType.Register, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Index, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.Index).ToList()));
+        return _paginateSendRegister(lib, search, SearchType.Register, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Item.ID, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.ID).ToList()));
 
     }
 
@@ -105,13 +101,12 @@ public class SucheController : Controller {
         search = search.Trim();
 
         // Search
-        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? res = null;
-        res = _xmlService.SearchCollection("forschung-comments", search, _readerService, lib);
+        var res = _xmlService.SearchCollection("forschung-comments", search, _readerService, lib);
         if (res == null || !res.Any()) 
             return _paginateSendRegister(lib, search, SearchType.Science, SearchResultType.NotFound, null);
 
         // Return 
-        return _paginateSendRegister(lib, search, SearchType.Science, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Index, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.Index).ToList()));
+        return _paginateSendRegister(lib, search, SearchType.Science, SearchResultType.Success, _createComments("neuzeit", res.Select((x) => (x.Item.ID, x.Results.Select((y) => y.Identifier).ToList())).OrderBy(x => x.ID).ToList()));
 
     }
 
@@ -122,8 +117,8 @@ public class SucheController : Controller {
         bool? comments,
         SearchResultType SRT,
         List<Meta>? metas,
-        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? resletters,
-        List<(string Index, List<(string Page, string Line, string Preview, string Identifier)> Results)>? rescomments
+        List<(CollectedItem, List<(string Page, string Line, string Preview, string Identifier)> Results)>? resletters,
+        List<(CollectedItem, List<(string Page, string Line, string Preview, string Identifier)> Results)>? rescomments
     ) {
         // Sorting, get Pages & Error Checking
         var metasbyyear = metas!.Distinct().ToLookup(x => x.Sort.Year).OrderBy(x => x.Key).ToList();
@@ -148,31 +143,31 @@ public class SucheController : Controller {
         Dictionary<string, List<(Marginal, string)>>? parsedMarginals = null;
         if (resletters != null)
             foreach (var res in resletters) {
-                if (!searchResults.ContainsKey(res.Index))
-                    searchResults.Add(res.Index, new List<SearchResult>());
+                if (!searchResults.ContainsKey(res.Item1.ID))
+                    searchResults.Add(res.Item1.ID, new List<SearchResult>());
                 foreach (var r in res.Results) {
-                    if(!searchResults[res.Index].Where(x => x.Page == r.Page && x.Line == r.Line).Any())
-                        searchResults[res.Index].Add(new SearchResult(search, res.Index) { Page = r.Page, Line = r.Line, Preview = r.Preview });
+                    if(!searchResults[res.Item1.ID].Where(x => x.Page == r.Page && x.Line == r.Line).Any())
+                        searchResults[res.Item1.ID].Add(new SearchResult(search, res.Item1.ID) { Page = r.Page, Line = r.Line, Preview = r.Preview });
                 }
-                if (searchResults[res.Index].Any()) {
-                    searchResults[res.Index] = searchResults[res.Index].OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Page)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Line)).ToList();
+                if (searchResults[res.Item1.ID].Any()) {
+                    searchResults[res.Item1.ID] = searchResults[res.Item1.ID].OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Page)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Line)).ToList();
                 }
             }
         if (rescomments != null) {
-            var marginals = rescomments.Where(x => lib.Marginals.ContainsKey(x.Index)).Select(x => lib.Marginals[x.Index]).ToLookup(x => x.Letter);
-            var shownletters = letters!.SelectMany(x => x.LetterList.Select(y => y.Meta.Index)).ToHashSet();
+            var marginals = rescomments.Select(x => Marginal.FromXElement(x.Item1.Element)).ToLookup(x => x.Letter);
+            var shownletters = letters!.SelectMany(x => x.LetterList.Select(y => y.Meta.ID)).ToHashSet();
             var shownmarginals = marginals!.Where(x => shownletters.Contains(x.Key)).Select(x => (x.Key, x.ToList())).ToList();
             var previews = _xmlService != null ? _xmlService.GetPreviews(shownmarginals, _readerService ,lib) : null;            
             if (previews != null)
                 foreach (var p in previews) {
-                    if (!searchResults.ContainsKey(p.Index))
-                        searchResults.Add(p.Index, new List<SearchResult>());
+                    if (!searchResults.ContainsKey(p.Item.ID))
+                        searchResults.Add(p.Item.ID, new List<SearchResult>());
                     foreach (var res in p.Results) {
-                        if (!searchResults[p.Index].Where(x => x.Page == res.Page && x.Line == res.Line).Any())
-                            searchResults[p.Index].Add(new SearchResult(search, p.Index) { Page = res.Page, Line = res.Line, Preview = res.Preview });
+                        if (!searchResults[p.Item.ID].Where(x => x.Page == res.Page && x.Line == res.Line).Any())
+                            searchResults[p.Item.ID].Add(new SearchResult(search, p.Item.ID) { Page = res.Page, Line = res.Line, Preview = res.Preview });
                     }
-                    if (searchResults[p.Index].Any()) {
-                        searchResults[p.Index] = searchResults[p.Index].OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Page)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Line)).ToList();
+                    if (searchResults[p.Item.ID].Any()) {
+                        searchResults[p.Item.ID] = searchResults[p.Item.ID].OrderBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Page)).ThenBy(x => HaWeb.HTMLHelpers.ConversionHelpers.RomanOrNumberToInt(x.Line)).ToList();
                     }
                 }
 

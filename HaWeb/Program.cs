@@ -63,7 +63,7 @@ ChangeToken.OnChange(
 );
 
 app.UseWebSockets( new WebSocketOptions {
-    KeepAliveInterval = TimeSpan.FromMinutes(180)
+    KeepAliveInterval = TimeSpan.FromMinutes(180),
 });
 app.UseMiddleware<WebSocketMiddleware>();
 

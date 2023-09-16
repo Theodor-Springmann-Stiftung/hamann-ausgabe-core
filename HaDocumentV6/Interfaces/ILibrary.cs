@@ -11,7 +11,7 @@ namespace HaDocument.Interfaces {
         ImmutableDictionary<string, Person> Persons { get; }
         ImmutableDictionary<string, Meta> Metas { get; }
         ImmutableDictionary<string, Meta> ExcludedMetas { get; }
-        ImmutableDictionary<string, Marginal> Marginals { get; }
+        ImmutableDictionary<string, List<Marginal>> Marginals { get; }
         ImmutableDictionary<string, Location> Locations { get; }
         ImmutableDictionary<string, Letter> Letters { get; }
         ImmutableDictionary<string, Person> HandPersons { get; }
@@ -24,7 +24,6 @@ namespace HaDocument.Interfaces {
         
         ImmutableDictionary<string, Lookup<string, Comment>> CommentsByCategoryLetter { get; }
         Lookup<string, Comment> CommentsByCategory { get; }
-        Lookup<string, Marginal> MarginalsByLetter { get; }
         Lookup<string, Editreason> EditreasonsByLetter { get; }
         ImmutableSortedSet<Meta> MetasByDate { get; }
         ILookup<int, Meta> MetasByYear { get; }

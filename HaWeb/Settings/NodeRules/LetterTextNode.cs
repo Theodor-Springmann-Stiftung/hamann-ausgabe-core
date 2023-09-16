@@ -10,8 +10,8 @@ public class LetterTextNode : INodeRule
         Documents = new[] { "brieftext" },
         XPath = "//letterText"
     };
-    public string[]? Attributes { get; } = { "index" };
-    public string? uniquenessAttribute => "index" ;
+    public string[]? Attributes { get; } = { "letter" };
+    public string? uniquenessAttribute => "letter" ;
     public List<(string, HamannXPath, string)>? References { get; } = new List<(string, HamannXPath, string)>()
     {
     };

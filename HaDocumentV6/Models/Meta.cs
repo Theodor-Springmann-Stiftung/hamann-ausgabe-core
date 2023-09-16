@@ -4,35 +4,32 @@ using HaXMLReader.EvArgs;
 
 namespace HaDocument.Models {
     public class Meta {
-        public string Index { get; } = "";
-        public string Autopsic { get; } = "";
+        public string ID { get; } = "";
         public string Date { get; } = "";
         public DateTime Sort { get; } = new DateTime(1700, 1, 1);
         public int Order { get; } = -1;
         public string Location { get; } = "";
         public List<string> Senders { get; } = null;
         public List<string> Receivers { get; } = null;
-        public OptionalBool hasOriginal { get; } = OptionalBool.None;
-        public OptionalBool isProofread { get; } = OptionalBool.None;
-        public OptionalBool isDraft { get; } = OptionalBool.None;
+        public bool? hasOriginal { get; }
+        public bool? isProofread { get; }
+        public bool? isDraft { get; }
         public ZHInfo ZH { get; } = null;
 
         public Meta(
-            string index, 
-            string autopsic, 
+            string id, 
             string date, 
             DateTime sort, 
             int order,
-            OptionalBool hasOriginal,
-            OptionalBool isProofread,
-            OptionalBool isDraft,
+            bool? hasOriginal,
+            bool? isProofread,
+            bool? isDraft,
             string location,
             List<string> senders,
             List<string> receivers,
             ZHInfo ZH
         ) {
-            Index = index;
-            Autopsic = autopsic;
+            ID = id;
             Date = date;
             Sort = sort;
             Order = order;

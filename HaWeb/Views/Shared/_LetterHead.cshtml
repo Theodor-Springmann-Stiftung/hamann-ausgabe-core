@@ -4,7 +4,7 @@
     @if (!Model.Compact) {
         <div class="ha-letternumber">
             <div class="ha-letternumberinline">
-                @Model.Letter.Meta.Autopsic
+                @Model.Letter.Meta.ID
             </div>
         </div>
     }
@@ -20,7 +20,7 @@
             </div>
             <div class="ha-metadatapersons">
                 @foreach(var pair in Model.Letter.SenderReceiver) {
-                    @if (Model.Letter.Meta.isDraft == HaDocument.Models.OptionalBool.True) { 
+                    @if (Model.Letter.Meta.isDraft.HasValue &&  Model.Letter.Meta.isDraft.Value) { 
                         <span>@Html.Raw(pair.Sender)</span>
                         <div class="ha-tooltip">
                                 ↛
