@@ -18,16 +18,17 @@
         <div class="ha-activefilterinfo">
             @if (Model.SearchType == SearchType.Letters) {
                 <span><span class="">Briefe</span>@if(Model.IncludeComments == true) {<span> und Stellenkommentare</span>}, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
+                <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Briefübersicht</a>
             }
             @if (Model.SearchType == SearchType.Register) {
                 <span><span class="">Registereinträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
-                <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Registerübersicht</a><span> / </span>
+                <a class="ha-reversefilter" asp-controller="Register" asp-action="Allgemein">← Register</a><span></span>
             }
             @if (Model.SearchType == SearchType.Science) {
                 <span><span class="">Bibliografische Einträge</span>, die »@Model.ActiveSearch« enthalten.&emsp;</span><br>
-                <a class="ha-reversefilter" asp-controller="Register" asp-action="Forschung">← Forschungsbibliographie</a><span> / </span>            
+                <a class="ha-reversefilter" asp-controller="Register" asp-action="Forschung">← Forschungsbibliographie</a><span></span>            
             }
-            <a class="ha-reversefilter" asp-controller="Index" asp-action="Index">← Briefübersicht</a>
+            
         </div>
         }
 
@@ -47,17 +48,17 @@
         <div class="ha-alternativesearches">
             @if (Model.SearchType != SearchType.Letters) {
                 <a asp-controller="Suche" asp-action="Briefe" asp-route-search="@Model.ActiveSearch" asp-route-comments="true" >
-                    Stattdessen Briefe / Stellenkommentare nach »@Model.ActiveSearch« durchsuchen&nbsp;→
+                    Briefe & Stellenkommentare nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
             @if (Model.SearchType != SearchType.Register) {
                 <a asp-controller="Suche" asp-action="Register" asp-route-search="@Model.ActiveSearch" >
-                    Stattdessen Register nach »@Model.ActiveSearch« durchsuchen&nbsp;→
+                    Register nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
             @if (Model.SearchType != SearchType.Science) {
                 <a asp-controller="Suche" asp-action="Science" asp-route-search="@Model.ActiveSearch" >
-                    Stattdessen Forschungsbibliographie nach »@Model.ActiveSearch« durchsuchen&nbsp;→
+                    Forschungsbibliographie nach »@Model.ActiveSearch« durchsuchen&nbsp;→
                 </a>
             }
         </div>

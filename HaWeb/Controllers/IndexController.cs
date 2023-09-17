@@ -7,6 +7,7 @@ using HaDocument.Models;
 using HaXMLReader.Interfaces;
 using System.Collections.Specialized;
 using HaWeb.XMLParser;
+using System.Collections.Immutable;
 
 namespace HaWeb.Controllers;
 
@@ -144,8 +145,7 @@ public class IndexController : Controller {
                     .ThenBy(x => x.Meta.Order)
                     .ToList()))
                 .ToList();
-        List<(string Volume, List<string> Pages)>? availablePages = null;
-        availablePages = lib.Structure.Where(x => x.Key != "-1").Select(x => (x.Key, x.Value.Select(x => x.Key).ToList())).ToList();
+        var availablePages = lib.Structure.Where(x => x.Key != "-1").ToDictionary(x => x.Key, y => y.Value.Keys.ToList());
         zhvolume = zhvolume == null ? "1" : zhvolume;
 
         var lastletter = lib.MetasByDate.Last();
@@ -156,7 +156,8 @@ public class IndexController : Controller {
             "ZH " + HTMLHelpers.ConversionHelpers.ToRoman(Int32.Parse(lastletter.ZH.Volume)) + ", S. " + lastletter.ZH.Page,
             pages,
             _getAvailablePersons(), 
-            availablePages.OrderBy(x => x.Volume).ToList(), 
+            availablePages, 
+            lib.Letters.Keys.ToList(),
             zhvolume, 
             zhpage, 
             person

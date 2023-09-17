@@ -1,12 +1,19 @@
 using System.Xml.Linq;
 
 namespace HaDocument.Models {
-    public class App {
+    public class App : IHaElement {
+        public string ElementName { get; } = "appDef";
+        public string[] XPath { get; } = {
+            "/opus/data/definitions/appDefs/appDef",
+            "/opus/definitions/appDefs/appDef"
+        };
+        public string ElementRules { get; } = "Pfad: /opus/definitions/appDefs. Pflicht-Attribute: index (einmalig), name, category.";
+        public bool Searchable { get; } = false;
+        public XElement? XElement { get; }
+
         public string Index { get; } = "";
         public string Name { get; } = "";
         public string Category { get; } = "";
-
-        public XElement? XElement { get; }
 
         public App(
             string index, 
@@ -28,7 +35,17 @@ namespace HaDocument.Models {
                 element.Attribute("name")!.Value,
                 element.Attribute("category")!.Value,
                 element
-            );
+            );        
+        }
+
+        public string GetKey() => this.Index;
+
+        public int CompareTo(object? obj) {
+            if (obj == null) return 1;
+            var other = (App)obj;
+            if (Int32.TryParse(Index, out var thisindex) && Int32.TryParse(other.Index, out var otherindex) )
+                return thisindex.CompareTo(otherindex);
+            return String.Compare(this.Index, other.Index);
         }
     }
 }

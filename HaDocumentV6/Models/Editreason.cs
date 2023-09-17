@@ -31,8 +31,9 @@ namespace HaDocument.Models {
             Reference = reference;
         }
 
-        public static Editreason? FromXElement(XElement element) {
-            throw new NotImplementedException("We need two Elements for editreason");
+        public static Editreason? FromXElement(XElement edit, XElement editreason) {
+            if (edit == null || editreason == null || !edit.HasAttributes || !editreason.HasAttributes) return null;
+            return null;
         }
     }
 }

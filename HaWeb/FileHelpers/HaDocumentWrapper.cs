@@ -49,8 +49,14 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
         if (doc == null) doc = XDocument.Load(path, LoadOptions.PreserveWhitespace);
 
         // 1. Parse the Document, create search Index
+        var sw = new Stopwatch();
+        sw.Start();
         if (_xmlService != null) 
-            _xmlService.CreateSearchables(doc);
+            _xmlService.CreateCollections(doc);
+        sw.Stop();
+        Console.WriteLine("Parsed Collections, elapsed: " + sw.ElapsedMilliseconds);
+        sw.Restart();
+
         // 2. Set ILibrary
         try {
             Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = path, AvailableYearRange = (_startYear, _endYear) }, doc.Root);
@@ -58,6 +64,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
+        Console.WriteLine("Parsed ILib, elapsed: " + sw.ElapsedMilliseconds);
 
         // 3a. Set Available Persons
         var persons = Library.Metas.SelectMany(x => x.Value.Senders.Union(x.Value.Receivers)).Distinct();

@@ -5,7 +5,6 @@
     ViewData["showCredits"] = "true";
 }
 
-<script defer src="/js/index.js" asp-append-version="true"></script>
 
 <div class="ha-index">
     @if (Model.Letters != null) {
@@ -77,6 +76,7 @@
                         <input name="id" type="text" id="ha-gotoletternumber" class="ha-gotoletternumber" />
                         <button type="submit" id="ha-gotoformsubmit">Nachschlagen</button>
                     </form>
+                    <div class="mr-2 leading-snug text-base px-1 text-red-700 bg-red-50 text-left h-5 whitespace-nowrap overflow-hidden opacity-0" id="ha-gotoinfo"></div>
                 </div>
 
                 @* ZH Loopkup *@
@@ -97,15 +97,15 @@
                      <form class="ha-zhform" id="ha-zhform">
                         <span>Z&hairsp;H Band</span>
                         <select name="zhvolume" id="ha-zhformvolume">
-                            @foreach (var volume in Model.AvailablePages) {
-                                <option>@volume.Volume</option> 
+                            @foreach (var volume in Model.AvailablePages.OrderBy(x => x.Key)) {
+                                <option>@volume.Key</option> 
                             }
                         </select>
                         <span>/ </span>
                         <input name="zhpage" id="ha-zhformpage" type="text" value="@Model.ActivePage" placeholder="Seite"/>
                         <button id="ha-zhformsubmit" type="submit">Nachschlagen</button>
                      </form>
-                    
+                     <div class="mr-2 leading-snug text-base px-1 text-red-700 bg-red-50 text-left h-5 whitespace-nowrap overflow-hidden opacity-0" id="ha-zhsearchinfo"></div>
                 </div>
                 
                 }
@@ -151,3 +151,9 @@
         </div>
     }
 </div>
+
+<script>
+    var AvailableLetters = new Set(@Html.Raw(Json.Serialize(Model.AvailableLetters)))
+    var AvailablePages = @Html.Raw(Json.Serialize(Model.AvailablePages))
+</script>
+<script defer src="/js/index.js" asp-append-version="true"></script>

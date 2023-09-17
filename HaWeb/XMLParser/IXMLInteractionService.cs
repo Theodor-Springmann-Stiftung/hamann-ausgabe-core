@@ -16,7 +16,7 @@ public interface IXMLInteractionService {
     public Dictionary<string, SyntaxCheckModel>? GetSCCache();
     public void SetSCCache(Dictionary<string, SyntaxCheckModel>? cache);
     public XMLParsingState? Collect(List<IFileInfo> Files, Dictionary<string, IXMLRoot>? rootDefs); // XMLFileProvider 
-    public void CreateSearchables(XDocument document); // XMLFileProvider
+    public void CreateCollections(XDocument document); // XMLFileProvider
     public Dictionary<string, SyntaxCheckModel>? Test(XMLParsingState? state, string gitcommit); // XMLFileProvider (optimal), Controller (right now)
     // Controller
     public List<(CollectedItem Item, List<(string Page, string Line, string Preview, string? Identifier)> Results)>? SearchCollection(string collection, string searchword, IReaderService reader, ILibrary? lib);

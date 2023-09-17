@@ -22,5 +22,5 @@ if (document.getElementById("ha-scrollbutton") !== null) {
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     })
     // TODO: workaround, bc window does not recieve scroll events anymore
-    setInterval(() => scrollFunction(), 2500);
+    setInterval(() => scrollFunction(), 1500);
 }

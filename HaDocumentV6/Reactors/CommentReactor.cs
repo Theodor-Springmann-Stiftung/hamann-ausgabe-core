@@ -4,6 +4,7 @@ using HaDocument.Models;
 using System.Collections.Generic;
 using System;
 using HaDocument.Comparers;
+using System.Collections.Immutable;
 
 namespace HaDocument.Reactors {
     class CommentReactor : Reactor {
@@ -149,7 +150,7 @@ namespace HaDocument.Reactors {
                 Type,
                 Lemma,
                 Order,
-                Subcomments
+                Subcomments == null ? null : ImmutableSortedDictionary.ToImmutableSortedDictionary(Subcomments, x => x.Key, y => y.Value)
             ));
             Reset();
         }

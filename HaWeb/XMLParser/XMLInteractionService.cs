@@ -260,7 +260,7 @@ public class XMLInteractionService : IXMLInteractionService {
         return res.ToList();
     }
 
-    public void CreateSearchables(XDocument document) {
+    public void CreateCollections(XDocument document) {
         if (document == null || _RootDefs == null) return;
         int numProcs = Environment.ProcessorCount;
         int concurrencyLevel = numProcs * 2;

@@ -6,10 +6,14 @@ using HaDocument.Models;
 namespace HaDocument.Comparers {
     public class CommentComparer : IComparer<Comment> {
         public int Compare(Comment first, Comment second) {
-            if (first.Order != second.Order)
-                return first.Order.CompareTo(second.Order);
+            if (first.Order.HasValue && second.Order.HasValue)
+                return first.Order.Value.CompareTo(second.Order.Value);
+            else if (first.Order.HasValue)
+                return 1;
+            else if (second.Order.HasValue)
+                return -1;
             else
-                return first.Index.CompareTo(second.Index);
+                return 0;
         }
     }
 }

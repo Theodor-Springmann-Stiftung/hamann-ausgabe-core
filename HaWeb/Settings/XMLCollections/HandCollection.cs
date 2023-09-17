@@ -1,13 +1,13 @@
 using System.Xml.Linq;
 using HaWeb.Models;
 
-public class EditCollection : HaWeb.XMLParser.IXMLCollection {
-    public string Key { get; } = "edits";
+public class HandCollection : HaWeb.XMLParser.IXMLCollection {
+    public string Key { get; } = "hands";
     public string[] xPath { get; } = new string[] { 
-        "/opus/data/document/letterText//edit", 
-        "/opus/document/letterText//edit", 
-        "/opus/data/traditions/letterTradition//edit", 
-        "/opus/traditions/letterTradition//edit"
+        "/opus/data/document/letterText//hand", 
+        "/opus/document/letterText//hand", 
+        "/opus/data/traditions/letterTradition//hand", 
+        "/opus/traditions/letterTradition//hand"
     };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = null;
@@ -17,9 +17,7 @@ public class EditCollection : HaWeb.XMLParser.IXMLCollection {
     public bool Searchable { get; } = true;
 
     public static Func<XElement, string?> GetKey { get; } = (elem) => {
-        var index = elem.Attribute("ref");
-        if (index != null && !String.IsNullOrWhiteSpace(index.Value))
-            return index.Value;
-        else return null;
+        // TODO IMPLEMENT
+        return null;
     };
 }

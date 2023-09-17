@@ -1,9 +1,21 @@
 using System.Xml.Linq;
 
 namespace HaDocument.Models {
-    public class Backlink {
-        public string Href { get; } = "";
+    public class Backlink : IHaElement {
+        public string ElementName { get; } = "link";
+        public string[] XPath { get; } = { 
+            "/opus/data/marginalien/marginal//link", 
+            "/opus/marginalien/marginal//link", 
+            "/opus/kommentare/kommentar//link", 
+            "/opus/data/kommentare/kommentar//link",
+            "/opus/traditions/letterTradition//link", 
+            "/opus/data/traditions/letterTradition//link",
+        };
+        public string ElementRules { get; } = "Pfad: /opus/marginalien, /opus/kommentare, /opus/traditions. Pflicht-Attribute: letter.";
+        public bool Searchable { get; } = false;
+        public XElement? XElement { get; } = null;
 
+        public string Href { get; } = "";
         public string? Letter { get; } = "";
         public string? Page { get; } = "";
         public string? Line { get; } = "";
@@ -14,13 +26,15 @@ namespace HaDocument.Models {
             string? letter,
             string? page,
             string? line,
-            string? comment = null
+            string? comment = null,
+            XElement? xElement = null
         ) {
             Href = href;
             Letter = letter;
             Page = page;
             Line = line;
             Comment = comment;
+            XElement = xElement;
         }
 
         public static Backlink? FromXElement(XElement element) { 
@@ -34,7 +48,9 @@ namespace HaDocument.Models {
                     element.Attribute("subref")?.Value ?? element.Attribute("ref")!.Value,
                     marginal.Attribute("letter")!.Value,
                     marginal.Attribute("page")!.Value,
-                    marginal.Attribute("line")!.Value
+                    marginal.Attribute("line")!.Value,
+                    null,
+                    element
                 );
             }
 
@@ -46,7 +62,8 @@ namespace HaDocument.Models {
                     null,
                     null,
                     null,
-                    subsection.Attribute("id")!.Value
+                    subsection.Attribute("id")!.Value,
+                    element
                 );
             }
 
@@ -58,11 +75,20 @@ namespace HaDocument.Models {
                     null,
                     null,
                     null,
-                    kommentar.Attribute("id")!.Value
+                    kommentar.Attribute("id")!.Value,
+                    element
                 );
             }
 
             return null;
+        }
+
+        public string GetKey() {
+            return string.Empty;
+        }
+
+        public int CompareTo(object? obj) {
+            return 0;
         }
     }
 }

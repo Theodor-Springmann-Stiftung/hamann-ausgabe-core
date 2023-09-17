@@ -5,7 +5,7 @@ using System.Xml.Linq;
 public class BackLinkCollection : HaWeb.XMLParser.IXMLCollection {
     private static readonly Random _random = new Random();
     public string Key { get; } = "backlinks";
-    public string[] xPath { get; } = new string[] { "/opus/data/marginalien/marginal/link", "/opus/marginalien/marginal/link" };
+    public string[] xPath { get; } = new string[] { "/opus/data/marginalien/marginal//link", "/opus/marginalien/marginal//link", "/opus/kommentare/kommentar//link", "/opus/data/kommentare/kommentar//link" };
     public Func<XElement, string?> GenerateKey { get; } = GetKey;
     public Func<XElement, IDictionary<string, string>?>? GenerateDataFields { get; } = GetDataFields;
     public Func<IEnumerable<CollectedItem>, IDictionary<string, ILookup<string, CollectedItem>>?>? GroupingsGeneration { get; } = GetLookups;
