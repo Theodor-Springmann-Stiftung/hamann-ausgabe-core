@@ -18,7 +18,7 @@
         </div>
     }
 
-    @if (Model.Letter.Meta.hasOriginal.HasValue && Model.Letter.Meta.hasOriginal.Value == true) {
+    @if (Model.Letter.Meta.hasOriginal.HasValue && Model.Letter.Meta.hasOriginal.Value == false) {
         <div class="ha-tooltip">
             <div class="ha-pill">
                 <span class="ha-cross">Orig</span>
@@ -28,7 +28,7 @@
             </div>
         </div>
     }
-    else {
+    else if (Model.Letter.Meta.hasOriginal.HasValue && Model.Letter.Meta.hasOriginal.Value == true) {
         <div class="ha-tooltip">
             <div class="ha-pill">
                 Orig

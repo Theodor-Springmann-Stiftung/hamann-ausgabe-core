@@ -233,7 +233,9 @@ public class TextRules {
                     {
                         if(reader.State.ParsedMarginals == null) reader.State.ParsedMarginals = new List<(string, string, string)>();
                         var sb2 = new StringBuilder();
-                        if (margs.Count() > 1) margs = margs.OrderBy(x => Int32.Parse(x.Sort));
+
+                        // Sortiert an dieser String, nicht nach Zahl: sort 1-9 ist möglich, es gibt keine Abstürze bei fehlerhaften Werten
+                        if (margs.Count() > 1) margs = margs.OrderBy(x => x.Sort ?? " ");
                         sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.COMMENTMARKERCLASS, "ma-" + reader.State.currpage + "-" + reader.State.currline));
                         sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
                         sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.MARGINGALBOXCLASS));
