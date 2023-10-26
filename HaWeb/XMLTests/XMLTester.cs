@@ -139,7 +139,10 @@ public class XMLTester {
                         }
                     }
                     foreach (var e in elemens) {
-                        rule.CheckDatatypes(e.Item1);
+                        if (!rule.CheckDatatypes(e.Item1)) {
+                            var lc = getLineColumn(e.Item1);
+                            _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Attributwert: Datentyp nicht zugelassen.");
+                        }
                     }
                 }
             }
