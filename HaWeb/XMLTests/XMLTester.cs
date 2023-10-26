@@ -135,8 +135,11 @@ public class XMLTester {
                     foreach (var r in rule.GenerateIdentificationStrings(elemens)) {
                         if (!hs.Add(r.Item1)) {
                             var lc = getLineColumn(r.Item2);
-                            _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Brief-Seite-Zeile  " + r.Item1 + " mehrdeutig.");
+                            _Results[r.Item3.File.FileName].Log(lc.Item1, lc.Item2, "Identifikator (Brief-Seite-Zeile(-Sort))" + r.Item1 + " mehrdeutig.");
                         }
+                    }
+                    foreach (var e in elemens) {
+                        rule.CheckDatatypes(e.Item1);
                     }
                 }
             }

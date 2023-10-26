@@ -8,4 +8,5 @@ public interface ICollectionRule {
     public HamannXPath[] Backlinks { get; }
     public IEnumerable<(string, XElement, XMLRootDocument)> GenerateIdentificationStrings(IEnumerable<(XElement, XMLRootDocument)> List);
     public IEnumerable<(string, XElement, XMLRootDocument, bool)> GenerateBacklinkString(IEnumerable<(XElement, XMLRootDocument)> List);
+    public bool CheckDatatypes(XElement element);
 }

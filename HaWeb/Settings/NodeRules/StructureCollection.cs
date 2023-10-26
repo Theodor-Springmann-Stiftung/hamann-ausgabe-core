@@ -44,4 +44,8 @@ public class StructureCollection : ICollectionRule {
                 partialmatch);
         }
     }
+
+    public bool CheckDatatypes(XElement element) {
+        return true;
+    }
 }
