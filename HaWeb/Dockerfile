@@ -19,6 +19,6 @@ RUN dotnet publish --no-restore -o /app
 
 # RUN
 WORKDIR /app
-RUN export DOTNET_ENVIRONMENT="Docker" 
+RUN export DOTNET_ENVIRONMENT="Docker"
 RUN dotnet HaWeb.dll
 EXPOSE 5000
