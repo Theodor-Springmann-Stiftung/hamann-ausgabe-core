@@ -126,9 +126,9 @@ function updateMessage() {
                     commsLog.innerHTML = "Der Server arbeitet...";
                 } else {
                     if (stateCommit != null) {
-                        commsLog.innerHTML = "commit " + 
+                        commsLog.innerHTML = "<a href='https://github.com/Theodor-Springmann-Stiftung/hamann-xml/commit/" + stateCommit.Commit.substring(0,7) + "'>commit " + 
                             stateCommit.Commit.substring(0, 7) +
-                            " geladen"
+                            " geladen</a>"
                     } else {
                         commsLog.innerHTML = "OK.";
                     }

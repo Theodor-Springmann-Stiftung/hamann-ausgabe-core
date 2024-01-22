@@ -1,6 +1,30 @@
+@inject IHaDocumentWrappper HaDocumentWrappper
+@inject IXMLFileProvider XMLFileProvider
 @{
     ViewData["Title"] = "Johan Georg Hamann – Brief- und Werkausgabe";
     ViewData["SEODescription"] = "Johann Georg Hamann: Kommentierte Edition der Werke und Briefe. Herausgegeben von Janina Reibold und Leonard Keidel.";
+
+    var lib = HaDocumentWrappper.GetLibrary();
+    var last = lib.MetasByDate.Last();
+    var ZH = last.ZH;
+    if (ZH == null)
+    {
+        ZH = lib.MetasByDate.TakeLast(2).First().ZH;
+    }
+
+    var marg = lib.Marginals.OrderBy(x => {
+        int m;
+        if (int.TryParse(x.Key, out m))
+        {
+            return m;
+        }
+        else
+        {
+            return 0;
+        }
+     }).Last().Value.First();
+    var lastCommented = lib.Metas[marg.Letter];
+    var gS = XMLFileProvider.GetGitState();
 }
 
 <div class="ha-static pt-4 md:pt-8">
@@ -19,7 +43,7 @@
             </a>
 
             <p>Die Online-Edition der Briefe Johann Georg Hamanns bietet dieselben als durchsuchbaren Volltext sowie einen Stellenkommentar. Die Ausgabe lehnt sich an die Einteilung der Bände der gedruckten Briefausgabe ZH an (Hamann, Briefwechsel. Hg. v. W. Ziesemer u. A. Henkel. 7 Bde. [Frankfurt a.M. 1955–1979]).
-            <p>Die derzeit hier veröffentlichten Briefe umfassen die Jahre 1744 bis 1784. Sie entsprechen im Umfang den Bänden ZH I bis ZH V, S. 300, ergänzt um einzelne neu edierte Briefe. Der Stellenkommentar umfasst die Briefe aus den Jahren 1744 bis 1763. Aktueller Editionsstand ist der 1. März 2023. Die Online-Edition wird fortwährend in Tranchen ergänzt. 
+            <p>Die derzeit hier veröffentlichten Briefe umfassen die Jahre 1744 bis @last.Sort.Year. Sie entsprechen im Umfang den Bänden ZH I bis ZH @HaWeb.HTMLHelpers.ConversionHelpers.ToRoman(Int32.Parse(ZH.Volume)), S. @ZH.Page, ergänzt um einzelne neu edierte Briefe. Der Stellenkommentar umfasst die Briefe aus den Jahren 1744 bis @lastCommented.Sort.Year. Aktueller Editionsstand ist der @gS.PullTime.Day. @HaWeb.HTMLHelpers.ConversionHelpers.MonthNames[gS.PullTime.Month] @gS.PullTime.Year. Die Online-Edition wird fortwährend in Tranchen ergänzt. 
             <p><a asp-controller="Index" asp-action="Index" class="dark:text-slate-50 text-hamannSlate-900">Startseite: Suche und Briefauswahl</a>
             <p><a asp-controller="Edition" asp-action="Richtlinien" class="dark:text-slate-50 text-hamannSlate-900">Editionsrichtlinien</a>
             <p><a asp-controller="Edition" asp-action="Editionsgeschichte" class="dark:text-slate-50 text-hamannSlate-900">Editionsgeschichte</a>

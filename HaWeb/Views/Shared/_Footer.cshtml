@@ -1,3 +1,7 @@
+@inject IXMLFileProvider xmlProvider
+@{
+     var gD = xmlProvider.GetGitState();
+}
 <div class="ha-footer">
      <div class="ha-footertext flex flex-row shrink-0 grow-1">
           <div class="flex grow shrink-0">
@@ -11,7 +15,7 @@
                </div>
           </div>
           <div class="grow-0 shrink-0">
-               © 2022 Theodor Springmann Stiftung | Stand vom 1.3.2023 | 
+               © @gD.PullTime.Year Theodor Springmann Stiftung | Stand vom @gD.PullTime.Day.@gD.PullTime.Month.@gD.PullTime.Year  | 
                <a asp-controller="Home" asp-action="Index">Startseite</a>  ·
                <a asp-controller="Home" asp-action="Kontakt">Kontakt</a> ·
                <a asp-controller="Home" asp-action="Datenschutzerklaerung">Datenschutzerklärung</a>
