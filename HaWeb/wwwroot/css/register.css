@@ -55,7 +55,7 @@
 
   .ha-register .ha-register-head,
   .ha-register .ha-register-body {
-    @apply pt-9 md:pt-12 pl-9 lg:pl-16
+    @apply pt-9 md:pt-12 pl-9 desktop:pl-16
   }
 
   .ha-register .ha-register-head {
@@ -124,7 +124,7 @@
   }
 
   .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav {
-    @apply inline-block
+    @apply inline-block ml-4
   }
 
   .ha-register .ha-register-body {
