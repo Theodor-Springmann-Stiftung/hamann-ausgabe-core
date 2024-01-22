@@ -101,18 +101,18 @@ public class RegisterController : Controller {
         if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);
         id = normalizeID(id, defaultLetter);
         if (String.IsNullOrWhiteSpace(id)) return Redirect(url + defaultLetter);
-        if (id != "EDITIONEN" && !lib.CommentsByCategoryLetter[category].Contains(id)) return error404();
-        if (id == "EDITIONEN" && !lib.CommentsByCategoryLetter.Keys.Contains(id.ToLower())) return error404();
+        if (id != "EDITIONEN" && id != "NACHSCHLAGEWERKE" && !lib.CommentsByCategoryLetter[category].Contains(id)) return error404();
+        if ((id == "EDITIONEN" || id == "NACHSCHLAGEWERKE") && !lib.CommentsByCategoryLetter.Keys.Contains(id.ToLower())) return error404();
 
         // Data aquisition and validation
         IOrderedEnumerable<Comment>? comments = null;
-        if (id == "EDITIONEN") {
+        if (id == "EDITIONEN" || id == "NACHSCHLAGEWERKE") {
             comments = lib.CommentsByCategory[id.ToLower()].OrderBy(x => x.Index);
         } else {
             comments = lib.CommentsByCategoryLetter[category][id].OrderBy(x => x.Index);
         }
         var availableCategories = lib.CommentsByCategoryLetter[category].Select(x => (x.Key.ToUpper(), url + x.Key.ToUpper())).OrderBy(x => x.Item1).ToList();
-        var AvailableSideCategories = new List<(string, string)>() { ("Editionen", "Editionen") };
+        var AvailableSideCategories = new List<(string, string)>() { ("Editionen", "Editionen"), ("Nachschlagewerke", "Nachschlagewerke") };
         if (comments == null) return error404();
 
         // Parsing

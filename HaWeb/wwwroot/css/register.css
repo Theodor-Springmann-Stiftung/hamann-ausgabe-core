@@ -55,7 +55,7 @@
 
   .ha-register .ha-register-head,
   .ha-register .ha-register-body {
-    @apply pt-9 md:pt-12 px-9 md:px-16
+    @apply pt-9 md:pt-12 pl-9 lg:pl-16
   }
 
   .ha-register .ha-register-head {
@@ -109,6 +109,14 @@
 
   .ha-register .ha-register-head .ha-register-nav a:first {
     @apply pl-0
+  }
+
+  .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav a:first-child {
+    
+  }
+
+  .ha-register .ha-register-head .ha-register-nav .ha-register-right-nav a:last-child {
+    
   }
 
   .ha-register .ha-register-head .ha-register-nav .ha-register-left-nav {
