@@ -39,9 +39,6 @@ Recommended vscode plugins include the XML Tools, c#, Tailwind CSS IntelliSense 
 
 ## Release
 
-To build a release version for the current server, build the css file, then run:
-
-`dotnet publish -a x64 --os win -c Release`
 
 For a Linux server run:
 
