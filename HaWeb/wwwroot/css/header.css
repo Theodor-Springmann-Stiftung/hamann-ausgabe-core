@@ -1,19 +1,19 @@
 @layer components {
 /* COLORS */
   .ha-topnav-dropdown .ha-topnav-dropdown-content {
-    @apply bg-slate-50 shadow-md border-slate-400 border-b
+    @apply bg-slate-50 shadow-md border-slate-400 border-b dark:bg-black
   }
 
   .ha-topnav-dropdown .ha-topnav-dropdown-content a:hover {
-    @apply bg-slate-100
+    @apply bg-slate-100 dark:bg-black
   }
 
   .ha-topnav a {
-    @apply text-slate-700 hover:text-slate-900 desktop:border-b-4 desktop:border-transparent 
+    @apply text-slate-700 dark:text-slate-100 dark:hover:text-slate-50 hover:text-slate-900 desktop:border-b-4 desktop:border-transparent 
   }
 
   .ha-topnav a.active {
-    @apply desktop:border-b-4 desktop:border-slate-200 dark:border-slate-700 dark:font-bold
+    @apply desktop:border-b-4 desktop:border-slate-200 dark:border-none dark:font-bold dark:!text-slate-100
   }
 
   .ha-topnav.ha-topnav-collapsed

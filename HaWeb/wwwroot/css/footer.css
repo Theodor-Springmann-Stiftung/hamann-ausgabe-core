@@ -1,7 +1,7 @@
 @layer components {
 /* COLORS */
   .ha-footer .ha-footertext {
-    @apply bg-slate-50 text-hamannSlate-900 dark:bg-slate-700 dark:text-white
+    @apply bg-slate-50 text-hamannSlate-900 dark:bg-slate-900 dark:text-white
   }
 
   .ha-footer .ha-themetoggles {
@@ -18,7 +18,7 @@
 
 /* STYLES */
   .ha-footer {
-    @apply font-serif;
+    @apply font-sans !text-xs;
   }
 
   .ha-footer .ha-footertext {

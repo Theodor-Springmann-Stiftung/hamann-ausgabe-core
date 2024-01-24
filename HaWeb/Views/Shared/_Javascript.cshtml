@@ -8,19 +8,17 @@
 <script defer src="/js/scrollbutton.js" asp-append-version="true"></script>
 <script defer src="/js/clipboard.js" asp-append-version="true"></script>
 
-@if (ViewData.ContainsKey("Mark")) {
-    <script src="/js/mark.min.js" asp-append-version="true"></script>
-    @* This uses Razor Syntax so it is inlined into this razor file *@
-    <script>
-        document.addEventListener("DOMContentLoaded", (event) => {
-            var elements = document.querySelectorAll(".ha-register-body, .ha-searchresultpreview, .ha-commenthead, .ha-entry");
-            if (elements.length < 1000) {
-                var instancesearch = new Mark(elements);
-                instancesearch.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
-            }
-            var instanceletter = new Mark(document.querySelectorAll(".ha-letterbody"));
-            instanceletter.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
-        });
-    </script>
-}
+<script src="/js/mark.min.js" asp-append-version="true"></script>
+@* This uses Razor Syntax so it is inlined into this razor file *@
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        var elements = document.querySelectorAll(".ha-register-body, .ha-searchresultpreview, .ha-commenthead, .ha-entry");
+        if (elements.length < 1000) {
+            var instancesearch = new Mark(elements);
+            instancesearch.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
+        }
+        var instanceletter = new Mark(document.querySelectorAll(".ha-letterbody"));
+        instanceletter.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
+    });
+</script>
 

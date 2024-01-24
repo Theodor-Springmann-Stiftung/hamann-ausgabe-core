@@ -1,15 +1,15 @@
 @layer components {
     /* THEME OPTIONS */
     .ha-index {
-        @apply bg-slate-50 dark:bg-slate-900
+        @apply bg-slate-50 dark:bg-gray-900
     }
 
     .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult:nth-child(even) {
-        @apply bg-slate-100 dark:bg-slate-900
+        @apply bg-slate-100
     }
 
     .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry .ha-letterlistsearchresults .ha-letterlistsearchresult:nth-child(odd) {
-        @apply bg-slate-50 dark:bg-slate-900
+        @apply bg-slate-50 
     }
 
     .ha-index .ha-indexbody .ha-letterlist .ha-letterlistentry {
@@ -33,7 +33,11 @@
     }
 
     .ha-index .ha-indexbody .ha-filterlist .ha-personfilter .ha-personlist a:nth-child(odd) {
-        @apply bg-slate-100 dark:bg-zinc-900
+        @apply bg-slate-100 dark:bg-gray-800
+    }
+    
+    .ha-index .ha-activefilterinfo {
+        @apply bg-slate-200 dark:bg-black
     }
 
     /* NON THEME RULES */
@@ -62,7 +66,7 @@
     }
 
     .ha-index .ha-comment {
-        @apply font-serif hyphenate px-9 md:px-16 py-3 pb-12 border-l-2
+        @apply font-serif hyphenate px-9 md:px-16 py-3 pb-12
     }
 
     .ha-index .ha-comment .ha-commentmetatext {
@@ -70,11 +74,11 @@
     }
 
     .ha-index .ha-comment .ha-commentmetatext a {
-        @apply float-right bg-slate-200 text-sm inline-block px-2 rounded
+        @apply float-right bg-slate-200 dark:bg-black text-sm inline-block px-2 rounded
     }
 
     .ha-index .ha-comment .ha-lemma {
-        @apply font-bold font-bold text-2xl desktop:font-normal desktop:text-5xl mb-3 inline-block font-serif
+        @apply font-bold  text-2xl desktop:font-normal desktop:text-5xl mb-3 inline-block font-serif
     }
 
     .ha-index .ha-comment .ha-entry {
@@ -163,7 +167,7 @@
     }
 
     .ha-index .ha-indexbody .ha-filterlist .ha-activefilterinfo {
-        @apply font-sans text-sm bg-slate-200 px-1 rounded mt-1
+        @apply font-sans text-sm px-1 rounded mt-1
     }
 
     .ha-index .ha-indexbody .ha-filterlist .ha-reversefilter {
