@@ -122,7 +122,7 @@
     }
 
     .ha-search .ha-searchhead .ha-reversefilter {
-        @apply inline-block text-right decoration-dotted underline hover:decoration-solid
+        @apply inline-block text-right decoration-dotted underline hover:decoration-solid dark:bg-black
     }
 
     .ha-search .ha-searchhead .ha-searchfilter .ha-alternativesearches a {

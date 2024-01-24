@@ -5,7 +5,7 @@
 @await Html.PartialAsync("/Views/Shared/_Head.cshtml")
 </head>
 
-<body class="h-full w-full">
+<body class="h-full w-full" hx-boost="true">
     <div class="flex flex-col h-full">
     @await Html.PartialAsync("/Views/Shared/_HKBMenu.cshtml")
     <main role="main" class="mb-6 w-full desktop:max-w-screen-desktop mx-auto grow">

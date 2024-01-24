@@ -34,6 +34,13 @@ public static class ConversionHelpers {
         if (Int32.TryParse(number, out a)) return a;
         else return RomanToInteger(number);
     }
+
+    public static string ToRomanSafe(string number) {
+        var a = 0;
+        if (Int32.TryParse(number, out a)) return ToRoman(a);
+        else return number;
+    }
+
     public static string ToRoman(int number) {
         if ((number < 0) || (number > 3999)) return string.Empty;
         if (number < 1) return string.Empty;

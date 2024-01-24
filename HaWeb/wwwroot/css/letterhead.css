@@ -1,7 +1,7 @@
 @layer components {
 /* COLORS */
   .ha-tooltiptext {
-    @apply shadow-sm bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 border dark:border-none dark:shadow dark:bg-slate-800
+    @apply shadow-sm bg-slate-50 border-hamannSlate-900 text-hamannSlate-900 dark:text-slate-100 border dark:border-none dark:shadow dark:bg-slate-800
   }
 
   .ha-tooltip .ha-tooltiptext::after {
@@ -9,7 +9,7 @@
   }
 
   .ha-pill {
-    @apply rounded bg-gray-200 text-gray-600
+    @apply rounded bg-gray-200 text-gray-600 dark:bg-black shadow dark:text-gray-200
   }
 
   /* .ha-pill {

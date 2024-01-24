@@ -93,7 +93,12 @@ public class TextRules {
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.INDEXEDTEXTCONTAINERCLASS));
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.INDEXEDTEXTCLASS));
             reader.State.activelinecount = true;
-        })
+        }),
+        ( ( x, _) => x.Name == "text", (sb, tag, reader) => {
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.INDEXEDTEXTCONTAINERCLASS));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateElement(DEFAULTELEMENT, CSSClasses.INDEXEDTEXTCLASS));
+            reader.State.activelinecount = false;
+        }),
     };
 
     public static readonly TagFuncList CTagRules = new TagFuncList() {
@@ -157,7 +162,14 @@ public class TextRules {
             reader.State.activelinecount = false;
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
             sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
-        })
+        }),
+        ( ( x, _) => x.Name == "text", (sb, tag, reader) => {
+            reader.State.currline = "-1";
+            reader.State.currpage = "-1";
+            reader.State.activelinecount = false;
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+            sb.Append(HaWeb.HTMLHelpers.TagHelpers.CreateEndElement(DEFAULTELEMENT));
+        }),
     };
 
     public static readonly TextFuncList TRules = new TextFuncList() {
