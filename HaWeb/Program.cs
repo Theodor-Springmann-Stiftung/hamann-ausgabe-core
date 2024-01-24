@@ -1,15 +1,11 @@
 using HaXMLReader;
 using HaXMLReader.Interfaces;
-using HaDocument.Interfaces;
 using HaWeb.XMLParser;
 using HaWeb.XMLTests;
 using HaWeb.FileHelpers;
-using HaWeb.BackgroundTask;
 using Microsoft.FeatureManagement;
 using System.Runtime.InteropServices;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,16 +37,6 @@ builder.Services.AddSingleton<IHaDocumentWrappper, HaDocumentWrapper>((_) => hdW
 builder.Services.AddSingleton<IXMLFileProvider, XMLFileProvider>(_ => XMLFP);
 builder.Services.AddSingleton<WebSocketMiddleware>();
 builder.Services.AddTransient<IReaderService, ReaderService>();
-
-// builder.Services.AddSingleton<IConfigurationMonitor, ConfigurationMonitor>();
-// builder.Services.AddHostedService<QueuedHostedService>();
-// builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
-// {
-//     if (!int.TryParse(builder.Configuration["QueueCapacity"], out var queueCapacity))
-//         queueCapacity = 100;
-//     return new BackgroundTaskQueue(queueCapacity);
-// });
-// builder.Services.AddSingleton<IMonitorLoop, MonitorLoop>();
 builder.Services.AddFeatureManagement();
 var app = builder.Build();
 
