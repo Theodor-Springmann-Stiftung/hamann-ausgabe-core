@@ -94,7 +94,7 @@ const startup_filelistform = function () {
     }
 
     var coll = document.getElementsByClassName("expandable");
-    for (i = 0; i < coll.length; i++) {
+    for (let i = 0; i < coll.length; i++) {
         let element = coll[i]
         coll[i].addEventListener("click", () => {
             element.classList.toggle("expanded");
@@ -102,4 +102,4 @@ const startup_filelistform = function () {
     }
 };
 
-startup_filelistform();
+export { startup_filelistform };

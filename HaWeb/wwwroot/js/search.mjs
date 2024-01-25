@@ -16,4 +16,4 @@ const startup_search = function () {
     searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
 }
 
-startup_search();
+export { startup_search };

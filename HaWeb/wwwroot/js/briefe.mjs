@@ -35,4 +35,4 @@ const startup_briefe = function () {
         tabbtnlist[0].click();
 };
 
-startup_briefe();
+export { startup_briefe };

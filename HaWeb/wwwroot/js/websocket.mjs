@@ -147,4 +147,4 @@ const startup_websocket = function () {
     }
 };
 
-startup_websocket();
+export { startup_websocket };

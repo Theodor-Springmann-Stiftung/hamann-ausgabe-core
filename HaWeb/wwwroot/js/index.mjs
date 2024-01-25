@@ -1,8 +1,7 @@
-const startup_index = function () {
-
+const startup_index = function (AvailableLetters, AvailablePages) {
     function encode(e) { return e.replace(/[^]/g, function (e) { return "&#" + e.charCodeAt(0) + ";" }) }
 
-    const ACTIVATEGOTOFILTER = function (filter, button) {
+    const ACTIVATEGOTOFILTER = function (filter, button) {    
         let f = filter.value;
         let gotoinfo = document.getElementById("ha-gotoinfo");
 
@@ -93,4 +92,4 @@ const startup_index = function () {
     searchfilter.addEventListener("input", () => ACTIVATESEARCHFILTER(searchfilter, searchsubmitbtn));
 };
 
-startup_index();
+export { startup_index };

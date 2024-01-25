@@ -167,4 +167,8 @@
     }
   </div>
   </feature>
-  <script defer src="/js/filelistform.js" asp-append-version="true"></script>
+
+  <script type="module">
+    import { startup_filelistform } from "/dist/scripts.js";
+    startup_filelistform();
+  </script>

@@ -152,9 +152,11 @@
     }
 </div>
 
-<script>
-    var AvailableLetters = new Set(@Html.Raw(Json.Serialize(Model.AvailableLetters)))
-    var AvailablePages = @Html.Raw(Json.Serialize(Model.AvailablePages))
+<script type="module">
+    import { startup_index } from "/dist/scripts.js";
+    startup_index(
+        new Set(@Html.Raw(Json.Serialize(Model.AvailableLetters))), 
+        @Html.Raw(Json.Serialize(Model.AvailablePages))
+    );
 </script>
-<script defer src="/js/index.js" asp-append-version="true"></script>
 

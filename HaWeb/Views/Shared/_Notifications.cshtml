@@ -7,4 +7,8 @@
         </div>
     </div>
 </div>
-<script defer src="/js/websocket.js" asp-append-version="true"></script>
+
+<script type="module">
+    import { startup_websocket } from "/dist/scripts.js";
+    startup_websocket();
+</script>

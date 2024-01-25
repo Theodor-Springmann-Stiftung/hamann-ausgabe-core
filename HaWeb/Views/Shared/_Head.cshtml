@@ -20,25 +20,7 @@
 @* Styles *@
 <link rel="stylesheet" href="/dist/style.css" asp-append-version="true" />
 
-<script type="module">
-    import { startup_clipboard, startup_markanchor, startup_mobilemenu, startup_scrollbutton, startup_marginals, startup_theme, startup_menu } from "/dist/scripts.js";
-    startup_marginals();
-    startup_theme();
-    startup_scrollbutton();
-    startup_menu();
-    startup_mobilemenu();
-    startup_markanchor();
-    startup_clipboard();
-</script>
-<script type="module">
-    import "/js/mark.min.js";
-    document.addEventListener("DOMContentLoaded", (event) => {
-        var elements = document.querySelectorAll(".ha-register-body, .ha-searchresultpreview, .ha-commenthead, .ha-entry");
-        if (elements.length < 1000) {
-            var instancesearch = new Mark(elements);
-            instancesearch.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
-        }
-        var instanceletter = new Mark(document.querySelectorAll(".ha-letterbody"));
-        instanceletter.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
-    });
-</script>
+@* Scripts *@
+<script src="/js/mark.min.js" asp-append-version="true"></script>
+<script src="/js/htmx.min.js" asp-append-version="true"></script>
+<script rel="preload" type="module" src="/dist/scripts.js" asp-append-version="true"></script>

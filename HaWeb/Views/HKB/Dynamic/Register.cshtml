@@ -24,7 +24,6 @@
         : "ha-bibel";
 }
 
-<script defer src="/js/search.js" asp-append-version="true"></script>
 
 <div class="ha-register">
     <div class="@commentClass">
@@ -87,3 +86,9 @@
         </div>
     </div>
 </div>
+
+
+<script type="module">
+    import { startup_search } from "/dist/scripts.js";
+    startup_search();
+</script>

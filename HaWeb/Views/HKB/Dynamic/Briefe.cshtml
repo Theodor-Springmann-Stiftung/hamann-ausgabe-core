@@ -199,4 +199,7 @@
                 </div>
     }
 </div>
-<script defer src="/js/briefe.js" asp-append-version="true"></script>
+<script type="module">
+    import { startup_briefe } from "/dist/scripts.js";
+    startup_briefe();
+</script>

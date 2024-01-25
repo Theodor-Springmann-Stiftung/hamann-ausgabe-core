@@ -1,0 +1,14 @@
+<script type="module">
+    import { startup_default } from "/dist/scripts.js"
+    startup_default();
+</script>
+
+<script type="module">
+    var elements = document.querySelectorAll(".ha-register-body, .ha-searchresultpreview, .ha-commenthead, .ha-entry");
+    if (elements.length < 1000) {
+        var instancesearch = new Mark(elements);
+        instancesearch.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
+    }
+    var instanceletter = new Mark(document.querySelectorAll(".ha-letterbody"));
+    instanceletter.mark('@ViewData["Mark"]', { "element": "span", "className": "ha-found", "acrossElements": true, "separateWordSearch": false, "exclude": [".ha-searchresultcommentpill", ".ha-letlink", ".ha-letlinks", ".ha-hkb"] });
+</script>
