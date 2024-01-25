@@ -1,24 +1,20 @@
 {
   "name": "haweb",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "css_build": "npx postcss wwwroot/css/site.css -o wwwroot/css/output.css",
-    "watch": "npx postcss wwwroot/css/site.css -o wwwroot/css/output.css -w --verbose"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
+    "vite": "^5.0.8",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.11",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
     "tailwindcss": "^3.0.24"
-  },
-  "watch": {
-    "css_build": "wwwroot/css/site.css"
   }
 }
