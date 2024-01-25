@@ -6,7 +6,7 @@ export default defineConfig({
 		lib: {
 			entry: resolve(__dirname, 'wwwroot/js/main.js'),
 			name: 'HaWeb',
-			fileName: 'scripts'
+			fileName: 'scripts',
 		},
         outDir: resolve(__dirname, 'wwwroot/dist/'),
 	}

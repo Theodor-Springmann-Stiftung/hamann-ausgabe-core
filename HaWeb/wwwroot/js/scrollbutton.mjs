@@ -2,7 +2,7 @@ const startup_scrollbutton = function () {
 
     // Script for showing and acting upon the "scroll to top button"
     const scrollFunction = function () {
-        button = document.getElementById("ha-scrollbutton");
+        let button = document.getElementById("ha-scrollbutton");
         if (button !== null) {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 // button.style.display = "block";
@@ -28,4 +28,4 @@ const startup_scrollbutton = function () {
     }
 };
 
-startup_scrollbutton();
+export { startup_scrollbutton };

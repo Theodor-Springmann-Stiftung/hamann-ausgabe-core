@@ -19,4 +19,4 @@ const startup_markanchor = function () {
     }
 }
 
-startup_markanchor();
+export { startup_markanchor };

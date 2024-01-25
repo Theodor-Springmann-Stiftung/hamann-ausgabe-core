@@ -32,4 +32,4 @@ const startup_mobilemenu = function () {
     }
 };
 
-startup_mobilemenu();
+export { startup_mobilemenu };

@@ -20,7 +20,7 @@ const startup_theme = function () {
 
     if (
         document.getElementById("ha-togglebright") !== null &&
-        this.document.getElementById("ha-toggledark") !== null
+        document.getElementById("ha-toggledark") !== null
     ) {
         document
             .getElementById("ha-togglebright")
@@ -32,4 +32,4 @@ const startup_theme = function () {
     get_theme_settings("ha-togglebright");
 };
 
-startup_theme();
+export { startup_theme };

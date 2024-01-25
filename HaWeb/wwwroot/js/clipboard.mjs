@@ -9,5 +9,4 @@ const startup_clipboard = function () {
   });
 }
 
-
-startup_clipboard();
+export { startup_clipboard };

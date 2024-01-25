@@ -154,10 +154,10 @@ const startup_marginals = function () {
         overlappingcollapsebox(".ha-text .ha-marginalbox", true);
     };
 
-    var collapsedboxes = [];
+    let collapsedboxes = [];
 
     const clearcollapsedboxes = function () {
-        var elements = document.querySelectorAll(".ha-text .ha-marginalbox");
+        let elements = document.querySelectorAll(".ha-text .ha-marginalbox");
         elements.forEach(element => {
             element.removeAttribute("style");
         });
@@ -167,7 +167,7 @@ const startup_marginals = function () {
             element.outerHTML = element.outerHTML;
         });
         collapsedboxes = [];
-        var elements = document.querySelectorAll(".ha-btn-collapsed-box");
+        elements = document.querySelectorAll(".ha-btn-collapsed-box");
         elements.forEach(element => {
             element.remove();
         });
@@ -184,10 +184,10 @@ const startup_marginals = function () {
     collapseboxes();
 
     var doit;
-    this.window.addEventListener("resize", function () {
-        this.clearTimeout(doit);
-        doit = this.setTimeout(resetall, 17);
+    window.addEventListener("resize", function () {
+        clearTimeout(doit);
+        doit = setTimeout(resetall, 17);
     });
 };
 
-startup_marginals();
+export { startup_marginals };

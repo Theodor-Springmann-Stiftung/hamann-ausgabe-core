@@ -1,4 +1,4 @@
-const startup_active = function () {
+const startup_menu = function () {
     // Gives active classes to links with active URLs
     // Marks links as active which target URL starts with the current URL
     const markactive_startswith = function (element) {
@@ -65,9 +65,9 @@ const startup_active = function () {
         markactive_menu(document.getElementById("ha-topnav"));
     if (document.getElementById("ha-register-nav") !== null)
         markactive_exact(document.getElementById("ha-register-nav"));
-    if (this.document.getElementById("ha-adminuploadfields") !== null)
+    if (document.getElementById("ha-adminuploadfields") !== null)
         markactive_exact(document.getElementById("ha-adminuploadfields"));
 };
 
 
-startup_active();
+export { startup_menu };
