@@ -85,6 +85,11 @@ public class LinkHelper {
                                 _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Bibelstellen/" + linkloc[0] + linkloc[1] + "#" + comment.Index));
                             else if (comment.Type == "forschung")
                                 _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Forschung/" + linkloc[0] + "#" + comment.Index));
+                            else if (comment.Type == "editionen")
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Forschung/Editionen/" + linkloc[0] + "#" + comment.Index));
+                            else if (comment.Type == "nachschlagewerke")
+                                _sb.Append(HTMLHelpers.TagHelpers.CreateElement("a", REFLINKCLASS, "/HKB/Register/Forschung/Nachschlagewerke/" + linkloc[0] + "#" + comment.Index));
+
                         _sb.Append(GetLemmaString(tag, comment, _lib, _followlinksinchildren));
                     }
                 }
