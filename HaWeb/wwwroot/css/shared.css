@@ -256,7 +256,7 @@
   }
 
   * {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     text-decoration-skip-ink: all;
   }
   
