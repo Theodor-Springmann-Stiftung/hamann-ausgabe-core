@@ -2,7 +2,7 @@ const startup_search = function () {
 
     const ACTIVATESEARCHFILTER = function (filter, button) {
         let f = filter.value;
-        if (f === "") {
+        if (!f || !button) {
             button.disabled = true;
             return;
         }

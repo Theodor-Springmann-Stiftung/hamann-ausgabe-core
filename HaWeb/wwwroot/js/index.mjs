@@ -5,7 +5,7 @@ const startup_index = function (AvailableLetters, AvailablePages) {
         let f = filter.value;
         let gotoinfo = document.getElementById("ha-gotoinfo");
 
-        if (f === "") {
+        if (!f) {
             if (gotoinfo != null && !gotoinfo.classList.contains("opacity-0")) gotoinfo.classList.add("opacity-0");
             button.disabled = true;
             return;
@@ -29,7 +29,7 @@ const startup_index = function (AvailableLetters, AvailablePages) {
         let pg = page.value;
         let gotoinfo = document.getElementById("ha-zhsearchinfo");
 
-        if (pg === "") {
+        if (!pg) {
             if (gotoinfo != null && !gotoinfo.classList.contains("opacity-0")) gotoinfo.classList.add("opacity-0");
             button.disabled = true;
             return;
@@ -56,7 +56,7 @@ const startup_index = function (AvailableLetters, AvailablePages) {
 
     const ACTIVATESEARCHFILTER = function (filter, button) {
         let f = filter.value;
-        if (f === "") {
+        if (!f) {
             button.disabled = true;
             return;
         }
