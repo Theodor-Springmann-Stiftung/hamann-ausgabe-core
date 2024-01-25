@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Primitives;
 
 var builder = WebApplication.CreateBuilder(args);
-List<string> configpaths = new List<string>();
 
 // Add additional configuration
+List<string> configpaths = new List<string>();
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
     var p = builder.Configuration.GetValue<string>("WorkingTreePathWindows") + "settings.json";
     configpaths.Add(p);
@@ -38,6 +38,8 @@ builder.Services.AddSingleton<IXMLFileProvider, XMLFileProvider>(_ => XMLFP);
 builder.Services.AddSingleton<WebSocketMiddleware>();
 builder.Services.AddTransient<IReaderService, ReaderService>();
 builder.Services.AddFeatureManagement();
+
+
 var app = builder.Build();
 
 // Reload config on change
@@ -48,12 +50,13 @@ ChangeToken.OnChange(
     app.Environment
 );
 
+// Websockets for realtime notification of changes
 app.UseWebSockets( new WebSocketOptions {
     KeepAliveInterval = TimeSpan.FromMinutes(180),
 });
 app.UseMiddleware<WebSocketMiddleware>();
 
-// Configure the HTTP request pipeline.
+// Production Options
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

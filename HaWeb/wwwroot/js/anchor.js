@@ -1,5 +1,5 @@
 // Marks anchors, if anchors are present in the URL
-const markanchor = function () {
+const startup_markanchor = function () {
     var currentUrl = document.URL,
         urlParts = currentUrl.split('#');
     var anchor = (urlParts.length > 1) ? urlParts[1] : null;
@@ -19,4 +19,4 @@ const markanchor = function () {
     }
 }
 
-markanchor();
+startup_markanchor();
