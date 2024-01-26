@@ -169,7 +169,7 @@
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks {
-    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2 mt-1
+    @apply inline-block font-normal text-xs md:text-sm leading-snug font-sans caps-allpetite ml-2 mt-1 overflow-hidden
   }
 
   .ha-register .ha-register-body .ha-comment .ha-commenthead .ha-letlinks::before {

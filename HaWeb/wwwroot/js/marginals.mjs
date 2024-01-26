@@ -176,7 +176,7 @@ const startup_marginals = function () {
     const resetall = function () {
         clearcollapsedboxes();
         marginalboxwidthset();
-        collapseboxes();
+        startup_marginals();
     }
 
 

@@ -37,7 +37,7 @@ There is a chance you need to set the Environment Variable to 'Development' in W
 
 Recommended vscode plugins include the XML Tools, c#, Tailwind CSS IntelliSense & TODO Tree.
 
-## Releas
+## Release
 
 For a Linux server run:
 

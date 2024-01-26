@@ -1,7 +1,7 @@
 module.exports = {
   darkMode: 'class',
   content: [
-    "./wwwroot/**/*.{html,js}",
+    "./wwwroot/**/*.{html,mjs,js}",
     "./Views/**/*.{cshtml,html,js}",
     "./Settings/CSSClassesSettings.cs"
   ],

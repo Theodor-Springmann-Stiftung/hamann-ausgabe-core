@@ -172,7 +172,7 @@
   } 
 
   .ha-text .ha-marginalbox {
-    @apply hidden select-none hover:select-auto hyphenate pl-1 md:inline-block absolute left-full ml-6 desktop:ml-10 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
+    @apply hidden overflow-hidden select-none hover:select-auto hyphenate pl-1 md:inline-block absolute left-full ml-6 desktop:ml-10 mt-1 w-[16rem] desktop:w-[28rem] text-sm leading-tight rounded-sm font-sans 
   }
 
   .ha-text .ha-marginalbox .ha-marginallist {
@@ -194,6 +194,10 @@
 
   .ha-text .ha-btn-collapsed-box {
     @apply absolute left-full ml-4 desktop:ml-[1.7rem] hidden md:inline-block cursor-pointer leading-none mt-[0.2rem]
+  }
+
+  .ha-minwidth .ha-btn-collapsed-box {
+    @apply !-ml-2
   }
 
   .ha-defaulttab .ha-hands {
@@ -316,4 +320,10 @@
 
 .ha-additions .ha-edits .ha-editentries tr td:nth-of-type(2)::after {
     content: "";
+}
+
+.ha-text::after {
+    content: "";
+    display: table;
+    clear: both;
 }
