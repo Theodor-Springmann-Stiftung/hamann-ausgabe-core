@@ -39,7 +39,9 @@ Recommended vscode plugins include the XML Tools, c#, Tailwind CSS IntelliSense 
 
 ## Release
 
-For a Linux server run:
+First, build the css and js: `npm run build`.
+
+To build the project for a Linux server:
 
 `dotnet publish --runtime linux-x64 -c Release`
 
