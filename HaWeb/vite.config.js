@@ -7,6 +7,7 @@ export default defineConfig({
 			entry: resolve(__dirname, 'wwwroot/js/main.js'),
 			name: 'HaWeb',
 			fileName: 'scripts',
+			formats: ['es']
 		},
         outDir: resolve(__dirname, 'wwwroot/dist/'),
 	}

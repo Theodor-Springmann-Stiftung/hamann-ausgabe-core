@@ -42,7 +42,6 @@ const startup_websocket = function () {
         var msg = JSON.parse(event.data);
         if (msg.ValidationState != null) {
             stateValidation = msg.ValidationState;
-            console.log(msg.ValidationState);
             switch (msg.ValidationState) {
                 case 0:
                     commsNot.classList.remove("loading");
