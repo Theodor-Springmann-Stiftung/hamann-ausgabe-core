@@ -9,19 +9,30 @@
     <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
     <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
 -->
-
-@* Resources *@
-<link rel="preload" href="/img/subtlenet2.png" as="image" />
-@* We do not preload the fonts since they are embedded in the css by vite 
-<link rel="preload" href="/fonts/LinBiolinum_Rah.ttf" as="font" crossorigin/>
-<link rel="preload" href="/fonts/LinLibertine_Rah.ttf" as="font" crossorigin/>
-<link rel="preload" href="/fonts/LinLibertine_RIah.ttf" as="font" crossorigin/>
-<link rel="preload" href="/fonts/LinLibertine_RBah.ttf" as="font" crossorigin/> *@
+@* Scripts *@
+<script src="/js/mark.min.js" asp-append-version="true" defer></script>
+<script src="/js/htmx.min.js" asp-append-version="true" defer></script>
 
 @* Styles *@
+<link rel="stylesheet" href="/css/fonts.css" asp-append-version="true" />
 <link rel="stylesheet" href="/dist/style.css" asp-append-version="true" />
 
-@* Scripts *@
-<script src="/js/mark.min.js" asp-append-version="true"></script>
-<script src="/js/htmx.min.js" asp-append-version="true"></script>
-<script rel="preload" type="module" src="/dist/scripts.js" asp-append-version="true"></script>
+@* Resources *@
+@* We do not preload the graphics since they are embedded in the css by vite.
+We dont preload here, because we have 6 requests: 
+(0. html & favicon)
+1. mark 
+2. htmx
+3. fonts.css
+4. style.css
+5. scripts.js
+
+<link rel="preload" href="/img/subtlenet2.png" as="image" /> 
+<link rel="preload" href="/fonts/LinBiolinum_Rah.ttf" as="font"/>
+<link rel="preload" href="/fonts/LinBiolinum_RIah.ttf" as="font"/>
+<link rel="preload" href="/fonts/LinLibertine_Rah.ttf" as="font"/>
+<link rel="preload" href="/fonts/LinLibertine_RZah.ttf" as="font"/>
+<link rel="preload" href="/fonts/LinLibertine_RIah.ttf" as="font"/>
+<link rel="preload" href="/fonts/LinLibertine_RBah.ttf" as="font"/>
+ *@
+

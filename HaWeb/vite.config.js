@@ -1,6 +1,5 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
-
 export default defineConfig({
 	build: {
 		lib: {
@@ -9,6 +8,6 @@ export default defineConfig({
 			fileName: 'scripts',
 			formats: ['es']
 		},
-        outDir: resolve(__dirname, 'wwwroot/dist/'),
+		outDir: resolve(__dirname, 'wwwroot/dist/'),
 	}
 });
