@@ -106,7 +106,7 @@
       </div>
       <feature name="SyntaxCheck">
         @if (Model.ValidState) {
-          <form class="ha-selectfilesform" asp-controller="API" asp-action="GetSyntaxCheck" onsubmit="GETSyntaxCheck(this);return false;" method="get">
+          <form class="ha-selectfilesform" asp-controller="API" asp-action="GetSyntaxCheck" onsubmit="GETSyntaxCheck(this);return false;" method="get" hx-boost="false">
           <button type="submit" class="ha-scbutton" id="ha-scbutton" >
             Verweise & IDs prüfen
           </button>

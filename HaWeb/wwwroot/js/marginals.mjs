@@ -14,7 +14,7 @@ const startup_marginals = function () {
         return ret;
     };
 
-    const collapsebox = function (element, height, lineheight, setheight = true) {
+    const collapsebox = function (element, height, lineheight) {
         element.style.maxHeight = height + "px";
         element.classList.add("ha-collapsed-box");
         element.classList.remove("ha-expanded-box");
@@ -43,16 +43,12 @@ const startup_marginals = function () {
             ev.stopPropagation();
             if (element.classList.contains("ha-collapsed-box")) {
                 uncollapsebox(element);
-                if (topmove > 0) element.style.bottom = "0px";
+                if (topmove > 0) element.style.bottom = "5px";
                 btn.classList.add("ha-close-btn-collapsed-box");
                 btn.classList.add("ha-collapsed-box-manually-toggled");
             } else {
-                if (topmove > 0) { 
-                    collapsebox(element, height, 0, false);
-                    element.style.bottom = "unset";
-                } else {
-                    collapsebox(element, height, 0, true);
-                }
+                collapsebox(element, height, 0);
+                
                 btn.classList.remove("ha-close-btn-collapsed-box");
                 btn.classList.remove("ha-collapsed-box-manually-toggled");
             }
@@ -66,7 +62,7 @@ const startup_marginals = function () {
                 timer = setTimeout(function () {
                     if (element.classList.contains("ha-collapsed-box")) {
                         uncollapsebox(element);
-                        if (topmove > 0) element.style.bottom = "0px";
+                        if (topmove > 0) element.style.bottom = "5px";
                         btn.classList.add("ha-close-btn-collapsed-box");
                     }
                 }, 80);
@@ -81,12 +77,7 @@ const startup_marginals = function () {
                     element.classList.contains("ha-expanded-box") &&
                     !btn.classList.contains("ha-collapsed-box-manually-toggled")
                 ) {
-                    if (topmove > 0) { 
-                        collapsebox(element, height, 0, false);
-                        element.style.bottom = "unset";
-                    } else {
-                        collapsebox(element, height, 0, true);
-                    }
+                    collapsebox(element, height, 0);
                     btn.classList.remove("ha-close-btn-collapsed-box");
                 }
             });
@@ -114,6 +105,7 @@ const startup_marginals = function () {
             if (thisrect.bottom > containerrect.bottom) {
                 overlap = thisrect.bottom - containerrect.bottom;
                 topmove = thisrect.bottom - containerrect.bottom;
+                console.log("topmove", topmove);
             } else if (i < boxes.length - 1) {
                 let nextrect = boxes[i + 1].getBoundingClientRect();
                 overlap = thisrect.bottom - nextrect.top;
@@ -152,8 +144,7 @@ const startup_marginals = function () {
 
                 requestAnimationFrame(() => {
                     collapsedboxes.push(element);
-                    if (topmove > 0) collapsebox(element, newlength, lineheight, false);
-                    else collapsebox(element, newlength, lineheight, true);
+                    collapsebox(element, newlength, lineheight);
                     addbuttoncaollapsebox(element, newlength, hoverfunction, topmove);
                 });
 
