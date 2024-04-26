@@ -40,7 +40,7 @@ public class Briefecontroller : Controller {
         var text = lib.Letters.ContainsKey(id) ? lib.Letters[id] : null;
         var marginals = lib.Marginals.ContainsKey(id) ? lib.Marginals[id] : null;
         var tradition = lib.Traditions.ContainsKey(id) ? lib.Traditions[id] : null;
-        var editreasons = lib.Editreasons.ContainsKey(id) ? lib.EditreasonsByLetter[id] : null; // TODO: Order
+        var editreasons = lib.EditreasonsByLetter.Contains(id) ? lib.EditreasonsByLetter[id] : null;
         var hands = lib.Hands.ContainsKey(id) ? lib.Hands[id] : null;
         var nextmeta = meta != lib.MetasByDate.Last() ? lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) + 1) : null;
         var prevmeta = meta != lib.MetasByDate.First() ? lib.MetasByDate.ItemRef(lib.MetasByDate.IndexOf(meta) - 1) : null;
@@ -76,22 +76,24 @@ public class Briefecontroller : Controller {
             t.Title = name;
             if (!String.IsNullOrWhiteSpace(t.ParsedText)) {
                 if (texts == null) texts = new List<(string, List<Text>)>();
-                if(!texts.Where(x => x.Category == category).Any())
+                if (!texts.Where(x => x.Category == category).Any())
                     texts.Add((category, new List<Text>() { t }));
                 else
                     texts.Where(x => x.Category == category).First().Item2.Add(t);
-            } else {
+            }
+            else {
                 model.MetaData.HasText = false;
             }
-        } else {
+        }
+        else {
             model.MetaData.HasText = false;
         }
-        
+
         if (tradition != null && !String.IsNullOrWhiteSpace(tradition.Element)) {
             var additions = XElement.Parse(tradition.Element, LoadOptions.PreserveWhitespace).Descendants("app");
             foreach (var a in additions) {
-                var app = a.HasAttributes && a.Attribute("ref") != null && lib.Apps.ContainsKey(a.Attribute("ref").Value) ? 
-                    lib.Apps[a.Attribute("ref").Value]  : 
+                var app = a.HasAttributes && a.Attribute("ref") != null && lib.Apps.ContainsKey(a.Attribute("ref").Value) ?
+                    lib.Apps[a.Attribute("ref").Value] :
                     null;
                 if (app != null && !a.IsEmpty) {
                     var state = HaWeb.HTMLHelpers.LetterHelpers.ParseText(lib, _readerService, a, meta, marginals, hands, editreasons);
@@ -100,14 +102,14 @@ public class Briefecontroller : Controller {
                     t.ParsedMarginals = state.ParsedMarginals;
                     t.ParsedText = state.sb.ToString();
                     if (texts == null) texts = new List<(string, List<Text>)>();
-                    if(!texts.Where(x => x.Category == app.Category).Any())
+                    if (!texts.Where(x => x.Category == app.Category).Any())
                         texts.Add((app.Category, new List<Text>() { t }));
                     else
                         texts.Where(x => x.Category == app.Category).First().Item2.Add(t);
                 }
             }
         }
-        
+
         model.Texts = texts;
 
         if (System.IO.File.Exists("./wwwroot/pdf/HKB_" + id + ".pdf")) {
@@ -159,7 +161,8 @@ public class Briefecontroller : Controller {
                     HTMLHelpers.StringHelpers.GetEnumerationString(receivers.Select(x => x.Name))
                 ));
             }
-        } else {
+        }
+        else {
             if (senders.Any(x => receivers.Contains(x))) {
                 for (var i = 0; i < receivers.Count || i < senders.Count; i++) {
                     res.Add((
@@ -185,7 +188,7 @@ public class Briefecontroller : Controller {
                 if (str == strlist.Last())
                     res += " und " + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
                 else
-                    res += ", " + (str.Index == "1" ? "" :HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
+                    res += ", " + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
             else
                 res += (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateElement("a", "", "/HKB/Person/" + str.Index)) + str.Name + (str.Index == "1" ? "" : HTMLHelpers.TagHelpers.CreateEndElement("a"));
         }

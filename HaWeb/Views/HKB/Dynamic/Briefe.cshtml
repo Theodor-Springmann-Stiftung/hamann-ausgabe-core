@@ -1,12 +1,12 @@
 @model BriefeViewModel;
 @{
-    @* var minwidth = "";
-    if (Model.MinWidth)
-        minwidth = "ha-minwidth";
-    var minwidthtrads = "";
-    if (Model.MinWidthTrad)
-        minwidthtrads = "ha-minwidth"; *@
-} 
+@* var minwidth = "";
+if (Model.MinWidth)
+minwidth = "ha-minwidth";
+var minwidthtrads = "";
+if (Model.MinWidthTrad)
+minwidthtrads = "ha-minwidth"; *@
+}
 
 <div class="ha-letterheader">
     @await Html.PartialAsync("/Views/Shared/_LetterHead.cshtml", (Model.MetaData, true, false))
@@ -15,77 +15,79 @@
             <select id="ha-switchlettercategory">
                 @foreach (var app in Model.Texts)
                 {
-                    @if (app.Category != Model.DefaultCategory)
-                    {
-                        <option class="ha-tabbtn" autocomplete="off">@app.Category</option>
-                    }
+                @if (app.Category != Model.DefaultCategory)
+                {
+                <option class="ha-tabbtn" autocomplete="off">@app.Category</option>
+                }
                 }
                 @if (Model.Texts != null && Model.Texts.Where(x => x.Category == Model.DefaultCategory).Any())
                 {
-                        <option class="ha-tabbtn" autocomplete="off">@Model.DefaultCategory</option>
+                <option class="ha-tabbtn" autocomplete="off">@Model.DefaultCategory</option>
                 }
             </select>
         </div>
         <div class="ha-lettertabs !hidden md:!block">
             @foreach (var app in Model.Texts)
             {
-                @if (app.Category != Model.DefaultCategory)
-                {
-                    <a class="ha-tabbtn hidden md:inline-block">@app.Category</a>
-                }
+            @if (app.Category != Model.DefaultCategory)
+            {
+            <a class="ha-tabbtn hidden md:inline-block">@app.Category</a>
+            }
             }
             @if (Model.Texts != null && Model.Texts.Where(x => x.Category == Model.DefaultCategory).Any())
             {
-                    <a class="ha-tabbtn hidden md:inline-block">@Model.DefaultCategory</a>
+            <a class="ha-tabbtn hidden md:inline-block">@Model.DefaultCategory</a>
             }
 
-            
+
         </div>
 
         @if (Model.PDFFilePath != null || Model.YearPDFFilePath != null)
+        {
+        <div class="self-end mr-4 hidden md:block mb-1 text-base">
+            <span class="caps-petite">PDF:</span>
+
+            @if (Model.PDFFilePath != null)
             {
-                <div class="self-end mr-4 hidden md:block mb-1 text-base">
-                    <span class="caps-petite">PDF:</span>
 
-                @if (Model.PDFFilePath != null)
-                {
-
-                            <a class="ml-1" href="@Model.PDFFilePath">
-                        <div class="inline-block bg-slate-100 hover:bg-slate-200 border px-1.5 rounded dark:bg-black ">Brief @Model.MetaData.Meta.ID</div>
-                    </a>
-                }
-
-                @if (Model.YearPDFFilePath != null)
-                {
-                            <a class="ml-1 mr-2" href="@Model.YearPDFFilePath">
-                        <div class="inline-block bg-slate-100 hover:bg-slate-200 border px-1.5 rounded dark:bg-black">Jahr @Model.MetaData.Meta.Sort.Year</div>
-                    </a>
-                }
-                
-                </div>
+            <a class="ml-1" href="@Model.PDFFilePath" hx-boost="false">
+                <div class="inline-block bg-slate-100 hover:bg-slate-200 border px-1.5 rounded dark:bg-black ">Brief
+                    @Model.MetaData.Meta.ID</div>
+            </a>
             }
+
+            @if (Model.YearPDFFilePath != null)
+            {
+            <a class="ml-1 mr-2" href="@Model.YearPDFFilePath" hx-boost="false">
+                <div class="inline-block bg-slate-100 hover:bg-slate-200 border px-1.5 rounded dark:bg-black">Jahr
+                    @Model.MetaData.Meta.Sort.Year</div>
+            </a>
+            }
+
+        </div>
+        }
 
         @if (Model.MetaData.Next != null || Model.MetaData.Prev != null)
         {
-                <div class="ha-lettermetalinks">
-                @if (Model.MetaData.Prev != null)
-                {
-                            <a href="@Model.MetaData.Prev.Value.Item2">
-                        @Model.MetaData.Prev.Value.Model.Meta.ID ◀
-                            </a>
-                }
+        <div class="ha-lettermetalinks">
+            @if (Model.MetaData.Prev != null)
+            {
+            <a href="@Model.MetaData.Prev.Value.Item2">
+                @Model.MetaData.Prev.Value.Model.Meta.ID ◀
+            </a>
+            }
 
-                    <div class="ha-hkb">
-                        HKB
-                    </div>
+            <div class="ha-hkb">
+                HKB
+            </div>
 
-                @if (Model.MetaData.Next != null)
-                {
-                            <a href="@Model.MetaData.Next.Value.Item2">
-                                ▶ @Model.MetaData.Next.Value.Model.Meta.ID
-                            </a>
-                }
-                </div>
+            @if (Model.MetaData.Next != null)
+            {
+            <a href="@Model.MetaData.Next.Value.Item2">
+                ▶ @Model.MetaData.Next.Value.Model.Meta.ID
+            </a>
+            }
+        </div>
         }
     </div>
 </div>
@@ -93,113 +95,117 @@
 <div class="ha-letterbody" id="ha-letterbody">
     @foreach (var app in Model.Texts)
     {
-        @if (app.Category != Model.DefaultCategory)
-        {        
-                    <div class="ha-tab">
-                @foreach (var text in app.Item2)
-                {
-                    var mw = (text.MinWidth) ? "ha-minwidth" : "";
-                            <div class="ha-appcontainer ha-appcontainer-@text.Number @mw">
-                        @if (app.Item2.Count > 1 && !String.IsNullOrWhiteSpace(text.ParsedText) && !String.IsNullOrWhiteSpace(text.Title))
-                        {
-                                    <h3>@text.Title</h3>
-                        }
-                        @if (!String.IsNullOrWhiteSpace(text.ParsedText))
-                        {
-                            @Html.Raw(text.ParsedText)
-                        }
-                            </div>
-                }
-                    </div>
+    @if (app.Category != Model.DefaultCategory)
+    {
+    <div class="ha-tab">
+        @foreach (var text in app.Item2)
+        {
+        var mw = (text.MinWidth) ? "ha-minwidth" : "";
+        <div class="ha-appcontainer ha-appcontainer-@text.Number @mw">
+            @if (app.Item2.Count > 1 && !String.IsNullOrWhiteSpace(text.ParsedText) &&
+            !String.IsNullOrWhiteSpace(text.Title))
+            {
+            <h3>@text.Title</h3>
+            }
+            @if (!String.IsNullOrWhiteSpace(text.ParsedText))
+            {
+            @Html.Raw(text.ParsedText)
+            }
+        </div>
         }
+    </div>
+    }
     }
 
     @if (Model.Texts != null && Model.Texts.Where(x => x.Category == Model.DefaultCategory).Any())
     {
-                <div class="ha-tab ha-defaulttab">
-            @foreach (var text in Model.Texts.Where(x => x.Category == Model.DefaultCategory).First().Item2)
+    <div class="ha-tab ha-defaulttab">
+        @foreach (var text in Model.Texts.Where(x => x.Category == Model.DefaultCategory).First().Item2)
+        {
+        var mw = (text.MinWidth) ? "ha-minwidth" : "";
+        <div class="ha-appcontainer ha-appcontainer-@text.Number @mw">
+            @if (!String.IsNullOrWhiteSpace(text.ParsedText) && !String.IsNullOrWhiteSpace(text.Title))
             {
-                var mw = (text.MinWidth) ? "ha-minwidth" : "";
-                        <div class="ha-appcontainer ha-appcontainer-@text.Number @mw">
-                    @if (!String.IsNullOrWhiteSpace(text.ParsedText) && !String.IsNullOrWhiteSpace(text.Title))
-                    {
-                                <h3>@text.Title</h3>
-                    }
-                    @if (!String.IsNullOrWhiteSpace(text.ParsedText))
-                    {
-                        @Html.Raw(text.ParsedText)
-                    }
-                        </div>
+            <h3>@text.Title</h3>
             }
+            @if (!String.IsNullOrWhiteSpace(text.ParsedText))
+            {
+            @Html.Raw(text.ParsedText)
+            }
+        </div>
+        }
 
-            @if (Model.ParsedHands != null && Model.ParsedHands.Any())
-            {
-                        <div class="ha-hands ha-appcontainer">
-                    <h3>Zusätze fremder Hand</h3>
-                    <div class="ha-app">
-                        <div class="ha-handentries">
-                            <table>
-                                @foreach (var hand in Model.ParsedHands)
+        @if (Model.ParsedHands != null && Model.ParsedHands.Any())
+        {
+        <div class="ha-hands ha-appcontainer">
+            <h3>Zusätze fremder Hand</h3>
+            <div class="ha-app">
+                <div class="ha-handentries">
+                    <table>
+                        @foreach (var hand in Model.ParsedHands)
+                        {
+                        <tr class="ha-handentry">
+                            <td>
+                                <div class="ha-handfrom">@hand.ParsedStart</div>@if
+                                (!String.IsNullOrEmpty(hand.ParsedEnd))
                                 {
-                                            <tr class="ha-handentry">
-                                        <td>
-                                            <div class="ha-handfrom">@hand.ParsedStart</div>@if (!String.IsNullOrEmpty(hand.ParsedEnd))
-                                            {
-                                                <div class="ha-handto">–@hand.ParsedEnd</div>
-                                            }
-                                                </td>
-                                        <td class="ha-handperson">@Html.Raw(@hand.Person)</td>
-                                    </tr>
+                                <div class="ha-handto">–@hand.ParsedEnd</div>
                                 }
-                                </table>
-                        </div>
-                    </div>
+                            </td>
+                            <td class="ha-handperson">@Html.Raw(@hand.Person)</td>
+                        </tr>
+                        }
+                    </table>
                 </div>
-            }
+            </div>
+        </div>
+        }
 
-            @if (Model.ParsedEdits != null)
-            {
-                        <div class="ha-edits ha-appcontainer">
-                    <h3>Textkritische Anmerkungen</h3>
-                    <div class="ha-editsinfo">Der Brieftext wurde anhand der überlieferten Quellen (vgl. Provenienz) kritisch
-                                geprüft. Notwendige Korrekturen gegenüber dem in ZH gedruckten Text wurden vorgenommen und sind
-                                vollständig annotiert. Die in den beiden Auflagen von ZH angehängten Korrekturvorschläge werden
-                                vollständig aufgelistet, werden aber nur dann im Text realisiert, sofern diese anhand überlieferter
-                                Quellen verifiziert werden konnten.</div>
-                    <div class="ha-app">
-                        <div class="ha-editentries">
-                            <table>
-                                @foreach (var edit in Model.ParsedEdits)
+
+        @if (Model.ParsedEdits != null)
+        {
+        <div class="ha-edits ha-appcontainer">
+            <h3>Textkritische Anmerkungen</h3>
+            <div class="ha-editsinfo">Der Brieftext wurde anhand der überlieferten Quellen (vgl. Provenienz) kritisch
+                geprüft. Notwendige Korrekturen gegenüber dem in ZH gedruckten Text wurden vorgenommen und sind
+                vollständig annotiert. Die in den beiden Auflagen von ZH angehängten Korrekturvorschläge werden
+                vollständig aufgelistet, werden aber nur dann im Text realisiert, sofern diese anhand überlieferter
+                Quellen verifiziert werden konnten.</div>
+            <div class="ha-app">
+                <div class="ha-editentries">
+                    <table>
+                        @foreach (var edit in Model.ParsedEdits)
+                        {
+                        <tr>
+                            <td class="ha-editfromto">
+                                <div class="ha-editfrom">@edit.ParsedStart</div>@if
+                                (!String.IsNullOrEmpty(edit.ParsedEnd))
                                 {
-                                            <tr>
-                                        <td class="ha-editfromto">
-                                            <div class="ha-editfrom">@edit.ParsedStart</div>@if (!String.IsNullOrEmpty(edit.ParsedEnd))
-                                            {
-                                                <div class="ha-editto">–@edit.ParsedEnd</div>
-                                            }
-                                                </td>
-                                        <td class="ha-editreference">
-                                            @if (!String.IsNullOrWhiteSpace(edit.Text) && !String.IsNullOrWhiteSpace(edit.Preview))
-                                            {
-                                                            <span>
-                                                    @Html.Raw(@edit.Preview)]
-                                                            </span>
-                                            }
-                                                </td>
-                                        <td class="ha-editreas">
-                                            @Html.Raw(@edit.Text)
-                                                </td>
-                                    </tr>
+                                <div class="ha-editto">–@edit.ParsedEnd</div>
                                 }
-                                </table>
-                        </div>
-                    </div>
+                            </td>
+                            <td class="ha-editreference">
+                                @if (!String.IsNullOrWhiteSpace(edit.Text) && !String.IsNullOrWhiteSpace(edit.Preview))
+                                {
+                                <span>
+                                    @Html.Raw(@edit.Preview)]
+                                </span>
+                                }
+                            </td>
+                            <td class="ha-editreas">
+                                @Html.Raw(@edit.Text)
+                            </td>
+                        </tr>
+                        }
+                    </table>
                 </div>
-            }
-                </div>
+            </div>
+        </div>
+        }
+    </div>
     }
 </div>
 <script type="module">
-    import { startup_briefe } from "/dist/scripts.js";
+    import {startup_briefe} from "/dist/scripts.js";
     startup_briefe();
 </script>

@@ -11,17 +11,20 @@ namespace HaDocument.Reactors {
         private Dictionary<string, string[]> _intermediateReasons = new Dictionary<string, string[]>();
         private bool _normalizeWhitespace = false;
 
-        // State
+        // State for <etitreason>
         private string Index = "";
 
+        // State for <letterText>
         private string letter = "";
         private string page = "";
         private string line = "";
+
+
         private Stack<string> index;
 
         private ElementStringBinder _element = null;
 
-        internal EditreasonReactor(IReader reader, IntermediateLibrary lib, bool normalizeWhitespace) : base (reader, lib) {
+        internal EditreasonReactor(IReader reader, IntermediateLibrary lib, bool normalizeWhitespace) : base(reader, lib) {
             CreatedInstances = lib.Editreasons;
             index = new Stack<string>();
             _normalizeWhitespace = normalizeWhitespace;
@@ -58,9 +61,9 @@ namespace HaDocument.Reactors {
 
         protected override void Listen(object sender, Tag tag) {
             if (
-                !tag.EndTag && 
+                !tag.EndTag &&
                 !tag.IsEmpty &&
-                tag.Name == "editreason" && 
+                tag.Name == "editreason" &&
                 !String.IsNullOrWhiteSpace(tag["index"])
             ) {
                 Activate(_reader, tag);
