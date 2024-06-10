@@ -24,6 +24,11 @@ public class HKWController : Controller {
     public IActionResult SokratischeDenkwuerdigkeiten() {
         return View("~/Views/HKW/Static/SokratischeDenkwuerdigkeiten.cshtml");
     }
+    
+    [Route("Baende/Essais")]
+    public IActionResult Essais() {
+        return View("~/Views/HKW/Static/Essais.cshtml");
+    }
 
     [Route("Werkuebersicht")]
     public IActionResult Werkuebersicht() {
