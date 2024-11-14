@@ -16,14 +16,15 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
     var p = builder.Configuration.GetValue<string>("WorkingTreePathWindows") + "settings.json";
     configpaths.Add(p);
     builder.Configuration.AddJsonFile(p, optional: true, reloadOnChange: true);
-} else {
+}
+else {
     var p = builder.Configuration.GetValue<string>("WorkingTreePathLinux") + "settings.json";
     configpaths.Add(p);
     builder.Configuration.AddJsonFile(p, optional: true, reloadOnChange: true);
 }
 
 // Create initial Data
-var tS = new XMLTestService(); 
+var tS = new XMLTestService();
 var XMLIS = new XMLInteractionService(builder.Configuration, tS);
 var hdW = new HaDocumentWrapper(XMLIS, builder.Configuration);
 var XMLFP = new XMLFileProvider(XMLIS, hdW, builder.Configuration);
@@ -43,27 +44,26 @@ builder.Services.AddFeatureManagement();
 var app = builder.Build();
 
 // Reload config on change
-var cM = new ConfigurationMonitor(configpaths.ToArray(), app.Services);
-ChangeToken.OnChange(
-    () => app.Configuration.GetReloadToken(),
-    (state) => cM.InvokeChanged(state),
-    app.Environment
-);
+// var cM = new ConfigurationMonitor(configpaths.ToArray(), app.Services);
+// ChangeToken.OnChange(
+//     () => app.Configuration.GetReloadToken(),
+//     (state) => cM.InvokeChanged(state),
+//     app.Environment
+// );
 
-// Websockets for realtime notification of changes
-app.UseWebSockets( new WebSocketOptions {
+// // Websockets for realtime notification of changes
+app.UseWebSockets(new WebSocketOptions {
     KeepAliveInterval = TimeSpan.FromMinutes(180),
 });
 app.UseMiddleware<WebSocketMiddleware>();
 
 // Production Options
-if (!app.Environment.IsDevelopment())
-{
+if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseHttpsRedirection();
-    app.UseForwardedHeaders(new ForwardedHeadersOptions{ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto});
+    app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
 }
 
 app.UseAuthorization();

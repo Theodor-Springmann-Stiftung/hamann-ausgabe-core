@@ -1,6 +1,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="@ViewData["SEODescription"]">
+<meta name="description" content="@ViewData[" SEODescription"]">
 
 <title>@ViewData["Title"]</title>
 
@@ -9,6 +9,12 @@
     <link rel="preload" href="/fonts/LinLibertine_R_G.ttf" as="font" crossorigin/>
     <link rel="preload" href="/fonts/LinBiolinum_R_G.ttf" as="font" crossorigin/>
 -->
+<environment names="Development, Staging">
+    @* Do not index this site, if development or staging *@
+    <meta name="robots" content="noindex" />
+</environment>
+
+
 @* Scripts *@
 <script src="/js/mark.min.js" asp-append-version="true" defer></script>
 <script src="/js/htmx.min.js" asp-append-version="true" defer></script>
@@ -19,20 +25,19 @@
 
 @* Resources *@
 @* We do not preload the graphics since they are embedded in the css by vite.
-We dont preload here, because we have 6 requests: 
+We dont preload here, because we have 6 requests:
 (0. html & favicon)
-1. mark 
+1. mark
 2. htmx
 3. fonts.css
 4. style.css
 5. scripts.js
 
-<link rel="preload" href="/img/subtlenet2.png" as="image" /> 
-<link rel="preload" href="/fonts/LinBiolinum_Rah.ttf" as="font"/>
-<link rel="preload" href="/fonts/LinBiolinum_RIah.ttf" as="font"/>
-<link rel="preload" href="/fonts/LinLibertine_Rah.ttf" as="font"/>
-<link rel="preload" href="/fonts/LinLibertine_RZah.ttf" as="font"/>
-<link rel="preload" href="/fonts/LinLibertine_RIah.ttf" as="font"/>
-<link rel="preload" href="/fonts/LinLibertine_RBah.ttf" as="font"/>
- *@
-
+<link rel="preload" href="/img/subtlenet2.png" as="image" />
+<link rel="preload" href="/fonts/LinBiolinum_Rah.ttf" as="font" />
+<link rel="preload" href="/fonts/LinBiolinum_RIah.ttf" as="font" />
+<link rel="preload" href="/fonts/LinLibertine_Rah.ttf" as="font" />
+<link rel="preload" href="/fonts/LinLibertine_RZah.ttf" as="font" />
+<link rel="preload" href="/fonts/LinLibertine_RIah.ttf" as="font" />
+<link rel="preload" href="/fonts/LinLibertine_RBah.ttf" as="font" />
+*@
