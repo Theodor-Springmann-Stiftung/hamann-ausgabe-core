@@ -53,7 +53,7 @@ var app = builder.Build();
 
 // // Websockets for realtime notification of changes
 app.UseWebSockets(new WebSocketOptions {
-    KeepAliveInterval = TimeSpan.FromMinutes(180),
+    KeepAliveInterval = TimeSpan.FromMinutes(30),
 });
 app.UseMiddleware<WebSocketMiddleware>();
 

@@ -3,10 +3,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
 using HaWeb.XMLParser;
-using HaWeb.XMLTests;
 using System.Xml.Linq;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using Microsoft.Extensions.Primitives;
 
 // XMLProvider provides a wrapper around the available XML data on a FILE basis
@@ -17,7 +15,7 @@ public class XMLFileProvider : IXMLFileProvider {
     private IFileProvider _hamannFileProvider;
     private IFileProvider _bareRepositoryFileProvider;
     private IFileProvider _workingTreeFileProvider;
-    
+
     public event EventHandler<GitState?> FileChange;
     public event EventHandler ConfigReload;
     public event EventHandler<XMLParsingState?> NewState;
@@ -28,7 +26,7 @@ public class XMLFileProvider : IXMLFileProvider {
 
     private List<IFileInfo>? _WorkingTreeFiles;
     private List<IFileInfo>? _HamannFiles;
-    
+
     private GitState? _GitState;
     private System.Timers.Timer? _changeTokenTimer;
 
@@ -42,13 +40,13 @@ public class XMLFileProvider : IXMLFileProvider {
         _URL = config.GetValue<string>("RepositoryURL");
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             _hamannFileProvider = new PhysicalFileProvider(config.GetValue<string>("HamannFileStoreWindows"));
-            _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathWindows")); 
-            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathWindows")); 
-        } 
+            _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathWindows"));
+            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathWindows"));
+        }
         else {
             _hamannFileProvider = new PhysicalFileProvider(config.GetValue<string>("HamannFileStoreLinux"));
             _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathLinux"));
-            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathLinux")); 
+            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathLinux"));
         }
 
         // Create File Lists; Here and in xmlservice, which does preliminary checking
@@ -58,16 +56,16 @@ public class XMLFileProvider : IXMLFileProvider {
             xmlservice.SetState(state);
         }
         _HamannFiles = _ScanHamannFiles();
-        
+
         _RegisterChangeToken();
-         // Check if hamann file already is current working tree status
+        // Check if hamann file already is current working tree status
         // -> YES: Load up the file via _lib.SetLibrary();
         if (_IsAlreadyParsed()) {
             _Lib.SetLibrary(_HamannFiles!.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
 
-         // -> NO: Try to create a new file
+        // -> NO: Try to create a new file
         var created = _XMLService.TryCreate(_XMLService.GetState());
         if (created != null) {
             var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
@@ -82,11 +80,11 @@ public class XMLFileProvider : IXMLFileProvider {
             _Lib.SetLibrary(_HamannFiles.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
-        
+
         // -> There is none? Use Fallback:
         else {
             var options = new HaWeb.Settings.HaDocumentOptions();
-                if (_Lib.SetLibrary(null, null, null) == null) {
+            if (_Lib.SetLibrary(null, null, null) == null) {
                 throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
             }
         }
@@ -116,7 +114,7 @@ public class XMLFileProvider : IXMLFileProvider {
             if (_Lib.GetLibrary() != null) return;
         }
 
-         // -> NO: Try to create a new file
+        // -> NO: Try to create a new file
         var created = _XMLService.TryCreate(_XMLService.GetState());
         if (created != null) {
             var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
@@ -131,11 +129,11 @@ public class XMLFileProvider : IXMLFileProvider {
             _Lib.SetLibrary(_HamannFiles.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
-        
+
         // -> There is none? Use Fallback:
         else {
             var options = new HaWeb.Settings.HaDocumentOptions();
-                if (_Lib.SetLibrary(null, null, null) == null) {
+            if (_Lib.SetLibrary(null, null, null) == null) {
                 throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
             }
         }
@@ -165,7 +163,7 @@ public class XMLFileProvider : IXMLFileProvider {
 
     public IFileInfo? SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary? ModelState) {
         if (_GitState == null) return null;
-        var filename = "hamann_" + _GitState.PullTime.Year + "-" + _GitState.PullTime.Month + "-" + _GitState.PullTime.Day + "_" + _GitState.PullTime.Hour + "-" + _GitState.PullTime.Minute + "." + _GitState.Commit.Substring(0,7) + ".xml";
+        var filename = "hamann_" + _GitState.PullTime.Year + "-" + _GitState.PullTime.Month + "-" + _GitState.PullTime.Day + "_" + _GitState.PullTime.Hour + "-" + _GitState.PullTime.Minute + "." + _GitState.Commit.Substring(0, 7) + ".xml";
         var path = Path.Combine(basefilepath, filename);
 
         try {
@@ -173,7 +171,8 @@ public class XMLFileProvider : IXMLFileProvider {
                 Directory.CreateDirectory(basefilepath);
             using (var targetStream = System.IO.File.Create(path))
                 element.Save(targetStream, SaveOptions.DisableFormatting);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error", "Die Datei konnte nicht gespeichert werden: " + ex.Message);
             return null;
         }
@@ -237,7 +236,7 @@ public class XMLFileProvider : IXMLFileProvider {
     private bool _IsAlreadyParsed() {
         if (_HamannFiles == null || !_HamannFiles.Any() || _GitState == null) return false;
         var fhash = _GetHashFromHamannFilename(_HamannFiles.First().Name);
-        var ghash = _GitState.Commit.Substring(0,7);
+        var ghash = _GitState.Commit.Substring(0, 7);
         return fhash == ghash;
     }
 
@@ -261,8 +260,8 @@ public class XMLFileProvider : IXMLFileProvider {
             _XMLService.SetState(state);
             OnNewState(state);
         }
-        
-         // -> Try to create a new file
+
+        // -> Try to create a new file
         var created = _XMLService.TryCreate(_XMLService.GetState());
         if (created != null) {
             var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
@@ -285,7 +284,7 @@ public class XMLFileProvider : IXMLFileProvider {
     protected virtual void OnFileChange(GitState? state) {
         EventHandler<GitState?> eh = FileChange;
         eh?.Invoke(this, state);
-    } 
+    }
 
     protected virtual void OnNewState(XMLParsingState? state) {
         EventHandler<XMLParsingState?> eh = NewState;

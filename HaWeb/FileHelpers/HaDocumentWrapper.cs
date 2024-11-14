@@ -13,7 +13,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 
 public class HaDocumentWrapper : IHaDocumentWrappper {
-    private IFileInfo _ActiveFile;
+    private IFileInfo? _ActiveFile;
     private ILibrary? Library;
     private IXMLInteractionService _xmlService;
     private int _startYear;
@@ -51,7 +51,7 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
         // 1. Parse the Document, create search Index
         var sw = new Stopwatch();
         sw.Start();
-        if (_xmlService != null) 
+        if (_xmlService != null)
             _xmlService.CreateCollections(doc);
         sw.Stop();
         Console.WriteLine("Parsed Collections, elapsed: " + sw.ElapsedMilliseconds);
@@ -60,7 +60,8 @@ public class HaDocumentWrapper : IHaDocumentWrappper {
         // 2. Set ILibrary
         try {
             Library = HaDocument.Document.Create(new HaWeb.Settings.HaDocumentOptions() { HamannXMLFilePath = path, AvailableYearRange = (_startYear, _endYear) }, doc.Root);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             if (ModelState != null) ModelState.AddModelError("Error", "Das Dokument konnte nicht geparst werden: " + ex.Message);
             return null;
         }
