@@ -30,6 +30,7 @@ var hdW = new HaDocumentWrapper(XMLIS, builder.Configuration);
 var XMLFP = new XMLFileProvider(XMLIS, hdW, builder.Configuration);
 
 // Add services to the container.
+builder.Services.AddControllers().AddXmlSerializerFormatters();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IXMLTestService, XMLTestService>((_) => tS);

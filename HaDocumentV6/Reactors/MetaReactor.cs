@@ -25,7 +25,8 @@ namespace HaDocument.Reactors {
         private bool? hasOriginal { get; set; } = null;
         private bool? isProofread { get; set; } = null;
         private bool? isDraft { get; set; } = null;
-        private bool dateChanged {get; set; } = false;
+        private AdditionalDates? AdditionalDates { get; set; } = null;
+        private bool dateChanged { get; set; } = false;
         private string Location { get; set; } = "";
         private List<string> Senders { get; set; } = null;
         private List<string> Receivers { get; set; } = null;
@@ -42,9 +43,9 @@ namespace HaDocument.Reactors {
 
         protected override void Listen(object sender, Tag tag) {
             if (
-                !tag.EndTag && 
+                !tag.EndTag &&
                 !tag.IsEmpty &&
-                tag.Name =="letterDesc" && 
+                tag.Name == "letterDesc" &&
                 !String.IsNullOrWhiteSpace(tag["letter"])
             ) {
                 Activate(_reader, tag);
@@ -52,7 +53,7 @@ namespace HaDocument.Reactors {
         }
 
         protected override void Activate(IReader reader, Tag tag) {
-            if (!_active && reader != null && tag != null) { 
+            if (!_active && reader != null && tag != null) {
                 Reset();
                 _active = true;
                 ID = tag["letter"];
@@ -76,8 +77,7 @@ namespace HaDocument.Reactors {
         }
 
         private void OnTag(object _, Tag tag) {
-            switch (tag.Name)
-            {
+            switch (tag.Name) {
                 case "begin":
                     Page = tag["page"];
                     Volume = tag["vol"];
@@ -101,6 +101,14 @@ namespace HaDocument.Reactors {
                     int res2 = 0;
                     Int32.TryParse(tag["order"], out res2);
                     Order = res2;
+
+                    AdditionalDates = new AdditionalDates(
+                        GetDateTime(tag["notBefore"]),
+                        GetDateTime(tag["notAfter"]),
+                        GetDateTime(tag["from"]),
+                        GetDateTime(tag["to"]),
+                        tag["cert"]
+                    );
                     break;
                 case "hasOriginal":
                     var val = tag["value"];
@@ -135,10 +143,10 @@ namespace HaDocument.Reactors {
                     }
                     break;
                 case "dateChanged":
-                    dateChanged = tag["value"].ToLower() == "true" ? true : false; 
+                    dateChanged = tag["value"].ToLower() == "true" ? true : false;
                     break;
                 case "alternativeLineNumbering":
-                    AltLineNumbering =  tag["value"].ToLower() == "true" ? true : false;
+                    AltLineNumbering = tag["value"].ToLower() == "true" ? true : false;
                     break;
                 case "letterDesc":
                     if (tag.EndTag) Deactivate();
@@ -148,6 +156,11 @@ namespace HaDocument.Reactors {
 
         private void Add() {
             var ZHInfo = !inZH ? null : new ZHInfo(AltLineNumbering, dateChanged, Volume, Page);
+            if (AdditionalDates != null) {
+                if (AdditionalDates.NotBefore == null && AdditionalDates.NotAfter == null && AdditionalDates.From == null && AdditionalDates.To == null && AdditionalDates.Cert == null) {
+                    AdditionalDates = null;
+                }
+            }
             var meta = new Meta(
                     ID,
                     Date,
@@ -159,7 +172,8 @@ namespace HaDocument.Reactors {
                     Location,
                     Senders,
                     Receivers,
-                    ZHInfo
+                    ZHInfo,
+                    AdditionalDates
                 );
             if (
                 _availableVolumes.Contains(Volume) ||
@@ -179,6 +193,7 @@ namespace HaDocument.Reactors {
             isProofread = null;
             isDraft = null;
             dateChanged = false;
+            AdditionalDates = null;
             ID = "";
             Volume = "";
             Page = "";
@@ -189,6 +204,13 @@ namespace HaDocument.Reactors {
             Location = "";
             Senders = new List<string>();
             Receivers = new List<string>();
+        }
+
+        private DateTime? GetDateTime(string date) {
+            DateTime res;
+            var ret = System.DateTime.TryParse(date, out res);
+            if (ret) return res;
+            else return null;
         }
     }
 }

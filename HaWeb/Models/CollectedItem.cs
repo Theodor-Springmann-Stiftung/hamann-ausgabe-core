@@ -1,5 +1,3 @@
-using System.Reflection.Emit;
-using System.Collections;
 namespace HaWeb.Models;
 using HaWeb.SearchHelpers;
 using HaWeb.XMLParser;
@@ -14,9 +12,9 @@ public class CollectedItem : ISearchable {
     public IDictionary<string, CollectedItem>? Items { get; set; }
 
     public CollectedItem(
-        string id, 
-        XElement element, 
-        IXMLCollection collection, 
+        string id,
+        XElement element,
+        IXMLCollection collection,
         string? searchtext = null
     ) {
         this.ID = id;
@@ -27,7 +25,7 @@ public class CollectedItem : ISearchable {
 
     public string? this[string v] {
         get {
-            if (Fields == null && Collection.GenerateDataFields != null) 
+            if (Fields == null && Collection.GenerateDataFields != null)
                 Fields = Collection.GenerateDataFields(this.Element);
             if (Fields != null && Fields.ContainsKey(v))
                 return Fields[v];

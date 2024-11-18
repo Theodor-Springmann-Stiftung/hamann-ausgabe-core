@@ -17,6 +17,7 @@ namespace HaDocument.Reactors {
         private string Surname = "";
         private string? Reference;
         private string? Komm;
+        private bool IsOrg = false;
 
         internal PersonDefsReactor(IReader reader, IntermediateLibrary lib) : base(reader, lib) {
             lib.Persons = new Dictionary<string, Person>();
@@ -25,9 +26,9 @@ namespace HaDocument.Reactors {
         }
 
         protected override void Listen(object sender, Tag tag) {
-            if (!tag.EndTag && 
+            if (!tag.EndTag &&
                 tag.IsEmpty &&
-                tag.Name == "personDef" && 
+                tag.Name == "personDef" &&
                 !String.IsNullOrWhiteSpace(tag["index"]) &&
                 !String.IsNullOrWhiteSpace(tag["name"])
             ) {
@@ -44,6 +45,7 @@ namespace HaDocument.Reactors {
                 Prename = tag["vorname"];
                 Surname = tag["nachname"];
                 Reference = String.IsNullOrWhiteSpace(tag["ref"]) ? null : tag["ref"];
+                IsOrg = tag["org"] == "true";
                 if (!String.IsNullOrWhiteSpace(tag["komm"])) Komm = tag["komm"];
                 Add();
                 _active = false;
@@ -57,10 +59,11 @@ namespace HaDocument.Reactors {
             Surname = "";
             Reference = null;
             Komm = null;
+            IsOrg = false;
         }
 
         public void Add() {
-            CreatedInstances.Add(Index, new Person(Index, Name, Prename, Surname, Komm, Reference));
+            CreatedInstances.Add(Index, new Person(Index, Name, Prename, Surname, Komm, Reference, null, IsOrg));
         }
     }
 }
