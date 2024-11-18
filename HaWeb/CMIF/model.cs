@@ -113,7 +113,7 @@ public class Bibliography {
     [XmlAttribute("xml:id")]
     public string? Id { get; set; } = "x419f1d82-7f42-4f29-ac00-f02e474ce766";
     [XmlText]
-    public string? Text { get; set; } = "Johann Georg Hamann: Kommentierte Briefausgabe. Hg. von Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von Gregor Babelotzky, Konrad Bucher, Christian Großmann, Carl Friedrich Haak, Luca Klopfer, Johannes Knüchel, Isabel Langkabel und Simon Martens (Heidelberg 2020 ff.). URL: www.hamann-ausgabe.de [= HKB]";
+    public string? Text { get; set; } = "Johann Georg Hamann: Kommentierte Briefausgabe. Hg. von Leonard Keidel und Janina Reibold, auf Grundlage der Vorarbeiten Arthur Henkels, unter Mitarbeit von Gregor Babelotzky, Konrad Bucher, Christian Großmann, Carl Friedrich Haak, Luca Klopfer, Johannes Knüchel, Isabel Langkabel und Simon Martens (Heidelberg 2020 ff.) [= HKB]. ";
     [XmlElement("ref")]
     public Reference Reference { get; set; } = new Reference();
 }
