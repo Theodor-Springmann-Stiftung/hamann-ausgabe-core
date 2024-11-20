@@ -103,8 +103,8 @@ namespace HaDocument.Reactors {
                     Order = res2;
 
                     AdditionalDates = new AdditionalDates(
-                        GetDateTime(tag["notBefore"]),
-                        GetDateTime(tag["notAfter"]),
+                        GetDateTime(tag["notbefore"]),
+                        GetDateTime(tag["notafter"]),
                         GetDateTime(tag["from"]),
                         GetDateTime(tag["to"]),
                         tag["cert"]

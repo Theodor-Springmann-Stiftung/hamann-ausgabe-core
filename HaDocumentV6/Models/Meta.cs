@@ -33,8 +33,8 @@ namespace HaDocument.Models {
         public AdditionalDates? AdditionalDates { get; } = null;
         public int Order { get; } = -1;
         public string Location { get; } = "";
-        public List<string> Senders { get; } = null;
-        public List<string> Receivers { get; } = null;
+        public List<string>? Senders { get; } = null;
+        public List<string>? Receivers { get; } = null;
         public bool? hasOriginal { get; }
         public bool? isProofread { get; }
         public bool? isDraft { get; }
