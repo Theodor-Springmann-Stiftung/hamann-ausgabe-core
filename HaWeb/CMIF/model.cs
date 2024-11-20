@@ -204,13 +204,10 @@ public class TeiDocument {
     public TeiDocument() { }
 
     public TeiDocument(ILibrary lib) {
-        var UNKNOWN_URL = "http://correspSearch.net/unknown";
-        var UNKNOWN_TEXT = "Unbekannt";
         var LETTER_URL = "https://hamann-ausgabe.de/HKB/Briefe/";
-        var PERSON_URL = "https://hamann-ausgabe.de/HKB/Person/";
         var DATE_OUTPUT = "yyyy-MM-dd";
         List<CorrespondenceDescription> cds = new List<CorrespondenceDescription>();
-        foreach (var meta in lib.Metas.Values) {
+        foreach (var meta in lib.MetasByDate) {
             if (lib.Letters.Where(x => x.Key == meta.ID).Count() == 0) continue;
             var cd = new CorrespondenceDescription();
             cd.Reference = LETTER_URL + meta.ID;
@@ -251,61 +248,49 @@ public class TeiDocument {
                 }
             }
             if (meta.Senders != null && meta.Senders.Count() > 0) {
-                var PersonName = new List<PersonName>();
-                var OrgName = new List<string>();
-                foreach (var sender in meta.Senders) {
-                    if (sender == "-1") {
-                        PersonName.Add(new PersonName() { Name = UNKNOWN_TEXT, Reference = UNKNOWN_URL });
-                    }
-                    else if (lib.Persons.ContainsKey(sender)) {
-                        var libpers = lib.Persons[sender];
-                        if (libpers.IsOrg) {
-                            OrgName.Add(libpers.Name);
-                        }
-                        else {
-                            var pref = PERSON_URL + libpers.Index;
-                            if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
-                                pref = libpers.Reference;
-                            PersonName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
-                        }
-                    }
-                }
-                if (PersonName.Count() > 0) sent.PersonName = PersonName;
-                if (OrgName.Count() > 0) sent.OrgName = OrgName;
+                (sent.PersonName, sent.OrgName) = CMIFHelpers.ParseNamesList(lib, meta.Senders);
             }
             cd.CorrespondenceActions = new List<CorrespondenceAction>() { sent };
             var recieved = new CorrespondenceAction();
-            if (meta.Receivers != null && meta.Receivers.Count() > 0) {
-                var PersonName = new List<PersonName>();
-                var OrgName = new List<string>();
-                foreach (var reciever in meta.Receivers) {
-                    if (reciever == "-1") {
-                        PersonName.Add(new PersonName() { Name = UNKNOWN_TEXT, Reference = UNKNOWN_URL });
-                    }
-                    else if (lib.Persons.ContainsKey(reciever)) {
-                        var libpers = lib.Persons[reciever];
-                        if (libpers.IsOrg) {
-                            OrgName.Add(libpers.Name);
-                        }
-                        else {
-                            var pref = PERSON_URL + libpers.Index;
-                            if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
-                                pref = libpers.Reference;
-                            PersonName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
-                        }
-                    }
-                }
-                if (PersonName.Count() > 0) recieved.PersonName = PersonName;
-                if (OrgName.Count() > 0) recieved.OrgName = OrgName;
-            }
             recieved.Type = "received";
             cd.CorrespondenceActions.Add(recieved);
+            if (meta.Receivers != null && meta.Receivers.Count() > 0) {
+                (recieved.PersonName, recieved.OrgName) = CMIFHelpers.ParseNamesList(lib, meta.Receivers);
+            }
             cds.Add(cd);
         }
 
         this.TeiHeader.ProfileDesc = new ProfileDesc() { CorrespondenceDescriptions = cds };
     }
-
 }
 
-
+static class CMIFHelpers {
+    public static (List<PersonName>?, List<string>?) ParseNamesList(ILibrary lib, List<string> names) {
+        var UNKNOWN_URL = "http://correspSearch.net/unknown";
+        var UNKNOWN_TEXT = "Unbekannt";
+        var PERSON_URL = "https://hamann-ausgabe.de/HKB/Person/";
+        var PersonName = new List<PersonName>();
+        var OrgName = new List<string>();
+        foreach (var id in names) {
+            if (id == "-1") {
+                PersonName.Add(new PersonName() { Name = UNKNOWN_TEXT, Reference = UNKNOWN_URL });
+            }
+            else if (lib.Persons.ContainsKey(id)) {
+                var libpers = lib.Persons[id];
+                if (libpers == null || String.IsNullOrWhiteSpace(libpers.Name)) continue;
+                if (libpers.IsOrg) {
+                    OrgName.Add(libpers.Name);
+                }
+                else {
+                    var pref = PERSON_URL + libpers.Index;
+                    if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
+                        pref = libpers.Reference;
+                    PersonName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
+                }
+            }
+        }
+        if (PersonName.Count() == 0) PersonName = null;
+        if (OrgName.Count() == 0) OrgName = null;
+        return (PersonName, OrgName);
+    }
+}
