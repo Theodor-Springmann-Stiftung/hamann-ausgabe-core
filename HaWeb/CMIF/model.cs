@@ -27,13 +27,9 @@ public class TitleStatement {
     [XmlElement("editor")]
     public List<Editor>? Editor { get; set; } = new List<Editor>() {
         new Editor() {
-            Email = "keidel@tss-hd.de",
-            Name  = "Leonard Keidel",
+            Email = "post@hamann-ausgabe.de",
+            Name  = "Janina Reibold, Leonard Keidel, Simon Martens",
         },
-        new Editor() {
-            Email = "reibold@tss-hd.de",
-            Name  = "Janina Reibold",
-        }
     };
 }
 
@@ -148,6 +144,8 @@ public class CorrespondenceAction {
     public List<PersonName>? PersonName { get; set; }
     [XmlElement("placeName")]
     public List<PlaceName>? PlaceName { get; set; }
+    [XmlElement("orgName")]
+    public List<string>? OrgName { get; set; }
     [XmlElement("date")]
     public Date? Date { get; set; }
 }
@@ -209,6 +207,7 @@ public class TeiDocument {
         var UNKNOWN_URL = "http://correspSearch.net/unknown";
         var UNKNOWN_TEXT = "Unbekannt";
         var LETTER_URL = "https://hamann-ausgabe.de/HKB/Briefe/";
+        var PERSON_URL = "https://hamann-ausgabe.de/HKB/Person/";
         var DATE_OUTPUT = "yyyy-MM-dd";
         List<CorrespondenceDescription> cds = new List<CorrespondenceDescription>();
         foreach (var meta in lib.Metas.Values) {
@@ -252,46 +251,52 @@ public class TeiDocument {
                 }
             }
             if (meta.Senders != null && meta.Senders.Count() > 0) {
-                sent.PersonName = new List<PersonName>();
+                var PersonName = new List<PersonName>();
+                var OrgName = new List<string>();
                 foreach (var sender in meta.Senders) {
-                    var pn = new PersonName();
                     if (sender == "-1") {
-                        pn.Name = UNKNOWN_TEXT;
-                        pn.Reference = UNKNOWN_URL;
+                        PersonName.Add(new PersonName() { Name = UNKNOWN_TEXT, Reference = UNKNOWN_URL });
                     }
                     else if (lib.Persons.ContainsKey(sender)) {
-                        pn.Name = lib.Persons[sender].Name;
-                        if (lib.Persons[sender].Reference != null && !string.IsNullOrWhiteSpace(lib.Persons[sender].Reference)) {
-                            pn.Reference = lib.Persons[sender].Reference;
+                        var libpers = lib.Persons[sender];
+                        if (libpers.IsOrg) {
+                            OrgName.Add(libpers.Name);
+                        }
+                        else {
+                            var pref = PERSON_URL + libpers.Index;
+                            if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
+                                pref = libpers.Reference;
+                            PersonName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
                         }
                     }
-                    else {
-                        pn = null;
-                    }
-                    if (pn != null) sent.PersonName.Add(pn);
                 }
+                if (PersonName.Count() > 0) sent.PersonName = PersonName;
+                if (OrgName.Count() > 0) sent.OrgName = OrgName;
             }
             cd.CorrespondenceActions = new List<CorrespondenceAction>() { sent };
             var recieved = new CorrespondenceAction();
             if (meta.Receivers != null && meta.Receivers.Count() > 0) {
-                recieved.PersonName = new List<PersonName>();
-                foreach (var sender in meta.Receivers) {
-                    var pn = new PersonName();
-                    if (sender == "-1") {
-                        pn.Name = UNKNOWN_TEXT;
-                        pn.Reference = UNKNOWN_URL;
+                var PersonName = new List<PersonName>();
+                var OrgName = new List<string>();
+                foreach (var reciever in meta.Receivers) {
+                    if (reciever == "-1") {
+                        PersonName.Add(new PersonName() { Name = UNKNOWN_TEXT, Reference = UNKNOWN_URL });
                     }
-                    else if (lib.Persons.ContainsKey(sender)) {
-                        pn.Name = lib.Persons[sender].Name;
-                        if (lib.Persons[sender].Reference != null && !string.IsNullOrWhiteSpace(lib.Persons[sender].Reference)) {
-                            pn.Reference = lib.Persons[sender].Reference;
+                    else if (lib.Persons.ContainsKey(reciever)) {
+                        var libpers = lib.Persons[reciever];
+                        if (libpers.IsOrg) {
+                            OrgName.Add(libpers.Name);
+                        }
+                        else {
+                            var pref = PERSON_URL + libpers.Index;
+                            if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
+                                pref = libpers.Reference;
+                            PersonName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
                         }
                     }
-                    else {
-                        pn = null;
-                    }
-                    if (pn != null) recieved.PersonName.Add(pn);
                 }
+                if (PersonName.Count() > 0) recieved.PersonName = PersonName;
+                if (OrgName.Count() > 0) recieved.OrgName = OrgName;
             }
             recieved.Type = "received";
             cd.CorrespondenceActions.Add(recieved);

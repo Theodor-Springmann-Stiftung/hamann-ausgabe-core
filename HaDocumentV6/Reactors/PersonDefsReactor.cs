@@ -1,18 +1,14 @@
-using System;
 using HaXMLReader.EvArgs;
 using HaXMLReader.Interfaces;
 using HaDocument.Models;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 
 namespace HaDocument.Reactors {
     class PersonDefsReactor : Reactor {
         internal Dictionary<string, Person> CreatedInstances;
 
         // State
-        private string Index;
-        private string Name;
+        private string? Index;
+        private string? Name;
         private string Prename = "";
         private string Surname = "";
         private string? Reference;
@@ -45,7 +41,7 @@ namespace HaDocument.Reactors {
                 Prename = tag["vorname"];
                 Surname = tag["nachname"];
                 Reference = String.IsNullOrWhiteSpace(tag["ref"]) ? null : tag["ref"];
-                IsOrg = tag["org"] == "true";
+                IsOrg = String.IsNullOrWhiteSpace(tag["org"]) ? false : tag["org"] == "true";
                 if (!String.IsNullOrWhiteSpace(tag["komm"])) Komm = tag["komm"];
                 Add();
                 _active = false;
@@ -63,6 +59,7 @@ namespace HaDocument.Reactors {
         }
 
         public void Add() {
+            if (Index == null || Name == null) return;
             CreatedInstances.Add(Index, new Person(Index, Name, Prename, Surname, Komm, Reference, null, IsOrg));
         }
     }
