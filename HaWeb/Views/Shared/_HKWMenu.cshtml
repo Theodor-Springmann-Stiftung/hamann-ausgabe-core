@@ -1,15 +1,19 @@
 <header class="sticky font-serif mb-6">
     @* <div class="w-100 bg-gray-300 text-sm clear-both py-1 px-8 text-right">
         <a class="underline" asp-controller="Index" asp-action="index">
-            Johann Georg Hamann: Kommentierte Briefedition >> 
+            Johann Georg Hamann: Kommentierte Briefedition >>
         </a>
     </div> *@
-    <nav class="flex flex-row w-100 bg-slate-50 dark:shadow-xl border-t-[5px] border-gray-300 dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap gap-y-4">
-        <a asp-controller="HKW" asp-action="Index" class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
-            <img src="/img/HKW.png" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 border border-gray-300 shadow-sm" alt="HKW-Logo" loading="lazy" />
-            <span class="sm:hidden">Hamann: Komm. Werkedition</span> 
-            <span class="hidden sm:inline md:hidden">Johan Georg Hamann: Kommentierte Werkedition</span> 
-            <span class="hidden md:inline align-baseline">Johann Georg Hamann: Historisch-kritische und kommentierte Edition ausgewählter Werke (&#x200A;H&#x200A;K&#x200A;W&#x200A;)</span>
+    <nav
+        class="flex flex-row w-100 bg-slate-50 dark:shadow-xl border-t-[5px] border-gray-300 dark:border-gray-900 py-3 px-3 desktop:px-8 flex-wrap gap-y-4">
+        <a asp-controller="HKW" asp-action="Index"
+            class="text-xl xl:text-3xl grow-0 shrink-0 text-black hover:text-black ">
+            <img src="/img/HKW.png" class="inline-block w-8 h-8 xl:w-12 xl:h-12 mr-2 border border-gray-300 shadow-sm"
+                alt="HKW-Logo" loading="lazy" />
+            <span class="sm:hidden">Hamann: Komm. Werkedition</span>
+            <span class="hidden sm:inline md:hidden">Johan Georg Hamann: Kommentierte Werkedition</span>
+            <span class="hidden md:inline align-baseline">Johann Georg Hamann: Historisch-kritische und kommentierte
+                Edition ausgewählter Werke (&#x200A;H&#x200A;K&#x200A;W&#x200A;)</span>
         </a>
         <div class="flex grow shrink">
 
@@ -36,20 +40,42 @@
                 <a href="/HKW/Baende/" class="cursor-default ha-menu-arrowsymbol pointer-events-none">
                     Bände
                 </a>
-                <div class="ha-topnav-dropdown-content " >
+                <div class="ha-topnav-dropdown-content ">
                     <table class="">
-                    <tr>
-                        <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-hamannSlate-500 text-hamannSlate-500 font-sans">Erschienen</div></td>
-                        <td><a asp-controller="HKW" asp-action="FliegenderBrief">Fliegender Brief</a></td></tr>
-                    <tr>
-                        <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-hamannSlate-500 text-hamannSlate-500 font-sans">Erschienen</div></td>
-                        <td><a asp-controller="HKW" asp-action="SokratischeDenkwuerdigkeiten">Sokr. Denkwürdigkeiten. Wolken</a></td></tr>
-                    <tr class="desktop:border-slate-300">
-                        <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-orange-600 text-orange-600 font-sans">Geplant</div></td>
-                        <td><a asp-controller="HKW" asp-action="Kreuzzuege">Kreuzzüge des Philologen. Intermezzo</a></td></tr>
-                    <tr class="desktop:border-b desktop:border-slate-300">
-                        <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl"><div class="inline text-sm border px-1 rounded border-orange-600 text-orange-600 font-sans">Geplant</div></td>
-                        <td><a asp-controller="HKW" asp-action="Essais">Essais. Kunstrichter. Hirtenbriefe</a></td></tr>
+                        <tr>
+                            <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl">
+                                <div
+                                    class="inline text-sm border px-1 rounded border-hamannSlate-500 text-hamannSlate-500 font-sans">
+                                    Erschienen</div>
+                            </td>
+                            <td><a asp-controller="HKW" asp-action="FliegenderBrief">Fliegender Brief</a></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl">
+                                <div
+                                    class="inline text-sm border px-1 rounded border-hamannSlate-500 text-hamannSlate-500 font-sans">
+                                    Erschienen</div>
+                            </td>
+                            <td><a asp-controller="HKW" asp-action="SokratischeDenkwuerdigkeiten">Sokr.
+                                    Denkwürdigkeiten. Wolken</a></td>
+                        </tr>
+                        <tr class="desktop:border-slate-300">
+                            <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl">
+                                <div
+                                    class="inline text-sm border px-1 rounded border-orange-600 text-orange-600 font-sans">
+                                    Geplant</div>
+                            </td>
+                            <td><a asp-controller="HKW" asp-action="Kreuzzuege">Kreuzzüge des Philologen.
+                                    Beurtheilung</a></td>
+                        </tr>
+                        <tr class="desktop:border-b desktop:border-slate-300">
+                            <td class="text-right px-2 desktop:bg-slate-200  caps-petite desktop:shadow-2xl">
+                                <div
+                                    class="inline text-sm border px-1 rounded border-orange-600 text-orange-600 font-sans">
+                                    Geplant</div>
+                            </td>
+                            <td><a asp-controller="HKW" asp-action="Essais">Essais. Kunstrichter. Hirtenbriefe</a></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -60,19 +86,21 @@
             </a>
 
             <div class="ha-topnav-dropdown">
-                <a href="/HKW/Edition" class="cursor-default ha-menu-arrowsymbol pointer-events-none !mr-0" >
-                Edition
+                <a href="/HKW/Edition" class="cursor-default ha-menu-arrowsymbol pointer-events-none !mr-0">
+                    Edition
                 </a>
                 <div class="ha-topnav-dropdown-content !mr-0">
                     <a asp-controller="Home" asp-action="Kontakt">Kontakt</a>
                     <a asp-controller="HKW" asp-action="Mitwirkende">Mitwirkende</a>
                     <a asp-controller="HKW" asp-action="Editionsgeschichte">Editionsgeschichte</a>
-                    <a asp-controller="Register" asp-action="Forschung" asp-route-id="EDITIONEN">Bibliographie Hamann-Editionen</a>
+                    <a asp-controller="Register" asp-action="Forschung" asp-route-id="EDITIONEN">Bibliographie
+                        Hamann-Editionen</a>
                 </div>
             </div>
 
             <a class="md:!hidden" asp-controller="Index" asp-action="Index">
-                <img class="inline relative w-4 h-4 -top-1 mr-2" src="/img/HKB.png" alt="HKB-Logo" /> Kommentierte Briefausgabe (HKB) →
+                <img class="inline relative w-4 h-4 -top-1 mr-2" src="/img/HKB.png" alt="HKB-Logo" /> Kommentierte
+                Briefausgabe (HKB) →
             </a>
         </div>
     </nav>

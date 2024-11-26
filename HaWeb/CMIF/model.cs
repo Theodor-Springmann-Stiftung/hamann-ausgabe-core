@@ -51,7 +51,7 @@ public class PublicationStatement {
         },
         new Publisher() {
             Reference = new PublisherRef() {
-                Target = "https://gs.uni-heidelberg.de",
+                Target = "https://www.gs.uni-heidelberg.de",
                 Value = "Germanistisches Seminar der Universität Heidelberg",
             }
         }
@@ -145,7 +145,7 @@ public class CorrespondenceAction {
     [XmlElement("placeName")]
     public List<PlaceName>? PlaceName { get; set; }
     [XmlElement("orgName")]
-    public List<string>? OrgName { get; set; }
+    public List<PersonName>? OrgName { get; set; }
     [XmlElement("date")]
     public Date? Date { get; set; }
 }
@@ -265,12 +265,12 @@ public class TeiDocument {
 }
 
 static class CMIFHelpers {
-    public static (List<PersonName>?, List<string>?) ParseNamesList(ILibrary lib, List<string> names) {
+    public static (List<PersonName>?, List<PersonName>?) ParseNamesList(ILibrary lib, List<string> names) {
         var UNKNOWN_URL = "http://correspSearch.net/unknown";
         var UNKNOWN_TEXT = "Unbekannt";
         var PERSON_URL = "https://hamann-ausgabe.de/HKB/Person/";
         var PersonName = new List<PersonName>();
-        var OrgName = new List<string>();
+        var OrgName = new List<PersonName>();
         foreach (var id in names) {
             if (id == "-1") {
                 PersonName.Add(new PersonName() { Name = UNKNOWN_TEXT, Reference = UNKNOWN_URL });
@@ -278,13 +278,13 @@ static class CMIFHelpers {
             else if (lib.Persons.ContainsKey(id)) {
                 var libpers = lib.Persons[id];
                 if (libpers == null || String.IsNullOrWhiteSpace(libpers.Name)) continue;
+                var pref = PERSON_URL + libpers.Index;
+                if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
+                    pref = libpers.Reference;
                 if (libpers.IsOrg) {
-                    OrgName.Add(libpers.Name);
+                    OrgName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
                 }
                 else {
-                    var pref = PERSON_URL + libpers.Index;
-                    if (libpers.Reference != null && !string.IsNullOrWhiteSpace(libpers.Reference))
-                        pref = libpers.Reference;
                     PersonName.Add(new PersonName() { Name = libpers.Name, Reference = pref });
                 }
             }
