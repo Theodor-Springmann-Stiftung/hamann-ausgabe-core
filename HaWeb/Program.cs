@@ -68,6 +68,14 @@ if (!app.Environment.IsDevelopment()) {
 }
 
 app.UseAuthorization();
-app.UseStaticFiles();
+
+var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
+app.UseStaticFiles(new StaticFileOptions {
+    // Set ETag:
+    OnPrepareResponse = ctx => {
+        ctx.Context.Response.Headers.Add("Cache-Control", "public, max-age=" + cacheMaxAgeOneWeek);
+    },
+    ServeUnknownFileTypes = true,
+});
 app.MapControllers();
 app.Run();
