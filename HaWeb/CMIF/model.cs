@@ -23,7 +23,7 @@ public class FileDesc {
 
 public class TitleStatement {
     [XmlElement("title")]
-    public string? Title { get; set; } = "Johann Georg Hammann: Kommentierte Briefausgabe (HKB)";
+    public string? Title { get; set; } = "Johann Georg Hamann: Kommentierte Briefausgabe (HKB)";
     [XmlElement("editor")]
     public List<Editor>? Editor { get; set; } = new List<Editor>() {
         new Editor() {
