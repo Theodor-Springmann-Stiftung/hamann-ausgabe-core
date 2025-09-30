@@ -32,7 +32,17 @@ npm run build                  # Build CSS/JS first (required!)
 dotnet build HaWeb.csproj      # Build the web application
 ```
 
-### Production Deployment (Linux)
+### Production Deployment
+
+**Docker (Recommended)**:
+```bash
+# From repository root
+docker volume create hamann_data
+docker-compose up -d --build
+```
+See `DOCKER.md` for detailed Docker deployment instructions.
+
+**Manual (Linux)**:
 ```bash
 npm run build
 dotnet publish --runtime linux-x64 -c Release

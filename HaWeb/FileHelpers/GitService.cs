@@ -121,10 +121,35 @@ public class GitService : IGitService {
 
                 // Checkout the specified branch if it's not the default
                 using var repo = new Repository(_repositoryPath);
+
+                // Log diagnostic information
+                _logger?.LogInformation("HEAD: {Head}, IsDetached: {IsDetached}, Tip: {Tip}",
+                    repo.Head?.FriendlyName ?? "null",
+                    repo.Head?.IsRemote.ToString() ?? "null",
+                    repo.Head?.Tip?.Sha.Substring(0, 7) ?? "null");
+
+                _logger?.LogInformation("Available branches: {Branches}",
+                    string.Join(", ", repo.Branches.Select(b => $"{b.FriendlyName} (Remote: {b.IsRemote})")));
+
                 var branch = repo.Branches[_branch] ?? repo.Branches[$"origin/{_branch}"];
+
+                if (branch == null) {
+                    _logger?.LogWarning("Branch {Branch} not found. Attempting to create local tracking branch from origin/{Branch}", _branch, _branch);
+                    var remoteBranch = repo.Branches[$"origin/{_branch}"];
+                    if (remoteBranch != null) {
+                        branch = repo.CreateBranch(_branch, remoteBranch.Tip);
+                        repo.Branches.Update(branch, b => b.TrackedBranch = remoteBranch.CanonicalName);
+                        _logger?.LogInformation("Created local tracking branch {Branch}", _branch);
+                    }
+                }
+
                 if (branch != null && branch.FriendlyName != repo.Head.FriendlyName) {
                     Commands.Checkout(repo, branch);
                     _logger?.LogInformation("Checked out branch {Branch}", _branch);
+                } else if (branch != null) {
+                    _logger?.LogInformation("Already on branch {Branch}", _branch);
+                } else {
+                    _logger?.LogError("Could not find or create branch {Branch}", _branch);
                 }
             }
             else {

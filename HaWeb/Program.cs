@@ -56,9 +56,6 @@ app.UseMiddleware<WebSocketMiddleware>();
 // Production Options
 if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-    app.UseHttpsRedirection();
     app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto });
 }
 
@@ -66,11 +63,17 @@ app.UseAuthorization();
 
 var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
 app.UseStaticFiles(new StaticFileOptions {
-    // Set ETag:
     OnPrepareResponse = ctx => {
         ctx.Context.Response.Headers.Add("Cache-Control", "public, max-age=" + cacheMaxAgeOneWeek);
-    },
-    ServeUnknownFileTypes = true,
+
+        // Ensure correct MIME types
+        var path = ctx.File.PhysicalPath;
+        if (path?.EndsWith(".css") == true) {
+            ctx.Context.Response.ContentType = "text/css";
+        } else if (path?.EndsWith(".js") == true) {
+            ctx.Context.Response.ContentType = "application/javascript";
+        }
+    }
 });
 app.MapControllers();
 app.Run();

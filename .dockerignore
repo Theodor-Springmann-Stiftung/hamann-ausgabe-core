@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/node_modules/
+**/testdata/
+**/.git/
+**/.vscode/
+**/.vs/
+**/wwwroot/dist/
+*.md
+.gitignore
+.editorconfig

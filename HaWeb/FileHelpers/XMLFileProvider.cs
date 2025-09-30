@@ -52,8 +52,8 @@ public class XMLFileProvider : IXMLFileProvider {
         // Create File Lists; Here and in xmlservice, which does preliminary checking
         Scan();
         if (_WorkingTreeFiles != null && _WorkingTreeFiles.Any()) {
-            var state = xmlservice.Collect(_WorkingTreeFiles, xmlservice.GetRootDefs());
-            xmlservice.SetState(state);
+            var initialState = xmlservice.Collect(_WorkingTreeFiles, xmlservice.GetRootDefs());
+            xmlservice.SetState(initialState);
         }
         _HamannFiles = _ScanHamannFiles();
 
@@ -64,29 +64,27 @@ public class XMLFileProvider : IXMLFileProvider {
             if (_Lib.GetLibrary() != null) return;
         }
 
-        // -> NO: Try to create a new file
-        var created = _XMLService.TryCreate(_XMLService.GetState());
-        if (created != null) {
-            var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
-            if (file != null) {
-                _Lib.SetLibrary(file, created.Document, null);
-                if (_Lib.GetLibrary() != null) return;
+        // -> NO: Try to create a new file (only if we have a valid git state and XML files)
+        var currentState = _XMLService.GetState();
+        if (currentState != null && _GitState != null) {
+            var created = _XMLService.TryCreate(currentState);
+            if (created != null) {
+                var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
+                if (file != null) {
+                    _Lib.SetLibrary(file, created.Document, null);
+                    if (_Lib.GetLibrary() != null) return;
+                }
             }
         }
 
         // It failed, so use the last best File:
-        else if (_HamannFiles != null && _HamannFiles.Any()) {
+        if (_HamannFiles != null && _HamannFiles.Any()) {
             _Lib.SetLibrary(_HamannFiles.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
 
-        // -> There is none? Use Fallback:
-        else {
-            var options = new HaWeb.Settings.HaDocumentOptions();
-            if (_Lib.SetLibrary(null, null, null) == null) {
-                throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
-            }
-        }
+        // No valid data available
+        throw new Exception("Keine gültige Hamann.xml Datei gefunden. Repository konnte nicht geklont oder geparst werden.");
     }
 
     public void ParseConfiguration(IConfiguration config) {
@@ -111,29 +109,27 @@ public class XMLFileProvider : IXMLFileProvider {
             if (_Lib.GetLibrary() != null) return;
         }
 
-        // -> NO: Try to create a new file
-        var created = _XMLService.TryCreate(_XMLService.GetState());
-        if (created != null) {
-            var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
-            if (file != null) {
-                _Lib.SetLibrary(file, created.Document, null);
-                if (_Lib.GetLibrary() != null) return;
+        // -> NO: Try to create a new file (only if we have a valid git state and XML files)
+        var configState = _XMLService.GetState();
+        if (configState != null && _GitState != null) {
+            var created = _XMLService.TryCreate(configState);
+            if (created != null) {
+                var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
+                if (file != null) {
+                    _Lib.SetLibrary(file, created.Document, null);
+                    if (_Lib.GetLibrary() != null) return;
+                }
             }
         }
 
         // It failed, so use the last best File:
-        else if (_HamannFiles != null && _HamannFiles.Any()) {
+        if (_HamannFiles != null && _HamannFiles.Any()) {
             _Lib.SetLibrary(_HamannFiles.First(), null, null);
             if (_Lib.GetLibrary() != null) return;
         }
 
-        // -> There is none? Use Fallback:
-        else {
-            var options = new HaWeb.Settings.HaDocumentOptions();
-            if (_Lib.SetLibrary(null, null, null) == null) {
-                throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
-            }
-        }
+        // No valid data available
+        throw new Exception("Keine gültige Hamann.xml Datei gefunden. Repository konnte nicht geklont oder geparst werden.");
     }
 
     // Getters and Setters
@@ -180,15 +176,18 @@ public class XMLFileProvider : IXMLFileProvider {
             }
         }
 
-        // Try to create a new file
-        var created = _XMLService.TryCreate(_XMLService.GetState());
-        if (created != null) {
-            var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
-            if (file != null) {
-                _Lib.SetLibrary(file, created.Document, null);
-                if (_Lib.GetLibrary() != null) {
-                    OnNewData();
-                    return;
+        // Try to create a new file (only if we have a valid git state and XML files)
+        var reloadState = _XMLService.GetState();
+        if (reloadState != null && _GitState != null) {
+            var created = _XMLService.TryCreate(reloadState);
+            if (created != null) {
+                var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
+                if (file != null) {
+                    _Lib.SetLibrary(file, created.Document, null);
+                    if (_Lib.GetLibrary() != null) {
+                        OnNewData();
+                        return;
+                    }
                 }
             }
         }
@@ -202,12 +201,8 @@ public class XMLFileProvider : IXMLFileProvider {
             }
         }
 
-        // Use Fallback:
-        var options = new HaWeb.Settings.HaDocumentOptions();
-        if (_Lib.SetLibrary(null, null, null) == null) {
-            throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
-        }
-        OnNewData();
+        // No valid data available
+        throw new Exception("Keine gültige Hamann.xml Datei gefunden. Repository konnte nicht geklont oder geparst werden.");
     }
 
     public IFileInfo? SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary? ModelState) {
