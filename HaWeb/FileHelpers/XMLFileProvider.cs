@@ -49,6 +49,11 @@ public class XMLFileProvider : IXMLFileProvider {
         _hamannFileProvider = new PhysicalFileProvider(hamannPath);
         _workingTreeFileProvider = new PhysicalFileProvider(gitPath);
 
+        // Pull latest changes on startup (if repo exists)
+        if (_GitService.GetGitState() != null) {
+            _GitService.Pull();
+        }
+
         // Create File Lists; Here and in xmlservice, which does preliminary checking
         Scan();
         if (_WorkingTreeFiles != null && _WorkingTreeFiles.Any()) {
