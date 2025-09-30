@@ -81,13 +81,13 @@ public class WebSocketMiddleware : IMiddleware {
                 }
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             } catch (WebSocketException ex) {
-                _openSockets!.Remove(webSocket);
+                break;
             }
         }
         try {
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         } catch (WebSocketException ex) {
-            _openSockets.Remove(webSocket);
+            // Socket already closed
         }
         _openSockets!.Remove(webSocket);
     }
@@ -124,12 +124,16 @@ public class WebSocketMiddleware : IMiddleware {
 
     private async Task _SendToAll<T>(T msg) {
         if (_openSockets == null) return;
-        foreach (var socket in _openSockets) {
+        var socketsToRemove = new List<WebSocket>();
+        foreach (var socket in _openSockets.ToList()) {
             try {
                 await socket.SendAsync(_SerializeToBytes(msg), WebSocketMessageType.Text, true, CancellationToken.None);
             } catch (WebSocketException ex) {
-                _openSockets.Remove(socket);
+                socketsToRemove.Add(socket);
             }
+        }
+        foreach (var socket in socketsToRemove) {
+            _openSockets.Remove(socket);
         }
     }
 

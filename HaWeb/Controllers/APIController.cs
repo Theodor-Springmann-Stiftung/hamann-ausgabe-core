@@ -36,6 +36,7 @@ public class APIController : Controller {
     
     // Options
     private static readonly FormOptions _defaultFormOptions = new FormOptions();
+    private static readonly SemaphoreSlim _syntaxCheckLock = new SemaphoreSlim(1, 1);
 
 
     public APIController(IHaDocumentWrappper lib, IXMLInteractionService xmlService, IXMLFileProvider xmlProvider) {
@@ -78,12 +79,21 @@ public class APIController : Controller {
     // [ValidateAntiForgeryToken]
     [DisableFormValueModelBinding]
     [FeatureGate(Features.SyntaxCheck, Features.AdminService)]
-    public ActionResult<Dictionary<string, SyntaxCheckModel>?> GetSyntaxCheck(string? id) {
+    public async Task<ActionResult<Dictionary<string, SyntaxCheckModel>?>> GetSyntaxCheck(string? id) {
         var SCCache = _xmlService.GetSCCache();
         if (_xmlProvider.HasChanged() || SCCache == null) {
-            var commit = _xmlProvider.GetGitState();
-            SCCache = _xmlService.Test(_xmlService.GetState(), commit != null ? commit.Commit : string.Empty);
-            _xmlService.SetSCCache(SCCache);
+            await _syntaxCheckLock.WaitAsync();
+            try {
+                // Double-check after acquiring lock
+                SCCache = _xmlService.GetSCCache();
+                if (_xmlProvider.HasChanged() || SCCache == null) {
+                    var commit = _xmlProvider.GetGitState();
+                    SCCache = _xmlService.Test(_xmlService.GetState(), commit != null ? commit.Commit : string.Empty);
+                    _xmlService.SetSCCache(SCCache);
+                }
+            } finally {
+                _syntaxCheckLock.Release();
+            }
         }
         return Ok(SCCache);
     }

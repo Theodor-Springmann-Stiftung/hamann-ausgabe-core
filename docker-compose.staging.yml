@@ -2,10 +2,10 @@ name: hamann-ausgabe-staging
 services:
   hamann-staging:
     build: .
+    ports:
+      - "5000:5000"
     volumes:
       - hamann_staging_data:/app/data
-    networks:
-      - caddy
     environment:
       - ASPNETCORE_URLS=http://+:5000
       - DOTNET_ENVIRONMENT=Staging
@@ -17,8 +17,4 @@ services:
 
 volumes:
   hamann_staging_data:
-    external: true
-
-networks:
-  caddy:
     external: true
