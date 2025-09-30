@@ -81,12 +81,12 @@ public class APIController : Controller {
     [FeatureGate(Features.SyntaxCheck, Features.AdminService)]
     public async Task<ActionResult<Dictionary<string, SyntaxCheckModel>?>> GetSyntaxCheck(string? id) {
         var SCCache = _xmlService.GetSCCache();
-        if (_xmlProvider.HasChanged() || SCCache == null) {
+        if (SCCache == null) {
             await _syntaxCheckLock.WaitAsync();
             try {
                 // Double-check after acquiring lock
                 SCCache = _xmlService.GetSCCache();
-                if (_xmlProvider.HasChanged() || SCCache == null) {
+                if (SCCache == null) {
                     var commit = _xmlProvider.GetGitState();
                     SCCache = _xmlService.Test(_xmlService.GetState(), commit != null ? commit.Commit : string.Empty);
                     _xmlService.SetSCCache(SCCache);
