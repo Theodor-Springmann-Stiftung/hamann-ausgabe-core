@@ -18,4 +18,5 @@ public interface IXMLFileProvider {
         public bool HasChanged();
         public void DeleteHamannFile(string filename);
         public void Scan();
+        public void Reload();
 }

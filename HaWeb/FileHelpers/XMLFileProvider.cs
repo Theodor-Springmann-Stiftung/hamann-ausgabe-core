@@ -4,25 +4,21 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using HaWeb.Models;
 using HaWeb.XMLParser;
 using System.Xml.Linq;
-using System.Runtime.InteropServices;
 using Microsoft.Extensions.Primitives;
 
 // XMLProvider provides a wrapper around the available XML data on a FILE basis
 public class XMLFileProvider : IXMLFileProvider {
     private readonly IHaDocumentWrappper _Lib;
     private readonly IXMLInteractionService _XMLService;
+    private readonly IGitService _GitService;
 
     private IFileProvider _hamannFileProvider;
-    private IFileProvider _bareRepositoryFileProvider;
     private IFileProvider _workingTreeFileProvider;
 
     public event EventHandler<GitState?> FileChange;
     public event EventHandler ConfigReload;
     public event EventHandler<XMLParsingState?> NewState;
     public event EventHandler NewData;
-
-    private string _Branch;
-    private string _URL;
 
     private List<IFileInfo>? _WorkingTreeFiles;
     private List<IFileInfo>? _HamannFiles;
@@ -31,23 +27,27 @@ public class XMLFileProvider : IXMLFileProvider {
     private System.Timers.Timer? _changeTokenTimer;
 
     // Startup (LAST)
-    public XMLFileProvider(IXMLInteractionService xmlservice, IHaDocumentWrappper _lib, IConfiguration config) {
+    public XMLFileProvider(IXMLInteractionService xmlservice, IHaDocumentWrappper _lib, IGitService gitService, IConfiguration config) {
         // TODO: Test Read / Write Access
         _Lib = _lib;
         _XMLService = xmlservice;
+        _GitService = gitService;
 
-        _Branch = config.GetValue<string>("RepositoryBranch");
-        _URL = config.GetValue<string>("RepositoryURL");
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
-            _hamannFileProvider = new PhysicalFileProvider(config.GetValue<string>("HamannFileStoreWindows"));
-            _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathWindows"));
-            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathWindows"));
+        var fileStoragePath = config.GetValue<string>("FileStoragePath") ?? throw new ArgumentException("FileStoragePath not configured");
+
+        // Ensure directories exist
+        var hamannPath = Path.Combine(fileStoragePath, "HAMANN");
+        var gitPath = Path.Combine(fileStoragePath, "GIT");
+
+        if (!Directory.Exists(hamannPath)) {
+            Directory.CreateDirectory(hamannPath);
         }
-        else {
-            _hamannFileProvider = new PhysicalFileProvider(config.GetValue<string>("HamannFileStoreLinux"));
-            _bareRepositoryFileProvider = new PhysicalFileProvider(config.GetValue<string>("BareRepositoryPathLinux"));
-            _workingTreeFileProvider = new PhysicalFileProvider(config.GetValue<string>("WorkingTreePathLinux"));
+        if (!Directory.Exists(gitPath)) {
+            Directory.CreateDirectory(gitPath);
         }
+
+        _hamannFileProvider = new PhysicalFileProvider(hamannPath);
+        _workingTreeFileProvider = new PhysicalFileProvider(gitPath);
 
         // Create File Lists; Here and in xmlservice, which does preliminary checking
         Scan();
@@ -57,7 +57,6 @@ public class XMLFileProvider : IXMLFileProvider {
         }
         _HamannFiles = _ScanHamannFiles();
 
-        _RegisterChangeToken();
         // Check if hamann file already is current working tree status
         // -> YES: Load up the file via _lib.SetLibrary();
         if (_IsAlreadyParsed()) {
@@ -91,8 +90,6 @@ public class XMLFileProvider : IXMLFileProvider {
     }
 
     public void ParseConfiguration(IConfiguration config) {
-        _Branch = config.GetValue<string>("RepositoryBranch");
-
         Scan();
         // Reset XMLInteractionService
         if (_WorkingTreeFiles != null && _WorkingTreeFiles.Any()) {
@@ -158,7 +155,59 @@ public class XMLFileProvider : IXMLFileProvider {
 
     public void Scan() {
         _WorkingTreeFiles = _ScanWorkingTreeFiles();
-        _GitState = _ScanGitData();
+        _GitState = _GitService.GetGitState();
+    }
+
+    public void Reload() {
+        Scan();
+
+        // Reset XMLInteractionService
+        if (_WorkingTreeFiles != null && _WorkingTreeFiles.Any()) {
+            var state = _XMLService.Collect(_WorkingTreeFiles, _XMLService.GetRootDefs());
+            _XMLService.SetState(state);
+            OnNewState(state);
+        }
+
+        _HamannFiles = _ScanHamannFiles();
+        _XMLService.SetSCCache(null);
+
+        // Check if hamann file already is current working tree status
+        if (_IsAlreadyParsed()) {
+            _Lib.SetLibrary(_HamannFiles!.First(), null, null);
+            if (_Lib.GetLibrary() != null) {
+                OnNewData();
+                return;
+            }
+        }
+
+        // Try to create a new file
+        var created = _XMLService.TryCreate(_XMLService.GetState());
+        if (created != null) {
+            var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
+            if (file != null) {
+                _Lib.SetLibrary(file, created.Document, null);
+                if (_Lib.GetLibrary() != null) {
+                    OnNewData();
+                    return;
+                }
+            }
+        }
+
+        // It failed, so use the last best File:
+        if (_HamannFiles != null && _HamannFiles.Any()) {
+            _Lib.SetLibrary(_HamannFiles.First(), null, null);
+            if (_Lib.GetLibrary() != null) {
+                OnNewData();
+                return;
+            }
+        }
+
+        // Use Fallback:
+        var options = new HaWeb.Settings.HaDocumentOptions();
+        if (_Lib.SetLibrary(null, null, null) == null) {
+            throw new Exception("Die Fallback Hamann.xml unter " + options.HamannXMLFilePath + " kann nicht geparst werden.");
+        }
+        OnNewData();
     }
 
     public IFileInfo? SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary? ModelState) {
@@ -191,28 +240,12 @@ public class XMLFileProvider : IXMLFileProvider {
 
     public bool HasChanged() {
         if (_GitState == null) return true;
-        var current = _ScanGitData();
+        var current = _GitService.GetGitState();
         if (current != null && !String.Equals(current.Commit, _GitState.Commit)) {
             _GitState = current;
             return true;
         }
         return false;
-    }
-
-    private GitState? _ScanGitData() {
-        var head = _bareRepositoryFileProvider.GetFileInfo("refs/heads/" + _Branch);
-        // TODO: Failsave reading from FIle
-        try {
-            return new GitState {
-                URL = _URL,
-                Branch = _Branch,
-                PullTime = head.LastModified.ToLocalTime().DateTime,
-                Commit = File.ReadAllText(head.PhysicalPath).Trim()
-            };
-        }
-        catch {
-            return null;
-        }
     }
 
     // Gets all XML Files
@@ -240,46 +273,6 @@ public class XMLFileProvider : IXMLFileProvider {
         return fhash == ghash;
     }
 
-    private void _RegisterChangeToken() {
-        ChangeToken.OnChange(
-            () => _bareRepositoryFileProvider.Watch("refs/heads/" + _Branch),
-            async (state) => await this._InvokeChanged(state),
-            this._ScanGitData()
-        );
-    }
-
-    private async Task _InvokeChanged(GitState? gitdata) {
-        if (_changeTokenTimer != null) return;
-        Console.WriteLine("FILECHANGE DETECTED, RELOAD");
-        Scan();
-
-        OnFileChange(_ScanGitData());
-        // Reset XMLInteractionService
-        if (_WorkingTreeFiles != null && _WorkingTreeFiles.Any()) {
-            var state = _XMLService.Collect(_WorkingTreeFiles, _XMLService.GetRootDefs());
-            _XMLService.SetState(state);
-            OnNewState(state);
-        }
-
-        // -> Try to create a new file
-        var created = _XMLService.TryCreate(_XMLService.GetState());
-        if (created != null) {
-            var file = SaveHamannFile(created, _hamannFileProvider.GetFileInfo("./").PhysicalPath, null);
-            if (file != null) {
-                var ret = _Lib.SetLibrary(file, created.Document, null);
-                if (ret != null) OnNewData();
-            }
-        }
-
-        _XMLService.SetSCCache(null);
-        _GitState = _ScanGitData();
-        _changeTokenTimer = new(5000) { AutoReset = false, Enabled = true };
-        _changeTokenTimer.Elapsed += this._OnElapsed;
-    }
-
-    private void _OnElapsed(Object source, System.Timers.ElapsedEventArgs e) {
-        _changeTokenTimer = null;
-    }
 
     protected virtual void OnFileChange(GitState? state) {
         EventHandler<GitState?> eh = FileChange;
