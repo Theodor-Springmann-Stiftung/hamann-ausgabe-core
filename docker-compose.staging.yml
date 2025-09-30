@@ -1,22 +1,22 @@
-name: hamann-ausgabe
+name: hamann-ausgabe-staging
 services:
-  hamann-service:
+  hamann-staging:
     build: .
     volumes:
-      - hamann_data:/app/data
+      - hamann_staging_data:/app/data
     networks:
       - caddy
     environment:
       - ASPNETCORE_URLS=http://+:5000
-      - DOTNET_ENVIRONMENT=Production
+      - DOTNET_ENVIRONMENT=Staging
       - FileStoragePath=/app/data
-      - RepositoryBranch=Release
+      - RepositoryBranch=main
       - RepositoryURL=https://github.com/Theodor-Springmann-Stiftung/hamann-xml
       - WebhookSecret=${WEBHOOK_SECRET:-}
     restart: unless-stopped
 
 volumes:
-  hamann_data:
+  hamann_staging_data:
     external: true
 
 networks:
