@@ -1,9 +1,9 @@
 name: hamann-ausgabe
 services:
-  hamann-service:
+  hamannservice:
     build: .
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"
     volumes:
       - hamann_data:/app/data
     environment:
@@ -14,7 +14,13 @@ services:
       - RepositoryURL=https://github.com/Theodor-Springmann-Stiftung/hamann-xml
       - WebhookSecret=${WEBHOOK_SECRET:-}
     restart: unless-stopped
+    networks:
+      - caddynet
 
 volumes:
   hamann_data:
+    external: true
+
+networks:
+  caddynet:
     external: true

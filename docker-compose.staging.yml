@@ -1,9 +1,9 @@
 name: hamann-ausgabe-staging
 services:
-  hamann-staging:
+  hamannstaging:
     build: .
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"
     volumes:
       - hamann_staging_data:/app/data
     environment:
@@ -14,7 +14,14 @@ services:
       - RepositoryURL=https://github.com/Theodor-Springmann-Stiftung/hamann-xml
       - WebhookSecret=${WEBHOOK_SECRET:-}
     restart: unless-stopped
+    networks:
+      - caddynet
 
 volumes:
   hamann_staging_data:
+    external: true
+
+
+networks: 
+  caddynet:
     external: true
