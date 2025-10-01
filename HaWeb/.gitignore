@@ -24,3 +24,6 @@ bin/*
 *.sln
 *.sw?
 testdata/
+
+appsettings.Staging.json
+appsettings.Production.json

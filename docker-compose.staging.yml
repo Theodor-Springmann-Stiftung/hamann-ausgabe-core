@@ -12,7 +12,6 @@ services:
       - FileStoragePath=/app/data
       - RepositoryBranch=main
       - RepositoryURL=https://github.com/Theodor-Springmann-Stiftung/hamann-xml
-      - WebhookSecret=${WEBHOOK_SECRET:-}
     restart: unless-stopped
     networks:
       - caddynet
