@@ -34,6 +34,7 @@ public class WebSocketMiddleware : IMiddleware {
     private readonly IXMLFileProvider _xmlProvider;
 
     private List<WebSocket>? _openSockets;
+    private readonly object _socketsLock = new object();
 
     public WebSocketMiddleware(IXMLFileProvider xmlprovider, IXMLInteractionService xmlservice, IFeatureManager featuremanager){
         this._xmlProvider = xmlprovider;
@@ -67,7 +68,9 @@ public class WebSocketMiddleware : IMiddleware {
 
     private async Task HandleConnection(HttpContext context, WebSocket webSocket) {
         var buffer = new byte[1024 * 4];
-        _openSockets!.Add(webSocket);
+        lock (_socketsLock) {
+            _openSockets!.Add(webSocket);
+        }
         WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
         while (!result.CloseStatus.HasValue) {
             var msg = Encoding.UTF8.GetString(buffer,0,result.Count);
@@ -89,7 +92,9 @@ public class WebSocketMiddleware : IMiddleware {
         } catch (WebSocketException ex) {
             // Socket already closed
         }
-        _openSockets!.Remove(webSocket);
+        lock (_socketsLock) {
+            _openSockets!.Remove(webSocket);
+        }
     }
 
     private async void _HandleFileChange(object? sender, GitState? state) {
@@ -124,16 +129,27 @@ public class WebSocketMiddleware : IMiddleware {
 
     private async Task _SendToAll<T>(T msg) {
         if (_openSockets == null) return;
+
+        List<WebSocket> socketsCopy;
+        lock (_socketsLock) {
+            socketsCopy = _openSockets.ToList();
+        }
+
         var socketsToRemove = new List<WebSocket>();
-        foreach (var socket in _openSockets.ToList()) {
+        foreach (var socket in socketsCopy) {
             try {
                 await socket.SendAsync(_SerializeToBytes(msg), WebSocketMessageType.Text, true, CancellationToken.None);
             } catch (WebSocketException ex) {
                 socketsToRemove.Add(socket);
             }
         }
-        foreach (var socket in socketsToRemove) {
-            _openSockets.Remove(socket);
+
+        if (socketsToRemove.Any()) {
+            lock (_socketsLock) {
+                foreach (var socket in socketsToRemove) {
+                    _openSockets.Remove(socket);
+                }
+            }
         }
     }
 
