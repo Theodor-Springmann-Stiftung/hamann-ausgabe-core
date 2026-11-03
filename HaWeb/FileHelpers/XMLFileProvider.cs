@@ -11,6 +11,7 @@ public class XMLFileProvider : IXMLFileProvider {
     private readonly IHaDocumentWrappper _Lib;
     private readonly IXMLInteractionService _XMLService;
     private readonly IGitService _GitService;
+    private readonly IConfiguration _Configuration;
 
     private IFileProvider _hamannFileProvider;
     private IFileProvider _workingTreeFileProvider;
@@ -32,6 +33,7 @@ public class XMLFileProvider : IXMLFileProvider {
         _Lib = _lib;
         _XMLService = xmlservice;
         _GitService = gitService;
+        _Configuration = config;
 
         var fileStoragePath = config.GetValue<string>("FileStoragePath") ?? throw new ArgumentException("FileStoragePath not configured");
 
@@ -51,6 +53,7 @@ public class XMLFileProvider : IXMLFileProvider {
 
         // Pull latest changes on startup
         _GitService.Pull();
+        RefreshConfiguration();
 
         // Create File Lists; Here and in xmlservice, which does preliminary checking
         Scan();
@@ -158,6 +161,7 @@ public class XMLFileProvider : IXMLFileProvider {
     }
 
     public void Reload() {
+        RefreshConfiguration();
         Scan();
 
         // Reset XMLInteractionService
@@ -206,6 +210,11 @@ public class XMLFileProvider : IXMLFileProvider {
 
         // No valid data available
         throw new Exception("Keine gültige Hamann.xml Datei gefunden. Repository konnte nicht geklont oder geparst werden.");
+    }
+
+    private void RefreshConfiguration() {
+        (_Configuration as IConfigurationRoot)?.Reload();
+        _Lib.ParseConfiguration(_Configuration);
     }
 
     public IFileInfo? SaveHamannFile(XElement element, string basefilepath, ModelStateDictionary? ModelState) {

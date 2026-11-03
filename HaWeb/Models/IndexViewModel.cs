@@ -15,16 +15,12 @@ public class IndexViewModel {
     public Dictionary<string, List<string>>? AvailablePages { get; private set; }
     public string? ActiveVolume { get; private set; }
     public string? ActivePage { get; private set; }
-    public string EndYear { get; private set; }
-    public string EndPageString { get; private set; }
 
 
 
     public IndexViewModel(
         List<(int Year, List<BriefeMetaViewModel> LetterList)>? letters,
         int activeYear,
-        string endYear,
-        string endPageString,
         List<(int StartYear, int EndYear)>? availableYears,
         List<(string Key, string Name)>? availablePersons,
         Dictionary<string, List<string>>? availablePages,
@@ -46,7 +42,5 @@ public class IndexViewModel {
         ActiveVolume = activeVolume;
         ActivePage = activePage;
         ActivePerson = activePerson;
-        EndYear = endYear;
-        EndPageString = endPageString;
     }
 }
